@@ -1,0 +1,12 @@
+{
+    "name": "v12_discord_bot_template",
+    "version": "1.0.0",
+    "description": "V12 Discord Bot Template",
+    "main": "index.js",
+    "dependencies": {
+        "dateformat": "^3.0.3",
+        "discord.js": "^12.2.0",
+        "fs": "0.0.1-security",
+        "lowdb": "^1.0.0"
+    }
+}

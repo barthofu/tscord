@@ -1,0 +1,43 @@
+{
+    "maintenance": {
+        "en": "the bot is on maintenance, please try later.",
+        "fr": "le bot est en maintenance, merci de réessayer plus tard."  
+    },
+
+    "userMissingPermission": {
+        "en": "you miss permissions to use this command!",
+        "fr": "tu manques de permissions pour pouvoir utiliser cette commande !"
+    },
+
+    "botMissingPermission": {
+        "en": "i miss these permissions to execute this command:",
+        "fr": "je n'ai pas ces permissions pour pouvoir éxecuter cette commande :"
+    },
+    
+    "commandNotInDM": {
+        "en": "this command can't be used in DMs.",
+        "fr": "cette commande ne peut pas être utilisée ici."
+    },
+
+    "channelNotNSFW": {
+        "en": "you must be in an NSFW channel in order to use this command.",
+        "fr": "tu dois être dans un salon NSFW pour utiliser cette commande."
+    },
+
+    "commandNotEnabled": {
+        "en": "this command is disabled.",
+        "fr": "cette commande est désactivée."
+    },
+
+    "cooldown": {
+        "en": "this command is on cooldown!\nRemaining: ",
+        "fr": "cette commande est en cooldown !\nTemps restant : "
+    },
+
+    "help": {
+        "title": {
+            "en": "Help pannel",
+            "fr": "Pannel d'aide"
+        }
+    }
+}
