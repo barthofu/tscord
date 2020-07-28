@@ -1,7 +1,5 @@
 let 
-    Discord = require('discord.js'),
-    low = require('lowdb'),
-    FileSync = require('lowdb/adapters/FileSync')
+    Discord = require('discord.js'), low = require('lowdb'), FileSync = require('lowdb/adapters/FileSync')
 
 global.
     //npm
