@@ -43,14 +43,14 @@ module.exports = class {
                 //check user permission
                 if (value.permission.owner == true && !config.dev.includes(msg.author.id)) return msg.reply(lang["userMissingPermission"][la])
                 let neededPermission = []
-                value.permission.member.forEach(permission => {
-                    if(!msg.channel.permissionsFor(msg.member).has(perm)) neededPermission.push(permission)
+                value.permission.memberPermission.forEach(permission => {
+                    if(!msg.member.hasPermission(permission)) neededPermission.push(permission)
                 })
                 if (neededPermission.length > 0 && !config.dev.includes(msg.author.id)) return msg.reply(lang["userMissingPermission"][la])
                 //check bot permission
                 neededPermission = []
-                value.permission.bot.forEach(permission => {
-                    if(!msg.channel.permissionsFor(msg.guild.me).has(perm)) neededPermission.push("**"+permission+"**")
+                value.permission.botPermission.forEach(permission => {
+                    if(!msg.channel.permissionsFor(msg.guild.me).has(permission)) neededPermission.push("**"+permission+"**")
                 })
                 if (neededPermission.length > 0) return msg.reply(lang["botMissingPermission"][la] + `\n${neededPermission.join(', ')}`)
                 //check DM
