@@ -8,8 +8,8 @@ module.exports = class Command {
             enabled = true,
             dm = true,
             nsfw = false,
-            member = new Array(),
-            bot = new Array(),
+            memberPermission = new Array(),
+            botPermission = new Array(),
             owner = false,
             cooldown = null 
         }
@@ -17,7 +17,7 @@ module.exports = class Command {
 
         this.info = { name, aliases, desc, cooldown }
         this.verification = { enabled, dm, nsfw }
-        this.permission = { member, bot, owner }
+        this.permission = { memberPermission, botPermission, owner }
 
     }
 
