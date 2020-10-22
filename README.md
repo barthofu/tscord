@@ -1,5 +1,5 @@
 TODO list :
-- fixer les bugs (dm channel, help, etc)
+- fixer les bugs (dm channel, permissions (qui sont celles du channel et pas du membre), help, etc)
 - commande maintenance
 - commande stats
 - prise en charge de sub-commands (ex: !xp set @user <xpAmount>)
