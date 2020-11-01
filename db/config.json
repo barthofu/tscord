@@ -2,6 +2,8 @@
 
     "token": "",
 
+    "prefix": "!",
+
     "description": "",
     
     "language": "en",
@@ -9,6 +11,8 @@
     "ownerID": "YOUR_ID_HERE",
 
     "dev": [],
+
+    "maintenance": false,
 
     "colors": {
         "default": ""

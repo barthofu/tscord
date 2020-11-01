@@ -1,4 +1,4 @@
-const CommandPattern = require("../../base/Command.js");
+const CommandPattern = require("../../models/Command.js");
 
 const commandParams = {
     

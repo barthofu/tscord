@@ -13,7 +13,7 @@ global.
     lang = require("./db/languages.json"),
     //other
     MessageEmbed = Discord.MessageEmbed, //makes it global
-    client = new (require("./base/Client.js"))(),
+    client = new (require("./models/Client.js"))(),
     color = config.colors.default,
     la = config.language
 
@@ -38,7 +38,8 @@ fs.readdirSync(`${__dirname}/db`).filter(file => file.endsWith('.json')).forEach
 
 fs.readdirSync(`${__dirname}/events`).filter(file => file.endsWith('.js')).forEach(file => {
     const eventName = file.split(".")[0]
-    bot.on(eventName, (...args) => new (require(`./events/${file}`))(...args).run())
+    const Event = require(`./events/${file}`)
+    bot.on(eventName, (...args) => new Event().run(...args))
     delete require.cache[require.resolve(`./events/${file}`)]
 })
 

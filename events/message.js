@@ -2,18 +2,12 @@ const cmdCooldown = {}
 
 module.exports = class {
 
-    constructor (msg) {
-        this.msg = msg
-    }
-
-    async run () {
-
-        let msg = this.msg
+    async run (msg) {
 
         //check guild
-        client.checkGuild(msg.guild.id)
+        if (msg.channel.type !== "dm") client.checkGuild(msg.guild.id)
 
-        let prefix = db.guild.get(`guilds.${msg.guild.id}.prefix`).value()
+        let prefix = msg.channel.type !== "dm" ? db.guild.get(`guilds.${msg.guild.id}.prefix`).value() : config.prefix
         let args = msg.content.slice(prefix.length).trim().split(/ +/g),
             cmd = args.shift().toLowerCase()
 
