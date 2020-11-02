@@ -9,7 +9,7 @@ const commandParams = {
         fr: "Affiche l'aide du bot."
     },
     enabled: true,
-    dm: true,
+    dm: false,
     nsfw: false,
     memberPermission: [],
     botPermission: [],
@@ -26,8 +26,7 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, cmd) {
 
-        msg.channel.send("info")
-    
+        
 
     }
 

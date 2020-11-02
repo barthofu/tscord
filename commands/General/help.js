@@ -50,7 +50,7 @@ module.exports = class extends CommandPattern {
     checkCommand (command) {
         let text = ""
         if (command.verification.nsfw == true) text+="[**NSFW**] "
-        if (command.permission.member.includes("ADMINISTRATOR")) text+="[**ADMIN**] "
+        if (command.permission.memberPermission.includes("ADMINISTRATOR")) text+="[**ADMIN**] "
         if (command.info.cooldown !== null) text+=`[**${command.info.cooldown}** sec] `
         return text
     }
