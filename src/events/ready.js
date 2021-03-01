@@ -5,6 +5,8 @@ module.exports = class {
     async run () {
         
         client.startingConsole()
+
+        client.checkGuilds()
         
         setInterval(() => {
             
@@ -27,8 +29,8 @@ module.exports = class {
             if (index === config.activities.length) index = 0
             
             
-            //stats update
-            client.updateStats()
+            //daily check
+            client.checkDaily()
             
         }, 15 * 1000) //each 15 sec
         

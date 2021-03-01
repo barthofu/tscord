@@ -2,11 +2,11 @@ const CommandPattern = require("../../models/Command.js");
 
 const commandParams = {
     
-    name: "info",
-    aliases: ["h"],
+    name: "",
+    aliases: [],
     desc: {
-        en: "Displays the help of the bot.",
-        fr: "Affiche l'aide du bot."
+        en: "",
+        fr: ""
     },
     enabled: true,
     dm: false,
@@ -24,7 +24,7 @@ module.exports = class extends CommandPattern {
         super(commandParams)
     }
 
-    async run (msg, args, cmd) {
+    async run (msg, args, cmd, color) {
 
         
 

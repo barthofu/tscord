@@ -26,18 +26,19 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, cmd) {
 
+        let prefix = db.guild.get(`guilds.${msg.guild.id}.prefix`).value()
+
         let embed = new MessageEmbed()
-        .setTitle(lang["help"]["title"][la])
-        .setAuthor(msg.author.username, msg.author.displayAvatarURL())
-        .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png")
-        .setFooter("a")
+            .setTitle(lang["help"]["title"][la])
+            .setAuthor(msg.author.username, msg.author.displayAvatarURL({dynamic: true}))
+            .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png")
         
-        let categories = fs.readdirSync(`./commands`)
+        let categories = fs.readdirSync(`./src/commands`)
         categories.forEach(category => {
-            embed.addField(`${category}`, fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith(".js")).map(
+            embed.addField(`${category}`, fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith(".js") && !file.startsWith("_")).map(
                     commandName => {
                         let command = bot.commands.get(commandName.split(".")[0])
-                        return command.verification.enabled == true || command.permission.owner == false?`\`${db.guild.get(`guilds.${msg.guild.id}.prefix`).value()}${commandName.split(".")[0]}\`${command.info.aliases.length > 0?` (${command.info.aliases.map(val => `\`${val}\``).join(" | ")})`:""} | ${command["info"]["desc"][la]} ${this.checkCommand(command)}`:""
+                        return command.verification.enabled == true || command.permission.owner == false?`\`${prefix}${commandName.split(".")[0]}\`${command.info.aliases.length > 0?` (${command.info.aliases.map(val => `\`${val}\``).join(" | ")})`:""} | ${command["info"]["desc"][la]} ${this.checkCommand(command)}`:""
                     } 
                 ).join("\r\n")
             )
@@ -48,6 +49,7 @@ module.exports = class extends CommandPattern {
     }
 
     checkCommand (command) {
+        
         let text = ""
         if (command.verification.nsfw == true) text+="[**NSFW**] "
         if (command.permission.memberPermission.includes("ADMINISTRATOR")) text+="[**ADMIN**] "

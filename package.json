@@ -3,6 +3,11 @@
     "version": "1.0.0",
     "description": "V12 Discord Bot Template",
     "main": "index.js",
+    "scripts": {
+        "start": "node index",
+        "clean": "node tests/clean",
+        "setup": "node tests/setup"
+    },
     "dependencies": {
         "dateformat": "^3.0.3",
         "discord.js": "^12.2.0",
