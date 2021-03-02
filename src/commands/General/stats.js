@@ -1,5 +1,3 @@
-const CommandPattern = require("../../models/Command.js");
-
 const commandParams = {
     
     name: "stats",
@@ -24,33 +22,34 @@ const stats = [
     { fancyName: "Active Users", path: "activeUsers" },
 ]
 
+const days = 30 //the period to cover with the stats
+
 module.exports = class extends CommandPattern {
 
     constructor () {
         super(commandParams)
     }
 
-    async run (msg, args, cmd, color) {
+    async run (msg, args, cmd) {
   
         let rawStats = db.stats.get("daily").value(),
-            page = 1,
-            days = 30;
-        
-        let m = await msg.channel.send(this.getEmbed(msg, color, page, days, rawStats));
-        await m.react('◀');
-        await m.react('▶');
+            page = 1
+
+        let m = await msg.channel.send(this.getEmbed(msg, color, page, days, rawStats))
+        await m.react('◀')
+        await m.react('▶')
         
         let filter = (reaction, user) => ["◀", "▶"].includes(reaction.emoji.name) && user.id === msg.author.id
-        let reac = m.createReactionCollector(filter, { time: 300000 });
+        let reac = m.createReactionCollector(filter, { time: 300000 })
 
         reac.on("collect", async(reaction) => {
 
             reaction.users.remove(msg.author.id)
 
-            if (reaction.emoji.name == "◀") page = page == 1 ? 1 : page - 1;
-            else if (reaction.emoji.name == "▶") page = page == stats.length ? stats.length : page + 1;
+            if (reaction.emoji.name == "◀") page = page == 1 ? 1 : page - 1
+            else if (reaction.emoji.name == "▶") page = page == stats.length ? stats.length : page + 1
 
-            await m.edit(this.getEmbed(msg, color, page, days, rawStats));
+            await m.edit(this.getEmbed(msg, color, page, days, rawStats))
         })
 
     }

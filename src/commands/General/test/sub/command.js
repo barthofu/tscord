@@ -1,6 +1,6 @@
 const commandParams = {
     
-    name: "",
+    name: "command",
     aliases: [],
     desc: {
         en: "",
@@ -24,7 +24,7 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, cmd) {
 
-        
+        msg.channel.send("sub commands work !")
 
     }
 

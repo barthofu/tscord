@@ -9,6 +9,7 @@
         "setup": "node tests/setup"
     },
     "dependencies": {
+        "colors": "^1.4.0",
         "dateformat": "^3.0.3",
         "discord.js": "^12.2.0",
         "fs": "0.0.1-security",

@@ -5,7 +5,7 @@ module.exports = class {
     async run (msg) {
 
         //check guild
-        if (msg.channel.type !== "dm") client.checkGuild(msg.guild.id)
+        if (msg.channel.type !== "dm") checker.checkGuild(msg.guild.id)
 
         let prefix = msg.channel.type !== "dm" ? db.guild.get(`guilds.${msg.guild.id}.prefix`).value() : config.prefix
         let args = msg.content.slice(prefix.length).trim().split(/ +/g),
@@ -26,15 +26,19 @@ module.exports = class {
         if (msg.author.bot) return
 
         //check user
-        client.checkUser(msg.author.id)
+        checker.checkUser(msg.author.id)
 
         for (let value of bot.commands.array()) {
 
-            if (value.info.name == cmd || value.info.aliases.map(val => val.replace("_", "")).includes(cmd)) {
+            if (value.info.name == cmd || 
+                value.info.aliases.map(val => val.replace("_", "")).includes(cmd) || 
+                msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(value.info.name) ||
+                value.info.aliases.find(val => msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(value.info.name.split("/").slice(0, -1).join("/") + "/" + val.replace("_", "")))
+                ) {
 
                 //logs and stats
-                this.postCommand(value.info.name, msg);
-                client.log("command", {commandName: value.info.name, msg})
+                this.postCommand(value.info.name.split("/").slice(-1)[0], msg)
+                logger.log("command", {commandName: value.info.name.split("/").slice(-1)[0], msg}) //faire attention pour les subs commands ici (le nom)
 
                 //check maintenance
                 if (db.config.get('maintenance').value() && !config.dev.includes(msg.author.id)) return msg.reply(lang["maintenance"][la]) 
@@ -58,7 +62,7 @@ module.exports = class {
                         if (new Date().getTime() >= match.time + value.info.cooldown) {
                             //remove cooldown
                             cmdCooldown[value.info.name].map(val => {
-                                if (val.id === msg.author.id) return val.time = new Date().getTime();
+                                if (val.id === msg.author.id) return val.time = new Date().getTime()
                             })
                         }
                         //blocked
@@ -67,7 +71,7 @@ module.exports = class {
                 }
 
                 //run
-                await bot.commands.get(value.info.name).run(msg, args, cmd)
+                await bot.commands.get(value.info.name).run(msg, value.info.name.includes("/") ? args.slice(value.info.name.split("/").length - 2) : args, value.info.name.split("/").slice(-1)[0])
             }
         }
     }
@@ -82,5 +86,5 @@ module.exports = class {
         db.stats.update(`actual.commands.details.${cmd}`, val => val + 1).write()
     
     }
-    
+
 }

@@ -1,5 +1,3 @@
-const CommandPattern = require("../../models/Command.js");
-
 const commandParams = {
     
     name: "help",
@@ -33,15 +31,16 @@ module.exports = class extends CommandPattern {
             .setAuthor(msg.author.username, msg.author.displayAvatarURL({dynamic: true}))
             .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png")
         
-        let categories = fs.readdirSync(`./src/commands`)
+        let categories = fs.readdirSync(`./src/commands`).filter(file => !file.startsWith("_"))
         categories.forEach(category => {
-            embed.addField(`${category}`, fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith(".js") && !file.startsWith("_")).map(
-                    commandName => {
-                        let command = bot.commands.get(commandName.split(".")[0])
-                        return command.verification.enabled == true || command.permission.owner == false?`\`${prefix}${commandName.split(".")[0]}\`${command.info.aliases.length > 0?` (${command.info.aliases.map(val => `\`${val}\``).join(" | ")})`:""} | ${command["info"]["desc"][la]} ${this.checkCommand(command)}`:""
-                    } 
-                ).join("\r\n")
-            )
+            let content = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith(".js") && !file.startsWith("_")).map(
+                commandName => {
+                    let command = bot.commands.get(commandName.split(".")[0])
+                    return command.verification.enabled == true && command.permission.owner == false ? `\`${prefix}${commandName.split(".")[0]}\`${command.info.aliases.filter(val => !val.startsWith("_")).length > 0 ? ` (ou ${command.info.aliases.filter(val => !val.startsWith("_")).map(val => `\`${prefix}${val}\``).join(" | ")})`:""} | ${this.checkCommand(command)} ${command["info"]["desc"][la]}\n` : ""
+                } 
+            ).join("");
+            if (content.length > 0) embed.addField(category, content)
+            
         })
 
         msg.channel.send(embed)

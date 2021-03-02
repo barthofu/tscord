@@ -2,16 +2,14 @@
   "prefix": "!",
   "description": "",
   "language": "en",
-  "ownerID": "260908777446965248",
-  "dev": [
-    "260908777446965248"
-  ],
+  "ownerID": "YOUR_ID_HERE",
+  "dev": [],
   "maintenance": false,
   "colors": {
     "default": ""
   },
   "evalName": "bot",
-  "startingConsoleDetailed": true,
+  "startingConsoleDetailed": false,
   "activities": [
     {
       "text": "discord.js v12",

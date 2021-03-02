@@ -1,12 +1,10 @@
-const CommandPattern = require("../../models/Command.js");
-
 const commandParams = {
     
     name: "maintenance",
     aliases: [],
     desc: {
-        en: "",
-        fr: ""
+        en: "Turn on/off the maintenance mode.",
+        fr: "Active ou désactive le mode maintenance."
     },
     enabled: true,
     dm: true,
@@ -24,7 +22,7 @@ module.exports = class extends CommandPattern {
         super(commandParams)
     }
 
-    async run (msg, args, cmd, color) {
+    async run (msg, args, cmd) {
 
         let updatedObj = db.data.update("maintenance", val => val ? false : new Date().getTime()).write()
         msg.reply(`mode maintenance **${updatedObj.maintenance ? "activé" : "désactivé"}**`)
