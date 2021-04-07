@@ -49,6 +49,10 @@ module.exports = {
                     //define command name as filename by default if not precised in the commandParams of the original command
                     if (command.info.name === "") command.info.name = file.split(".").slice(1, -1).join("_")
 
+                    //add some info
+                    command.info.fileName = file
+                    command.info.categoryName = categories[i]
+
                     bot.commands.set(command.info.name, command)
                     delete require.cache[require.resolve(`../commands/${categories[i]}/${file}`)]
                 }

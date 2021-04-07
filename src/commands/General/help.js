@@ -1,6 +1,6 @@
 const commandParams = {
     
-    name: "help",
+    name: "",
     aliases: ["h"],
     desc: {
         en: "Displays the help of the bot.",
@@ -30,18 +30,18 @@ module.exports = class extends CommandPattern {
             .setTitle(lang["help"]["title"][la])
             .setAuthor(msg.author.username, msg.author.displayAvatarURL({dynamic: true}))
             .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png")
-        
-        let categories = fs.readdirSync(`./src/commands`).filter(file => !file.startsWith("_"))
-        categories.forEach(category => {
-            let content = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith(".js") && !file.startsWith("_")).map(
-                commandName => {
-                    let command = bot.commands.get(commandName.split(".")[0])
-                    return command.verification.enabled == true && command.permission.owner == false ? `\`${prefix}${commandName.split(".")[0]}\`${command.info.aliases.filter(val => !val.startsWith("_")).length > 0 ? ` (ou ${command.info.aliases.filter(val => !val.startsWith("_")).map(val => `\`${prefix}${val}\``).join(" | ")})`:""} | ${this.checkCommand(command)} ${command["info"]["desc"][la]}\n` : ""
-                } 
-            ).join("");
+
+        let categories = [...new Set(bot.commands.map(command => command.categoryName))]
+
+        for (let category of categories) {
+
+            let content = bot.commands.filter(command => command.categoryName === category).map(command => {
+                command.verification.enabled == true && command.permission.owner == false ? 
+                    `\`${prefix}${command.info.name.split("/").join(" ")}\`${command.info.aliases.filter(val => !val.startsWith("_")).length > 0 ? ` (ou ${command.info.aliases.filter(val => !val.startsWith("_")).map(val => `\`${prefix}${val}\``).join(" | ")})`:""} | ${this.checkCommand(command)} ${command["info"]["desc"][la]}\n` : ""
+            }).join("")
+
             if (content.length > 0) embed.addField(category, content)
-            
-        })
+        }
 
         msg.channel.send(embed)
 
