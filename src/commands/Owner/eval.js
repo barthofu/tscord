@@ -1,6 +1,6 @@
 const commandParams = {
     
-    name: "eval",
+    name: "",
     aliases: [],
     desc: {
         "en": "Eval command.",

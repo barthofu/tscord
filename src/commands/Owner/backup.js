@@ -1,6 +1,6 @@
 const commandParams = {
     
-    name: "backup",
+    name: "",
     aliases: [],
     desc: {
         en: "Fait une backup du bot dans un salon discord.",

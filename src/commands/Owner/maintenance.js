@@ -1,6 +1,6 @@
 const commandParams = {
     
-    name: "maintenance",
+    name: "",
     aliases: [],
     desc: {
         en: "Turn on/off the maintenance mode.",

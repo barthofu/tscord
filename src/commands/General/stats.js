@@ -1,6 +1,6 @@
 const commandParams = {
     
-    name: "stats",
+    name: "",
     aliases: [],
     desc: {
         en: "Gives stats graphics about the bot.",
