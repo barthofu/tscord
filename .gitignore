@@ -1,5 +1,4 @@
 node_modules/
-package-lock.json
 
 .dist
 #.credentials.json
@@ -9,5 +8,6 @@ tests/
 __*
 
 logs.txt
+package-lock.json
 
 #src/db/*

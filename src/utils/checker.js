@@ -3,6 +3,8 @@ const UserPattern   = require("../models/User.js"),
 
 module.exports = {
 
+
+    
     checkDaily() {
 
         let day = dateFormat(new Date(), "dd")
@@ -10,13 +12,16 @@ module.exports = {
 
             db.data.set("currentDay", day).write()
 
-            this.updateStats()
+            //stuff to do each day
+            client.updateStats()
+            if (config.backup.activated) client.backup()
         }
     },
 
 
 
     checkUser (userID) {
+
         //check if this user exists in the database, if not it creates it
         if (!db.user.find(val => val.id === userID).value()) {
             //creation

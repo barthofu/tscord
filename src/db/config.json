@@ -10,6 +10,15 @@
   },
   "evalName": "bot",
   "startingConsoleDetailed": false,
+  "backup": {
+    "activated": false,
+    "channel": "",
+    "ignoredPaths": [
+      "node_modules",
+      "package-lock.json",
+      ".git"
+    ]
+  },
   "activities": [
     {
       "text": "discord.js v12",

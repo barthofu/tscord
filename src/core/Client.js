@@ -3,7 +3,8 @@ const
       credentials   = require("../../.credentials.json"),
       process       = require("process"),
       loader        = require("../utils/loader"),
-      colors        = require("colors")
+      colors        = require("colors"),
+      archiver      = require('archiver')
 
 module.exports = class {
 
@@ -61,6 +62,68 @@ module.exports = class {
                 details: db.stats.get("actual.commands.details").value()
             }
         }
+    }
+
+
+
+    async backup () {
+
+        let botName = bot.user.username.split(' ').join('_')
+        let archiveName = `./${botName}_backup_${dateFormat(new Date(), 'dd-mm-yyyy')}.zip`
+
+        try {
+
+            if (!bot.channels.cache.get(config.backup.channel)) {
+                this.bot.users.cache.get(config.ownerID).send("Backup has failed: no discord channel to send the backup (set it in the config.json file).")
+                return
+            }
+        
+            await this.zipDirectory(archiveName)
+            await this.bot.channels.cache.get(config.backup.channel).send('', { files: [archiveName] })
+            await fs.unlinkSync(archiveName)
+
+        } catch (e) {
+
+            this.bot.users.cache.get(config.ownerID).send("There was a problem during backup. Check the console.")
+            console.log(e)
+        }
+
+    }
+
+
+
+    zipDirectory(out) {
+
+        const archive = archiver('zip', { zlib: { level: 9 }});
+        const stream = fs.createWriteStream(out);
+        const projectDir = fs.readdirSync('.')
+      
+        return new Promise((resolve, reject) => {
+            archive
+                //.directory(source, false)
+                .on('error', err => reject(err))
+                .pipe(stream)
+
+            for (let dir of projectDir) {
+
+                console.log("==============\n"+dir)
+
+                if (!config.backup.ignoredPaths.includes(dir)) {
+
+                    console.log('validated')
+                    
+                    //file
+                    if (dir.includes('.') && !dir.startsWith('.')) archive.glob(dir)
+                    //folder
+                    else archive.glob(dir + '/**')
+                    
+                }
+
+            }
+        
+            stream.on('close', () => resolve());
+            archive.finalize();
+        });
     }
 
 

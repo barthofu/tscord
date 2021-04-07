@@ -1,5 +1,7 @@
 module.exports = {
 
+
+    
     log (type, args) {
 
         switch (type) {
