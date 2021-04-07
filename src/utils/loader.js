@@ -40,15 +40,20 @@ module.exports = {
 
         let categories = fs.readdirSync(`./src/commands`).filter(file => !file.includes("."))
         for (let i in categories) {
-            fs.readdirSync(`./src/commands/${categories[i]}`).filter(file => !file.startsWith("_")).forEach(file => {
+            fs.readdirSync(`./src/commands/${categories[i]}`).filter(file => !file.startsWith("_") && !file.startsWith(".")).forEach(file => {
 
                 if (file.endsWith('.js')) {
 
                     const command = new (require(`../commands/${categories[i]}/${file}`))()
+
+                    //define command name as filename by default if not precised in the commandParams of the original command
+                    if (command.info.name === "") command.info.name = file.split(".").slice(1, -1).join("_")
+
                     bot.commands.set(command.info.name, command)
                     delete require.cache[require.resolve(`../commands/${categories[i]}/${file}`)]
                 }
                 else if (!file.includes(".")) {
+
                     this.getSubCommands(file, categories[i])
                 }
 
