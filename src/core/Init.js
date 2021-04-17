@@ -4,7 +4,7 @@ global.
     fs              = require('fs'),
     //local databases
     db              = {},
-    config          = require("../db/config.json"),
+    config          = require("../../config.json"),
     lang            = require("../db/languages.json"),
     //other
     client          = new (require("./Client"))(),
