@@ -43,7 +43,7 @@ module.exports = class {
                 //check maintenance
                 if (db.data.get('maintenance').value() && !config.dev.includes(msg.author.id)) return msg.reply(lang["maintenance"][la]) 
                 //check user permission
-                if ((value.permission.owner || value.permission.memberPermission.filter(permission => !msg.member.hasPermission(permission).length > 0)) && !config.dev.includes(msg.author.id)) return msg.reply(lang["userMissingPermission"][la])
+                if ((value.permission.owner || value.permission.memberPermission.filter(permission => !msg.member.hasPermission(permission)).length > 0) && !config.dev.includes(msg.author.id)) return msg.reply(lang["userMissingPermission"][la])
                 //check bot permission
                 if (value.permission.botPermission.filter(permission => !msg.channel.permissionsFor(msg.guild.me).has(permission)).length > 0) return msg.reply(lang["botMissingPermission"][la] + `\n${neededPermission.join(', ')}`)
                 //check DM
