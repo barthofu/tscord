@@ -3,8 +3,9 @@
   "description": "",
   "language": "en",
   "ownerID": "YOUR_ID_HERE",
-  "dev": [],
-  "maintenance": false,
+  "dev": [
+    "YOUR_ID_ALSO_HERE"
+  ],
   "colors": {
     "default": ""
   },

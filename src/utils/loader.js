@@ -47,7 +47,7 @@ module.exports = {
                     const command = new (require(`../commands/${categories[i]}/${file}`))()
 
                     //define command name as filename by default if not precised in the commandParams of the original command
-                    if (command.info.name === "") command.info.name = file.split(".").slice(1, -1).join("_")
+                    if (command.info.name === "") command.info.name = file.split(".").slice(0, -1).join("_")
 
                     //add some info
                     command.info.fileName = file

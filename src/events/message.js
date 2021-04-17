@@ -41,11 +41,11 @@ module.exports = class {
                 logger.log("command", {commandName: value.info.name.split("/").slice(-1)[0], msg}) //faire attention pour les subs commands ici (le nom)
 
                 //check maintenance
-                if (db.config.get('maintenance').value() && !config.dev.includes(msg.author.id)) return msg.reply(lang["maintenance"][la]) 
+                if (db.data.get('maintenance').value() && !config.dev.includes(msg.author.id)) return msg.reply(lang["maintenance"][la]) 
                 //check user permission
                 if ((value.permission.owner || value.permission.memberPermission.filter(permission => !msg.member.hasPermission(permission).length > 0)) && !config.dev.includes(msg.author.id)) return msg.reply(lang["userMissingPermission"][la])
                 //check bot permission
-                if (value.permission.botPermission.filter(permission => !msg.channeel.permissionsFor(msg.guild.me).has(permission)).length > 0) return msg.reply(lang["botMissingPermission"][la] + `\n${neededPermission.join(', ')}`)
+                if (value.permission.botPermission.filter(permission => !msg.channel.permissionsFor(msg.guild.me).has(permission)).length > 0) return msg.reply(lang["botMissingPermission"][la] + `\n${neededPermission.join(', ')}`)
                 //check DM
                 if (!value.verification.dm && msg.channel.type === "dm") return msg.reply(lang["commandNotInDM"][la])
                 //check NSFW
