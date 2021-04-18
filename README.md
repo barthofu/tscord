@@ -32,7 +32,7 @@ You can either clone this repo or fork it (to get the latest updates).
 
 2. Open the `config.json` and edit it as you want:
 
-```json
+```js
 {
     "prefix": "!", //the prefix of your bot. Guilds with the property "prefix": null in the guilds.json will automatically 
     "description": "",  
