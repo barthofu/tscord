@@ -4,6 +4,7 @@ module.exports = class Command {
         {   
             name = "",
             aliases = new Array(),
+            args = [],
             desc = null,
             enabled = true,
             dm = true,
@@ -15,7 +16,7 @@ module.exports = class Command {
         }
     ) {
 
-        this.info = { name, aliases, desc, cooldown }
+        this.info = { name, aliases, args, desc, cooldown }
         this.verification = { enabled, dm, nsfw }
         this.permission = { memberPermission, botPermission, owner }
 

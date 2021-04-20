@@ -8,6 +8,8 @@ const
 
 module.exports = class {
 
+
+
     constructor () {
 
         try {
@@ -94,8 +96,8 @@ module.exports = class {
 
     zipDirectory(out) {
 
-        const archive = archiver('zip', { zlib: { level: 9 }});
-        const stream = fs.createWriteStream(out);
+        const archive = archiver('zip', { zlib: { level: 9 }})
+        const stream = fs.createWriteStream(out)
         const projectDir = fs.readdirSync('.')
       
         return new Promise((resolve, reject) => {
@@ -121,9 +123,9 @@ module.exports = class {
 
             }
         
-            stream.on('close', () => resolve());
-            archive.finalize();
-        });
+            stream.on('close', () => resolve())
+            archive.finalize()
+        })
     }
 
 

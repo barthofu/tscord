@@ -39,5 +39,57 @@
             "en": "Help pannel",
             "fr": "Pannel d'aide"
         }
+    },
+
+    "commandArgs": {
+
+        "argsMissing": {
+            "en": "args are missing",
+            "fr": "il manque des arguments"
+        },
+
+        "number": {
+
+            "type": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be a **number**.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit être un **nombre**."
+            },
+            "min": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be **${argConfig.params.min}** at minimum.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit valoir **${argConfig.params.min}** au minimum."
+            },
+            "max": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be **${argConfig.params.min}** at maximum.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit valoir **${argConfig.params.min}** au maximum."
+            },
+            "int": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be an **integer**.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit être un **entier**."
+            }
+        },
+
+        "string": {
+
+            "type": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be a **string**.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit être du **texte**."
+            },
+            "equalsTo": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be equal to: **${argConfig.params.equalsTo.slice(0, -1).join('**, **')}** or **${argConfig.params.equalsTo.slice(-1)}**.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit être égal à : **${argConfig.params.equalsTo.slice(0, -1).join('**, **')}** ou **${argConfig.params.equalsTo.slice(-1)}**."
+            },
+            "length": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be **${argConfig.params.length}** characters or less.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit être composé de **${argConfig.params.length}** caractères au maximum."
+            }
+        },
+
+        "mention": {
+
+            "type": {
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be a **mention**.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit être une **mention**."
+            }
+        }
     }
 }

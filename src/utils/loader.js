@@ -42,27 +42,28 @@ module.exports = {
         for (let i in categories) {
             fs.readdirSync(`./src/commands/${categories[i]}`).filter(file => !file.startsWith("_") && !file.startsWith(".")).forEach(file => {
 
-                if (file.endsWith('.js')) {
-
-                    const command = new (require(`../commands/${categories[i]}/${file}`))()
-
-                    //define command name as filename by default if not precised in the commandParams of the original command
-                    if (command.info.name === "") command.info.name = file.split(".").slice(0, -1).join("_")
-
-                    //add some info
-                    command.info.fileName = file
-                    command.info.categoryName = categories[i]
-
-                    bot.commands.set(command.info.name, command)
-                    delete require.cache[require.resolve(`../commands/${categories[i]}/${file}`)]
-                }
-                else if (!file.includes(".")) {
-
-                    this.getSubCommands(file, categories[i])
-                }
-
+                if (file.endsWith('.js')) this.setCommand(categories[i], file)
+                else if (!file.includes(".")) this.getSubCommands(file, categories[i])
             })
         }
+    },
+
+
+
+    setCommand (category, file, path = "") {
+
+        const command = new (require(`../commands/${category}/${path}${file}`))()
+
+        //define command name as filename by default if not precised in the commandParams of the original command
+        if (command.info.name === "") command.info.name = file.split(".").slice(0, -1).join("_")
+
+        //add some info
+        command.info.fileName = file
+        command.info.categoryName = category
+
+        //set the command
+        bot.commands.set(command.info.name, command)
+        delete require.cache[require.resolve(`../commands/${category}/${path}${file}`)]
     },
 
 
@@ -74,16 +75,10 @@ module.exports = {
             .filter(file => !file.startsWith("_"))
             .forEach(file => {
 
-                if (file.endsWith(".js")) {
-
-                    let command = new (require(`../commands/${category}/${path}/${file}`))()
-                    command.info.name = path + "/" + command.info.name
-                    bot.commands.set(command.info.name, command)
-                    delete require.cache[require.resolve(`../commands/${category}/${path}/${file}`)]
-                } 
-                else if (!file.includes(".")) {
-                    this.getSubCommands(`${path}/${file}`, category)
-                }
+                if (file.endsWith(".js")) this.setCommand(category, file, path + "/")
+                
+                else if (!file.includes(".")) this.getSubCommands(`${path}/${file}`, category)
+                
             })
     }
 

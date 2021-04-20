@@ -2,6 +2,7 @@ const commandParams = {
     
     name: "",
     aliases: [],
+    args: [],
     desc: {
         en: "Gives stats graphics about the bot.",
         fr: "Fournis différents graphiques d'évolution des stats du bot."
@@ -30,7 +31,7 @@ module.exports = class extends CommandPattern {
         super(commandParams)
     }
 
-    async run (msg, args, cmd) {
+    async run (msg, args, rawArgs, cmd) {
   
         let rawStats = db.stats.get("daily").value(),
             page = 1

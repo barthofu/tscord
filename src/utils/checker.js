@@ -14,7 +14,7 @@ module.exports = {
 
             //stuff to do each day
             client.updateStats()
-            if (config.backup.activated) client.backup()
+            if (config.backup.enabled) client.backup()
         }
     },
 
@@ -62,6 +62,69 @@ module.exports = {
         bot.guilds.cache.map(guild => {
             this.checkGuild(guild.id)
         })
+    },
+
+
+
+    checkCommandArgs: {
+
+        number: {
+    
+            type: (arg) => !isNaN(arg),
+    
+            return: (arg) => parseFloat(arg),
+    
+            //checkers
+    
+            min: (arg, min) => arg >= min,
+    
+            max: (arg, max) => arg <= max,
+    
+            int: (arg, int) => int ? Number.isInteger(parseFloat(arg)) : true
+    
+        },
+
+        string: {
+
+            type: (arg) => typeof arg === 'string' || arg instanceof String,
+
+            return: (arg) => arg,
+
+            //checkers
+
+            equalsTo: (arg, equalsTo) => {
+
+                if (typeof equalsTo === 'string') return arg === equalsTo
+                else return equalsTo.includes(arg)
+                  
+            },
+
+            length: (arg, length) => arg.length <= length
+
+        },
+
+        mention: {
+
+            type: async (arg, msg) => {
+                const match = arg.match(/<@!?(\d+)>/)?.[1]
+
+                if (!match) return false
+                try {
+                    await msg.guild.members.fetch(match)
+                }
+                catch (e) { return false }
+
+                return true
+            },
+
+            return: (arg, msg) => {
+
+                const match = arg.match(/<@!?(\d+)>/)?.[1]
+                return msg.guild.members.cache.get(match)
+            }
+
+        }
+
     }
 
 }

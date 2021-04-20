@@ -110,6 +110,9 @@ const commandParams = {
 The command itself is a class which in instantiated only once at the startup of the bot. 
 `async run()` is the method that is called when a user run the command.
 
+
+#### Sub-commands
+
 In addition, this template has the ability to use subcommands. Just put the file in a tree of subfolders to create your subcommands environment.
 
 e.g: 
@@ -130,6 +133,56 @@ will create the following commands (with `!` as prefix):
 !managge info
 ```
 
+#### Arguments
+
+You can easily setup arguments for your commands. 
+e.g: `!add [xp | level] [amount] [@user]` -> `!add xp 1000 @user`
+
+These arguments are automaticaly verified and the bot will tell the user if they miss one argument.
+
+To create arguments on a command, just add the property `args: []` to the `commandParams` object like this:
+```js
+const commandParams: {
+    //...
+    args: [
+        {
+            "name": { //the name it'll be displayed in the help command or the error messages (can be a simple string if you don't use multiple languages)
+                "en": "", 
+                "fr": ""
+            },
+            "variableName": "", //the name of the variable where the arg gonna be stored. It is accessible in the object 'args' within the commands.
+            "type": "", //the type of the arg
+            "params": {
+                //params depending on the type
+            }
+        },
+    ],
+    //...
+}
+```
+
+At the moment there are 3 types of arguments, each with their own params (**all params are optionals**):
+
+#### number
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| min | int | set the minimum for the given number |
+| max | int | set the maximum for the given number |
+| int | bool | if the given number must be an integer or not |
+
+#### string
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| equalsTo | [string] | the given word must be equal to one of the strings inside this array |
+| length | int | set the maximum number of characters |
+
+#### mention
+
+*no params*
+
+[Here is a concrete example of well configured arguments, related to the first example with the `!add` command](https://pastebin.com/KWueLYMN)
 ### Database
 
 This little template uses a tiny JSON local database manager known as *lowdb*.
@@ -141,7 +194,11 @@ e.g: a json file named `example.json` will be accessible as a lowdb instance in 
 
 ## Todo
 
-* ajouter dans les params des commandes un paramètre "mentionOnly" qui ne valide la commande qui si il y a une mention dedans
+* arguments : rajouter des params pour le type 'mention' (ex: hasRole, hasNotRole, etc)
+
+* ajouter la gestion d'erreur personnalisé (ex: pas de token renseigné, etc)
+
+* gestion d'erreur pour les subcommands (affiche de l'arbre des possibilités si on met pas tous les éléments de la subcommand)
 
 * au démarrage ça check les serveurs afin de se synchroniser avec la db (peut être déjà codé tho) + ça check si le prefix a été modifié et ça le change pour tous les serveurs concernés (peut faire un "prefix": null par défaut pour les serveurs qui prend le prefix dans la config)
 

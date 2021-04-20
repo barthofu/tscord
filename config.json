@@ -1,18 +1,16 @@
 {
-  "prefix": "!", 
+  "prefix": "!",
   "description": "",
   "language": "en",
   "ownerID": "YOUR_ID_HERE",
-  "dev": [
-    "YOUR_ID_ALSO_HERE"
-  ],
+  "dev": [],
   "colors": {
     "default": ""
   },
   "evalName": "bot",
   "startingConsoleDetailed": false,
   "backup": {
-    "activated": false,
+    "enabled": false,
     "channel": "",
     "ignoredPaths": [
       "node_modules",

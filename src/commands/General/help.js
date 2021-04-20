@@ -2,6 +2,7 @@ const commandParams = {
     
     name: "",
     aliases: ["h"],
+    args: [],
     desc: {
         en: "Displays the help of the bot.",
         fr: "Affiche l'aide du bot."
@@ -22,7 +23,7 @@ module.exports = class extends CommandPattern {
         super(commandParams)
     }
 
-    async run (msg, args, cmd) {
+    async run (msg, args, rawArgs, cmd) {
 
         let prefix = db.guild.get(`guilds.${msg.guild.id}.prefix`).value()
 

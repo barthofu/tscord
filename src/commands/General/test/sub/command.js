@@ -2,6 +2,7 @@ const commandParams = {
     
     name: "",
     aliases: [],
+    args: [],
     desc: {
         en: "",
         fr: ""
@@ -22,7 +23,7 @@ module.exports = class extends CommandPattern {
         super(commandParams)
     }
 
-    async run (msg, args, cmd) {
+    async run (msg, args, rawArgs, cmd) {
 
     }
 
