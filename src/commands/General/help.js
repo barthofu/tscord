@@ -25,7 +25,7 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
 
-        let prefix = db.guilds.get(`actives.${msg.guild.id}.prefix`).value()
+        let prefix = client.getPrefix(msg)
 
         let embed = new MessageEmbed()
             .setTitle(lang["help"]["title"][la])

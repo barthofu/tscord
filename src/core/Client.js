@@ -52,7 +52,7 @@ module.exports = class {
 
 
 
-    getStats() {
+    getStats () {
 
         return {
             
@@ -64,6 +64,13 @@ module.exports = class {
                 details: db.stats.get("actual.commands.details").value()
             }
         }
+    }
+
+
+
+    getPrefix (msg) {
+        
+        return msg.channel.type !== "dm" ? db.guilds.get(`actives.${msg.guild.id}.prefix`).value() || config.prefix : config.prefix
     }
 
 

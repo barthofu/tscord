@@ -5,7 +5,7 @@ module.exports = class {
         this.object = {
 
             id: guild.id,
-            prefix: "!"
+            prefix: null
 
         }
 
