@@ -102,7 +102,7 @@ module.exports = class {
 
 
 
-    checkArgs (command, rawArgs, msg) {
+    async checkArgs (command, rawArgs, msg) {
 
         let error = null,
             args = {},

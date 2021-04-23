@@ -69,8 +69,22 @@ module.exports = class {
 
 
     getPrefix (msg) {
-        
-        return msg.channel.type !== "dm" ? db.guilds.get(`actives.${msg.guild.id}.prefix`).value() || config.prefix : config.prefix
+
+        return msg.channel.type !== "dm" ? client.getGuild("actives", msg.guild.id).prefix || config.prefix : config.prefix
+    }
+
+
+
+    getGuild (guildId, type = "actives") {
+
+        return db.guilds.get(type).find(guild => guild.id === guildId)
+    }
+
+
+
+    getUser (userId) {
+
+        return db.users.find(user => user.id === userId)
     }
 
 

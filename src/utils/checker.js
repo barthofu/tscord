@@ -20,38 +20,41 @@ module.exports = {
 
 
 
-    checkUser (userID) {
+    checkUser (userId) {
 
         //check if this user exists in the database, if not it creates it
-        if (!db.users.find(val => val.id === userID).value()) {
+        if (!client.getUser(userId).value()) {
             //creation
-            let user = new UserPattern(bot.users.cache.get(userID))
+            let user = new UserPattern(bot.users.cache.get(userId))
             db.users.push(user.object).write()
         }
     },
 
 
 
-    checkGuild (guildID) {
+    checkGuild (guildId) {
+
+        let activeMatch = client.getGuild(guildId).value()
 
         //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
-        if (!db.guilds.get("actives").has(guildID).value()) {
+        if (!activeMatch) {
 
-            if (db.guilds.get("deleted").has(guildID).value()) {
+            let deletedMatch = client.getGuild(guildId, "deleted").value()
+
+            if (deletedMatch) {
                 //recover
-                db.guilds.set(`actives.${guildID}`, db.guilds.get(`deleted.${guildID}`).value()).write()
-                db.guilds.get(`deleted`).unset(guildID).write()
+                db.guilds.get("actives").push(deletedMatch).write()
+                db.guilds.get(`deleted`).pull(deletedMatch).write()
             } else {
                 //creation
-                let guild = new GuildPattern(bot.guilds.cache.get(guildID))
-                db.guilds.set(`actives.${guildID}`, guild.object).write()
+                let guild = new GuildPattern(bot.guilds.cache.get(guildId))
+                db.guilds.get("actives").push(guild.object).write()
             }
         }
-        else if (!bot.guilds.cache.get(guildID)) { //check if guild exists. If no, the guild is deleted
-
+        else if (!bot.guilds.cache.get(guildId)) { //check if guild exists. If no, the guild is deleted
             //deletion
-            db.guilds.set(`deleted.${guildID}`, db.guilds.get(`actives.${guildID}`).value()).write()
-            db.guilds.get(`actives`).unset(guildID).write()
+            db.guilds.get("deleted").push(activeMatch).write()
+            db.guilds.get("actives").pull(activeMatch).write()
         }
     },
 
