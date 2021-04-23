@@ -2,8 +2,8 @@
   "prefix": "!",
   "description": "",
   "language": "en",
-  "ownerID": "YOUR_ID_HERE",
-  "dev": [],
+  "owner": "YOUR_ID_HERE",
+  "devs": [],
   "colors": {
     "default": ""
   },

@@ -25,6 +25,8 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
 
+        msg.reply("this is a subcommand!")
+
     }
 
 

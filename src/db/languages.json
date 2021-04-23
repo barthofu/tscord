@@ -59,8 +59,8 @@
                 "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit valoir **${argConfig.params.min}** au minimum."
             },
             "max": {
-                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be **${argConfig.params.min}** at maximum.",
-                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit valoir **${argConfig.params.min}** au maximum."
+                "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be **${argConfig.params.max}** at maximum.",
+                "fr": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* doit valoir **${argConfig.params.max}** au maximum."
             },
             "int": {
                 "en": "*${typeof argConfig.name === 'object' ? argConfig.name[la] : argConfig.name}* must be an **integer**.",

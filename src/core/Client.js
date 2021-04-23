@@ -58,7 +58,7 @@ module.exports = class {
             
             guilds: bot.guilds.cache.size,
             users: bot.users.cache.size,
-            activeUsers: db.user.size().value(),
+            activeUsers: db.users.size().value(),
             commands: {
                 total: db.stats.get("actual.commands.total").value(),
                 details: db.stats.get("actual.commands.details").value()
@@ -76,7 +76,7 @@ module.exports = class {
         try {
 
             if (!bot.channels.cache.get(config.backup.channel)) {
-                this.bot.users.cache.get(config.ownerID).send("Backup has failed: no discord channel to send the backup (set it in the config.json file).")
+                this.bot.users.cache.get(config.owner).send("Backup has failed: no discord channel to send the backup (set it in the config.json file).")
                 return
             }
         
@@ -86,7 +86,7 @@ module.exports = class {
 
         } catch (e) {
 
-            this.bot.users.cache.get(config.ownerID).send("There was a problem during backup. Check the console.")
+            this.bot.users.cache.get(config.owner).send("There was a problem during backup. Check the console.")
             console.log(e)
         }
 

@@ -23,10 +23,10 @@ module.exports = {
     checkUser (userID) {
 
         //check if this user exists in the database, if not it creates it
-        if (!db.user.find(val => val.id === userID).value()) {
+        if (!db.users.find(val => val.id === userID).value()) {
             //creation
             let user = new UserPattern(bot.users.cache.get(userID))
-            db.user.push(user.object).write()
+            db.users.push(user.object).write()
         }
     },
 
@@ -35,23 +35,23 @@ module.exports = {
     checkGuild (guildID) {
 
         //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
-        if (!db.guild.get("guilds").has(guildID).value()) {
+        if (!db.guilds.get("actives").has(guildID).value()) {
 
-            if (db.guild.get("deleted").has(guildID).value()) {
+            if (db.guilds.get("deleted").has(guildID).value()) {
                 //recover
-                db.guild.set(`guilds.${guildID}`, db.guild.get(`deleted.${guildID}`).value()).write()
-                db.guild.get(`deleted`).unset(guildID).write()
+                db.guilds.set(`actives.${guildID}`, db.guilds.get(`deleted.${guildID}`).value()).write()
+                db.guilds.get(`deleted`).unset(guildID).write()
             } else {
                 //creation
                 let guild = new GuildPattern(bot.guilds.cache.get(guildID))
-                db.guild.set(`guilds.${guildID}`, guild.object).write()
+                db.guilds.set(`actives.${guildID}`, guild.object).write()
             }
         }
         else if (!bot.guilds.cache.get(guildID)) { //check if guild exists. If no, the guild is deleted
 
             //deletion
-            db.guild.set(`deleted.${guildID}`, db.guild.get(`guilds.${guildID}`).value()).write()
-            db.guild.get(`guilds`).unset(guildID).write()
+            db.guilds.set(`deleted.${guildID}`, db.guilds.get(`actives.${guildID}`).value()).write()
+            db.guilds.get(`actives`).unset(guildID).write()
         }
     },
 
