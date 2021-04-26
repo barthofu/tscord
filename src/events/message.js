@@ -7,7 +7,7 @@ module.exports = class {
         //check guild
         if (msg.channel.type !== "dm") checker.checkGuild(msg.guild.id)
 
-        let prefix = client.getPrefix(msg)
+        const prefix = client.getPrefix(msg)
         let rawArgs = msg.content.slice(prefix.length).trim().split(/ +/g),
             cmd = rawArgs.shift().toLowerCase()
 

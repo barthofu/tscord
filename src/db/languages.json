@@ -30,7 +30,7 @@
     },
 
     "cooldown": {
-        "en": "this command is on cooldown!\nRemaining: ",
+        "en": "this command is on cooldown!\nTime remaining: ",
         "fr": "cette commande est en cooldown !\nTemps restant : "
     },
 

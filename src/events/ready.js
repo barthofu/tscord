@@ -12,6 +12,8 @@ module.exports = class {
             
             //activity change
             let activity = config.activities[index]
+            activity.text = eval(`new String(\`${activity.text}\`)`)
+            
             if (activity.type === "STREAMING") {
                 //streaming activity
                 bot.user.setStatus('available')
