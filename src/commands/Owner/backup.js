@@ -25,7 +25,10 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
 
-        if (config.backup.enabled) await client.backup()
+        if (config.backup.enabled) {
+            await client.backup()
+            await msg.react('✅')
+        }
         else msg.reply("backup isn't enabled")
 
     }
