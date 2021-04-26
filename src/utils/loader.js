@@ -38,7 +38,7 @@ module.exports = {
 
     loadCommands () {
 
-        let categories = fs.readdirSync(`./src/commands`).filter(file => !file.includes("."))
+        const categories = fs.readdirSync(`./src/commands`).filter(file => !file.includes("."))
         for (let i in categories) {
             fs.readdirSync(`./src/commands/${categories[i]}`).filter(file => !file.startsWith("_") && !file.startsWith(".")).forEach(file => {
 

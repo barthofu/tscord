@@ -38,7 +38,7 @@ module.exports = {
 
     logWriteInFile (str) {
 
-        let date = dateFormat(new Date(), "dd-mm-yyyy HH:MM:ss")
+        const date = dateFormat(new Date(), "dd-mm-yyyy HH:MM:ss")
         client.logger.write(`\n[${date}] ➜ ` + str)
     }
 

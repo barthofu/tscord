@@ -25,18 +25,18 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
 
-        let prefix = client.getPrefix(msg)
+        const prefix = client.getPrefix(msg)
 
-        let embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle(lang["help"]["title"][la])
             .setAuthor(msg.author.username, msg.author.displayAvatarURL({dynamic: true}))
             .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png")
 
-        let categories = [...new Set(bot.commands.map(command => command.categoryName))]
+        const categories = [...new Set(bot.commands.map(command => command.categoryName))]
 
         for (let category of categories) {
 
-            let content = bot.commands.filter(command => command.categoryName === category).map(command => {
+            const content = bot.commands.filter(command => command.categoryName === category).map(command => {
                 command.verification.enabled == true && command.permission.owner == false ? 
                     `\`${prefix}${command.info.name.split("/").join(" ")}\`${command.info.aliases.filter(val => !val.startsWith("_")).length > 0 ? ` (ou ${command.info.aliases.filter(val => !val.startsWith("_")).map(val => `\`${prefix}${val}\``).join(" | ")})`:""} | ${this.checkCommand(command)} ${command["info"]["desc"][la]}\n` : ""
             }).join("")

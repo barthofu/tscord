@@ -43,7 +43,7 @@ module.exports = class {
     
     updateStats () {
 
-        let date = dateFormat(new Date(new Date().getTime() - 60 * 60 * 24), "dd-mm-yyyy")
+        const date = dateFormat(new Date(new Date().getTime() - 60 * 60 * 24), "dd-mm-yyyy")
         db.stats.get("daily").push(Object.assign(
             { date: date },
             this.getStats()
@@ -91,8 +91,8 @@ module.exports = class {
 
     async backup () {
 
-        let botName = bot.user.username.split(' ').join('_')
-        let archiveName = `./${botName}_backup_${dateFormat(new Date(), 'dd-mm-yyyy')}.zip`
+        const botName = bot.user.username.split(' ').join('_'),
+              archiveName = `./${botName}_backup_${dateFormat(new Date(), 'dd-mm-yyyy')}.zip`
 
         try {
 
@@ -117,9 +117,9 @@ module.exports = class {
 
     zipDirectory(out) {
 
-        const archive = archiver('zip', { zlib: { level: 9 }})
-        const stream = fs.createWriteStream(out)
-        const projectDir = fs.readdirSync('.')
+        const archive = archiver('zip', { zlib: { level: 9 }}),
+              stream = fs.createWriteStream(out),
+              projectDir = fs.readdirSync('.')
       
         return new Promise((resolve, reject) => {
             archive
@@ -129,19 +129,12 @@ module.exports = class {
 
             for (let dir of projectDir) {
 
-                console.log("==============\n"+dir)
-
                 if (!config.backup.ignoredPaths.includes(dir)) {
-
-                    console.log('validated')
-                    
                     //file
                     if (dir.includes('.') && !dir.startsWith('.')) archive.glob(dir)
                     //folder
                     else archive.glob(dir + '/**')
-                    
                 }
-
             }
         
             stream.on('close', () => resolve())
@@ -157,7 +150,7 @@ module.exports = class {
         loader.loadCommands()
         loader.loadJSON()
 
-        console.log("\n\n============================\n\nAll the commands and databases has been reloaded!\n\n============================\n\n")
+        console.log("\n============================\n\nAll the commands and databases has been reloaded!\n\n============================\n")
         msg.react('✅')
     }
 
@@ -165,7 +158,7 @@ module.exports = class {
 
     startingConsole () {
         
-        let params = {
+        const params = {
             categories: fs.readdirSync(`./src/commands`).filter(file => !file.includes(".")).length,
             commands: bot.commands.size,
             databases: Object.keys(db).length,

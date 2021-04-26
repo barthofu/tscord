@@ -7,9 +7,9 @@ module.exports = {
     
     checkDaily() {
 
-        let day = dateFormat(new Date(), "dd")
-        if (day != db.data.get("currentDay").value()) {
+        const day = dateFormat(new Date(), "dd")
 
+        if (day != db.data.get("currentDay").value()) {
             db.data.set("currentDay", day).write()
 
             //stuff to do each day
@@ -25,7 +25,7 @@ module.exports = {
         //check if this user exists in the database, if not it creates it
         if (!client.getUser(userId).value()) {
             //creation
-            let user = new UserPattern(bot.users.cache.get(userId))
+            const user = new UserPattern(bot.users.cache.get(userId))
             db.users.push(user.object).write()
         }
     },
@@ -34,12 +34,12 @@ module.exports = {
 
     checkGuild (guildId) {
 
-        let activeMatch = client.getGuild(guildId).value()
+        const activeMatch = client.getGuild(guildId).value()
 
         //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
         if (!activeMatch) {
 
-            let deletedMatch = client.getGuild(guildId, "deleted").value()
+            const deletedMatch = client.getGuild(guildId, "deleted").value()
 
             if (deletedMatch) {
                 //recover
@@ -47,7 +47,7 @@ module.exports = {
                 db.guilds.get(`deleted`).pull(deletedMatch).write()
             } else {
                 //creation
-                let guild = new GuildPattern(bot.guilds.cache.get(guildId))
+                const guild = new GuildPattern(bot.guilds.cache.get(guildId))
                 db.guilds.get("actives").push(guild.object).write()
             }
         }
@@ -109,8 +109,8 @@ module.exports = {
         mention: {
 
             type: async (arg, msg) => {
-                const match = arg.match(/<@!?(\d+)>/)?.[1]
 
+                const match = arg.match(/<@!?(\d+)>/)?.[1]
                 if (!match) return false
                 try {
                     await msg.guild.members.fetch(match)
