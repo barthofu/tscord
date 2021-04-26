@@ -33,15 +33,15 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
   
-        let rawStats = db.stats.get("daily").value(),
-            page = 1
+        const rawStats = db.stats.get("daily").value()
+        let page = 1
 
-        let m = await msg.channel.send(this.getEmbed(msg, color, page, days, rawStats))
+        const m = await msg.channel.send(this.getEmbed(msg, color, page, days, rawStats))
         await m.react('◀')
         await m.react('▶')
         
-        let filter = (reaction, user) => ["◀", "▶"].includes(reaction.emoji.name) && user.id === msg.author.id
-        let reac = m.createReactionCollector(filter, { time: 300000 })
+        const filter = (reaction, user) => reaction.users.cache.get(bot.user.id) && user.id === msg.author.id,
+              reac = m.createReactionCollector(filter, { time: 300000 })
 
         reac.on("collect", async(reaction) => {
 
@@ -68,7 +68,8 @@ module.exports = class extends CommandPattern {
 
     genLink(page, days, rawStats) {
         
-        let obj = {
+        const obj = {
+            
             type: 'line',
             'data': {
                 labels: rawStats.slice(-days).map(val => val.date.slice(0,5).replace("-", "/")),

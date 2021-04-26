@@ -5,7 +5,7 @@ const commandParams = {
     args: [],
     desc: {
         "en": "Eval command.",
-        "fr": "Commande eval"
+        "fr": "Commande eval."
     },
     enabled: true,
     dm: true,
