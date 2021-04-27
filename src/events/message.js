@@ -13,12 +13,10 @@ module.exports = class {
 
         //check if message starts with prefix
         if (!msg.content.startsWith(prefix)) {
-            if (msg.author.id == config.owner) {
-                //reload command
-                if (msg.content === ".r") client.reload(msg)
-                //eval command
-                else if (msg.content.startsWith("```"+config.evalName) && msg.content.endsWith("```")) await bot.commands.get("eval").run(msg, rawArgs, cmd)
-            }
+            //reload command
+            if (config.devs.includes(msg.author.id) && msg.content === ".r") client.reload(msg)
+            //eval command
+            else if (msg.author.id == config.owner && msg.content.startsWith("```"+config.evalName) && msg.content.endsWith("```")) await bot.commands.get("eval").run(msg, rawArgs, cmd)
             return
         }
 

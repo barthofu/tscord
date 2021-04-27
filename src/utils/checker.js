@@ -97,12 +97,13 @@ module.exports = {
 
             equalsTo: (arg, equalsTo) => {
 
-                if (typeof equalsTo === 'string') return arg === equalsTo
-                else return equalsTo.includes(arg)
-                  
+                const compareStrings = (firstString, secondString) => firstString.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === secondString.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+                if (typeof equalsTo === 'string') return compareStrings(arg, equalsTo)
+                else return equalsTo.find(string => compareStrings(arg, string)) ? true : false
             },
 
-            length: (arg, length) => arg.length <= length
+            length: (arg, length) => arg.length <= length,
 
         },
 
