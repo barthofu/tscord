@@ -146,15 +146,16 @@ const commandParams: {
     //...
     args: [
         {
-            "name": { //the name it'll be displayed in the help command or the error messages (can be a simple string if you don't use multiple languages)
-                "en": "", 
-                "fr": ""
+            name: { //the name it'll be displayed in the help command or the error messages (can be a simple string if you don't use multiple languages)
+                en: "", 
+                fr: ""
             },
-            "variableName": "", //the name of the variable where the arg gonna be stored. It is accessible in the object 'args' within the commands.
-            "type": "", //the type of the arg
-            "params": {
+            variableName: "", //the name of the variable where the arg gonna be stored. It is accessible in the object 'args' within the commands.
+            type: "", //the type of the arg
+            params: {
                 //params depending on the type
-            }
+            },
+            optional: true // make the argument optional (WILL ONLY WORK ON THE LAST ARGUMENT!)
         },
     ],
     //...

@@ -46,7 +46,10 @@ module.exports = class {
 
                 //check args
                 let {error, args} = await this.checkArgs(command, rawArgs, msg)
-                if (error) return msg.reply(`${error}\ne.g: \`${prefix}${command.info.name.split("/").join(" ")} ${command.info.args.map(arg => `[${arg.type === 'mention' ? '@': ''}${typeof arg.name === 'object' ? arg.name[la] : arg.name}]`).join(" ")}\``)
+                if (error) return msg.reply(`${error}\ne.g: \`${prefix}${command.info.name.split("/").join(" ")} ${command.info.args.map((arg,i) => {
+                    const cadre = (i === command.info.args.length - 1 && arg.optional) ? ['[', ']'] : ['<', '>']
+                    return `${cadre[0]}${arg.type === 'mention' ? '@': ''}${typeof arg.name === 'object' ? arg.name[la] : arg.name}${cadre[1]}`
+                }).join(" ")}\``)
                     
                 //run the command
                 await bot.commands
@@ -105,25 +108,27 @@ module.exports = class {
         let error = null,
             args = {},
             i = 0
+
+        const awaitedLength = command.info.args.slice(-1)[0].optional ? command.info.args.length - 1 : command.info.args.length
+
+        if (rawArgs.length < awaitedLength) {
+            error = lang["commandArgs"]["argsMissing"][la]
+            return { error, args }
+        }
                 
         for (let argConfig of command.info.args) {
 
-            if (rawArgs.length < command.info.args.length) {
-                error = lang["commandArgs"]["argsMissing"][la]
-                break
-            }
+            const arg = rawArgs[i++]
 
-            let arg = rawArgs[i++]
+            if (!arg) break
 
             const checkType = await checker.checkCommandArgs[argConfig.type]?.type(arg, msg)
-            if (!checkType) {
-                error = eval(`new String(\`${lang["commandArgs"][argConfig.type]["type"][la]}\`)`)
-            }
-
+            if (!checkType) error = eval(`new String(\`${lang["commandArgs"][argConfig.type]["type"][la]}\`).toString()`)
+            
             if (argConfig.params) {
                 for (let param of Object.keys(argConfig.params)) {
                     if (!checker.checkCommandArgs[argConfig.type][param](arg, argConfig.params[param])) {
-                        error = eval(`new String(\`${lang["commandArgs"][argConfig.type][param][la]}\`)`)
+                        error = eval(`new String(\`${lang["commandArgs"][argConfig.type][param][la]}\`).toString()`)
                         break
                     }
                 }

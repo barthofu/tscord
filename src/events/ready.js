@@ -12,7 +12,7 @@ module.exports = class {
             
             //activity change
             let activity = config.activities[index]
-            activity.text = eval(`new String(\`${activity.text}\`)`)
+            activity.text = eval(`new String(\`${activity.text}\`).toString()`)
             
             if (activity.type === "STREAMING") {
                 //streaming activity
