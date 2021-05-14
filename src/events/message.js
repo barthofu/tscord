@@ -39,13 +39,13 @@ module.exports = class {
                 logger.log("command", {commandName: command.info.name.split("/").slice(-1)[0], msg}) //faire attention pour les subs commands ici (le nom)
 
                 //basics checks
-                if (this.checkBasics(msg, command) !== true) return 
+                if (this.checkBasics(msg, command, la) !== true) return 
 
                 //format args if subcommand
                 if (command.info.name.includes("/")) rawArgs = rawArgs.slice(command.info.name.split("/").length - 2) 
 
                 //check args
-                let {error, args} = await this.checkArgs(command, rawArgs, msg)
+                let {error, args} = await this.checkArgs(command, rawArgs, msg, la)
                 if (error) return msg.reply(`${error}\ne.g: \`${prefix}${command.info.name.split("/").join(" ")} ${command.info.args.map((arg,i) => {
                     const cadre = (i === command.info.args.length - 1 && arg.optional) ? ['[', ']'] : ['<', '>']
                     return `${cadre[0]}${arg.type === 'mention' ? '@': ''}${typeof arg.name === 'object' ? arg.name[la] : arg.name}${cadre[1]}`
@@ -66,7 +66,7 @@ module.exports = class {
 
 
 
-    checkBasics (msg, command) {
+    checkBasics (msg, command, la) {
 
         //check maintenance
         if (db.data.get('maintenance').value() && !config.devs.includes(msg.author.id)) return msg.reply(lang["maintenance"][la]) 
@@ -103,13 +103,13 @@ module.exports = class {
 
 
 
-    async checkArgs (command, rawArgs, msg) {
+    async checkArgs (command, rawArgs, msg, la) {
 
         let error = null,
             args = {},
             i = 0
 
-        const awaitedLength = command.info.args.slice(-1)[0].optional ? command.info.args.length - 1 : command.info.args.length
+        const awaitedLength = command.info.args.slice(-1)[0]?.optional ? command.info.args.length - 1 : command.info.args.length
 
         if (rawArgs.length < awaitedLength) {
             error = lang["commandArgs"]["argsMissing"][la]
