@@ -30,7 +30,7 @@ module.exports = class {
 
             if (command.info.name == cmd || 
                 command.info.aliases.map(val => val.replace("_", "")).includes(cmd) || 
-                msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(command.info.name) ||
+                (command.info.name.includes('/') && msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(command.info.name))  ||
                 command.info.aliases.find(val => msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(command.info.name.split("/").slice(0, -1).join("/") + "/" + val.replace("_", "")))
                 ) {
 
