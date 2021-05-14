@@ -50,6 +50,9 @@ module.exports = class {
                     const cadre = (i === command.info.args.length - 1 && arg.optional) ? ['[', ']'] : ['<', '>']
                     return `${cadre[0]}${arg.type === 'mention' ? '@': ''}${typeof arg.name === 'object' ? arg.name[la] : arg.name}${cadre[1]}`
                 }).join(" ")}\``)
+
+                //remove actual args from the raw args
+                rawArgs = rawArgs.slice(Object.keys(args).length)
                     
                 //run the command
                 await bot.commands
@@ -57,7 +60,7 @@ module.exports = class {
                     .run(
                         msg, //message object
                         args, //formated expected args
-                        command.info.name.includes("/") ? rawArgs.slice(command.info.name.split("/").length - 2) : rawArgs, //array of all the args
+                        rawArgs, //array of all the args
                         command.info.name.split("/").slice(-1)[0] //command name
                     )
             }
