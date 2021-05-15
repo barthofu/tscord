@@ -56,6 +56,7 @@ module.exports = {
 
         //define command name as filename by default if not precised in the commandParams of the original command
         if (command.info.name === "") command.info.name = file.split(".").slice(0, -1).join("_")
+        command.info.name = path + command.info.name
 
         //add some info
         command.info.fileName = file
