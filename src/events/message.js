@@ -42,7 +42,7 @@ module.exports = class {
                 if (this.checkBasics(msg, command, la) !== true) return 
 
                 //format args if subcommand
-                if (command.info.name.includes("/")) rawArgs = rawArgs.slice(command.info.name.split("/").length - 2) 
+                if (command.info.name.includes("/")) rawArgs = rawArgs.slice(command.info.name.split("/").length - 1) 
 
                 //check args
                 let {error, args} = await this.checkArgs(command, rawArgs, msg, la)
