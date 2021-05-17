@@ -31,7 +31,7 @@ module.exports = class extends CommandPattern {
             if (typeof evaled !== "string") evaled = require("util").inspect(evaled)
             //msg.channel.send(this.clean(evaled), {code:"xl"})
         } catch (err) {
-            msg.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
+            msg.channel.send(`\`ERROR\` \`\`\`xl\n${this.clean(err)}\n\`\`\``)
         }
 
     }
