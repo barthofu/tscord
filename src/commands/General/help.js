@@ -29,6 +29,7 @@ module.exports = class extends CommandPattern {
 
         const embed = new MessageEmbed()
             .setTitle(lang["help"]["title"][la])
+            .setColor(color)
             .setAuthor(msg.author.username, msg.author.displayAvatarURL({dynamic: true}))
             .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png")
 
