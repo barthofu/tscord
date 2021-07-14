@@ -2,7 +2,7 @@ module.exports = class Command {
 
 	constructor(
         {   
-            name = "",
+            name = '',
             aliases = new Array(),
             args = [],
             desc = null,

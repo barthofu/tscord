@@ -5,7 +5,7 @@ module.exports = class {
     async run (msg) {
 
         //check guild
-        if (msg.channel.type !== "dm") checker.checkGuild(msg.guild.id)
+        if (msg.channel.type !== 'dm') checker.checkGuild(msg.guild.id)
 
         const prefix = client.getPrefix(msg)
         let rawArgs = msg.content.slice(prefix.length).trim().split(/ +/g),
@@ -14,9 +14,9 @@ module.exports = class {
         //check if message starts with prefix
         if (!msg.content.startsWith(prefix)) {
             //reload command
-            if (config.devs.includes(msg.author.id) && msg.content === ".r") client.reload(msg)
+            if (config.devs.includes(msg.author.id) && msg.content === '.r') client.reload(msg)
             //eval command
-            else if (msg.author.id == config.owner && msg.content.startsWith("```"+config.evalName) && msg.content.endsWith("```")) await bot.commands.get("eval").run(msg, rawArgs, cmd)
+            else if (msg.author.id == config.owner && msg.content.startsWith('```'+config.evalName) && msg.content.endsWith('```')) await bot.commands.get('eval').run(msg, rawArgs, cmd)
             return
         }
 
@@ -29,27 +29,27 @@ module.exports = class {
         for (let command of bot.commands.array()) {
 
             if (command.info.name == cmd || 
-                command.info.aliases.map(val => val.replace("_", "")).includes(cmd) || 
-                (command.info.name.includes('/') && msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(command.info.name))  ||
-                command.info.aliases.find(val => msg.content.slice(prefix.length).trim().split(" ").join("/").startsWith(command.info.name.split("/").slice(0, -1).join("/") + "/" + val.replace("_", "")))
+                command.info.aliases.map(val => val.replace('_', '')).includes(cmd) || 
+                (command.info.name.includes('/') && msg.content.slice(prefix.length).trim().split(' ').join('/').startsWith(command.info.name))  ||
+                command.info.aliases.find(val => msg.content.slice(prefix.length).trim().split(' ').join('/').startsWith(command.info.name.split('/').slice(0, -1).join('/') + '/' + val.replace('_', '')))
                 ) {
 
                 //logs and stats
-                this.postCommand(command.info.name.split("/").slice(-1)[0], msg)
-                logger.log("command", {commandName: command.info.name.split("/").slice(-1)[0], msg}) //faire attention pour les subs commands ici (le nom)
+                this.postCommand(command.info.name.split('/').slice(-1)[0], msg)
+                logger.log('command', {commandName: command.info.name.split('/').slice(-1)[0], msg}) //faire attention pour les subs commands ici (le nom)
 
                 //basics checks
                 if (this.checkBasics(msg, command, la) !== true) return 
 
                 //format args if subcommand
-                if (command.info.name.includes("/")) rawArgs = rawArgs.slice(command.info.name.split("/").length - 1) 
+                if (command.info.name.includes('/')) rawArgs = rawArgs.slice(command.info.name.split('/').length - 1) 
 
                 //check args
                 let {error, args} = await this.checkArgs(command, rawArgs, msg, la)
-                if (error) return msg.reply(`${error}\ne.g: \`${prefix}${command.info.name.split("/").join(" ")} ${command.info.args.map((arg,i) => {
+                if (error) return msg.reply(`${error}\ne.g: \`${prefix}${command.info.name.split('/').join(' ')} ${command.info.args.map((arg,i) => {
                     const cadre = (i === command.info.args.length - 1 && arg.optional) ? ['[', ']'] : ['<', '>']
                     return `${cadre[0]}${arg.type === 'mention' ? '@': ''}${typeof arg.name === 'object' ? arg.name[la] : arg.name}${cadre[1]}`
-                }).join(" ")}\``)
+                }).join(' ')}\``)
 
                 //remove actual args from the raw args
                 rawArgs = rawArgs.slice(Object.keys(args).length)
@@ -61,7 +61,7 @@ module.exports = class {
                         msg, //message object
                         args, //formated expected args
                         rawArgs, //array of all the args
-                        command.info.name.split("/").slice(-1)[0] //command name
+                        command.info.name.split('/').slice(-1)[0] //command name
                     )
             }
         }
@@ -72,17 +72,17 @@ module.exports = class {
     checkBasics (msg, command, la) {
 
         //check maintenance
-        if (db.data.get('maintenance').value() && !config.devs.includes(msg.author.id)) return msg.reply(lang["maintenance"][la]) 
+        if (db.data.get('maintenance').value() && !config.devs.includes(msg.author.id)) return msg.reply(lang['maintenance'][la]) 
         //check user permission
-        if ((command.permission.owner || command.permission.memberPermission.filter(permission => !msg.member.hasPermission(permission)).length > 0) && !config.devs.includes(msg.author.id)) return msg.reply(lang["userMissingPermission"][la])
+        if ((command.permission.owner || command.permission.memberPermission.filter(permission => !msg.member.hasPermission(permission)).length > 0) && !config.devs.includes(msg.author.id)) return msg.reply(lang['userMissingPermission'][la])
         //check bot permission
-        if (command.permission.botPermission.filter(permission => !msg.channel.permissionsFor(msg.guild.me).has(permission)).length > 0) return msg.reply(lang["botMissingPermission"][la] + `\n${neededPermission.join(', ')}`)
+        if (command.permission.botPermission.filter(permission => !msg.channel.permissionsFor(msg.guild.me).has(permission)).length > 0) return msg.reply(lang['botMissingPermission'][la] + `\n${neededPermission.join(', ')}`)
         //check DM
-        if (!command.verification.dm && msg.channel.type === "dm") return msg.reply(lang["commandNotInDM"][la])
+        if (!command.verification.dm && msg.channel.type === 'dm') return msg.reply(lang['commandNotInDM'][la])
         //check NSFW
-        if (command.verification.nsfw && !msg.channel.nsfw) return msg.reply(lang["channelNotNSFW"][la])
+        if (command.verification.nsfw && !msg.channel.nsfw) return msg.reply(lang['channelNotNSFW'][la])
         //check if enabled
-        if (!command.verification.enabled && !config.devs.includes(msg.author.id)) return msg.reply(lang["commandNotEnabled"][la])
+        if (!command.verification.enabled && !config.devs.includes(msg.author.id)) return msg.reply(lang['commandNotEnabled'][la])
         //check cooldown
         if (command.info.cooldown) {
             //there is a cooldown
@@ -97,7 +97,7 @@ module.exports = class {
                     })
                 }
                 //blocked
-                else return msg.reply(lang["cooldown"][la] + "**" + Math.ceil((match.time + command.info.cooldown - new Date().getTime())/1000) + "** sec")
+                else return msg.reply(lang['cooldown'][la] + '**' + Math.ceil((match.time + command.info.cooldown - new Date().getTime())/1000) + '** sec')
             } else cmdCooldown[command.info.name].push({ id: msg.author.id, time: new Date().getTime() })
         }
 
@@ -115,7 +115,7 @@ module.exports = class {
         const awaitedLength = command.info.args.slice(-1)[0]?.optional ? command.info.args.length - 1 : command.info.args.length
 
         if (rawArgs.length < awaitedLength) {
-            error = lang["commandArgs"]["argsMissing"][la]
+            error = lang['commandArgs']['argsMissing'][la]
             return { error, args }
         }
                 
@@ -126,12 +126,12 @@ module.exports = class {
             if (!arg) break
 
             const checkType = await checker.checkCommandArgs[argConfig.type]?.type(arg, msg)
-            if (!checkType) error = eval(`new String(\`${lang["commandArgs"][argConfig.type]["type"][la]}\`).toString()`)
+            if (!checkType) error = eval(`new String(\`${lang['commandArgs'][argConfig.type]['type'][la]}\`).toString()`)
             
             if (argConfig.params) {
                 for (let param of Object.keys(argConfig.params)) {
                     if (!checker.checkCommandArgs[argConfig.type][param](arg, argConfig.params[param])) {
-                        error = eval(`new String(\`${lang["commandArgs"][argConfig.type][param][la]}\`).toString()`)
+                        error = eval(`new String(\`${lang['commandArgs'][argConfig.type][param][la]}\`).toString()`)
                         break
                     }
                 }
@@ -145,7 +145,7 @@ module.exports = class {
                 throw new Error(`Bad formatted arg name. '${argConfig.variableName}' cannot be used as variable name, please name it with the same formating rules than variables names in JS.`)
             }
 
-            args[argConfig.variableName] = checker.checkCommandArgs[argConfig.type]["return"](arg, msg)
+            args[argConfig.variableName] = checker.checkCommandArgs[argConfig.type]['return'](arg, msg)
 
         }
 

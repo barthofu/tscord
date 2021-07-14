@@ -1,11 +1,11 @@
 const commandParams = {
     
-    name: "",
+    name: '',
     aliases: [],
     args: [],
     desc: {
-        en: "",
-        fr: ""
+        en: '',
+        fr: ''
     },
     enabled: true,
     dm: false,
@@ -25,7 +25,7 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
 
-        msg.reply("this is a subcommand!")
+        msg.reply('this is a subcommand!')
 
     }
 

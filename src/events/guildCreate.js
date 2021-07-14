@@ -5,7 +5,7 @@ module.exports = class {
         checker.checkGuild(guild.id)
 
         //log
-        logger.log("guildCreate", {guild})
+        logger.log('guildCreate', {guild})
 
     }
 

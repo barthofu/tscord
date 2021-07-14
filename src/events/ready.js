@@ -6,7 +6,7 @@ module.exports = class {
         
         client.startingConsole()
         checker.checkGuilds()
-        logger.log("connected")
+        logger.log('connected')
         
         setInterval(() => {
             
@@ -14,12 +14,12 @@ module.exports = class {
             let activity = config.activities[index]
             activity.text = eval(`new String(\`${activity.text}\`).toString()`)
             
-            if (activity.type === "STREAMING") {
+            if (activity.type === 'STREAMING') {
                 //streaming activity
                 bot.user.setStatus('available')
                 bot.user.setActivity(activity.text, {
-                    "url": "https://www.twitch.tv/discord",
-                    "type": "STREAMING"
+                    'url': 'https://www.twitch.tv/discord',
+                    'type': 'STREAMING'
                 })
             } else {
                 //other activities

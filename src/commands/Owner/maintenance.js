@@ -1,11 +1,11 @@
 const commandParams = {
     
-    name: "",
+    name: '',
     aliases: [],
     args: [],
     desc: {
-        en: "Turn on/off the maintenance mode.",
-        fr: "Active ou désactive le mode maintenance."
+        en: 'Turn on/off the maintenance mode.',
+        fr: 'Active ou désactive le mode maintenance.'
     },
     enabled: true,
     dm: true,
@@ -25,8 +25,8 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
 
-        const updatedObj = db.data.update("maintenance", val => val ? false : new Date().getTime()).write()
-        msg.reply(`mode maintenance **${updatedObj.maintenance ? "activé" : "désactivé"}**`)
+        const updatedObj = db.data.update('maintenance', val => val ? false : new Date().getTime()).write()
+        msg.reply(`mode maintenance **${updatedObj.maintenance ? 'activé' : 'désactivé'}**`)
 
     }
 

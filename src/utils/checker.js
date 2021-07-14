@@ -1,5 +1,5 @@
-const UserPattern   = require("../models/User.js"),
-      GuildPattern  = require("../models/Guild.js")
+const User   = require('../models/User.js'),
+      Guild  = require('../models/Guild.js')
 
 module.exports = {
 
@@ -7,10 +7,10 @@ module.exports = {
     
     checkDaily() {
 
-        const day = dateFormat(new Date(), "dd")
+        const day = dateFormat(new Date(), 'dd')
 
-        if (day != db.data.get("currentDay").value()) {
-            db.data.set("currentDay", day).write()
+        if (day != db.data.get('currentDay').value()) {
+            db.data.set('currentDay', day).write()
 
             //stuff to do each day
             client.updateStats()
@@ -25,7 +25,7 @@ module.exports = {
         //check if this user exists in the database, if not it creates it
         if (!client.getUser(userId).value()) {
             //creation
-            const user = new UserPattern(bot.users.cache.get(userId))
+            const user = new User(bot.users.cache.get(userId))
             db.users.push(user.object).write()
         }
     },
@@ -39,22 +39,22 @@ module.exports = {
         //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
         if (!activeMatch) {
 
-            const deletedMatch = client.getGuild(guildId, "deleted").value()
+            const deletedMatch = client.getGuild(guildId, 'deleted').value()
 
             if (deletedMatch) {
                 //recover
-                db.guilds.get("actives").push(deletedMatch).write()
+                db.guilds.get('actives').push(deletedMatch).write()
                 db.guilds.get(`deleted`).pull(deletedMatch).write()
             } else {
                 //creation
-                const guild = new GuildPattern(bot.guilds.cache.get(guildId))
-                db.guilds.get("actives").push(guild.object).write()
+                const guild = new Guild(bot.guilds.cache.get(guildId))
+                db.guilds.get('actives').push(guild.object).write()
             }
         }
         else if (!bot.guilds.cache.get(guildId)) { //check if guild exists. If no, the guild is deleted
             //deletion
-            db.guilds.get("deleted").push(activeMatch).write()
-            db.guilds.get("actives").pull(activeMatch).write()
+            db.guilds.get('deleted').push(activeMatch).write()
+            db.guilds.get('actives').pull(activeMatch).write()
         }
     },
 
@@ -97,7 +97,7 @@ module.exports = {
 
             equalsTo: (arg, equalsTo) => {
 
-                const compareStrings = (firstString, secondString) => firstString.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === secondString.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                const compareStrings = (firstString, secondString) => firstString.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === secondString.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 
                 if (typeof equalsTo === 'string') return compareStrings(arg, equalsTo)
                 else return equalsTo.find(string => compareStrings(arg, string)) ? true : false

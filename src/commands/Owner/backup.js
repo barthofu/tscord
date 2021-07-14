@@ -1,11 +1,11 @@
 const commandParams = {
     
-    name: "",
+    name: '',
     aliases: [],
     args: [],
     desc: {
-        en: "Fait une backup du bot dans un salon discord.",
-        fr: "Backup the entire bot in a discord channel."
+        en: 'Fait une backup du bot dans un salon discord.',
+        fr: 'Backup the entire bot in a discord channel.'
     },
     enabled: true,
     dm: true,
@@ -29,7 +29,7 @@ module.exports = class extends CommandPattern {
             await client.backup()
             await msg.react('✅')
         }
-        else msg.reply("backup isn't enabled")
+        else msg.reply('backup isn't enabled')
 
     }
 

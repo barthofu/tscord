@@ -1,11 +1,11 @@
 const commandParams = {
     
-    name: "",
+    name: '',
     aliases: [],
     args: [],
     desc: {
-        en: "Gives stats graphics about the bot.",
-        fr: "Fournis différents graphiques d'évolution des stats du bot."
+        en: 'Gives stats graphics about the bot.',
+        fr: 'Fournis différents graphiques d'évolution des stats du bot.'
     },
     enabled: true,
     dm: false,
@@ -18,9 +18,9 @@ const commandParams = {
 }
 
 const stats = [
-    { fancyName: "Commands", path: "commands.total" },
-    { fancyName: "Servers", path: "guilds" },
-    { fancyName: "Active Users", path: "activeUsers" },
+    { fancyName: 'Commands', path: 'commands.total' },
+    { fancyName: 'Servers', path: 'guilds' },
+    { fancyName: 'Active Users', path: 'activeUsers' },
 ]
 
 const days = 30 //the period to cover with the stats
@@ -33,7 +33,7 @@ module.exports = class extends CommandPattern {
 
     async run (msg, args, rawArgs, cmd) {
   
-        const rawStats = db.stats.get("daily").value()
+        const rawStats = db.stats.get('daily').value()
         let page = 1
 
         const m = await msg.channel.send(this.getEmbed(msg, color, page, days, rawStats))
@@ -43,12 +43,12 @@ module.exports = class extends CommandPattern {
         const filter = (reaction, user) => reaction.users.cache.get(bot.user.id) && user.id === msg.author.id,
               reac = m.createReactionCollector(filter, { time: 300000 })
 
-        reac.on("collect", async(reaction) => {
+        reac.on('collect', async(reaction) => {
 
             reaction.users.remove(msg.author.id)
 
-            if (reaction.emoji.name == "◀") page = page == 1 ? 1 : page - 1
-            else if (reaction.emoji.name == "▶") page = page == stats.length ? stats.length : page + 1
+            if (reaction.emoji.name == '◀') page = page == 1 ? 1 : page - 1
+            else if (reaction.emoji.name == '▶') page = page == stats.length ? stats.length : page + 1
 
             await m.edit(this.getEmbed(msg, color, page, days, rawStats))
         })
@@ -72,7 +72,7 @@ module.exports = class extends CommandPattern {
             
             type: 'line',
             'data': {
-                labels: rawStats.slice(-days).map(val => val.date.slice(0,5).replace("-", "/")),
+                labels: rawStats.slice(-days).map(val => val.date.slice(0,5).replace('-', '/')),
                 datasets: [
                     {
                         label: '',
@@ -101,7 +101,7 @@ module.exports = class extends CommandPattern {
             }
         }
     
-        return `https://quickchart.io/chart?c=${JSON.stringify(obj)}&format=png`.split(" ").join("%20")
+        return `https://quickchart.io/chart?c=${JSON.stringify(obj)}&format=png`.split(' ').join('%20')
         
     }
 

@@ -2,4 +2,4 @@
 Made by _________
 */
 
-require("./src/core/Init.js")()
+require('./src/core/Init.js')()

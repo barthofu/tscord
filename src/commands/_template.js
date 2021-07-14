@@ -1,11 +1,11 @@
 const commandParams = {
     
-    name: "",
+    name: '',
     aliases: [],
     args: [],
     desc: {
-        en: "",
-        fr: ""
+        en: '',
+        fr: ''
     },
     enabled: true,
     dm: false,

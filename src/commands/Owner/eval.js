@@ -1,11 +1,11 @@
 const commandParams = {
     
-    name: "",
+    name: '',
     aliases: [],
     args: [],
     desc: {
-        "en": "Eval command.",
-        "fr": "Commande eval."
+        'en': 'Eval command.',
+        'fr': 'Commande eval.'
     },
     enabled: true,
     dm: true,
@@ -26,10 +26,10 @@ module.exports = class extends CommandPattern {
     async run (msg, args, rawArgs, cmd) {
 
         try {
-            const code = msg.content.startsWith("```") ? msg.content.replace("```" + config.evalName, "").replace("```", "") : rawArgs.join(" ")
+            const code = msg.content.startsWith('```') ? msg.content.replace('```' + config.evalName, '').replace('```', '') : rawArgs.join(' ')
             let evaled = eval(code)
-            if (typeof evaled !== "string") evaled = require("util").inspect(evaled)
-            //msg.channel.send(this.clean(evaled), {code:"xl"})
+            if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
+            //msg.channel.send(this.clean(evaled), {code:'xl'})
         } catch (err) {
             msg.channel.send(`\`ERROR\` \`\`\`xl\n${this.clean(err)}\n\`\`\``)
         }
@@ -37,7 +37,7 @@ module.exports = class extends CommandPattern {
     }
 
     clean (text) {
-        if (typeof (text) === "string") return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203))
+        if (typeof (text) === 'string') return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203))
         else return text
     }
 

@@ -1,9 +1,9 @@
 const
       Discord       = require('discord.js'),
-      credentials   = require("../../.credentials.json"),
-      process       = require("process"),
-      loader        = require("../utils/loader"),
-      colors        = require("colors"),
+      credentials   = require('../../.credentials.json'),
+      process       = require('process'),
+      loader        = require('../utils/loader'),
+      colors        = require('colors'),
       archiver      = require('archiver')
 
 module.exports = class {
@@ -13,12 +13,12 @@ module.exports = class {
     constructor () {
 
         try {
-            process.chdir(__dirname + "/../../" )
+            process.chdir(__dirname + '/../../' )
         } catch (e) {
-            throw new Error("Couldn't change folder location!")
+            throw new Error('Couldn't change folder location!')
         }
 
-        this.bot = new Discord.Client({"restTimeOffset": 100})
+        this.bot = new Discord.Client({'restTimeOffset': 100})
         this.bot.commands = new Discord.Collection()
         this.MessageEmbed = Discord.MessageEmbed
     }
@@ -43,8 +43,8 @@ module.exports = class {
     
     updateStats () {
 
-        const date = dateFormat(new Date(new Date().getTime() - 60 * 60 * 24), "dd-mm-yyyy")
-        db.stats.get("daily").push(Object.assign(
+        const date = dateFormat(new Date(new Date().getTime() - 60 * 60 * 24), 'dd-mm-yyyy')
+        db.stats.get('daily').push(Object.assign(
             { date: date },
             this.getStats()
         )).write()
@@ -60,8 +60,8 @@ module.exports = class {
             users: bot.users.cache.size,
             activeUsers: db.users.size().value(),
             commands: {
-                total: db.stats.get("actual.commands.total").value(),
-                details: db.stats.get("actual.commands.details").value()
+                total: db.stats.get('actual.commands.total').value(),
+                details: db.stats.get('actual.commands.details').value()
             }
         }
     }
@@ -70,12 +70,12 @@ module.exports = class {
 
     getPrefix (msg) {
 
-        return msg.channel.type !== "dm" ? client.getGuild("actives", msg.guild.id).prefix || config.prefix : config.prefix
+        return msg.channel.type !== 'dm' ? client.getGuild('actives', msg.guild.id).prefix || config.prefix : config.prefix
     }
 
 
 
-    getGuild (guildId, type = "actives") {
+    getGuild (guildId, type = 'actives') {
 
         return db.guilds.get(type).find(guild => guild.id === guildId)
     }
@@ -97,7 +97,7 @@ module.exports = class {
         try {
 
             if (!bot.channels.cache.get(config.backup.channel)) {
-                this.bot.users.cache.get(config.owner).send("Backup has failed: no discord channel to send the backup (set it in the config.json file).")
+                this.bot.users.cache.get(config.owner).send('Backup has failed: no discord channel to send the backup (set it in the config.json file).')
                 return
             }
         
@@ -107,7 +107,7 @@ module.exports = class {
 
         } catch (e) {
 
-            this.bot.users.cache.get(config.owner).send("There was a problem during backup. Check the console.")
+            this.bot.users.cache.get(config.owner).send('There was a problem during backup. Check the console.')
             console.log(e)
         }
 
@@ -150,7 +150,7 @@ module.exports = class {
         loader.loadCommands()
         loader.loadJSON()
 
-        console.log("\n============================\n\nAll the commands and databases has been reloaded!\n\n============================\n")
+        console.log('\n============================\n\nAll the commands and databases has been reloaded!\n\n============================\n')
         msg.react('✅')
     }
 
@@ -159,20 +159,20 @@ module.exports = class {
     startingConsole () {
         
         const params = {
-            categories: fs.readdirSync(`./src/commands`).filter(file => !file.includes(".")).length,
+            categories: fs.readdirSync(`./src/commands`).filter(file => !file.includes('.')).length,
             commands: bot.commands.size,
             databases: Object.keys(db).length,
-            events: fs.readdirSync("./src/events").filter(file => file.endsWith('.js')).length
+            events: fs.readdirSync('./src/events').filter(file => file.endsWith('.js')).length
         }
 
-        console.log(`\u200b\n\u200b\n\u200b\n\u200b\n\u200b\t\t╔═════════════════════════════════════╗\n\u200b\t\t║ ` + `${bot.user.username}`.green.bold + ` is connected!`.green + `${new Array(Math.abs(22-bot.user.username.length)).fill(" ").join("")}║\n\u200b\t\t╚═════════════════════════════════════╝\n\u200b\t\t\t\t• • •\n\u200b`)
-        console.log(`› ${params.commands} commands loaded`.blue + `${config.startingConsoleDetailed==true?"\n"+fs.readdirSync("./src/commands").filter(file => !file.includes(".")).map(
-            val => `\u200B\t› ${val}\n${fs.readdirSync("./src/commands/"+val).map(
-                val2 => `\u200B\t    \u200b› ${val2.split(".")[0]}`
-                ).join("\r\n")}`
-            ).join("\r\n"):""}`.grey)
-        console.log(`› ${params.databases} databases loaded (JSON)`.yellow + `${config.startingConsoleDetailed==true?"\n"+Object.keys(db).map(val => `\u200B\t› ${val}`).join("\r\n"):""}`.grey)
-        console.log(`› ${params.events} events loaded`.red + `${config.startingConsoleDetailed==true?"\n"+fs.readdirSync("./src/events").filter(file => file.endsWith('.js')).map(val => `\u200B\t› ${val.replace('.js', '')}`).join("\r\n"):""}`.grey + "\n\u200b\t\t\t\t• • •\n\u200b")
+        console.log(`\u200b\n\u200b\n\u200b\n\u200b\n\u200b\t\t╔═════════════════════════════════════╗\n\u200b\t\t║ ` + `${bot.user.username}`.green.bold + ` is connected!`.green + `${new Array(Math.abs(22-bot.user.username.length)).fill(' ').join('')}║\n\u200b\t\t╚═════════════════════════════════════╝\n\u200b\t\t\t\t• • •\n\u200b`)
+        console.log(`› ${params.commands} commands loaded`.blue + `${config.startingConsoleDetailed==true?'\n'+fs.readdirSync('./src/commands').filter(file => !file.includes('.')).map(
+            val => `\u200B\t› ${val}\n${fs.readdirSync('./src/commands/'+val).map(
+                val2 => `\u200B\t    \u200b› ${val2.split('.')[0]}`
+                ).join('\r\n')}`
+            ).join('\r\n'):''}`.grey)
+        console.log(`› ${params.databases} databases loaded (JSON)`.yellow + `${config.startingConsoleDetailed==true?'\n'+Object.keys(db).map(val => `\u200B\t› ${val}`).join('\r\n'):''}`.grey)
+        console.log(`› ${params.events} events loaded`.red + `${config.startingConsoleDetailed==true?'\n'+fs.readdirSync('./src/events').filter(file => file.endsWith('.js')).map(val => `\u200B\t› ${val.replace('.js', '')}`).join('\r\n'):''}`.grey + '\n\u200b\t\t\t\t• • •\n\u200b')
     }
 
 }

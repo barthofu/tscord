@@ -6,28 +6,28 @@ module.exports = {
 
         switch (type) {
 
-            case "connected":
+            case 'connected':
                 this.logWriteInFile(`Connected! (${bot.guilds.cache.size} servers | ${bot.users.cache.size} users)`)
                 break
 
-            case "command": 
+            case 'command': 
                 if (config.channels?.logs?.commands) {
                     bot.channels.cache.get(config.channels.logs.commands).send(new MessageEmbed()
-                        .setTitle(args.msg.guild?.name || "DM")
+                        .setTitle(args.msg.guild?.name || 'DM')
                         .setAuthor(args.msg.author.username, args.msg.author.displayAvatarURL({dynamic: true}))
                         .setThumbnail(args.msg.guild?.iconURL() || null)
-                        .setDescription("```\ns!" + args.commandName + "```")
-                        .setFooter(`userId: ${args.msg.author.id}\nguildId: ${args.msg.guild?.id || "dm channel"}`)
+                        .setDescription('```\ns!' + args.commandName + '```')
+                        .setFooter(`userId: ${args.msg.author.id}\nguildId: ${args.msg.guild?.id || 'dm channel'}`)
                     )
                 }
                 break
 
-            case "guildCreate": 
+            case 'guildCreate': 
                 if (config.channels?.logs?.guildCreate) bot.channels.cache.get(config.channels.logs.guildCreate).send(`New server : **${args.guild}** (\`${args.guild.memberCount}\` members)`)
                 this.logWriteInFile(`New server : ${args.guild} (${args.guild.memberCount} members)`)
                 break
 
-            case "guildDelete": 
+            case 'guildDelete': 
                 if (config.channels?.logs?.guildDelete) bot.channels.cache.get(config.channels.logs.guildDelete).send(`Deleted from : **${args.guild}** (\`${args.guild.memberCount}\` members)`)
                 this.logWriteInFile(`Deleted from : ${args.guild} (${args.guild.memberCount} members)`)
                 break
@@ -38,7 +38,7 @@ module.exports = {
 
     logWriteInFile (str) {
 
-        const date = dateFormat(new Date(), "dd-mm-yyyy HH:MM:ss")
+        const date = dateFormat(new Date(), 'dd-mm-yyyy HH:MM:ss')
         client.logger.write(`\n[${date}] ➜ ` + str)
     }
 
