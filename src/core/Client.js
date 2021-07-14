@@ -15,7 +15,7 @@ module.exports = class {
         try {
             process.chdir(__dirname + '/../../' )
         } catch (e) {
-            throw new Error('Couldn't change folder location!')
+            throw new Error('Couldn\'t change folder location!')
         }
 
         this.bot = new Discord.Client({'restTimeOffset': 100})

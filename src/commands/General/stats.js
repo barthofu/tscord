@@ -5,7 +5,7 @@ const commandParams = {
     args: [],
     desc: {
         en: 'Gives stats graphics about the bot.',
-        fr: 'Fournis différents graphiques d'évolution des stats du bot.'
+        fr: 'Fournis différents graphiques d\'évolution des stats du bot.'
     },
     enabled: true,
     dm: false,

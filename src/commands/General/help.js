@@ -5,7 +5,7 @@ const commandParams = {
     args: [],
     desc: {
         en: 'Displays the help of the bot.',
-        fr: 'Affiche l'aide du bot.'
+        fr: 'Affiche l\'aide du bot.'
     },
     enabled: true,
     dm: true,
