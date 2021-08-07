@@ -1,4 +1,4 @@
-<h1 align="center" font-weight="bold">Discord Bot Boilerplate/Template (v12)</h1>
+<h1 align="center" font-weight="bold">Discord Bot Boilerplate/Template (v13)</h1>
 
 <p align="center">
     <a href="http://forthebadge.com/" target="_blank">
@@ -37,7 +37,7 @@ You can either clone this repo or fork it (to get the latest updates).
     "prefix": "!", //the prefix of your bot. Guilds with the property "prefix": null in the guilds.json will automatically 
     "description": "",  
     "language": "en", //select the overall language of the bot
-    "ownerID": "YOUR_ID_HERE", //put your id therehere
+    "owner": "YOUR_ID_HERE", //put your id therehere
     "dev": [
         "YOUR_ID_ALSO_HERE" //and also there
     ],
@@ -57,7 +57,7 @@ You can either clone this repo or fork it (to get the latest updates).
     },
     "activities": [ //define the bot activities (phrases under its name). Types can be: PLAYING, LISTENING, WATCHING, STREAMING
         {
-            "text": "discord.js v12",
+            "text": "discord.js v13",
             "type": "PLAYING"
         },
         {

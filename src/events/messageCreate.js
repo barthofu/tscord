@@ -5,7 +5,7 @@ module.exports = class {
     async run (msg) {
 
         //check guild
-        if (msg.channel.type !== 'dm') checker.checkGuild(msg.guild.id)
+        if (msg.channel.type !== 'DM') checker.checkGuild(msg.guild.id)
 
         const prefix = client.getPrefix(msg)
         let rawArgs = msg.content.slice(prefix.length).trim().split(/ +/g),
@@ -26,7 +26,7 @@ module.exports = class {
         //check user
         checker.checkUser(msg.author.id)
 
-        for (let command of bot.commands.array()) {
+        for (let command of [...bot.commands.values()]) {
 
             if (command.info.name == cmd || 
                 command.info.aliases.map(val => val.replace('_', '')).includes(cmd) || 
@@ -74,11 +74,11 @@ module.exports = class {
         //check maintenance
         if (db.data.get('maintenance').value() && !config.devs.includes(msg.author.id)) return msg.reply(lang['maintenance'][la]) 
         //check user permission
-        if ((command.permission.owner || command.permission.memberPermission.filter(permission => !msg.member.hasPermission(permission)).length > 0) && !config.devs.includes(msg.author.id)) return msg.reply(lang['userMissingPermission'][la])
+        if ((command.permission.owner || command.permission.memberPermission.filter(permission => !msg.member.hasPermission(client.Permissions.FLAGS[permission])).length > 0) && !config.devs.includes(msg.author.id)) return msg.reply(lang['userMissingPermission'][la])
         //check bot permission
-        if (command.permission.botPermission.filter(permission => !msg.channel.permissionsFor(msg.guild.me).has(permission)).length > 0) return msg.reply(lang['botMissingPermission'][la] + `\n${neededPermission.join(', ')}`)
+        if (command.permission.botPermission.filter(permission => !msg.channel.permissionsFor(msg.guild.me).has(client.Permissions.FLAGS[permission])).length > 0) return msg.reply(lang['botMissingPermission'][la] + `\n${neededPermission.join(', ')}`)
         //check DM
-        if (!command.verification.dm && msg.channel.type === 'dm') return msg.reply(lang['commandNotInDM'][la])
+        if (!command.verification.dm && msg.channel.type === 'DM') return msg.reply(lang['commandNotInDM'][la])
         //check NSFW
         if (command.verification.nsfw && !msg.channel.nsfw) return msg.reply(lang['channelNotNSFW'][la])
         //check if enabled

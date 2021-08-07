@@ -1,5 +1,5 @@
 {
-  "__templateVersion": "1.0.0",
+  "__templateVersion": "1.1.0",
   "prefix": "!",
   "description": "",
   "language": "en",
@@ -21,7 +21,7 @@
   },
   "activities": [
     {
-      "text": "discord.js v12",
+      "text": "discord.js v13",
       "type": "PLAYING"
     },
     {

@@ -18,9 +18,10 @@ module.exports = class {
             throw new Error('Couldn\'t change folder location!')
         }
 
-        this.bot = new Discord.Client({'restTimeOffset': 100})
+        this.bot = new Discord.Client({'restTimeOffset': 100, intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]})
         this.bot.commands = new Discord.Collection()
         this.MessageEmbed = Discord.MessageEmbed
+        this.Permissions = Discord.Permissions
     }
 
 
@@ -70,7 +71,7 @@ module.exports = class {
 
     getPrefix (msg) {
 
-        return msg.channel.type !== 'dm' ? client.getGuild('actives', msg.guild.id).prefix || config.prefix : config.prefix
+        return msg.channel.type !== 'DM' ? client.getGuild('actives', msg.guild.id).prefix || config.prefix : config.prefix
     }
 
 

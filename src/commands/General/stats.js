@@ -36,12 +36,12 @@ module.exports = class extends CommandPattern {
         const rawStats = db.stats.get('daily').value()
         let page = 1
 
-        const m = await msg.channel.send(this.getEmbed(msg, color, page, days, rawStats))
+        const m = await msg.channel.send({ embeds: [this.getEmbed(msg, color, page, days, rawStats)] })
         await m.react('◀')
         await m.react('▶')
         
         const filter = (reaction, user) => reaction.users.cache.get(bot.user.id) && user.id === msg.author.id,
-              reac = m.createReactionCollector(filter, { time: 300000 })
+              reac = m.createReactionCollector({filter, time: 300000 })
 
         reac.on('collect', async(reaction) => {
 

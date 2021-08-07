@@ -12,13 +12,13 @@ module.exports = {
 
             case 'command': 
                 if (config.channels?.logs?.commands) {
-                    bot.channels.cache.get(config.channels.logs.commands).send(new MessageEmbed()
+                    bot.channels.cache.get(config.channels.logs.commands).send({ embeds: [new MessageEmbed()
                         .setTitle(args.msg.guild?.name || 'DM')
                         .setAuthor(args.msg.author.username, args.msg.author.displayAvatarURL({dynamic: true}))
                         .setThumbnail(args.msg.guild?.iconURL() || null)
                         .setDescription('```\ns!' + args.commandName + '```')
                         .setFooter(`userId: ${args.msg.author.id}\nguildId: ${args.msg.guild?.id || 'dm channel'}`)
-                    )
+                    ] })
                 }
                 break
 

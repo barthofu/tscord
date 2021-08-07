@@ -48,7 +48,7 @@ module.exports = class extends CommandPattern {
             if (content.length > 0) embed.addField(category, content)
         }
 
-        msg.channel.send(embed)
+        msg.channel.send({ embeds: [embed] })
 
     }
 
