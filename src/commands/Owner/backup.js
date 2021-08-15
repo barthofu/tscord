@@ -29,7 +29,7 @@ module.exports = class extends CommandPattern {
             await client.backup()
             await msg.react('✅')
         }
-        else msg.reply('backup isn\'t enabled')
+        else msg.reply('Backup isn\'t enabled')
 
     }
 

@@ -1,37 +1,37 @@
 {
     "maintenance": {
-        "en": "the bot is on maintenance, please try later.",
-        "fr": "le bot est en maintenance, merci de réessayer plus tard."  
+        "en": "The bot is on maintenance, please try later.",
+        "fr": "Le bot est en maintenance, merci de réessayer plus tard."  
     },
 
     "userMissingPermission": {
-        "en": "you miss permissions to use this command!",
-        "fr": "tu manques de permissions pour pouvoir utiliser cette commande !"
+        "en": "You miss permissions to use this command!",
+        "fr": "Tu manques de permissions pour pouvoir utiliser cette commande !"
     },
 
     "botMissingPermission": {
-        "en": "i miss these permissions to execute this command:",
-        "fr": "je n'ai pas ces permissions pour pouvoir éxecuter cette commande :"
+        "en": "I miss these permissions to execute this command:",
+        "fr": "Je n'ai pas ces permissions pour pouvoir éxecuter cette commande :"
     },
     
     "commandNotInDM": {
-        "en": "this command can't be used in DMs.",
-        "fr": "cette commande ne peut pas être utilisée ici."
+        "en": "This command can't be used in DMs.",
+        "fr": "Cette commande ne peut pas être utilisée ici."
     },
 
     "channelNotNSFW": {
-        "en": "you must be in an NSFW channel in order to use this command.",
-        "fr": "tu dois être dans un salon NSFW pour utiliser cette commande."
+        "en": "You must be in an NSFW channel in order to use this command.",
+        "fr": "Tu dois être dans un salon NSFW pour utiliser cette commande."
     },
 
     "commandNotEnabled": {
-        "en": "this command is disabled.",
-        "fr": "cette commande est désactivée."
+        "en": "This command is disabled.",
+        "fr": "Cette commande est désactivée."
     },
 
     "cooldown": {
-        "en": "this command is on cooldown!\nTime remaining: ",
-        "fr": "cette commande est en cooldown !\nTemps restant : "
+        "en": "This command is on cooldown!\nTime remaining: ",
+        "fr": "Cette commande est en cooldown !\nTemps restant : "
     },
 
     "help": {
@@ -44,8 +44,8 @@
     "commandArgs": {
 
         "argsMissing": {
-            "en": "args are missing",
-            "fr": "il manque des arguments"
+            "en": "Args are missing",
+            "fr": "Il manque des arguments"
         },
 
         "number": {
