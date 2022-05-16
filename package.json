@@ -1,0 +1,21 @@
+{
+  "name": "discord-bot-template",
+  "version": "2.0.0",
+  "description": "Discord Bot Template (v13)",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc -p .",
+    "start": "npx ts-node ./src/index.ts"
+  },
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "discordx": "^9.5.3",
+    "dotenv": "^16.0.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.32",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}
