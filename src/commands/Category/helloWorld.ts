@@ -1,36 +1,13 @@
-import { CommandInteraction } from 'discord.js'
-import SlashCommand from '@core/SlashCommand'
+import type { CommandInteraction } from "discord.js"
 
-// const commandParams = {
+import { Discord } from "discordx"
+import { Slash } from "@decorators"
 
-//     name: "helloWorld",
-//     description: {
-//         en: "Sends a random hentai image",
-//         fr: "Envoie une image hentai aléatoire",
-//     },
-
-//     enabled: true,
-//     dm: true,
-//     nsfw: true,
-    
-//     cooldown: 4000
-// }
-
-export default class HelloWorld extends SlashCommand {
-
-    name = 'helloWorld'
-    description = {
-        en: "Reply: Hello world!",
-        fr: "Répond: Hello world!",
-    }
-
-    constructor() { 
-        super(/* commandParams */) 
-    }
-
-    async run(interaction: CommandInteraction) {
-
-        console.log(interaction)
-        console.log('Hello world!')
-    }
+@Discord()
+export class Example {
+	
+	@Slash("hello")
+	ping(interaction: CommandInteraction): void {
+		interaction.reply("pong 8!")
+	}
 }

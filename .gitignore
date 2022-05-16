@@ -4,6 +4,10 @@ package-lock.json
 
 # secrets
 .env
+.env.local
 
 # build
-dist/
+build/
+
+# other
+.vscode
