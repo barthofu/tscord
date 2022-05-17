@@ -5,7 +5,7 @@ import { getInteractionType, getUserFromInteraction } from '@utils/functions/int
 
 import config from '../../../config.json'
 
-const isMaintenance = true
+const isMaintenance = false
 
 export const maintenance: GuardFunction<
     | CommandInteraction

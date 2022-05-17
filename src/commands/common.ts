@@ -6,9 +6,10 @@ import { StateStore } from '@core/stores'
 @Discord()
 export default class {
 	
-	@Slash("ping")
+	@Slash("ping", { nsfw: true })
 	ping(interaction: CommandInteraction): void {
 		
+		console.log(interaction)
 		interaction.reply('test')
 	}
 }
