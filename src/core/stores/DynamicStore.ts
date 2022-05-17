@@ -1,4 +1,4 @@
-export class StateManager {
+export class DynamicStore {
 
     private static _states: state = {}
 
@@ -6,7 +6,7 @@ export class StateManager {
         return this._states
     }
 
-    public static addState(key: string, value: any) {
+    public static setState(key: string, value: any) {
         this._states[key] = value
     }
 
@@ -16,6 +16,10 @@ export class StateManager {
 
     public static getState(key: string) : any {
         return this._states[key]
+    }
+
+    public static updateState(key: string, func: (key: string) => any) : any {
+        this._states[key] = func(this._states[key])
     }
 
     public static hasState(key: string) : boolean {

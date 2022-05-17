@@ -1,5 +1,5 @@
 import { Client as ClientX } from 'discordx'
-import { dirname, importx } from '@discordx/importer'
+import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
 import config from '../../config.json'
@@ -36,6 +36,7 @@ export default class Client {
 
     static async start() {
 
+        // Let's start the bot!
         await importx(__dirname + "/../{events,commands}/**/*.{ts,js}")
 
         this.login()
@@ -43,12 +44,9 @@ export default class Client {
 
     private static async login() {
 
-        // Let's start the bot
-        if (!process.env.BOT_TOKEN) {
-            throw Error("Could not find BOT_TOKEN in your environment")
-        }
-
         // Log in with your bot token
+        if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")
+
         await this.bot.login(process.env.BOT_TOKEN)
     }
 }

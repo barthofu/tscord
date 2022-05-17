@@ -1,33 +1,37 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "commonjs",
-    "outDir": "build",
-    "rootDir": ".",
-    "strict": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "commonjs",
+		"outDir": "build",
+		"rootDir": ".",
+		"strict": true,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
 
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
 
-    "skipLibCheck": false,
-    "forceConsistentCasingInFileNames": true,
+		"skipLibCheck": false,
+		"forceConsistentCasingInFileNames": true,
 
-    "baseUrl": "./",
-    "paths": {
+		"baseUrl": "./",
+		"paths": {
 
-      "@core/*": ["./src/core/*"],
+			"@core/*": ["./src/core/*"],
+			
+			"@types": ["./src/utils/types"],
+			"@decorators": ["./src/core/decorators"],
+			"@utils/*": ["./src/utils/*"]
+		},
+	},
 
-      "@decorators": ["./src/core/decorators"]
-    },
-  },
-  "include": ["./src"],
-  "exclude": ["build", "node_modules"],
-  "paths": ["node_modules/*", "src/types/*"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+	"include": ["./src", "**/*.ts"],
+	"exclude": ["build", "node_modules"],
+	"paths": ["node_modules/*", "src/utils/types/*"],
+
+	"ts-node": {
+		"require": ["tsconfig-paths/register"]
+	}
 }

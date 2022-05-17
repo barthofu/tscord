@@ -1,19 +1,20 @@
-import { Discord, Once } from 'discordx'
-import Client from '@core/Client'
+import { Client, Discord, Once } from 'discordx'
 
 @Discord()
-export class Ready {
+export default class {
 
     @Once('ready')
-    async ready() {
+    async ready(rawClient: Client | Client[]) {
+
+        const client: Client = rawClient instanceof Array ? rawClient[0] : rawClient
 
         // Make sure all guilds are cached
-        await Client.bot.guilds.fetch()
+        await client.guilds.fetch()
 
         // Synchronize applications commands with Discord
-        await Client.bot.initApplicationCommands()
+        await client.initApplicationCommands()
 
         // Synchronize applications command permissions with Discord
-        await Client.bot.initApplicationPermissions()
+        await client.initApplicationPermissions()
     }
 }
