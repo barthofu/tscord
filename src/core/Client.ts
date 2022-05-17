@@ -3,6 +3,7 @@ import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
 import config from '../../config.json'
+import { maintenance } from '@utils/guards'
 
 export default class Client {
 
@@ -26,6 +27,10 @@ export default class Client {
           
             // Debug logs are disabled in silent mode
             silent: config.debugLogs,
+
+            guards: [
+                maintenance
+            ],
           
             // Configuration for @SimpleCommand
             simpleCommand: {

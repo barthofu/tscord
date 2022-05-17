@@ -1,3 +1,5 @@
+import type { state } from '@utils/types'
+
 export class DynamicStore {
 
     private static _states: state = {}
