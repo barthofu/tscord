@@ -16,15 +16,18 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
 
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
 
-      "@/*": ["src/*"],
-    
-      "@decorators": ["src/core/decorators"]
+      "@core/*": ["./src/core/*"],
+
+      "@decorators": ["./src/core/decorators"]
     },
   },
-  "include": ["**/*.ts"],
+  "include": ["./src"],
   "exclude": ["build", "node_modules"],
   "paths": ["node_modules/*", "src/types/*"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

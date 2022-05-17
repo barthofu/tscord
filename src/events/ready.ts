@@ -1,5 +1,5 @@
 import { Discord, Once } from 'discordx'
-import Client from '../core/Client.js'
+import Client from '@core/Client'
 
 @Discord()
 export class Ready {
