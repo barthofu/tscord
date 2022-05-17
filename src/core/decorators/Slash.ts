@@ -1,11 +1,13 @@
 import { Slash as SlashX } from 'discordx'
+import { StateStore } from '@core/stores'
+
 import type { SlashCommandOption } from '@types'
 
-import { registerCommand } from '@utils/functions'
-
 export function Slash(name: string, options?: SlashCommandOption) {
-    
-    registerCommand(name, { 
+
+    // register the command in the store
+    StateStore.commands.push({
+        name,
         nsfw: options?.nsfw || false,
         cooldown: options?.cooldown || 0
     })
