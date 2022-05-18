@@ -1,7 +1,8 @@
 import { CommandInteraction } from "discord.js"
 import { GuardFunction, SimpleCommandMessage } from "discordx"
+
 import { getCommandInStoreFromInteraction } from "@utils/functions/commands"
-import { getChannelFromInteraction } from "@utils/functions/interaction"
+import { getChannelFromInteraction } from "@utils/functions/interactions"
 
 export const nsfw: GuardFunction<
     | CommandInteraction
@@ -12,5 +13,5 @@ export const nsfw: GuardFunction<
           channel = getChannelFromInteraction(argObj),
           command = getCommandInStoreFromInteraction(argObj)
 
-    if (!(command?.nsfw && !channel.nsfw)) await next()
+    if (!(command?.nsfw && !channel?.nsfw)) await next()
 }

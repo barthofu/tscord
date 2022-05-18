@@ -1,7 +1,7 @@
 import { GuardFunction, SimpleCommandMessage } from 'discordx'
 import { DatabaseStore } from '@core/stores'
 import { ButtonInteraction, CommandInteraction, ContextMenuInteraction, SelectMenuInteraction } from 'discord.js'
-import { getInteractionType, getUserFromInteraction } from '@utils/functions/interaction'
+import { getInteractionType, getUserFromInteraction } from '@utils/functions/interactions'
 
 import config from '../../../config.json'
 

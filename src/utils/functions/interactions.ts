@@ -1,14 +1,14 @@
 import { SimpleCommandMessage } from "discordx"
 import {
-ButtonInteraction,
+	ButtonInteraction,
 	Channel,
-CommandInteraction,
-ContextMenuInteraction,
-Message,
-MessageReaction,
-SelectMenuInteraction,
-User,
-VoiceState,
+	CommandInteraction,
+	ContextMenuInteraction,
+	Message,
+	MessageReaction,
+	SelectMenuInteraction,
+	User,
+	VoiceState,
 } from "discord.js"
 
 const resolvers = {
