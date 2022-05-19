@@ -3,7 +3,6 @@ import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
 import config from '../../config.json'
-import { maintenance, notBot, nsfw } from '@utils/guards'
 
 export default class Client {
 
@@ -29,9 +28,9 @@ export default class Client {
             silent: config.debugLogs,
 
             guards: [
-                maintenance,
-                notBot,
-                nsfw
+                // maintenance,
+                // notBot,
+                // nsfw
             ],
           
             // Configuration for @SimpleCommand

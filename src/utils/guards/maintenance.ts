@@ -1,7 +1,8 @@
 import { GuardFunction, SimpleCommandMessage } from 'discordx'
-import { DatabaseStore } from '@core/stores'
 import { ButtonInteraction, CommandInteraction, ContextMenuInteraction, SelectMenuInteraction } from 'discord.js'
-import { getInteractionType, getUserFromInteraction } from '@utils/functions/interactions'
+
+import { DatabaseStore } from '@core/stores'
+import { resolveUser } from '@utils/functions'
 
 import config from '../../../config.json'
 
@@ -16,10 +17,10 @@ export const maintenance: GuardFunction<
 > = async (rawArg, _, next) => {
     
     const arg = rawArg instanceof Array ? rawArg[0] : rawArg,
-          user = getUserFromInteraction(arg)
+          user = resolveUser(arg)
 
     if (!(
-        ['CommandInteraction', 'ContextMenuInteraction', 'SelectMenuInteraction', 'ButtonInteraction'].includes(getInteractionType(arg))
+        ['CommandInteraction', 'ContextMenuInteraction', 'SelectMenuInteraction', 'ButtonInteraction'].includes(arg.constructor.name)
         && isMaintenance
         && user?.id
         && !config.devs.includes(user.id)

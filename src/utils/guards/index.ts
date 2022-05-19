@@ -1,3 +1,5 @@
+export { Guard } from 'discordx'
+export { NotBot, RateLimit, PermissionGuard } from '@discordx/utilities'
+
 export * from './maintenance'
-export * from './notBot'
-export * from './nsfw'
+export * from './NSFW'

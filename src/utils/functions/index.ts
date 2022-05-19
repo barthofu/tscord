@@ -1,1 +1,1 @@
-export * from './registerCommand'
+export * from './resolvers'
