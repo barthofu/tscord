@@ -1,4 +1,5 @@
-import { Client as ClientX } from 'discordx'
+import { Client as ClientX, DIService } from 'discordx'
+import { container } from 'tsyringe' 
 import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
@@ -9,6 +10,8 @@ export default class Client {
     public static bot: ClientX
 
     static init() {
+
+        DIService.container = container
 
         this.bot = new ClientX({
     

@@ -18,7 +18,8 @@
     "discord.js": "^13.7.0",
     "discordx": "^9.6.0",
     "dotenv": "^16.0.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.6.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.33",

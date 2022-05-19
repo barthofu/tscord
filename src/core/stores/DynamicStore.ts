@@ -1,5 +1,7 @@
 import type { state } from '@utils/types'
 
+// TODO: define if this class is usefull or not
+
 export class DynamicStore {
 
     private static _states: state = {}
