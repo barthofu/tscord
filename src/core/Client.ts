@@ -3,6 +3,8 @@ import { container } from 'tsyringe'
 import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
+import { NotBot } from '@utils/guards'
+
 import config from '../../config.json'
 
 export default class Client {
@@ -31,9 +33,7 @@ export default class Client {
             silent: config.debugLogs,
 
             guards: [
-                // maintenance,
-                // notBot,
-                // nsfw
+                NotBot
             ],
           
             // Configuration for @SimpleCommand

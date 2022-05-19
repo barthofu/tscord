@@ -4,10 +4,14 @@ import {
 	ButtonInteraction,
 	ContextMenuInteraction,
     ModalSubmitInteraction,
-	SelectMenuInteraction
+	SelectMenuInteraction,
+	Message,
+	VoiceState,
+	MessageReaction
 } from "discord.js"
 
 type allInteractionTypes = CommandInteraction | SimpleCommandMessage | ButtonInteraction | ContextMenuInteraction | SelectMenuInteraction | ModalSubmitInteraction
+type other = Message | VoiceState | MessageReaction
 
 const resolvers = {
 
@@ -18,6 +22,10 @@ const resolvers = {
 		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member?.user,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.member?.user,
+
+		Message: (interaction: Message) => interaction.author,
+		VoiceState: (interaction: VoiceState) => interaction.member?.user,
+		MessageReaction: (interaction: MessageReaction) => interaction.message.author,
 
 		fallback: (interaction: any) => interaction?.message?.author,
 	},
@@ -41,7 +49,7 @@ const resolvers = {
 	}
 }
 
-export const resolveUser = (interaction: allInteractionTypes) => resolvers.user[interaction.constructor.name as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
+export const resolveUser = (interaction: allInteractionTypes | other) => resolvers.user[interaction.constructor.name as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
 
 export const resolveChannel = (interaction: allInteractionTypes) => resolvers.channel[interaction.constructor.name as keyof typeof resolvers.channel]?.(interaction) || resolvers.channel['fallback'](interaction)
 
