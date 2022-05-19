@@ -9,5 +9,8 @@ package-lock.json
 # build
 build/
 
+# db
+database/
+
 # other
 .vscode

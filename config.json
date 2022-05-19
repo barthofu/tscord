@@ -14,14 +14,15 @@
     "evalName": "bot",
     "debugLogs": false,
 
-    "backup": {
-      "enabled": false,
-      "channel": "",
-      "ignoredPaths": [
-        "node_modules",
-        "package-lock.json",
-        ".git"
-      ]
+    "database": {
+      "type": "sqlite",
+      "path": "./database/",
+      "backup": {
+        "enabled": false,
+        "interval": "daily",
+        "time": "00:00",
+        "path": ""
+      }
     },
 
     "activities": [

@@ -9,9 +9,9 @@ import config from '../../config.json'
 
 export default class Client {
 
-    public static bot: ClientX
+    private bot: ClientX
 
-    static init() {
+    constructor() {
 
         DIService.container = container
 
@@ -43,7 +43,7 @@ export default class Client {
         })
     }
 
-    static async start() {
+    async start() {
 
         // Let's start the bot!
         await importx(__dirname + "/../{events,commands}/**/*.{ts,js}")
@@ -51,7 +51,7 @@ export default class Client {
         this.login()
     }
 
-    private static async login() {
+    async login() {
 
         // Log in with your bot token
         if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")

@@ -2,9 +2,10 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "commonjs",
-		"outDir": "build",
+		"outDir": "./build",
 		"rootDir": ".",
 		"strict": true,
+		"strictPropertyInitialization": false,
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
@@ -19,10 +20,11 @@
 		"baseUrl": "./",
 		"paths": {
 
-			"@core/*": ["./src/core/*"],
-			
 			"@types": ["./src/utils/types"],
-			"@decorators": ["./src/core/decorators"],
+			"@decorators": ["src/utils/decorators"],
+			"@entities": ["src/models"],
+			
+			"@core/*": ["./src/core/*"],
 			"@utils/*": ["./src/utils/*"]
 		},
 	},
