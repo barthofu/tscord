@@ -1,1 +1,1 @@
-export * from './Slash'
+export { Slash } from 'discordx'
