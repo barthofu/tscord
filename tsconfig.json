@@ -17,7 +17,7 @@
 		"skipLibCheck": false,
 		"forceConsistentCasingInFileNames": true,
 
-		"baseUrl": "./",
+		"baseUrl": ".",
 		"paths": {
 
 			"@types": ["./src/utils/types"],

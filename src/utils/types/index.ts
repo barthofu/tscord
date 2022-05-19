@@ -1,2 +1,1 @@
-export * from './slash.d';
-export * from './state.d';
+export * from './state.d'
