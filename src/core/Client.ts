@@ -18,7 +18,7 @@ export default class Client {
         this.bot = new ClientX({
     
             // To only use global commands (use @Guild for specific guild command), comment this line
-            botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
+            botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
           
             // Discord intents
             intents: [

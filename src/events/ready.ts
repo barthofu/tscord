@@ -12,7 +12,14 @@ export default class {
         await client.guilds.fetch()
 
         // Synchronize applications commands with Discord
-        await client.initApplicationCommands()
+        //if (process.env.NODE_ENV === 'production') await client.initGlobalApplicationCommands() 
+        await client.initApplicationCommands({
+            global: {
+                disable: {
+                    delete: true
+                }
+            }
+        })
 
         // Synchronize applications command permissions with Discord
         await client.initApplicationPermissions()
