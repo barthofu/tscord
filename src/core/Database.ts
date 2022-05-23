@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import { EntityManager, MikroORM } from '@mikro-orm/core'
+import { EntityManager, EntityName, MikroORM } from '@mikro-orm/core'
 
 @singleton()
 export class Database {
@@ -20,6 +20,10 @@ export class Database {
 
     get em(): EntityManager {
         return this.orm.em
+    }
+
+    getRepo<T>(entity: EntityName<T>) {
+        return this.orm.em.getRepository<T>(entity)
     }
     
 }

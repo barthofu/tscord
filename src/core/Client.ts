@@ -3,11 +3,11 @@ import { container, injectable } from 'tsyringe'
 import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
+import { Database } from '@core/Database'
+import { Data } from '@entities'
 import { NotBot } from '@utils/guards'
 
 import config from '../../config.json'
-import { Database } from '@core/Database'
-import { Data } from '@entities'
 
 @injectable()
 export class Client {
@@ -73,18 +73,28 @@ export class Client {
             lastStartup: Date.now(),
         }
 
-        for (const initialDataKey of Object.keys(initialDatas)) {
+        for (const key of Object.keys(initialDatas)) {
 
-            const dataRepository = this.db.em.getRepository(Data)
+            const dataRepository = this.db.getRepo(Data)
 
-            await dataRepository.add(initialDataKey, initialDatas[initialDataKey as keyof typeof initialDatas])
+            await dataRepository.add(
+                key, 
+                initialDatas[key as keyof typeof initialDatas]
+            )
         }
     }
 
-    async isInMaintenance() {
+    async isInMaintenance(): Promise<boolean> {
             
-        const maintenance = await this.db.em.getRepository(Data).getParsedValue('maintenance')
+        const dataRepository = this.db.getRepo(Data)
+        const maintenance = await dataRepository.get('maintenance')
         
-        return maintenance || false
+        return !!maintenance as boolean
+    }
+
+    async setMaintenance(maintenance: boolean) {
+
+        const dataRepository = this.db.getRepo(Data)
+        await dataRepository.set('maintenance', maintenance)
     }
 }

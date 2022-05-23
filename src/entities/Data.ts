@@ -25,13 +25,9 @@ export class Data {
 @singleton()
 export class DataRepository extends EntityRepository<Data> {
 
-    async get(key: string): Promise<Data | null> {
-        return this.findOne({ key })
-    }
+    async get(key: string): Promise<any> {
 
-    async getParsedValue(key: string): Promise<any> {
-
-        const data = await this.get(key)
+        const data = await this.findOne({ key })
 
         if (!data?.value) return null
 
@@ -43,7 +39,7 @@ export class DataRepository extends EntityRepository<Data> {
         }
     }
 
-    async set(key: string, value: string): Promise<void> {
+    async set(key: string, value: any): Promise<void> {
 
         const data = await this.get(key)
 
