@@ -1,6 +1,8 @@
 import { GuardFunction, SimpleCommandMessage } from 'discordx'
 import { ButtonInteraction, CommandInteraction, ContextMenuInteraction, SelectMenuInteraction } from 'discord.js'
+import { container } from 'tsyringe'
 
+import { Client } from '@core/Client'
 import { resolveUser } from '@utils/functions'
 
 import config from '../../config.json'
@@ -13,12 +15,13 @@ export const maintenance: GuardFunction<
     | SelectMenuInteraction
     | ButtonInteraction
     | SimpleCommandMessage
-> = async (rawArg, client, next) => {
+> = async (rawArg, _, next) => {
     
     const arg = rawArg instanceof Array ? rawArg[0] : rawArg,
           user = resolveUser(arg)
 
-    // const isMaintenance = await client.isInMaintenance()
+    const client = container.resolve(Client)
+    const isMaintenance = await client.isInMaintenance()
 
     if (!(
         ['CommandInteraction', 'ContextMenuInteraction', 'SelectMenuInteraction', 'ButtonInteraction'].includes(arg.constructor.name)

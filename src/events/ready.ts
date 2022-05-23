@@ -15,7 +15,7 @@ export default class {
         await client.initApplicationCommands({
             global: {
                 disable: {
-                    delete: true
+                    delete: false
                 }
             }
         })

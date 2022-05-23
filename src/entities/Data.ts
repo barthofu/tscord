@@ -41,7 +41,7 @@ export class DataRepository extends EntityRepository<Data> {
 
     async set(key: string, value: any): Promise<void> {
 
-        const data = await this.get(key)
+        const data = await this.findOne({ key })
 
         if (!data) {
 
@@ -59,7 +59,7 @@ export class DataRepository extends EntityRepository<Data> {
 
     async add(key: string, value: any): Promise<void> {
 
-        const data = await this.get(key)
+        const data = await this.findOne({ key })
 
         if (!data) {
 

@@ -11,7 +11,7 @@ import {
 import type { ArgsOf, GuardFunction } from "discordx"
 import { SimpleCommandMessage } from "discordx"
   
-export const NotBot: GuardFunction<
+export const notBot: GuardFunction<
     | ArgsOf<"messageCreate" | "messageReactionAdd" | "voiceStateUpdate">
     | CommandInteraction
     | ContextMenuInteraction

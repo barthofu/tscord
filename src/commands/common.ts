@@ -2,10 +2,17 @@ import type { CommandInteraction } from "discord.js"
 import { Discord, Guard, SlashOption } from "discordx"
 import { Slash } from "@utils/decorators"
 import { NSFW } from "@guards"
+import { injectable } from "tsyringe"
+import { Client } from "@core/Client"
 
 @Discord()
+@injectable()
 export default class {
 	
+	constructor(
+		private client: Client
+	) {}
+
 	@Slash("ping")
 	@Guard(
 		NSFW
@@ -13,5 +20,14 @@ export default class {
 	ping(interaction: CommandInteraction): void {
 		
 		interaction.reply('test2')
+	}
+
+	@Slash("maintenance")
+	maintenance(
+		@SlashOption('state') state: boolean,
+		interaction: CommandInteraction
+	): void {
+		
+		this.client.setMaintenance(state)
 	}
 }

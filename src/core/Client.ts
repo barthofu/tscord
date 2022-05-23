@@ -1,18 +1,17 @@
 import { Client as ClientX, DIService } from 'discordx'
-import { container, injectable } from 'tsyringe' 
+import { container, injectable, singleton } from 'tsyringe' 
 import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
 import { Database } from '@core/Database'
 import { Data } from '@entities'
-import { NotBot } from '@guards'
+import { maintenance, notBot } from '@guards'
 
 import config from '../../config.json'
 
+@singleton()
 @injectable()
-export class Client {
-
-    private bot: ClientX
+export class Client extends ClientX {
 
     constructor(
         private db: Database
@@ -20,7 +19,7 @@ export class Client {
 
         DIService.container = container
 
-        this.bot = new ClientX({
+        super({
     
             // To only use global commands (use @Guild for specific guild command), comment this line
             botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
@@ -38,7 +37,8 @@ export class Client {
             silent: config.debugLogs,
 
             guards: [
-                NotBot
+                notBot,
+                maintenance
             ],
           
             // Configuration for @SimpleCommand
@@ -54,15 +54,10 @@ export class Client {
         
         await this.initDataTable()
 
-        this.login()
-    }
-
-    async login() {
-
         // Log in with your bot token
         if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")
 
-        await this.bot.login(process.env.BOT_TOKEN)
+        await this.login(process.env.BOT_TOKEN)
     }
 
     async initDataTable() {
