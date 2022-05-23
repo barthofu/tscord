@@ -24,7 +24,7 @@
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
 - [x] EAV pattern implementation for single data types
-- [ ] State system (no database)
+- [x] State store system (no database)
 - [ ] Users/Guilds sync with database
 - [ ] Built-in entities
     - [x] User
