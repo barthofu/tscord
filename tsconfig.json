@@ -23,6 +23,7 @@
 			"@types": ["./src/utils/types"],
 			"@decorators": ["src/utils/decorators"],
 			"@entities": ["src/entities"],
+			"@guards": ["src/guards"],
 			
 			"@core/*": ["./src/core/*"],
 			"@utils/*": ["./src/utils/*"]

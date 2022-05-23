@@ -12,7 +12,6 @@ export default class {
         await client.guilds.fetch()
 
         // Synchronize applications commands with Discord
-        //if (process.env.NODE_ENV === 'production') await client.initGlobalApplicationCommands() 
         await client.initApplicationCommands({
             global: {
                 disable: {

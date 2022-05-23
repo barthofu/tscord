@@ -5,7 +5,7 @@ import { Intents } from 'discord.js'
 
 import { Database } from '@core/Database'
 import { Data } from '@entities'
-import { NotBot } from '@utils/guards'
+import { NotBot } from '@guards'
 
 import config from '../../config.json'
 

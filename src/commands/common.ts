@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "discord.js"
 import { Discord, Guard, SlashOption } from "discordx"
 import { Slash } from "@utils/decorators"
-import { NSFW } from "@utils/guards"
+import { NSFW } from "@guards"
 
 @Discord()
 export default class {
