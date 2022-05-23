@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryKey()
     id: number
 
-    @Column()
+    @Property()
     discordId: number
 }

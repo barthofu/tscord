@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryKey } from '@mikro-orm/core'
 
 @Entity()
 export class Guild {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryKey()
     id: number
 }

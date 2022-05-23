@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import 'dotenv/config'
 
 import { container } from 'tsyringe'
+import { MikroORM } from '@mikro-orm/core'
 
 import { Client } from '@core/Client'
 import { Database } from '@core/Database'

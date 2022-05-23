@@ -73,25 +73,18 @@ export class Client {
             lastStartup: Date.now(),
         }
 
-        const dataRepository = this.db.getRepository(Data)
-
         for (const initialDataKey of Object.keys(initialDatas)) {
-        
-            const dataAlreadyExists = await dataRepository.findOneBy({ key: initialDataKey })
-            
-            if (!dataAlreadyExists) {
 
-                const data = new Data()
-                data.key = initialDataKey
-                data.value = JSON.stringify(initialDatas[initialDataKey as keyof typeof initialDatas])
+            const dataRepository = this.db.em.getRepository(Data)
 
-                await dataRepository.save(data)
-            }
+            await dataRepository.add(initialDataKey, initialDatas[initialDataKey as keyof typeof initialDatas])
         }
     }
 
     async isInMaintenance() {
             
-        return false
+        const maintenance = await this.db.em.getRepository(Data).getParsedValue('maintenance')
+        
+        return maintenance || false
     }
 }
