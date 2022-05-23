@@ -5,4 +5,7 @@ export class User {
 
     @PrimaryGeneratedColumn()
     id: number
+
+    @Column()
+    discordId: number
 }

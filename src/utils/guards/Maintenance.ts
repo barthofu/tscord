@@ -2,7 +2,6 @@ import { GuardFunction, SimpleCommandMessage } from 'discordx'
 import { ButtonInteraction, CommandInteraction, ContextMenuInteraction, SelectMenuInteraction } from 'discord.js'
 import { container } from 'tsyringe'
 
-import Database from '@core/Database'
 import { resolveUser } from '@utils/functions'
 
 import config from '../../../config.json'

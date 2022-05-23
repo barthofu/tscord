@@ -1,17 +1,22 @@
 import { Client as ClientX, DIService } from 'discordx'
-import { container } from 'tsyringe' 
+import { container, injectable } from 'tsyringe' 
 import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
 import { NotBot } from '@utils/guards'
 
 import config from '../../config.json'
+import { Database } from '@core/Database'
+import { Data } from '@entities'
 
-export default class Client {
+@injectable()
+export class Client {
 
     private bot: ClientX
 
-    constructor() {
+    constructor(
+        private db: Database
+    ) {
 
         DIService.container = container
 
@@ -45,8 +50,9 @@ export default class Client {
 
     async start() {
 
-        // Let's start the bot!
         await importx(__dirname + "/../{events,commands}/**/*.{ts,js}")
+        
+        await this.initDataTable()
 
         this.login()
     }
@@ -57,5 +63,35 @@ export default class Client {
         if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")
 
         await this.bot.login(process.env.BOT_TOKEN)
+    }
+
+    async initDataTable() {
+
+        const initialDatas = {
+            maintenance: false,
+            lastMaintenance: null,
+            lastStartup: Date.now(),
+        }
+
+        const dataRepository = this.db.getRepository(Data)
+
+        for (const initialDataKey of Object.keys(initialDatas)) {
+        
+            const dataAlreadyExists = await dataRepository.findOneBy({ key: initialDataKey })
+            
+            if (!dataAlreadyExists) {
+
+                const data = new Data()
+                data.key = initialDataKey
+                data.value = JSON.stringify(initialDatas[initialDataKey as keyof typeof initialDatas])
+
+                await dataRepository.save(data)
+            }
+        }
+    }
+
+    async isInMaintenance() {
+            
+        return false
     }
 }

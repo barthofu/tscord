@@ -1,20 +1,21 @@
-import "reflect-metadata"
+import 'reflect-metadata'
 import 'dotenv/config'
 
 import { container } from 'tsyringe'
 
-import Client from '@core/Client'
-import Database from '@core/Database'
+import { Client } from '@core/Client'
+import { Database } from '@core/Database'
 
 async function run() {
 
-    // init the database
-    const database = new Database()
-    await database.initialize()
-    container.registerInstance(Database, new Database())
+    // init the sqlite database
+    const db = container.resolve(Database)
+    await db.initialize()
 
     // init the client
-    const client = new Client()
+    const client = container.resolve(Client)
+
+    // run the client
     client.start()
 }
 
