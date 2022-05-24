@@ -1,6 +1,7 @@
 import { Database } from '@core/Database'
-import { injectable } from 'tsyringe'
+import { injectable, singleton } from 'tsyringe'
 
+@singleton()
 @injectable()
 export class Logger {
 

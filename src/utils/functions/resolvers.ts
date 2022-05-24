@@ -8,9 +8,11 @@ import {
 	Message,
 	VoiceState,
 	MessageReaction,
-	User
+	User,
+	Interaction
 } from "discord.js"
 import { APIUser } from "discord-api-types/v9"
+import { ContextMenu } from 'discordx'
 
 type allInteractionTypes = CommandInteraction | SimpleCommandMessage | ButtonInteraction | ContextMenuInteraction | SelectMenuInteraction | ModalSubmitInteraction
 type other = Message | VoiceState | MessageReaction
@@ -46,19 +48,39 @@ const resolvers = {
 	commandName: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
+		
+		fallback: (_: any) => ''
+	},
 
+	action: {
+		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
+		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
+		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
+		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.customId,
+        ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.customId,	
+	
 		fallback: (_: any) => ''
 	}
 }
 
-export const resolveUser = (interaction: allInteractionTypes | other) => {
-	return resolvers.user[interaction.constructor.name as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
+export const resolveUser = (interaction: Interaction) => {
+	return resolvers.user[getTypeOfInteraction(interaction) as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
 }
 
-export const resolveChannel = (interaction: allInteractionTypes) => {
-	return resolvers.channel[interaction.constructor.name as keyof typeof resolvers.channel]?.(interaction) || resolvers.channel['fallback'](interaction)
+export const resolveChannel = (interaction: Interaction) => {
+	return resolvers.channel[getTypeOfInteraction(interaction) as keyof typeof resolvers.channel]?.(interaction) || resolvers.channel['fallback'](interaction)
 }
 
-export const commandName = (interaction: CommandInteraction | SimpleCommandMessage) => {
-	resolvers.commandName[interaction.constructor.name as keyof typeof resolvers.commandName]?.(interaction) || resolvers.commandName['fallback'](interaction)
+export const resolveCommandName = (interaction: CommandInteraction | SimpleCommandMessage) => {
+	return resolvers.commandName[interaction.constructor.name as keyof typeof resolvers.commandName]?.(interaction) || resolvers.commandName['fallback'](interaction)
+}
+
+export const resolveAction = (interaction: Interaction) => {
+	return resolvers.action[getTypeOfInteraction(interaction) as keyof typeof resolvers.action]?.(interaction) || resolvers.action['fallback'](interaction)
+}
+
+
+export const getTypeOfInteraction = (interaction: Interaction) => {
+	return interaction.constructor.name
 }

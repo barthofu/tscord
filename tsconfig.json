@@ -24,9 +24,10 @@
 			"@decorators": ["src/utils/decorators"],
 			"@entities": ["src/entities"],
 			"@guards": ["src/guards"],
+			"@helpers": ["./src/helpers"],
 			
 			"@core/*": ["./src/core/*"],
-			"@utils/*": ["./src/utils/*"]
+			"@utils/*": ["./src/utils/*"],
 		},
 	},
 

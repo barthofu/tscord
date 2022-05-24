@@ -1,17 +1,16 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
-import { CustomBaseEntity } from './BaseEntity'
 
 @Entity()
-export class Stats {
+export class Stat {
 
     @PrimaryKey()
     id: number
 
     @Property()
-    action!: string
+    type!: string
 
     @Property()
-    value: string
+    action: string = ''
 
     @Property()
     createdAt: Date = new Date()
