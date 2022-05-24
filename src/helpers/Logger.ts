@@ -1,12 +1,54 @@
-import { Database } from '@core/Database'
-import { injectable, singleton } from 'tsyringe'
+import { Interaction, TextChannel, ThreadChannel } from 'discord.js'
+import { singleton } from 'tsyringe'
+import fs from 'fs'
+
+import { getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
+
+import config from '../../config.json'
 
 @singleton()
-@injectable()
 export class Logger {
 
-    constructor(
-        private db: Database
-    ) {}
+    private logFile: string = `${__dirname}/../../app.log`
 
+    log(
+        message: string = '', 
+        type: string = 'info', 
+        saveToFile: boolean = false
+    ) {
+        
+        // log in the console
+        const templatedLog = `[${new Date().toISOString()}] ${message}`
+        if (type === 'info') console.info(templatedLog)
+        else if (type === 'error') console.error(templatedLog)
+        else console.log(templatedLog)
+        
+        // save log to file
+        if (saveToFile) {
+
+            // create file if it doesn't exist
+            if (!fs.existsSync(this.logFile)) {
+                fs.writeFileSync(this.logFile, "")
+            }
+
+            fs.appendFileSync(this.logFile, `${templatedLog}\n`)
+        }
+    }
+
+    logInteraction(interaction: Interaction) {
+
+        if (config.logs.interactions.console) {
+
+            const type = getTypeOfInteraction(interaction)
+            const action = resolveAction(interaction)
+            const channel = resolveChannel(interaction)
+            const user = resolveUser(interaction)
+    
+            this.log(
+                `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`,
+                'info',
+                config.logs.interactions.file
+            )
+        }
+    }
 }

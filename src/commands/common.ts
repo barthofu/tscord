@@ -19,7 +19,7 @@ export default class {
 	)
 	ping(interaction: CommandInteraction): void {
 		
-		interaction.reply('test2')
+		interaction.reply('pong')
 	}
 
 	@Slash("maintenance")

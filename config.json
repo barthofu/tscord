@@ -12,7 +12,15 @@
     ],
     
     "evalName": "bot",
-    "debugLogs": false,
+
+    "logs": {
+
+      "debug": true,
+      "interactions": {
+        "file": true,
+        "console": true
+      }
+    },
 
     "database": {
       "type": "sqlite",

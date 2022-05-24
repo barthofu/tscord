@@ -31,7 +31,7 @@ const resolvers = {
 		VoiceState: (interaction: VoiceState) => interaction.member?.user,
 		MessageReaction: (interaction: MessageReaction) => interaction.message.author,
 
-		fallback: (interaction: any) => interaction?.message?.author,
+		fallback: (interaction: any) => null
 	},
 
 	channel: {
@@ -42,7 +42,7 @@ const resolvers = {
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.channel,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.channel,
 
-		fallback: (interaction: any) => interaction?.message?.channel
+		fallback: (interaction: any) => null
 	},
 
 	commandName: {

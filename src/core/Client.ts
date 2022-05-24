@@ -34,7 +34,7 @@ export class Client extends ClientX {
             ],
           
             // Debug logs are disabled in silent mode
-            silent: config.debugLogs,
+            silent: !config.logs.debug,
 
             guards: [
                 notBot,

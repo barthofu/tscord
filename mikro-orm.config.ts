@@ -9,7 +9,7 @@ const config: Options = {
 	entities: Object.values(entities),
 	highlighter: new SqlHighlighter(),
 	allowGlobalContext: true,
-	debug: true,
+	debug: false,
 	migrations: {
 		path: './database/migrations',
 		emit: 'ts',

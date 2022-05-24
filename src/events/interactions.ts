@@ -1,13 +1,14 @@
 import { Client, Discord, On, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
-import { Stats } from '@helpers'
+import { Logger, Stats } from '@helpers'
 
 @Discord()
 @injectable()
 export default class {
 
     constructor(
-        private stats: Stats
+        private stats: Stats,
+        private logger: Logger
     ) {}
 
     @On('interactionCreate')
@@ -16,7 +17,8 @@ export default class {
         client: Client
     ) {
 
-        await this.stats.registerInteraction([interaction])
+        await this.stats.registerInteraction(interaction)
+        this.logger.logInteraction(interaction)
 
         client.executeInteraction(interaction)
     }

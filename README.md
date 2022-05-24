@@ -34,7 +34,7 @@
 #### Utilities
 - [ ] Localization
 - [ ] Stats
-- [ ] Logger
+- [x] Logger
 - [ ] Cron tasks
 
 #### Built-in commands

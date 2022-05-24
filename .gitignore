@@ -12,5 +12,8 @@ build/
 # db
 *.sqlite*
 
+# logs
+*.log
+
 # other
 .vscode
