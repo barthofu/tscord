@@ -1,21 +1,22 @@
 import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/core"
 import { EntityRepository } from "@mikro-orm/sqlite"
 import { singleton } from "tsyringe"
+import { CustomBaseEntity } from "./BaseEntity"
 
 // ===========================================
 // ================= Entity ==================
 // ===========================================
 
 @Entity({ customRepository: () => DataRepository })
-export class Data {
+export class Data extends CustomBaseEntity {
 
     [EntityRepositoryType]?: DataRepository
 
     @PrimaryKey()
-    key: string
+    key!: string 
 
     @Property()
-    value: string
+    value: string = ''
 }
 
 // ===========================================
