@@ -7,6 +7,9 @@ import {
 	SelectMenuInteraction,
 } from "discord.js"
 
-type allInteractionTypes = CommandInteraction | SimpleCommandMessage | ButtonInteraction | ContextMenuInteraction | SelectMenuInteraction | ModalSubmitInteraction
+type interactionsStarters = CommandInteraction | SimpleCommandMessage | ContextMenuInteraction
+type inlineInteractions = ButtonInteraction | SelectMenuInteraction | ModalSubmitInteraction
 
-export { allInteractionTypes }
+type allInteractionTypes = interactionsStarters | inlineInteractions
+
+export { interactionsStarters, inlineInteractions, allInteractionTypes }

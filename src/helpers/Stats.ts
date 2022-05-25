@@ -1,11 +1,11 @@
 import { injectable, singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
-import { Interaction } from 'discord.js'
 
 import { Database } from '@core/Database'
 import { Stat } from '@entities'
 
 import { getTypeOfInteraction, resolveAction } from '@utils/functions'
+import { allInteractionTypes } from '@utils/types'
 
 @singleton()
 @injectable()
@@ -19,7 +19,7 @@ export class Stats {
         this.statsDb = this.db.getRepo(Stat)
     }
 
-    async registerInteraction(interaction: Interaction) {
+    async registerInteraction(interaction: allInteractionTypes) {
 
         // we extract data from the interaction
         const type = getTypeOfInteraction(interaction)

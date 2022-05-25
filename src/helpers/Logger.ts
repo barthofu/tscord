@@ -1,8 +1,9 @@
-import { Interaction, TextChannel, ThreadChannel } from 'discord.js'
+import { TextChannel, ThreadChannel } from 'discord.js'
 import { singleton } from 'tsyringe'
 import fs from 'fs'
 
 import { getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
+import { allInteractionTypes } from '@utils/types'
 
 import config from '../../config.json'
 
@@ -35,7 +36,7 @@ export class Logger {
         }
     }
 
-    logInteraction(interaction: Interaction) {
+    logInteraction(interaction: allInteractionTypes) {
 
         if (config.logs.interactions.console) {
 

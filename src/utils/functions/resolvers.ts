@@ -11,19 +11,16 @@ import {
 	User,
 	Interaction
 } from "discord.js"
-import { APIUser } from "discord-api-types/v9"
-import { ContextMenu } from 'discordx'
-
-type allInteractionTypes = CommandInteraction | SimpleCommandMessage | ButtonInteraction | ContextMenuInteraction | SelectMenuInteraction | ModalSubmitInteraction
-type other = Message | VoiceState | MessageReaction
+import { allInteractionTypes, interactionsStarters } from "@utils/types"
 
 const resolvers = {
 
 	user: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.user,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.author,
-		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member?.user,
 		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
+		
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member?.user,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member?.user,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.member?.user,
 
@@ -37,8 +34,9 @@ const resolvers = {
 	channel: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.channel,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.channel,
-		ButtonInteraction: (interaction: ButtonInteraction) => interaction.channel,
 		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.channel,
+		
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.channel,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.channel,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.channel,
 
@@ -55,8 +53,9 @@ const resolvers = {
 	action: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
-		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
 		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
+		
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.customId,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.customId,	
 	
@@ -64,11 +63,11 @@ const resolvers = {
 	}
 }
 
-export const resolveUser = (interaction: Interaction) => {
+export const resolveUser = (interaction: allInteractionTypes) => {
 	return resolvers.user[getTypeOfInteraction(interaction) as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
 }
 
-export const resolveChannel = (interaction: Interaction) => {
+export const resolveChannel = (interaction: allInteractionTypes) => {
 	return resolvers.channel[getTypeOfInteraction(interaction) as keyof typeof resolvers.channel]?.(interaction) || resolvers.channel['fallback'](interaction)
 }
 
@@ -76,11 +75,11 @@ export const resolveCommandName = (interaction: CommandInteraction | SimpleComma
 	return resolvers.commandName[interaction.constructor.name as keyof typeof resolvers.commandName]?.(interaction) || resolvers.commandName['fallback'](interaction)
 }
 
-export const resolveAction = (interaction: Interaction) => {
+export const resolveAction = (interaction: allInteractionTypes) => {
 	return resolvers.action[getTypeOfInteraction(interaction) as keyof typeof resolvers.action]?.(interaction) || resolvers.action['fallback'](interaction)
 }
 
 
-export const getTypeOfInteraction = (interaction: Interaction) => {
+export const getTypeOfInteraction = (interaction: any): string => {
 	return interaction.constructor.name
 }

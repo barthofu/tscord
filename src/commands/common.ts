@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "discord.js"
 import { Discord, Guard, SlashOption } from "discordx"
 import { Slash } from "@utils/decorators"
-import { NSFW } from "@guards"
+import { NSFW, disabled } from "@guards"
 import { injectable } from "tsyringe"
 import { Client } from "@core/Client"
 
@@ -15,7 +15,8 @@ export default class {
 
 	@Slash("ping")
 	@Guard(
-		NSFW
+		NSFW,
+		disabled
 	)
 	ping(interaction: CommandInteraction): void {
 		

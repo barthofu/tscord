@@ -7,8 +7,6 @@ import { resolveUser } from '@utils/functions'
 
 import config from '../../config.json'
 
-const isMaintenance = false
-
 export const maintenance: GuardFunction<
     | CommandInteraction
     | ContextMenuInteraction
