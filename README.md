@@ -32,7 +32,7 @@
     - [ ] Stats
 
 #### Utilities
-- [ ] Localization
+- [x] Localization
 - [ ] Stats
 - [x] Logger
 - [ ] Cron tasks

@@ -10,6 +10,6 @@ import {
 type interactionsStarters = CommandInteraction | SimpleCommandMessage | ContextMenuInteraction
 type inlineInteractions = ButtonInteraction | SelectMenuInteraction | ModalSubmitInteraction
 
-type allInteractionTypes = interactionsStarters | inlineInteractions
+type AllInteractions = interactionsStarters | inlineInteractions
 
-export { interactionsStarters, inlineInteractions, allInteractionTypes }
+export { interactionsStarters, inlineInteractions, AllInteractions }

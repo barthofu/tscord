@@ -5,7 +5,7 @@ import { Database } from '@core/Database'
 import { Stat } from '@entities'
 
 import { getTypeOfInteraction, resolveAction } from '@utils/functions'
-import { allInteractionTypes } from '@utils/types'
+import { AllInteractions } from '@utils/types'
 
 @singleton()
 @injectable()
@@ -19,7 +19,7 @@ export class Stats {
         this.statsDb = this.db.getRepo(Stat)
     }
 
-    async registerInteraction(interaction: allInteractionTypes) {
+    async registerInteraction(interaction: AllInteractions) {
 
         // we extract data from the interaction
         const type = getTypeOfInteraction(interaction)

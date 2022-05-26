@@ -25,6 +25,7 @@
 			"@entities": ["src/entities"],
 			"@guards": ["src/guards"],
 			"@helpers": ["./src/helpers"],
+			"@i18n": ["./src/i18n"],
 			
 			"@core/*": ["./src/core/*"],
 			"@utils/*": ["./src/utils/*"],

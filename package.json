@@ -9,11 +9,12 @@
     "build:changelog": "npx @discordx/changelog --root=src",
     "serve": "cross-env NODE_ENV=production node build/src/main.js",
     "start": "cross-env NODE_ENV=production node --loader ts-node/esm/transpile-only src/main.ts",
-    "dev": "cross-env NODE_ENV=development nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts",
+    "dev": "cross-env NODE_ENV=development nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts --parallel nodemon typesafe-i18n",
     "test": "nodemon --exec node --loader ts-node/esm/transpile-only tests/main.ts",
     "migration:create": "npx mikro-orm migration:create",
     "migration:up": "npx mikro-orm migration:up",
-    "migration:down": "npx mikro-orm migration:down"
+    "migration:down": "npx mikro-orm migration:down",
+    "i18n": "typesafe-i18n"
   },
   "dependencies": {
     "@discordx/importer": "^1.1.9",
@@ -30,7 +31,8 @@
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
     "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.6.0"
+    "tsyringe": "^4.6.0",
+    "typesafe-i18n": "^5.4.3"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.5.0",

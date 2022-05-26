@@ -3,7 +3,7 @@ import { singleton } from 'tsyringe'
 import fs from 'fs'
 
 import { getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
-import { allInteractionTypes } from '@utils/types'
+import { AllInteractions } from '@utils/types'
 
 import config from '../../config.json'
 
@@ -36,7 +36,7 @@ export class Logger {
         }
     }
 
-    logInteraction(interaction: allInteractionTypes) {
+    logInteraction(interaction: AllInteractions) {
 
         if (config.logs.interactions.console) {
 

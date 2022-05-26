@@ -11,7 +11,7 @@ import {
 	User,
 	Interaction
 } from "discord.js"
-import { allInteractionTypes, interactionsStarters } from "@utils/types"
+import { AllInteractions, interactionsStarters } from "@utils/types"
 
 const resolvers = {
 
@@ -60,14 +60,26 @@ const resolvers = {
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.customId,	
 	
 		fallback: (_: any) => ''
+	},
+
+	locale: {
+		CommandInteraction: (interaction: CommandInteraction) => interaction.locale,
+		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild?.preferredLocale ?? 'default',
+		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild?.preferredLocale ?? 'default',
+		
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild?.preferredLocale ?? 'default',
+		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild?.preferredLocale ?? 'default',
+        ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.guild?.preferredLocale ?? 'default',	
+	
+		fallback: (_: any) => 'en'
 	}
 }
 
-export const resolveUser = (interaction: allInteractionTypes) => {
+export const resolveUser = (interaction: AllInteractions) => {
 	return resolvers.user[getTypeOfInteraction(interaction) as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
 }
 
-export const resolveChannel = (interaction: allInteractionTypes) => {
+export const resolveChannel = (interaction: AllInteractions) => {
 	return resolvers.channel[getTypeOfInteraction(interaction) as keyof typeof resolvers.channel]?.(interaction) || resolvers.channel['fallback'](interaction)
 }
 
@@ -75,8 +87,13 @@ export const resolveCommandName = (interaction: CommandInteraction | SimpleComma
 	return resolvers.commandName[interaction.constructor.name as keyof typeof resolvers.commandName]?.(interaction) || resolvers.commandName['fallback'](interaction)
 }
 
-export const resolveAction = (interaction: allInteractionTypes) => {
+export const resolveAction = (interaction: AllInteractions) => {
 	return resolvers.action[getTypeOfInteraction(interaction) as keyof typeof resolvers.action]?.(interaction) || resolvers.action['fallback'](interaction)
+}
+
+
+export const resolveLocale = (interaction: AllInteractions) => {
+	return resolvers.locale[getTypeOfInteraction(interaction) as keyof typeof resolvers.locale]?.(interaction) || resolvers.locale['fallback'](interaction)
 }
 
 
