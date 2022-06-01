@@ -1,6 +1,8 @@
 import { CommandInteraction } from 'discord.js'
 import { GuardFunction, SimpleCommandMessage } from 'discordx'
-import { L, getLocaleFromInteraction } from '@i18n';
+
+import { L, getLocaleFromInteraction } from '@i18n'
+import { replyToInteraction } from '@utils/functions'
 
 /**
  * Prevent the command from running on DM
@@ -8,18 +10,12 @@ import { L, getLocaleFromInteraction } from '@i18n';
 export const GuildOnly: GuardFunction<
     | CommandInteraction 
     | SimpleCommandMessage
-> = (arg, client, next) => {
+> = async (arg, client, next) => {
 
-    const locale = getLocaleFromInteraction(arg),
-          localizedReplyMessage = L[locale].GUARDS.GUILD_ONLY()
+    const isInGuild = arg instanceof CommandInteraction ? arg.inGuild() : arg.message.guild
 
-    if (arg instanceof CommandInteraction) {
-        if (arg.inGuild()) return next()
-        else arg.reply(localizedReplyMessage);
+    if (isInGuild) return next()
+    else {
+        await replyToInteraction(arg, L[getLocaleFromInteraction(arg)].GUARDS.GUILD_ONLY())
     }
-    else if (arg instanceof SimpleCommandMessage) {
-        if (arg.message.guild) return next()
-        else arg.message.reply(localizedReplyMessage);
-    }
-    else return next()
 }

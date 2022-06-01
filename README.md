@@ -17,7 +17,7 @@
     - [x] dm
     - [ ] permissions
     - [x] enabled
-- [ ] Guards fallback message
+- [x] Guards fallback message
 
 #### Data
 - [x] SQLite database

@@ -1,11 +1,10 @@
 import { CommandInteraction, ContextMenuInteraction } from 'discord.js'
 import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx'
 
-import { resolveUser, isInMaintenance } from '@utils/functions'
+import { resolveUser, isInMaintenance, replyToInteraction } from '@utils/functions'
 import { getLocaleFromInteraction, L } from '@i18n'
 
 import config from '../../config.json'
-import { replyToInteraction } from '@utils/functions/interactions'
 
 /**
  * Prevent interactions from running when bot is in maintenance

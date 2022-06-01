@@ -27,6 +27,10 @@ type RootTranslation = {
 		 * This command can only be used in a server.
 		 */
 		GUILD_ONLY: string
+		/**
+		 * This command can only be used in a NSFW channel.
+		 */
+		NSFW: string
 	}
 }
 
@@ -44,6 +48,10 @@ export type TranslationFunctions = {
 		 * This command can only be used in a server.
 		 */
 		GUILD_ONLY: () => LocalizedString
+		/**
+		 * This command can only be used in a NSFW channel.
+		 */
+		NSFW: () => LocalizedString
 	}
 }
 
