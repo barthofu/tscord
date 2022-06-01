@@ -1,33 +1,40 @@
-import { GuardFunction, SimpleCommandMessage } from 'discordx'
-import { ButtonInteraction, CommandInteraction, ContextMenuInteraction, SelectMenuInteraction } from 'discord.js'
-import { container } from 'tsyringe'
+import { CommandInteraction, ContextMenuInteraction } from 'discord.js'
+import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx'
 
-import { Client } from '@core/Client'
-import { resolveUser } from '@utils/functions'
+import { resolveUser, isInMaintenance } from '@utils/functions'
+import { getLocaleFromInteraction, L } from '@i18n'
 
 import config from '../../config.json'
+import { replyToInteraction } from '@utils/functions/interactions'
 
-export const maintenance: GuardFunction<
-    | CommandInteraction
-    | ContextMenuInteraction
-    | SelectMenuInteraction
-    | ButtonInteraction
-    | SimpleCommandMessage
-> = async (rawArg, _, next) => {
-    
-    const arg = rawArg instanceof Array ? rawArg[0] : rawArg,
-          user = resolveUser(arg)
+/**
+ * Prevent interactions from running when bot is in maintenance
+ */
+export const Maintenance: GuardFunction<
+    | ArgsOf<'messageCreate' | 'interactionCreate'>
+> = async ([arg], client, next) => {
 
-    const client = container.resolve(Client)
-    const isMaintenance = await client.isInMaintenance()
+    if (
+        arg instanceof CommandInteraction ||
+        arg instanceof SimpleCommandMessage ||
+        arg instanceof ContextMenuInteraction
+    ) {
 
-    if (!(
-        ['CommandInteraction', 'ContextMenuInteraction', 'SelectMenuInteraction', 'ButtonInteraction'].includes(arg.constructor.name)
-        && isMaintenance
-        && user?.id
-        && !config.devs.includes(user.id)
-    )) {
+        const user = resolveUser(arg),
+              maintenance = await isInMaintenance()
 
-        await next()
-    }
+        if (
+            maintenance &&
+            user?.id &&
+            !config.devs.includes(user.id)
+        ) {
+
+            const locale = getLocaleFromInteraction(arg),
+                  localizedReplyMessage = L[locale].GUARDS.MAINTENANCE()
+            
+            if (arg instanceof CommandInteraction || arg instanceof SimpleCommandMessage) await replyToInteraction(arg, localizedReplyMessage)
+        }
+        else return next()
+    } 
+    else return next()
 }

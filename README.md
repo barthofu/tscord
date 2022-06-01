@@ -14,10 +14,9 @@
     - [x] nsfw
     - [x] cooldown
     - [x] maintenance
-    - [ ] dm
+    - [x] dm
     - [ ] permissions
-    - [ ] enabled
-    - [ ] owner/dev
+    - [x] enabled
 - [ ] Guards fallback message
 
 #### Data

@@ -5,20 +5,23 @@ import { resolveUser } from '@utils/functions'
 
 import config from '../../config.json'
 
-export const disabled: GuardFunction<
+/**
+ * Prevent interaction from running when it is disabled
+ */
+export const Disabled: GuardFunction<
     | CommandInteraction
     | SimpleCommandMessage
     | ContextMenuInteraction
-> = async (interaction: CommandInteraction | SimpleCommandMessage | ContextMenuInteraction, _, next) => {
+> = async (arg, client, next) => {
 
-    const user = resolveUser(interaction)
+    const user = resolveUser(arg)
 
     if (user?.id && config.devs.includes(user.id)) {
         return next()
     }
     else {
-        if (interaction instanceof CommandInteraction) interaction.reply('This command is disabled.')
-        else if (interaction instanceof SimpleCommandMessage) interaction.message.reply('This command is disabled.')
+        if (arg instanceof CommandInteraction) arg.reply('This command is disabled.')
+        else if (arg instanceof SimpleCommandMessage) arg.message.reply('This command is disabled.')
     }
 
 }

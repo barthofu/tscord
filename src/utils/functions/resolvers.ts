@@ -1,4 +1,4 @@
-import { SimpleCommandMessage } from "discordx"
+import { ArgsOf, SimpleCommandMessage } from "discordx"
 import {
     CommandInteraction,
 	ButtonInteraction,
@@ -8,10 +8,9 @@ import {
 	Message,
 	VoiceState,
 	MessageReaction,
-	User,
-	Interaction
+	PartialMessageReaction,
+	Interaction,
 } from "discord.js"
-import { AllInteractions, interactionsStarters } from "@utils/types"
 
 const resolvers = {
 
@@ -27,6 +26,7 @@ const resolvers = {
 		Message: (interaction: Message) => interaction.author,
 		VoiceState: (interaction: VoiceState) => interaction.member?.user,
 		MessageReaction: (interaction: MessageReaction) => interaction.message.author,
+		PartialMessageReaction: (interaction: PartialMessageReaction) => interaction.message.author,
 
 		fallback: (interaction: any) => null
 	},
@@ -75,7 +75,7 @@ const resolvers = {
 	}
 }
 
-export const resolveUser = (interaction: AllInteractions) => {
+export const resolveUser = (interaction: AllInteractions | Interaction | Message | VoiceState | MessageReaction | PartialMessageReaction) => {
 	return resolvers.user[getTypeOfInteraction(interaction) as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
 }
 

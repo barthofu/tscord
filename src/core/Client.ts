@@ -5,7 +5,7 @@ import { Intents } from 'discord.js'
 
 import { Database } from '@core/Database'
 import { Data } from '@entities'
-import { maintenance, notBot } from '@guards'
+import { Maintenance, NotBot } from '@guards'
 
 import config from '../../config.json'
 
@@ -37,8 +37,8 @@ export class Client extends ClientX {
             silent: !config.logs.debug,
 
             guards: [
-                notBot,
-                maintenance
+                NotBot,
+                Maintenance
             ],
           
             // Configuration for @SimpleCommand
@@ -79,17 +79,4 @@ export class Client extends ClientX {
         }
     }
 
-    async isInMaintenance(): Promise<boolean> {
-            
-        const dataRepository = this.db.getRepo(Data)
-        const maintenance = await dataRepository.get('maintenance')
-        
-        return !!maintenance as boolean
-    }
-
-    async setMaintenance(maintenance: boolean) {
-
-        const dataRepository = this.db.getRepo(Data)
-        await dataRepository.set('maintenance', maintenance)
-    }
 }

@@ -1,15 +1,7 @@
-import { SimpleCommandMessage } from "discordx"
-import {
-    CommandInteraction,
-	ButtonInteraction,
-	ContextMenuInteraction,
-    ModalSubmitInteraction,
-	SelectMenuInteraction,
-} from "discord.js"
+// Using inline import makes possible for a type to be casted to the ambient module declaration, so we don't need to import it in other files.
+// https://stackoverflow.com/questions/39040108/import-class-in-definition-file-d-ts
 
-type interactionsStarters = CommandInteraction | SimpleCommandMessage | ContextMenuInteraction
-type inlineInteractions = ButtonInteraction | SelectMenuInteraction | ModalSubmitInteraction
+type EmittedInteractions = import('discord.js').CommandInteraction | import('discordx').SimpleCommandMessage | import('discord.js').ContextMenuInteraction
+type OnTheFlyInteractions = import('discord.js').ButtonInteraction | import('discord.js').SelectMenuInteraction | import('discord.js').ModalSubmitInteraction
 
-type AllInteractions = interactionsStarters | inlineInteractions
-
-export { interactionsStarters, inlineInteractions, AllInteractions }
+type AllInteractions = EmittedInteractions | OnTheFlyInteractions

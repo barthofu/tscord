@@ -1,6 +1,7 @@
-import { Client, Discord, On, ArgsOf } from 'discordx'
+import { Client, Discord, On, ArgsOf, Guard } from 'discordx'
 import { injectable } from 'tsyringe'
 import { Logger, Stats } from '@helpers'
+import { Maintenance } from '@guards'
 
 @Discord()
 @injectable()
@@ -12,6 +13,9 @@ export default class {
     ) {}
 
     @On('interactionCreate')
+    @Guard(
+        Maintenance
+    )
     async interactionCreate(
         [interaction]: ArgsOf<'interactionCreate'>, 
         client: Client
