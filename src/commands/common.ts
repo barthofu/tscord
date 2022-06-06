@@ -1,22 +1,19 @@
 import type { CommandInteraction } from "discord.js"
 import { Discord, Guard, SlashOption } from "discordx"
-import { Slash } from "@utils/decorators"
-import { NSFW, disabled } from "@guards"
 import { injectable } from "tsyringe"
+
+import { Slash } from "@utils/decorators"
+import { setMaintenance } from "@utils/functions"
+import { NSFW, Disabled } from "@guards"
 import { Client } from "@core/Client"
 
 @Discord()
-@injectable()
 export default class {
-	
-	constructor(
-		private client: Client
-	) {}
 
 	@Slash("ping")
 	@Guard(
 		NSFW,
-		disabled
+		Disabled
 	)
 	ping(interaction: CommandInteraction): void {
 		
@@ -24,11 +21,11 @@ export default class {
 	}
 
 	@Slash("maintenance")
-	maintenance(
+	async maintenance(
 		@SlashOption('state') state: boolean,
 		interaction: CommandInteraction
-	): void {
+	): Promise<void> {
 		
-		this.client.setMaintenance(state)
+		await setMaintenance(state)
 	}
 }

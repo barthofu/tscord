@@ -3,9 +3,7 @@ import { EntityRepository } from '@mikro-orm/core'
 
 import { Database } from '@core/Database'
 import { Stat } from '@entities'
-
 import { getTypeOfInteraction, resolveAction } from '@utils/functions'
-import { AllInteractions } from '@utils/types'
 
 @singleton()
 @injectable()
@@ -30,6 +28,11 @@ export class Stats {
         stat.type = type
         stat.action = action
         await this.statsDb.persistAndFlush(stat)
+    }
+
+    async getStats(): Promise<Stat[]> {
+
+        return this.statsDb.findAll()
     }
 
 }

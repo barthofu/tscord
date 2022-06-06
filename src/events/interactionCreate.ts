@@ -21,8 +21,8 @@ export default class {
         client: Client
     ) {
 
-        await this.stats.registerInteraction(interaction)
-        this.logger.logInteraction(interaction)
+        await this.stats.registerInteraction(interaction as AllInteractions)
+        this.logger.logInteraction(interaction as AllInteractions)
 
         client.executeInteraction(interaction)
     }

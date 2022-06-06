@@ -3,7 +3,6 @@ import { singleton } from 'tsyringe'
 import fs from 'fs'
 
 import { getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
-import { AllInteractions } from '@utils/types'
 
 import config from '../../config.json'
 

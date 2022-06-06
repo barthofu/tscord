@@ -34,7 +34,7 @@
 - [x] Localization
 - [ ] Stats
 - [x] Logger
-- [ ] Cron tasks
+- [x] Cron tasks
 
 #### Built-in commands
 - [ ] General
