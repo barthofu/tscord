@@ -208,4 +208,4 @@ e.g: a json file named `example.json` will be accessible as a lowdb instance in 
 ## License
 MIT License
 
-Copyright (c) barthofu
+Copyright © barthofu
