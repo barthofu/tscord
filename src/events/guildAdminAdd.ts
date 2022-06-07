@@ -3,6 +3,7 @@ import { injectable } from 'tsyringe'
 import { Logger, Stats } from '@helpers'
 import { Maintenance } from '@guards'
 import { On } from '@decorators';
+import { Collection, GuildMember, Role } from 'discord.js';
 
 @Discord()
 @injectable()
@@ -13,18 +14,16 @@ export default class InteractionCreate {
         private logger: Logger
     ) {}
 
-    @On('interactionCreate')
+    @On('guildAdminAdd')
     @Guard(
         Maintenance
     )
     async interactionCreate(
-        [interaction]: ArgsOf<'interactionCreate'>, 
+        newMember: GuildMember,
+        newAdminRoles: Collection<String, Role>,
         client: Client
     ) {
-
-        await this.stats.registerInteraction(interaction as AllInteractions)
-        this.logger.logInteraction(interaction as AllInteractions)
-
-        client.executeInteraction(interaction)
+        console.log(client);
+        this.logger.log(`${newMember.nickname} has been added as an admin`);
     }
 }

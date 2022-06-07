@@ -34,7 +34,8 @@
     "node-cron": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
-    "typesafe-i18n": "^5.4.3"
+    "typesafe-i18n": "^5.4.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.5.0",
