@@ -1,54 +1,54 @@
 {
-    "__templateVersion": "2.0.0",
+  "__templateVersion": "2.0.0",
 
-    "name": "",
-    "description": "",
-    "defaultLocale": "en",
-    "simpleCommandsPrefix": "!",
-    "owner": "YOUR_ID_HERE",
+  "name": "",
+  "description": "",
+  "defaultLocale": "en",
+  "simpleCommandsPrefix": "!",
+  "owner": "YOUR_ID_HERE",
 
-    "devs": [
-      "260908777446965248"
-    ],
-    
-    "evalName": "bot",
+  "devs": [
+    "260908777446965248"
+  ],
+  
+  "evalName": "bot",
 
+  "logs": {
+
+    "debug": true,
+    "interactions": {
+      "file": true,
+      "console": true
+    }
+  },
+
+  "database": {
+    "type": "sqlite",
+    "path": "./database/",
+    "backup": {
+      "enabled": false,
+      "interval": "daily",
+      "time": "00:00",
+      "path": ""
+    }
+  },
+
+  "activities": [
+    {
+      "text": "discord.js v13",
+      "type": "PLAYING"
+    },
+    {
+      "text": "some knowledge",
+      "type": "STREAMING"
+    }
+  ],
+  
+  "channels": {
     "logs": {
-
-      "debug": true,
-      "interactions": {
-        "file": true,
-        "console": true
-      }
-    },
-
-    "database": {
-      "type": "sqlite",
-      "path": "./database/",
-      "backup": {
-        "enabled": false,
-        "interval": "daily",
-        "time": "00:00",
-        "path": ""
-      }
-    },
-
-    "activities": [
-      {
-        "text": "discord.js v13",
-        "type": "PLAYING"
-      },
-      {
-        "text": "some knowledge",
-        "type": "STREAMING"
-      }
-    ],
-    
-    "channels": {
-      "logs": {
-        "commands": null,
-        "guildCreate": null,
-        "guildDelete": null
-      }
+      "commands": null,
+      "guildCreate": null,
+      "guildDelete": null
     }
   }
+}

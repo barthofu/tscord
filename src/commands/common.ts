@@ -1,12 +1,10 @@
 import type { CommandInteraction } from "discord.js"
 import { Discord, Guard, SlashOption } from "discordx"
-import { container, injectable } from "tsyringe"
 
 import { Slash } from "@utils/decorators"
 import { setMaintenance } from "@utils/functions"
 import { NSFW, Disabled } from "@guards"
 import { Client } from "@core/Client"
-import { Stats } from "@helpers"
 
 @Discord()
 export default class Common {

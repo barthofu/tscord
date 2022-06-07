@@ -1,4 +1,3 @@
-import { AllInteractions } from '@types'
 import { resolveLocale } from '@utils/functions'
 
 import config from '../../config.json'
