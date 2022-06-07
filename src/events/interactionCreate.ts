@@ -5,7 +5,7 @@ import { Maintenance } from '@guards'
 
 @Discord()
 @injectable()
-export default class {
+export default class InteractionCreate {
 
     constructor(
         private stats: Stats,

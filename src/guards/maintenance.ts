@@ -11,7 +11,7 @@ import config from '../../config.json'
  */
 export const Maintenance: GuardFunction<
     | ArgsOf<'messageCreate' | 'interactionCreate'>
-> = async ([arg], client, next) => {
+> = async (arg, client, next) => {
 
     if (
         arg instanceof CommandInteraction ||

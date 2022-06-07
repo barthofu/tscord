@@ -1,5 +1,5 @@
 import { Client as ClientX, DIService } from 'discordx'
-import { container, injectable, singleton } from 'tsyringe' 
+import { container, singleton } from 'tsyringe' 
 import { importx } from '@discordx/importer'
 import { Intents } from 'discord.js'
 
@@ -10,7 +10,6 @@ import { Maintenance, NotBot } from '@guards'
 import config from '../../config.json'
 
 @singleton()
-@injectable()
 export class Client extends ClientX {
 
     constructor(

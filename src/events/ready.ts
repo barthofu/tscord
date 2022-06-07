@@ -6,7 +6,7 @@ import { Scheduler } from '@helpers'
 
 @Discord()
 @injectable()
-export default class {
+export default class Test {
 
     constructor(
         private scheduler: Scheduler

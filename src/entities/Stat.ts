@@ -10,7 +10,7 @@ export class Stat {
     type!: string
 
     @Property()
-    action: string = ''
+    value: string = ''
 
     @Property()
     createdAt: Date = new Date()

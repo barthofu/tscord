@@ -11,7 +11,7 @@ export class Scheduler {
 
     register(job: ScheduledJob) {
 
-        if (!isValidCron(job.cronExpression)) throw new Error(`Invalid cron expression: ${job.cronExpression}`)
+        if (!isValidCron(job.cronExpression, { alias: true, seconds: true })) throw new Error(`Invalid cron expression: ${job.cronExpression}`)
 
         const newJob = cron.schedule(job.cronExpression, job.callback, job.options)
         this.jobs.set(job.name, newJob)
