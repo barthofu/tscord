@@ -1,7 +1,7 @@
+import { Client } from 'discordx'
 import { singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
 
-import { Client } from '@core/Client'
 import { Database } from '@core/Database'
 import { Stat, User } from '@entities'
 import { getTypeOfInteraction, resolveAction } from '@utils/functions'

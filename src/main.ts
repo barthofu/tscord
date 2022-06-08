@@ -2,9 +2,13 @@ import 'reflect-metadata'
 import 'dotenv/config'
 
 import { container } from 'tsyringe'
+import { DIService, Client } from 'discordx'
+import { importx } from '@discordx/importer'
 
-import { Client } from '@core/Client'
 import { Database } from '@core/Database'
+import { initDataTable } from '@utils/functions'
+
+import { clientConfig } from './client'
 
 async function run() {
 
@@ -13,10 +17,19 @@ async function run() {
     await db.initialize()
 
     // init the client
-    const client = container.resolve(Client)
+    DIService.container = container
+    const client = new Client(clientConfig)
+    container.registerInstance(Client, client)
 
-    // run the client
-    client.start()
+    // import all the commands and events
+    await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
+        
+    // init the data table if it doesn't exist
+    await initDataTable()
+
+    // log in with the bot token
+    if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")
+    await client.login(process.env.BOT_TOKEN)
 }
 
 run()

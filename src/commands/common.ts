@@ -1,9 +1,9 @@
+import { Client } from "discordx"
 import type { CommandInteraction } from "discord.js"
 
 import { Slash, Discord, Guard, SlashOption } from "@decorators"
 import { setMaintenance } from "@utils/functions"
 import { NSFW, Disabled } from "@guards"
-import { Client } from "@core/Client"
 
 @Discord()
 export default class Common {

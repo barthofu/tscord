@@ -1,6 +1,9 @@
 # Discord Bot Template (v13)
 
 ## Todo
+- [ ] Remove extended client (in favor of a full DI pattern)
+
+## Features
 
 #### Discord
 - [x] [discord.js](https://github.com/discordjs/discord.js/) implementation
@@ -56,6 +59,7 @@
 
 #### Other
 - [ ] JDoc
+- [ ] Comment code
 - [ ] ESlint / Prettier
 - [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) + Doc / wiki 
 
