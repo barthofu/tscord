@@ -13,6 +13,7 @@ build/
 *.sqlite*
 
 # logs
+logs/
 *.log
 
 # other

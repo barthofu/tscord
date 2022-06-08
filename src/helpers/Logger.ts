@@ -29,10 +29,10 @@ export class Logger {
 
             const fileName = `${this.logPath}/${level}.log`
 
+            // create the folder if it doesn't exist
+            if (!fs.existsSync(this.logPath)) fs.mkdirSync(this.logPath)
             // create file if it doesn't exist
-            if (!fs.existsSync(fileName)) {
-                fs.writeFileSync(fileName, '')
-            }
+            if (!fs.existsSync(fileName)) fs.writeFileSync(fileName, '')
 
             fs.appendFileSync(fileName, `${templatedLog}\n`)
         }
