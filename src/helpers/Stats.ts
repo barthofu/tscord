@@ -5,17 +5,18 @@ import { Client } from '@core/Client'
 import { Database } from '@core/Database'
 import { Stat, User } from '@entities'
 import { getTypeOfInteraction, resolveAction } from '@utils/functions'
+import { Schedule } from '@decorators'
 
 @singleton()
 export class Stats {
 
-    private statsDb: EntityRepository<Stat>
+    private statsRepo: EntityRepository<Stat>
 
     constructor(
         private client: Client,
         private db: Database
     ) {
-        this.statsDb = this.db.getRepo(Stat)
+        this.statsRepo = this.db.getRepo(Stat)
     }
 
     async register(type: string, value: string) {
@@ -23,7 +24,7 @@ export class Stats {
         const stat = new Stat()
         stat.type = type
         stat.value = value
-        await this.statsDb.persistAndFlush(stat)
+        await this.statsRepo.persistAndFlush(stat)
     }
 
     async registerInteraction(interaction: AllInteractions) {
@@ -47,9 +48,20 @@ export class Stats {
         return statsObj
     }
 
+    @Schedule('*/10 * * * * *')
+    async registerDailyStats() {
+
+        const dailyStats = await this.getDailyStats()
+        
+        for (const type of Object.keys(dailyStats)) {
+            const value = JSON.stringify(dailyStats[type as keyof typeof dailyStats])
+            await this.register(type, value)
+        }
+    }
+
     async getStats(): Promise<Stat[]> {
 
-        return this.statsDb.findAll()
+        return this.statsRepo.findAll()
     }
 
 }

@@ -1,17 +1,9 @@
 import { Client } from 'discordx'
-import { injectable } from 'tsyringe'
 
 import { Once, Discord } from '@decorators'
-import * as scheduledJobs from '@utils/scheduled'
-import { Scheduler } from '@helpers'
 
 @Discord()
-@injectable()
 export default class Test {
-
-    constructor(
-        private scheduler: Scheduler
-    ) {}
 
     @Once('ready')
     async ready(rawClient: Client | Client[]) {
@@ -32,8 +24,5 @@ export default class Test {
 
         // Synchronize applications command permissions with Discord
         await client.initApplicationPermissions()
-
-        // Register all scheduled jobs
-        Object.values(scheduledJobs).forEach(job => this.scheduler.register(new job))
     }
 }
