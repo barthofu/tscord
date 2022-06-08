@@ -1,9 +1,9 @@
 import { Client } from "discordx"
 import type { CommandInteraction } from "discord.js"
 
-import { Slash, Discord, Guard, SlashOption } from "@decorators"
+import { Slash, Discord, Guard, SlashOption, On } from "@decorators"
 import { setMaintenance } from "@utils/functions"
-import { NSFW, Disabled } from "@guards"
+import { NSFW, Disabled, MessageMatch } from "@guards"
 
 @Discord()
 export default class Common {
@@ -27,9 +27,12 @@ export default class Common {
 		await setMaintenance(state)
 	}
 
-	@Slash("dev")
-	async dev(interaction: CommandInteraction, client: Client): Promise<void> {
+	@On("messageCreate")
+	@Guard(
+		MessageMatch(/test/gim)
+	)
+	async dev(): Promise<void> {
 		
-		console.log(1)
+		console.log('"test" trouvé !')
 	}
 }
