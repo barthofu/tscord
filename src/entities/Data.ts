@@ -3,6 +3,11 @@ import { EntityRepository } from "@mikro-orm/sqlite"
 import { singleton } from "tsyringe"
 import { CustomBaseEntity } from "./BaseEntity"
 
+import { defaultData } from '@/../database/data'
+
+type DataType = keyof typeof defaultData
+
+
 // ===========================================
 // ================= Entity ==================
 // ===========================================
@@ -26,7 +31,7 @@ export class Data extends CustomBaseEntity {
 @singleton()
 export class DataRepository extends EntityRepository<Data> {
 
-    async get(key: string): Promise<any> {
+    async get(key: DataType): Promise<any> {
 
         const data = await this.findOne({ key })
 
@@ -40,7 +45,7 @@ export class DataRepository extends EntityRepository<Data> {
         }
     }
 
-    async set(key: string, value: any): Promise<void> {
+    async set<T extends DataType>(key: T, value: typeof defaultData[T]): Promise<void> {
 
         const data = await this.findOne({ key })
 
@@ -58,7 +63,7 @@ export class DataRepository extends EntityRepository<Data> {
         }
     }
 
-    async add(key: string, value: any): Promise<void> {
+    async add<T extends DataType>(key: T, value: typeof defaultData[T]): Promise<void> {
 
         const data = await this.findOne({ key })
 
