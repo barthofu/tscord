@@ -9,29 +9,32 @@ import config from '../../config.json'
 @singleton()
 export class Logger {
 
-    private logFile: string = `${__dirname}/../../app.log`
+    private logPath: string = `${__dirname}/../../logs`
+    private levels = ['debug', 'info', 'warn', 'error'] as const
 
     log(
+        level: typeof this.levels[number] = 'info', 
         message: string = '', 
-        type: string = 'info', 
         saveToFile: boolean = false
     ) {
+
+        if (message === '') return
         
         // log in the console
         const templatedLog = `[${new Date().toISOString()}] ${message}`
-        if (type === 'info') console.info(templatedLog)
-        else if (type === 'error') console.error(templatedLog)
-        else console.log(templatedLog)
+        console[level](templatedLog)
         
         // save log to file
         if (saveToFile) {
 
+            const fileName = `${this.logPath}/${level}.log`
+
             // create file if it doesn't exist
-            if (!fs.existsSync(this.logFile)) {
-                fs.writeFileSync(this.logFile, "")
+            if (!fs.existsSync(fileName)) {
+                fs.writeFileSync(fileName, '')
             }
 
-            fs.appendFileSync(this.logFile, `${templatedLog}\n`)
+            fs.appendFileSync(fileName, `${templatedLog}\n`)
         }
     }
 
@@ -43,12 +46,12 @@ export class Logger {
             const action = resolveAction(interaction)
             const channel = resolveChannel(interaction)
             const user = resolveUser(interaction)
+
+            const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
+
+            const saveToFile = config.logs.interactions.file
     
-            this.log(
-                `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`,
-                'info',
-                config.logs.interactions.file
-            )
+            this.log('info', message, saveToFile)
         }
     }
 }
