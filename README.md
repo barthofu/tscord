@@ -21,6 +21,7 @@
     - [ ] permissions
     - [x] enabled
 - [x] Guards fallback message
+- [ ] Activities
 
 #### Data
 - [x] SQLite database
@@ -56,6 +57,7 @@
 #### Other
 - [ ] JDoc
 - [ ] ESlint / Prettier
+- [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) + Doc / wiki 
 
 #### Bonus
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))

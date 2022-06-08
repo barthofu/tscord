@@ -1,7 +1,6 @@
 import type { CommandInteraction } from "discord.js"
-import { Discord, Guard, SlashOption } from "discordx"
 
-import { Slash } from "@utils/decorators"
+import { Slash, Discord, Guard, SlashOption } from "@decorators"
 import { setMaintenance } from "@utils/functions"
 import { NSFW, Disabled } from "@guards"
 import { Client } from "@core/Client"
@@ -31,5 +30,6 @@ export default class Common {
 	@Slash("dev")
 	async dev(interaction: CommandInteraction, client: Client): Promise<void> {
 		
+		console.log(1)
 	}
 }

@@ -1,9 +1,10 @@
-import { Client, Discord, ArgsOf, Guard } from 'discordx'
+import { Collection, GuildMember, Role } from 'discord.js';
+import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
+
 import { Logger, Stats } from '@helpers'
 import { Maintenance } from '@guards'
-import { On } from '@decorators';
-import { Collection, GuildMember, Role } from 'discord.js';
+import { On, Discord, Guard } from '@decorators';
 
 @Discord()
 @injectable()
@@ -24,6 +25,6 @@ export default class InteractionCreate {
         client: Client
     ) {
         console.log(client);
-        this.logger.log(`${newMember.nickname} has been added as an admin`);
+        this.logger.log('info', `${newMember.nickname} has been added as an admin`);
     }
 }

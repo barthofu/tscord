@@ -1,9 +1,10 @@
-import { Client, Discord, ArgsOf, Guard } from 'discordx'
+import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
+
 import { Logger, Stats } from '@helpers'
 import { Maintenance } from '@guards'
 import { Collection, Role } from 'discord.js';
-import { On } from '@decorators';
+import { On, Discord, Guard } from '@decorators';
 
 @Discord()
 @injectable()

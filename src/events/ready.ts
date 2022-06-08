@@ -1,6 +1,7 @@
-import { Client, Discord, Once } from 'discordx'
+import { Client } from 'discordx'
 import { injectable } from 'tsyringe'
 
+import { Once, Discord } from '@decorators'
 import * as scheduledJobs from '@utils/scheduled'
 import { Scheduler } from '@helpers'
 
