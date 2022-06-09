@@ -6,6 +6,7 @@
   "defaultLocale": "en",
   "simpleCommandsPrefix": "!",
   "owner": "YOUR_ID_HERE",
+  "timezone": "Europe/Paris",
 
   "devs": [
     "260908777446965248"

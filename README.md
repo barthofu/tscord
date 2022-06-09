@@ -1,8 +1,8 @@
 # Discord Bot Template (v13)
 
 ## Todo
+- [x] Timezone in config (e.g: Schedule)
 - [x] Remove extended client (in favor of a full DI pattern)
-- [ ] Timezone in config (e.g: Schedule)
 
 ## Features
 

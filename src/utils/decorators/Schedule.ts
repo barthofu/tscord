@@ -2,6 +2,8 @@ import { container, InjectionToken } from "tsyringe"
 import { isValidCron } from "cron-validator"
 import { CronJob } from 'cron'
 
+import config from '../../../config.json'
+
 /**
  * Schedule a job to be executed at a specific time (cron)
  * @param cronExpression 
@@ -30,7 +32,7 @@ export const Schedule = (cronExpression: string) => {
             descriptor.value, 
             null, 
             false, 
-            'Europe/Paris',
+            config.timezone,
             target
         )
 
