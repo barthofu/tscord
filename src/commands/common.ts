@@ -3,7 +3,7 @@ import type { CommandInteraction } from "discord.js"
 
 import { Slash, Discord, Guard, SlashOption, On } from "@decorators"
 import { setMaintenance } from "@utils/functions"
-import { NSFW, Disabled, MessageMatch } from "@guards"
+import { NSFW, Disabled, Match } from "@guards"
 
 @Discord()
 export default class Common {
@@ -29,7 +29,7 @@ export default class Common {
 
 	@On("messageCreate")
 	@Guard(
-		MessageMatch(/test/gim)
+		Match(/test/gim)
 	)
 	async dev(): Promise<void> {
 		

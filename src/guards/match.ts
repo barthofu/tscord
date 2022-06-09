@@ -1,11 +1,10 @@
-import { resolveUser } from "@utils/functions"
 import type { ArgsOf, GuardFunction } from "discordx"
   
 /**
- * Pass only when the message match with a passed regular expression, Yeah boy
+ * Pass only when the message match with a passed regular expression
  * @param regex The regex to test
  */
-export const MessageMatch = (regex: RegExp) => {
+export const Match = (regex: RegExp) => {
 
     const guard: GuardFunction<
         | ArgsOf<"messageCreate">

@@ -16,7 +16,6 @@
 - [ ] Custom events
     - [x] `guildAdminAdd`
     - [ ] `guildAdminRemove`
-    - [ ] `trigger` (event triggered when a regex/word/sentence is met in a message)
 - [ ] Guards implementations
     - [x] user is bot
     - [x] nsfw
@@ -24,6 +23,7 @@
     - [x] maintenance
     - [x] dm
     - [x] enabled
+    - [x] match
     - [ ] permissions
 - [x] Guards fallback message
 - [ ] Activities
