@@ -32,7 +32,7 @@
 		},
 	},
 
-	"include": ["./src", "**/*.ts"],
+	"include": ["./src", "**/*.ts", "cli/plopfile", "cli/components/index.js", "cli/components/command.js"],
 	"exclude": ["build", "node_modules"],
 	"paths": ["node_modules/*", "src/utils/types/*"],
 

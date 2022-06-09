@@ -1,0 +1,18 @@
+import { Client } from "discordx"
+import type { CommandInteraction } from "discord.js"
+
+import { Slash, Discord, SlashOption, On } from "@decorators"
+import { Guard } from "@guards"
+
+@Discord()
+export default class Common {
+
+	@Slash("ping", {
+        description: "Pong!"
+    })
+	@Guard()
+	ping(interaction: CommandInteraction): void {
+		
+		interaction.reply('pong')
+	}
+}
