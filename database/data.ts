@@ -1,6 +1,6 @@
 export const defaultData = {
 
     maintenance: false,
-    lastMaintenance: new Date(),
-    lastStartup: new Date()
+    lastMaintenance: Date.now(),
+    lastStartup: Date.now()
 }

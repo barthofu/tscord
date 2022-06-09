@@ -1,7 +1,8 @@
 # Discord Bot Template (v13)
 
 ## Todo
-- [ ] Remove extended client (in favor of a full DI pattern)
+- [x] Remove extended client (in favor of a full DI pattern)
+- [ ] Timezone in config (e.g: Schedule)
 
 ## Features
 
@@ -13,16 +14,17 @@
     - [x] `interactionCreate`
     - [ ] ...
 - [ ] Custom events
-    - [ ] `guildAdminAdd`
+    - [x] `guildAdminAdd`
     - [ ] `guildAdminRemove`
+    - [ ] `trigger` (event triggered when a regex/word/sentence is met in a message)
 - [ ] Guards implementations
     - [x] user is bot
     - [x] nsfw
     - [x] cooldown
     - [x] maintenance
     - [x] dm
-    - [ ] permissions
     - [x] enabled
+    - [ ] permissions
 - [x] Guards fallback message
 - [ ] Activities
 
@@ -43,17 +45,26 @@
 - [ ] Stats
 - [x] Logger
 - [x] Cron tasks
+- [ ] Errors handling
 
 #### Built-in commands
 - [ ] General
+    - [ ] `ping` (with latency)
     - [ ] `help`
     - [ ] `stats`
+    - [ ] `info`
+    - [ ] `invite`
+    
+- [ ] Admin
+    - [ ] `prefix`
 - [ ] Owner
     - [ ] `eval`
     - [ ] `maintenance`
 
 #### DevOps
+- [ ] Debugging config for VSCode
 - [ ] Docker
+- [ ] PM2
 - [ ] Unit tests (jest)
 - [ ] CI/CD
 
@@ -72,3 +83,6 @@
     - [ ] Guards
     - [ ] Events
 - [ ] Multiple database server instances connections
+- [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
+- [ ] Integrations with bot lists (e.g: top.gg)
+- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
