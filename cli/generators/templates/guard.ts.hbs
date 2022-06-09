@@ -1,0 +1,11 @@
+import type { ArgsOf, GuardFunction } from "discordx"
+  
+/**
+ * Prevent ...
+ */
+export const {{pascalCase name}}: GuardFunction<
+  	| ArgsOf<"interactionCreate">
+> = async (arg, client, next) => {
+
+    next()
+}

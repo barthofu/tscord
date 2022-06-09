@@ -1,5 +1,6 @@
-import { resolveUser } from "@utils/functions"
 import type { ArgsOf, GuardFunction } from "discordx"
+
+import { resolveUser } from "@utils/functions"
   
 /**
  * Prevent other bots to interact with this bot

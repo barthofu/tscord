@@ -77,11 +77,11 @@
 #### Bonus
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
-- [ ] CLI to generates (also using *plop*) :
-    - [ ] Entities (maybe a simple wrapper of *mikro-orm* CLI)
-    - [ ] Commands
-    - [ ] Guards
-    - [ ] Events
+- [x] CLI to generates (also using *plop*) :
+    - [x] Entities (maybe a simple wrapper of *mikro-orm* CLI)
+    - [x] Commands
+    - [x] Guards
+    - [x] Events
 - [ ] Multiple database server instances connections
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
 - [ ] Integrations with bot lists (e.g: top.gg)
