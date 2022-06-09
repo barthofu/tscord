@@ -1,7 +1,9 @@
 {
 	"compilerOptions": {
+
 		"target": "ESNext",
 		"module": "commonjs",
+
 		"outDir": "./build",
 		"rootDir": ".",
 		"strict": true,
@@ -32,7 +34,7 @@
 		},
 	},
 
-	"include": ["./src", "**/*.ts", "cli/plopfile", "cli/generators/index.js", "cli/generators/command.js"],
+	"include": ["./src", "**/*.ts"],
 	"exclude": ["build", "node_modules"],
 	"paths": ["node_modules/*", "src/utils/types/*"],
 

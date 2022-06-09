@@ -1,0 +1,12 @@
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { CustomBaseEntity } from './BaseEntity'
+
+@Entity()
+export class {{pascalCase name}} extends CustomBaseEntity {
+
+    @PrimaryKey()
+    id: number
+
+    @Property()
+    name: string
+}
