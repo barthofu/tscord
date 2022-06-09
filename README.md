@@ -24,7 +24,7 @@
     - [x] dm
     - [x] enabled
     - [x] match
-    - [ ] permissions
+    - [x] permissions
 - [x] Guards fallback message
 - [ ] Activities
 

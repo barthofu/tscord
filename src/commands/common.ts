@@ -3,7 +3,7 @@ import type { CommandInteraction } from "discord.js"
 
 import { Slash, Discord, Guard, SlashOption, On } from "@decorators"
 import { setMaintenance } from "@utils/functions"
-import { NSFW, Disabled, Match } from "@guards"
+import { NSFW, Disabled, Match, UserPermissions } from "@guards"
 
 @Discord()
 export default class Common {
@@ -11,7 +11,8 @@ export default class Common {
 	@Slash("ping")
 	@Guard(
 		NSFW,
-		Disabled
+		Disabled,
+		UserPermissions(['ADMINISTRATOR'])
 	)
 	ping(interaction: CommandInteraction): void {
 		
