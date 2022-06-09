@@ -1,0 +1,16 @@
+import { ArgsOf, Client } from 'discordx'
+
+import { On, Discord } from '@decorators'
+
+@Discord()
+export default class {{pascalCase name}} {
+
+    @On('{{camelCase name}}')
+    async handler(
+        [arg]: ArgsOf<'{{camelCase name}}'>,
+        client: Client
+    ) {
+
+       console.log('{{camelCase name}} event triggered!')
+    }
+}
