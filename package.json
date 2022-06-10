@@ -33,6 +33,7 @@
     "discordx": "^9.6.0",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
+    "oneline": "^1.0.3",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
     "typesafe-i18n": "^5.4.3",

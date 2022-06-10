@@ -11,11 +11,11 @@ export {
     SelectMenuComponent,
     SimpleCommand,
     SimpleCommandOption,
-    Slash,
     SlashChoice,
     SlashGroup,
     SlashOption,
 } from 'discordx'
 
 export * from './On'
+export * from './Slash'
 export * from './Schedule'
