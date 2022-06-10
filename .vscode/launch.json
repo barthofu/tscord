@@ -5,8 +5,8 @@
         "name": "Debug bot",
         "type": "node",
         "request": "launch",
-        "runtimeExecutable": "node",
-        "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "dev"],
   
         "args": ["src/main.ts"],
         
