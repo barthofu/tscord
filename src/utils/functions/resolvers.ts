@@ -31,6 +31,18 @@ const resolvers = {
 		fallback: (interaction: any) => null
 	},
 
+	guild: {
+		CommandInteraction: (interaction: CommandInteraction) => interaction.guild,
+		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild,
+		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild,
+		
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild,
+		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild,
+        ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.guild,
+
+		fallback: (interaction: any) => null
+	},
+
 	channel: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.channel,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.channel,
@@ -65,11 +77,11 @@ const resolvers = {
 	locale: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.locale,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild?.preferredLocale ?? 'default',
-		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild?.preferredLocale ?? 'default',
+		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.locale,
 		
-		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild?.preferredLocale ?? 'default',
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild?.preferredLocale ?? 'default',
-        ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.guild?.preferredLocale ?? 'default',	
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.locale,
+		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.locale,
+        ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.locale,	
 	
 		fallback: (_: any) => 'en'
 	}
@@ -77,6 +89,10 @@ const resolvers = {
 
 export const resolveUser = (interaction: AllInteractions | Interaction | Message | VoiceState | MessageReaction | PartialMessageReaction) => {
 	return resolvers.user[getTypeOfInteraction(interaction) as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
+}
+
+export const resolveGuild = (interaction: AllInteractions | Interaction | Message | VoiceState | MessageReaction | PartialMessageReaction) => {
+	return resolvers.guild[getTypeOfInteraction(interaction) as keyof typeof resolvers.guild]?.(interaction) || resolvers.guild['fallback'](interaction)
 }
 
 export const resolveChannel = (interaction: AllInteractions) => {
