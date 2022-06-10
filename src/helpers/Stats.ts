@@ -1,4 +1,4 @@
-import { Client } from 'discordx'
+import { Client, SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
 
@@ -6,6 +6,7 @@ import { Database } from '@core/Database'
 import { Stat, User } from '@entities'
 import { getTypeOfInteraction, resolveAction } from '@utils/functions'
 import { Schedule } from '@decorators'
+import { Message } from 'discord.js'
 
 @singleton()
 export class Stats {
@@ -32,6 +33,16 @@ export class Stats {
         // we extract data from the interaction
         const type = getTypeOfInteraction(interaction)
         const value = resolveAction(interaction)
+
+        // add it to the db
+        await this.register(type, value)
+    }
+
+    async registerSimpleCommand(command: SimpleCommandMessage) {
+
+        // we extract data from the interaction
+        const type = 'SimpleCommandMessage'
+        const value = command.name
 
         // add it to the db
         await this.register(type, value)

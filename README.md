@@ -74,6 +74,8 @@
 - [ ] Comment code
 - [ ] ESlint / Prettier
 - [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) + Doc / wiki 
+- [ ] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
+- [ ] Code of conduct
 
 #### Bonus
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))

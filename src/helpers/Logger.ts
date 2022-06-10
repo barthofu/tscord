@@ -1,4 +1,5 @@
 import { TextChannel, ThreadChannel } from 'discord.js'
+import { SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import fs from 'fs'
 
@@ -46,6 +47,23 @@ export class Logger {
             const action = resolveAction(interaction)
             const channel = resolveChannel(interaction)
             const user = resolveUser(interaction)
+
+            const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
+
+            const saveToFile = config.logs.interactions.file
+    
+            this.log('info', message, saveToFile)
+        }
+    }
+
+    logSimpleCommand(command: SimpleCommandMessage) {
+
+        if (config.logs.simpleCommands.console) {
+
+            const type = 'SimpleCommandMessage'
+            const action = resolveAction(command)
+            const channel = resolveChannel(command)
+            const user = resolveUser(command)
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
 

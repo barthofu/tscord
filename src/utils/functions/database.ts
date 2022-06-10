@@ -7,7 +7,7 @@ import { defaultData } from '../../../database/data'
 
 type DataType = keyof typeof defaultData
 
-export async function initDataTable() {
+export const initDataTable = async () => {
 
     const db = container.resolve(Database)
 

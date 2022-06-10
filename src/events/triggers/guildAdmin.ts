@@ -1,10 +1,9 @@
 import { Client, ArgsOf } from 'discordx'
+import { Collection, Role } from 'discord.js'
 import { injectable } from 'tsyringe'
 
 import { Logger, Stats } from '@helpers'
-import { Maintenance } from '@guards'
-import { Collection, Role } from 'discord.js';
-import { On, Discord, Guard } from '@decorators';
+import { On, Discord } from '@decorators'
 
 @Discord()
 @injectable()
@@ -16,7 +15,6 @@ export default class {
     ) {}
 
     @On('guildMemberUpdate')
-    @Guard( Maintenance )
     async guildMemberUpdate(
         [oldMember, newMember]: ArgsOf<'guildMemberUpdate'>, 
         client: Client

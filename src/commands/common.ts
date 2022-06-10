@@ -1,4 +1,4 @@
-import { Client } from "discordx"
+import { Client, SimpleCommand, SimpleCommandMessage } from "discordx"
 import type { CommandInteraction } from "discord.js"
 
 import { Slash, Discord, Guard, SlashOption, On } from "@decorators"
@@ -32,8 +32,14 @@ export default class Common {
 	@Guard(
 		Match(/test/gim)
 	)
-	async dev(): Promise<void> {
+	async testMatch(): Promise<void> {
 		
 		console.log('"test" trouvé !')
+	}
+
+	@SimpleCommand('dev')
+	async dev(command: SimpleCommandMessage) {
+
+		console.log('dev command invoked!')
 	}
 }

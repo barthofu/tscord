@@ -8,7 +8,7 @@ import { On, Discord, Guard } from '@decorators';
 
 @Discord()
 @injectable()
-export default class InteractionCreate {
+export default class GuildAdminAdd {
 
     constructor(
         private stats: Stats,

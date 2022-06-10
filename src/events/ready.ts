@@ -3,7 +3,7 @@ import { Client } from 'discordx'
 import { Once, Discord } from '@decorators'
 
 @Discord()
-export default class Test {
+export default class Ready {
 
     @Once('ready')
     async ready(rawClient: Client | Client[]) {

@@ -20,6 +20,10 @@
     "interactions": {
       "file": true,
       "console": true
+    },
+    "simpleCommands": {
+      "file": true,
+      "console": true
     }
   },
 
