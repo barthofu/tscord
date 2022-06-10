@@ -5,14 +5,14 @@ import { Slash, Discord, SlashOption, On } from "@decorators"
 import { Guard } from "@guards"
 
 @Discord()
-export default class Common {
+export default class {{pascalCase name}} {
 
-	@Slash("ping", {
-        description: "Pong!"
+	@Slash('{{camelCase name}}', { description: 
+		'Here goes the command description!'
     })
 	@Guard()
-	ping(interaction: CommandInteraction): void {
+	{{camelCase name}}(interaction: CommandInteraction): void {
 		
-		interaction.reply('pong')
+		interaction.reply('{{camelCase name}} comman invoked!')
 	}
 }

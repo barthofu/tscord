@@ -12,7 +12,7 @@ module.exports = (plop) => {
         actions: [{
             type: 'add',
             path: '../src/commands/{{camelCase name}}.ts',
-            templateFile: 'generators/templates/command.ts.hbs',
+            templateFile: 'templates/command.ts.hbs',
         }]
     })
 }
