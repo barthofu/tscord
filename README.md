@@ -7,8 +7,6 @@
 ## Features
 
 #### Discord
-- [x] [discord.js](https://github.com/discordjs/discord.js/) implementation
-- [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
 - [ ] Events
     - [x] `ready`
     - [x] `interactionCreate`
@@ -25,27 +23,29 @@
     - [x] enabled
     - [x] match
     - [x] permissions
-- [x] Guards fallback message
 - [ ] Activities
+- [x] Guards fallback message
+- [x] [discord.js](https://github.com/discordjs/discord.js/) implementation
+- [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
 
 #### Data
-- [x] SQLite database
+- [ ] Users/Guilds sync with database
 - [ ] Other databases
+- [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
 - [x] EAV pattern implementation for single data types
 - [x] State store system (no database)
-- [ ] Users/Guilds sync with database
 - [x] Built-in entities
     - [x] User
     - [x] Guild
     - [x] Stats
 
 #### Utilities
-- [x] Localization
 - [ ] Stats
+- [ ] Errors handling
+- [x] Localization
 - [x] Logger
 - [x] Cron tasks
-- [ ] Errors handling
 
 #### Built-in commands
 - [ ] General
@@ -62,11 +62,12 @@
     - [ ] `maintenance`
 
 #### DevOps
-- [ ] Debugging config for VSCode
+- [ ] .env.example
 - [ ] Docker
 - [ ] PM2
 - [ ] Unit tests (jest)
 - [ ] CI/CD
+- [x] Debugging config for VSCode
 
 #### Other
 - [ ] JDoc
@@ -77,12 +78,12 @@
 #### Bonus
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
+- [ ] Multiple database server instances connections
+- [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
+- [ ] Integrations with bot lists (e.g: top.gg)
+- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
 - [x] CLI to generates (also using *plop*) :
     - [x] Entities (maybe a simple wrapper of *mikro-orm* CLI)
     - [x] Commands
     - [x] Guards
     - [x] Events
-- [ ] Multiple database server instances connections
-- [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
-- [ ] Integrations with bot lists (e.g: top.gg)
-- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
