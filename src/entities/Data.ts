@@ -31,18 +31,11 @@ export class Data extends CustomBaseEntity {
 @singleton()
 export class DataRepository extends EntityRepository<Data> {
 
-    async get(key: DataType): Promise<any> {
+    async get<T extends DataType>(key: T): Promise<typeof defaultData[T]> {
 
         const data = await this.findOne({ key })
 
-        if (!data?.value) return null
-
-        try {
-            return JSON.parse(data.value)
-        }
-        catch (e) {
-            return data.value
-        }
+        return JSON.parse(data!.value)
     }
 
     async set<T extends DataType>(key: T, value: typeof defaultData[T]): Promise<void> {

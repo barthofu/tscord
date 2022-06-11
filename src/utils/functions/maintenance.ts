@@ -6,9 +6,9 @@ import { Data } from "@entities"
 export const isInMaintenance = async (): Promise<boolean> => {
             
     const dataRepository = container.resolve(Database).getRepo(Data)
-    const maintenance = await dataRepository.get("maintenance")
+    const maintenance = await dataRepository.get('maintenance')
     
-    return !!maintenance as boolean
+    return maintenance
 }
 
 export const setMaintenance = async (maintenance: boolean) =>  {
