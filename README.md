@@ -49,14 +49,14 @@
 
 #### Built-in commands
 - [ ] General
-    - [ ] `ping` (with latency)
+    - [x] `ping` (with latency)
     - [ ] `help`
     - [ ] `stats`
     - [ ] `info`
     - [ ] `invite`
     
 - [ ] Admin
-    - [ ] `prefix`
+    - [x] `prefix`
 - [ ] Owner
     - [ ] `eval`
     - [ ] `maintenance`

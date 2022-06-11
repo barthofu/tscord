@@ -4,9 +4,7 @@ import { CustomBaseEntity } from './BaseEntity'
 @Entity()
 export class User extends CustomBaseEntity {
 
-    @PrimaryKey()
-    id: number
+    @PrimaryKey({ autoincrement: false })
+    id!: string
 
-    @Property()
-    discordId: number
 }

@@ -8,6 +8,16 @@ const fr: Translation = {
 		GUILD_ONLY: 'Cette commande ne peut être utilisée qu\'en serveur.',
 		NSFW: 'Cette commande ne peut être utilisée que dans un salon NSFW.',
 	},
+
+	ERRORS: {
+		UNKNOWN: 'Une erreur est survenue.',
+	},
+
+	COMMANDS: {
+		PREFIX: {
+			CHANGED: 'Prefix changé en `{prefix}`.',
+		},
+	},
 }
 
 export default fr

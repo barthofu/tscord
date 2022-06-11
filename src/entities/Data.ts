@@ -1,6 +1,5 @@
 import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/core"
 import { EntityRepository } from "@mikro-orm/sqlite"
-import { singleton } from "tsyringe"
 import { CustomBaseEntity } from "./BaseEntity"
 
 import { defaultData } from '@/../database/data'
@@ -28,7 +27,6 @@ export class Data extends CustomBaseEntity {
 // =========== Custom Repository =============
 // ===========================================
 
-@singleton()
 export class DataRepository extends EntityRepository<Data> {
 
     async get<T extends DataType>(key: T): Promise<typeof defaultData[T]> {
