@@ -17,6 +17,9 @@ const en: BaseTranslation = {
 		PREFIX: {
 			CHANGED: 'Prefix changed to `{prefix:string}`.',
 		},
+		MAINTENANCE: {
+			SUCCESS: 'Maintenance mode set to `{state:string}`.',
+		},
 	},
 }
 

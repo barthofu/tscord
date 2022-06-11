@@ -6,12 +6,11 @@ import { Database } from "@core/Database"
 import { Slash, Discord, SlashOption } from "@decorators"
 import { Guard } from "@guards"
 import { Guild } from "@entities"
-import { resolveGuild } from "@utils/functions"
+import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 import { ErrorHandler } from "@helpers"
+import { getLocaleFromInteraction, L } from "@i18n"
 
 import config from '../../../config.json'
-import { getLocaleFromInteraction, L } from "@i18n"
-import { simpleSuccessEmbed } from "@utils/functions/embeds"
 
 @Discord()
 @injectable()

@@ -17,6 +17,9 @@ const fr: Translation = {
 		PREFIX: {
 			CHANGED: 'Prefix changé en `{prefix}`.',
 		},
+		MAINTENANCE: {
+			SUCCESS: 'Le mode maintenance a été définie à `{state}`.',
+		},
 	},
 }
 

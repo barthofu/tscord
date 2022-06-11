@@ -46,6 +46,13 @@ type RootTranslation = {
 			 */
 			CHANGED: RequiredParams<'prefix'>
 		}
+		MAINTENANCE: {
+			/**
+			 * Maintenance mode set to `{state}`.
+			 * @param {string} state
+			 */
+			SUCCESS: RequiredParams<'state'>
+		}
 	}
 }
 
@@ -80,6 +87,12 @@ export type TranslationFunctions = {
 			 * Prefix changed to `{prefix}`.
 			 */
 			CHANGED: (arg: { prefix: string }) => LocalizedString
+		}
+		MAINTENANCE: {
+			/**
+			 * Maintenance mode set to `{state}`.
+			 */
+			SUCCESS: (arg: { state: string }) => LocalizedString
 		}
 	}
 }

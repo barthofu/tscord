@@ -59,7 +59,7 @@ export class Stats {
         return statsObj
     }
 
-    @Schedule('*/10 * * * * *')
+    @Schedule('0 0 * * *')
     async registerDailyStats() {
 
         const dailyStats = await this.getDailyStats()

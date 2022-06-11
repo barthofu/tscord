@@ -59,7 +59,7 @@
     - [x] `prefix`
 - [ ] Owner
     - [ ] `eval`
-    - [ ] `maintenance`
+    - [x] `maintenance`
 
 #### DevOps
 - [ ] .env.example
