@@ -1,12 +1,12 @@
 import { Client, SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
+import { constant } from 'case'
 
 import { Database } from '@core/Database'
 import { Stat, User } from '@entities'
-import { getTypeOfInteraction, resolveAction } from '@utils/functions'
+import { getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
 import { Schedule } from '@decorators'
-import { Message } from 'discord.js'
 
 @singleton()
 export class Stats {
@@ -20,28 +20,35 @@ export class Stats {
         this.statsRepo = this.db.getRepo(Stat)
     }
 
-    async register(type: string, value: string) {
+    async register(type: string, value: string, additionalData?: any) {
 
         const stat = new Stat()
         stat.type = type
         stat.value = value
+        if (additionalData) stat.additionalData = additionalData
+
         await this.statsRepo.persistAndFlush(stat)
     }
 
     async registerInteraction(interaction: AllInteractions) {
 
         // we extract data from the interaction
-        const type = getTypeOfInteraction(interaction)
+        const type = constant(getTypeOfInteraction(interaction))
         const value = resolveAction(interaction)
+        const additionalData = {
+            user: resolveUser(interaction)?.id,
+            guild: resolveGuild(interaction)?.id,
+            channel: resolveChannel(interaction)?.id
+        }
 
         // add it to the db
-        await this.register(type, value)
+        await this.register(type, value, additionalData)
     }
 
     async registerSimpleCommand(command: SimpleCommandMessage) {
 
         // we extract data from the interaction
-        const type = 'SimpleCommandMessage'
+        const type = 'SIMPLE_COMMAND_MESSAGE'
         const value = command.name
 
         // add it to the db

@@ -1,6 +1,7 @@
 import { TextChannel, ThreadChannel } from 'discord.js'
 import { SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
+import { constant } from 'case'
 import fs from 'fs'
 
 import { getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
@@ -41,16 +42,16 @@ export class Logger {
 
     logInteraction(interaction: AllInteractions) {
 
-        if (config.logs.interactions.console) {
+        if (config.logs.interaction.console) {
 
-            const type = getTypeOfInteraction(interaction)
+            const type = constant(getTypeOfInteraction(interaction))
             const action = resolveAction(interaction)
             const channel = resolveChannel(interaction)
             const user = resolveUser(interaction)
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
 
-            const saveToFile = config.logs.interactions.file
+            const saveToFile = config.logs.interaction.file
     
             this.log('info', message, saveToFile)
         }
@@ -58,18 +59,30 @@ export class Logger {
 
     logSimpleCommand(command: SimpleCommandMessage) {
 
-        if (config.logs.simpleCommands.console) {
+        if (config.logs.simpleCommand.console) {
 
-            const type = 'SimpleCommandMessage'
+            const type = 'SIMPLE_COMMAND_MESSAGE'
             const action = resolveAction(command)
             const channel = resolveChannel(command)
             const user = resolveUser(command)
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
 
-            const saveToFile = config.logs.interactions.file
+            const saveToFile = config.logs.interaction.file
     
             this.log('info', message, saveToFile)
+        }
+    }
+
+    logNewUser(userId: string) {
+
+        if (config.logs.newUser.console) {
+
+            this.log(
+                'info',
+                `(NEW_USER) ${userId} has been added to the db`,
+                config.logs.newUser.file
+            )
         }
     }
 }

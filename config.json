@@ -20,11 +20,15 @@
   "logs": {
 
     "debug": true,
-    "interactions": {
+    "interaction": {
       "file": true,
       "console": true
     },
-    "simpleCommands": {
+    "simpleCommand": {
+      "file": true,
+      "console": true
+    },
+    "newUser": {
       "file": true,
       "console": true
     }

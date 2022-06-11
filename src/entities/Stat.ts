@@ -12,6 +12,9 @@ export class Stat {
     @Property()
     value: string = ''
 
+    @Property({ type: 'json', nullable: true })
+    additionalData?: any
+
     @Property()
     createdAt: Date = new Date()
 }
