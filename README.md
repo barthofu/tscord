@@ -58,7 +58,7 @@
 - [ ] Admin
     - [x] `prefix`
 - [ ] Owner
-    - [ ] `eval`
+    - [x] `eval`
     - [x] `maintenance`
 
 #### DevOps

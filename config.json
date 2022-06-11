@@ -12,7 +12,10 @@
     "260908777446965248"
   ],
   
-  "evalName": "bot",
+  "eval": {
+    "name": "bot",
+    "onlyOwner": false
+  },
 
   "logs": {
 
