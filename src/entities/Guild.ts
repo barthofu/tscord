@@ -14,6 +14,9 @@ export class Guild extends CustomBaseEntity {
 
     @Property({ nullable: true, type: 'string' })
     prefix: string | null
+
+    @Property()
+    deleted: boolean = false
 }
 
 @singleton()

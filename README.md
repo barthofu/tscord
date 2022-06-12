@@ -29,8 +29,8 @@
 - [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
 
 #### Data
-- [ ] Users/Guilds sync with database
 - [ ] Other databases
+- [x] Users/Guilds sync with database
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
 - [x] EAV pattern implementation for single data types

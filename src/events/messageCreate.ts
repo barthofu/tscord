@@ -4,7 +4,7 @@ import { injectable } from 'tsyringe'
 import { Logger, Stats } from '@helpers'
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
-import { checkUser, executeEval } from '@utils/functions'
+import { syncUser, executeEval } from '@utils/functions'
 
 import config from '../../config.json'
 
@@ -24,7 +24,7 @@ export default class MessageCreate {
     async messageCreate([message]: ArgsOf<"messageCreate">, client: Client): Promise<void> {
 
         // insert user in db if not exists
-        await checkUser(message.author)
+        await syncUser(message.author)
 
         // eval command
         if (

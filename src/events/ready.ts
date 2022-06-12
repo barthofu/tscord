@@ -1,6 +1,7 @@
 import { Client } from 'discordx'
 
 import { Once, Discord } from '@decorators'
+import { syncAllGuilds } from '@utils/functions'
 
 @Discord()
 export default class Ready {
@@ -10,10 +11,10 @@ export default class Ready {
 
         const client: Client = rawClient instanceof Array ? rawClient[0] : rawClient
 
-        // Make sure all guilds are cached
+        // make sure all guilds are cached
         await client.guilds.fetch()
 
-        // Synchronize applications commands with Discord
+        // synchronize applications commands with Discord
         await client.initApplicationCommands({
             global: {
                 disable: {
@@ -22,7 +23,10 @@ export default class Ready {
             }
         })
 
-        // Synchronize applications command permissions with Discord
+        // synchronize applications command permissions with Discord
         await client.initApplicationPermissions()
+
+        // syncrhonize guilds between discord and the database
+        await syncAllGuilds(client)
     }
 }

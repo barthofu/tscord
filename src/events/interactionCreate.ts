@@ -4,7 +4,7 @@ import { injectable } from 'tsyringe'
 import { Logger, Stats } from '@helpers'
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators';
-import { checkUser } from '@utils/functions';
+import { syncUser } from '@utils/functions';
 
 @Discord()
 @injectable()
@@ -25,7 +25,7 @@ export default class InteractionCreate {
     ) {
 
         // insert user in db if not exists
-        await checkUser(interaction.user)
+        await syncUser(interaction.user)
         
         await this.stats.registerInteraction(interaction as AllInteractions)
         this.logger.logInteraction(interaction as AllInteractions)

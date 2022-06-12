@@ -31,6 +31,10 @@
     "newUser": {
       "file": true,
       "console": true
+    },
+    "newGuild": {
+      "file": true,
+      "console": true
     }
   },
 

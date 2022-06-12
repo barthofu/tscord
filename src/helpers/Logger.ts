@@ -1,4 +1,4 @@
-import { TextChannel, ThreadChannel, User } from 'discord.js'
+import { Guild, TextChannel, ThreadChannel, User } from 'discord.js'
 import { SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import { constant } from 'case'
@@ -82,6 +82,23 @@ export class Logger {
                 'info',
                 `(NEW_USER) ${user.username}#${user.discriminator} (${user.id}) has been added to the db`,
                 config.logs.newUser.file
+            )
+        }
+    }
+
+    logGuild(type: 'NEW_GUILD' | 'DELETE_GUILD' | 'RECOVER_GUILD', guildId: string) {
+
+        if (config.logs.newGuild.console) {
+
+            const additionalMessage = 
+                type === 'NEW_GUILD' ? 'has been added to the db' : 
+                type === 'DELETE_GUILD' ? 'has been deleted' : 
+                type === 'RECOVER_GUILD' ? 'has been recovered' : ''
+
+            this.log(
+                'info',
+                `(${type}) ${guildId} ${additionalMessage}`,
+                config.logs.newGuild.file
             )
         }
     }
