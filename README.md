@@ -23,7 +23,7 @@
     - [x] enabled
     - [x] match
     - [x] permissions
-- [ ] Activities
+- [X] Activities
 - [x] Guards fallback message
 - [x] [discord.js](https://github.com/discordjs/discord.js/) implementation
 - [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
