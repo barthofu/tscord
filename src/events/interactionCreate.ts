@@ -25,7 +25,7 @@ export default class InteractionCreate {
     ) {
 
         // insert user in db if not exists
-        await checkUser(interaction.user.id)
+        await checkUser(interaction.user)
         
         await this.stats.registerInteraction(interaction as AllInteractions)
         this.logger.logInteraction(interaction as AllInteractions)

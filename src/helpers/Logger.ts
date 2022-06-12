@@ -1,10 +1,10 @@
-import { TextChannel, ThreadChannel } from 'discord.js'
+import { TextChannel, ThreadChannel, User } from 'discord.js'
 import { SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import { constant } from 'case'
 import fs from 'fs'
 
-import { getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
+import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
 
 import config from '../../config.json'
 
@@ -23,7 +23,7 @@ export class Logger {
         if (message === '') return
         
         // log in the console
-        const templatedLog = `[${new Date().toISOString()}] ${message}`
+        const templatedLog = `[${formatDate(new Date())}] ${message}`
         console[level](templatedLog)
         
         // save log to file
@@ -74,13 +74,13 @@ export class Logger {
         }
     }
 
-    logNewUser(userId: string) {
+    logNewUser(user: User) {
 
         if (config.logs.newUser.console) {
 
             this.log(
                 'info',
-                `(NEW_USER) ${userId} has been added to the db`,
+                `(NEW_USER) ${user.username}#${user.discriminator} (${user.id}) has been added to the db`,
                 config.logs.newUser.file
             )
         }
