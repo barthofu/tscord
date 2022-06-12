@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@discordx/importer": "^1.1.9",
+    "@discordx/pagination": "^2.2.2",
     "@discordx/utilities": "^4.2.5",
     "@mikro-orm/cli": "^5.1.4",
     "@mikro-orm/core": "^5.1.4",
@@ -36,6 +37,7 @@
     "discordx": "^9.6.0",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
+    "luxon": "^2.4.0",
     "oneline": "^1.0.3",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",

@@ -2,10 +2,11 @@ import { Client, SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
 import { constant } from 'case'
+import { DateTime } from 'luxon'
 
 import { Database } from '@core/Database'
 import { Stat, User } from '@entities'
-import { getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
+import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
 import { Schedule } from '@decorators'
 
 @singleton()
@@ -64,6 +65,80 @@ export class Stats {
         }
 
         return statsObj
+    }
+
+    async getStatPerDays(type: string, days: number): Promise<StatPerInterval> {
+
+        const now = Date.now()
+        const stats: StatPerInterval = []
+
+        for (let i = 0; i < days; i++) {
+
+            const date = new Date(now - (i * 24 * 60 * 60 * 1000))
+            const statCount = await this.getCountForGivenDay(type, date)
+
+            stats.push({
+                date: formatDate(date, 'onlyDate'),
+                count: statCount
+            })
+        }
+
+        return this.cummulateStatPerInterval(stats)
+    }
+
+    cummulateStatPerInterval(stats: StatPerInterval) {
+
+        const cummulatedStats = 
+            stats
+                .reverse()
+                .reduce((acc, stat, i) => {
+
+                    if (acc.length === 0) acc.push(stat)
+                    else acc.push({
+                        date: stat.date,
+                        count: acc[i - 1].count + stat.count
+                    })
+                
+                    return acc
+                }, [] as StatPerInterval)
+                .reverse()
+
+        return cummulatedStats
+    }
+
+    sumStats(stats1: StatPerInterval, stats2: StatPerInterval) {
+
+        const allDays = [...new Set(stats1.concat(stats2).map(stat => stat.date))]
+            .sort((a, b) => {
+                var aa = a.split('/').reverse().join(),
+                    bb = b.split('/').reverse().join();
+                return aa < bb ? -1 : (aa > bb ? 1 : 0);
+            })
+
+        const sumStats = allDays.map(day => ({
+            date: day,
+            count: 
+            (stats1.find(stat => stat.date === day)?.count || 0) 
+            + (stats2.find(stat => stat.date === day)?.count || 0)
+        }))
+
+        return sumStats
+    }
+
+    async getCountForGivenDay(type: string, date: Date): Promise<number> {
+
+        const start = DateTime.fromJSDate(date).startOf('day').toJSDate()
+        const end = DateTime.fromJSDate(date).endOf('day').toJSDate()
+
+        const stats = await this.statsRepo.find({
+            type,
+            createdAt: {
+                $gte: start,
+                $lte: end
+            }   
+        })
+
+        return stats.length
     }
 
     @Schedule('0 0 * * *')

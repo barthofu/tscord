@@ -5,6 +5,7 @@ import config from "../../../config.json"
 
 const dateMasks = {
     default: 'DD/MM/YYYY - HH:mm:ss',
+    onlyDate: 'DD/MM/YYYY',
 }
 
 export const formatDate = (date: Date, mask: keyof typeof dateMasks = 'default') => {

@@ -20,6 +20,14 @@ const fr: Translation = {
 		MAINTENANCE: {
 			SUCCESS: 'Le mode maintenance a été définie à `{state}`.',
 		},
+		STATS: {
+			HEADERS: {
+				COMMANDS: 'Commandes',
+				GUILD: 'Serveurs',
+				ACTIVE_USERS: 'Utilisateurs actifs',
+				USERS: 'Utilisateurs',
+			}
+		},
 	},
 }
 

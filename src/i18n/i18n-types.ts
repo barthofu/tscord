@@ -53,6 +53,26 @@ type RootTranslation = {
 			 */
 			SUCCESS: RequiredParams<'state'>
 		}
+		STATS: {
+			HEADERS: {
+				/**
+				 * Commands
+				 */
+				COMMANDS: string
+				/**
+				 * Guild
+				 */
+				GUILD: string
+				/**
+				 * Active Users
+				 */
+				ACTIVE_USERS: string
+				/**
+				 * Users
+				 */
+				USERS: string
+			}
+		}
 	}
 }
 
@@ -93,6 +113,26 @@ export type TranslationFunctions = {
 			 * Maintenance mode set to `{state}`.
 			 */
 			SUCCESS: (arg: { state: string }) => LocalizedString
+		}
+		STATS: {
+			HEADERS: {
+				/**
+				 * Commands
+				 */
+				COMMANDS: () => LocalizedString
+				/**
+				 * Guild
+				 */
+				GUILD: () => LocalizedString
+				/**
+				 * Active Users
+				 */
+				ACTIVE_USERS: () => LocalizedString
+				/**
+				 * Users
+				 */
+				USERS: () => LocalizedString
+			}
 		}
 	}
 }

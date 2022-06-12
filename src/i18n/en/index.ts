@@ -20,6 +20,14 @@ const en: BaseTranslation = {
 		MAINTENANCE: {
 			SUCCESS: 'Maintenance mode set to `{state:string}`.',
 		},
+		STATS: {
+			HEADERS: {
+				COMMANDS: 'Commands',
+				GUILD: 'Guild',
+				ACTIVE_USERS: 'Active Users',
+				USERS: 'Users',
+			}
+		}
 	},
 }
 

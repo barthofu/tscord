@@ -1,20 +1,24 @@
 # Discord Bot Template (v13)
 
 ## Todo
+- [ ] Add the possibility to filter or not interactions logs at a granular level (button, selectmenu, etc) in the `config.json`
 - [x] Timezone in config (e.g: Schedule)
 - [x] Remove extended client (in favor of a full DI pattern)
 
 ## Features
 
 #### Discord
-- [ ] Events
+- [ ] Custom events
+    - [ ] `guildAdminRemove`
+    - [x] `guildAdminAdd`
+    - [x] `simpleCommandCreate`
+- [x] Events
     - [x] `ready`
     - [x] `interactionCreate`
-    - [ ] ...
-- [ ] Custom events
-    - [x] `guildAdminAdd`
-    - [ ] `guildAdminRemove`
-- [ ] Guards implementations
+    - [x] `guildCreate`
+    - [x] `guildDelete`
+    - [x] `messageCreate`
+- [x] Guards implementations
     - [x] user is bot
     - [x] nsfw
     - [x] cooldown
@@ -41,23 +45,23 @@
     - [x] Stats
 
 #### Utilities
-- [ ] Stats
 - [ ] Errors handling
+- [x] Stats
 - [x] Localization
 - [x] Logger
 - [x] Cron tasks
 
 #### Built-in commands
 - [ ] General
-    - [x] `ping` (with latency)
     - [ ] `help`
-    - [ ] `stats`
     - [ ] `info`
     - [ ] `invite`
+    - [x] `stats`
+    - [x] `ping` (with latency)
     
-- [ ] Admin
+- [x] Admin
     - [x] `prefix`
-- [ ] Owner
+- [x] Owner
     - [x] `eval`
     - [x] `maintenance`
 

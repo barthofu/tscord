@@ -49,7 +49,7 @@ export class Logger {
             const channel = resolveChannel(interaction)
             const user = resolveUser(interaction)
 
-            const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
+            const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in #${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
 
             const saveToFile = config.logs.interaction.file
     
