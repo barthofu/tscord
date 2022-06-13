@@ -1,20 +1,23 @@
 import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
-import { CommandInteraction } from "discord.js"
+import type { CommandInteraction } from "discord.js"
+import fs from 'fs'
 
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Guard } from "@guards"
 
 @Discord()
 @Category('General')
-export default class {{pascalCase name}} {
+export default class Help {
 
-	@Slash('{{camelCase name}}', { description: 
+	@Slash('help', { description: 
 		'Here goes the command description!'
     })
 	@Guard()
-	{{camelCase name}}(interaction: CommandInteraction): void {
+	help(interaction: CommandInteraction): void {
 		
-		interaction.reply('{{camelCase name}} comman invoked!')
+
+		
+		interaction.reply('help comman invoked!')
 	}
 }

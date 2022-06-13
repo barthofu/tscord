@@ -1,4 +1,5 @@
 import { Client } from "discordx"
+import { Category } from "@discordx/utilities"
 import type { CommandInteraction } from "discord.js"
 import { injectable } from "tsyringe"
 
@@ -14,6 +15,7 @@ import { generalConfig } from '@configs'
 
 @Discord()
 @injectable()
+@Category('Admin')
 export default class Prefix {
 
 	constructor(

@@ -1,4 +1,5 @@
 import { Client } from "discordx"
+import { Category } from "@discordx/utilities"
 import { CommandInteraction, MessageEmbed, User } from "discord.js"
 import { injectable } from "tsyringe"
 import {
@@ -36,6 +37,7 @@ const statsResolver: StatsResolverType = [
 
 @Discord()
 @injectable()
+@Category('General')
 export default class Stats {
 
 	constructor(

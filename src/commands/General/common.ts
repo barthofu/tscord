@@ -1,4 +1,5 @@
 import { Client, SimpleCommand, SimpleCommandMessage } from "discordx"
+import { Category } from "@discordx/utilities"
 import type { CommandInteraction, Message } from "discord.js"
 import oneLine from 'oneline'
 
@@ -7,6 +8,7 @@ import { resolveChannel, resolveGuild, setMaintenance } from "@utils/functions"
 import { Match } from "@guards"
 
 @Discord()
+@Category('General')
 export default class Common {
 
 	@Slash('ping', { description: 
