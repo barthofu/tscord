@@ -3,7 +3,7 @@ import { container } from 'tsyringe'
 import { Database } from '@core/Database'
 import { Data } from '@entities'
 
-import { defaultData } from '../../../database/data'
+import { defaultData } from '@core/Database'
 
 type DataType = keyof typeof defaultData
 
