@@ -23,7 +23,7 @@ const fr: Translation = {
 		STATS: {
 			HEADERS: {
 				COMMANDS: 'Commandes',
-				GUILD: 'Serveurs',
+				GUILDS: 'Serveurs',
 				ACTIVE_USERS: 'Utilisateurs actifs',
 				USERS: 'Utilisateurs',
 			}

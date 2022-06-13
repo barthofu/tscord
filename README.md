@@ -1,7 +1,7 @@
 # Discord Bot Template (v13)
 
 ## Todo
-- [ ] Add the possibility to filter or not interactions logs at a granular level (button, selectmenu, etc) in the `config.json`
+- [x] Add the possibility to filter or not interactions logs at a granular level (button, selectmenu, etc) in the `config.json`
 - [x] Timezone in config (e.g: Schedule)
 - [x] Remove extended client (in favor of a full DI pattern)
 

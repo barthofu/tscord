@@ -10,7 +10,7 @@ import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 import { ErrorHandler } from "@helpers"
 import { getLocaleFromInteraction, L } from "@i18n"
 
-import config from '../../../config.json'
+import { generalConfig } from '@configs'
 
 @Discord()
 @injectable()
@@ -42,7 +42,7 @@ export default class Prefix {
 			simpleSuccessEmbed(
 				interaction, 
 				L[locale]['COMMANDS']['PREFIX']['CHANGED']({ 
-					prefix: prefix || config.simpleCommandsPrefix 
+					prefix: prefix || generalConfig.simpleCommandsPrefix 
 				}))
 		} 
 		else {

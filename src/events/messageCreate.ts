@@ -1,21 +1,13 @@
 import { Client, ArgsOf } from 'discordx'
-import { injectable } from 'tsyringe'
 
-import { Logger, Stats } from '@helpers'
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
 import { syncUser, executeEval } from '@utils/functions'
 
-import config from '../../config.json'
+import { generalConfig } from '@configs'
 
 @Discord()
-@injectable()
 export default class MessageCreate {
-
-    constructor(
-        private stats: Stats,
-        private logger: Logger
-    ) {}
 
     @On("messageCreate")
     @Guard(
@@ -28,10 +20,10 @@ export default class MessageCreate {
 
         // eval command
         if (
-            message.content.startsWith(`\`\`\`${config.eval.name}`)
+            message.content.startsWith(`\`\`\`${generalConfig.eval.name}`)
             && (
-                (!config.eval.onlyOwner && config.devs.includes(message.author.id))
-                || (config.eval.onlyOwner && message.author.id === config.owner)
+                (!generalConfig.eval.onlyOwner && generalConfig.devs.includes(message.author.id))
+                || (generalConfig.eval.onlyOwner && message.author.id === generalConfig.owner)
             )
         ) {
             executeEval(message)

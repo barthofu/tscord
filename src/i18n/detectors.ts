@@ -1,7 +1,8 @@
+import { detectLocale } from './i18n-util'
+
 import { resolveLocale } from '@utils/functions'
 
-import config from '../../config.json'
-import { detectLocale } from './i18n-util'
+import { generalConfig } from '@configs'
 
 const allInteractionsLocaleDetector = (interaction: AllInteractions) => {
 
@@ -10,7 +11,7 @@ const allInteractionsLocaleDetector = (interaction: AllInteractions) => {
         let locale = resolveLocale(interaction)
         
         if (['en-US', 'en-GB'].includes(locale)) locale = 'en'
-        else if (locale === 'default') locale = config.defaultLocale
+        else if (locale === 'default') locale = generalConfig.defaultLocale
 
         return [locale]
     }

@@ -1,6 +1,6 @@
 import { Message } from 'discord.js'
 
-import config from '../../../config.json'
+import { generalConfig } from '@configs'
 
 const clean = (text: any) => {
     if (typeof (text) === 'string') return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203))
@@ -11,7 +11,7 @@ export const executeEval = (message: Message) => {
 
     try {
 
-        const code = message.content.replace('```' + config.eval.name, '').replace('```', '')
+        const code = message.content.replace('```' + generalConfig.eval.name, '').replace('```', '')
         
         let evaled = eval(code)
         

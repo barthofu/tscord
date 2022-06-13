@@ -9,6 +9,8 @@ import { Stat, User } from '@entities'
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
 import { Schedule } from '@decorators'
 
+import { statsConfig } from '@configs'
+
 @singleton()
 export class Stats {
 
@@ -35,6 +37,8 @@ export class Stats {
 
         // we extract data from the interaction
         const type = constant(getTypeOfInteraction(interaction))
+        if (statsConfig.interaction.exclude.includes(type)) return
+        
         const value = resolveAction(interaction)
         const additionalData = {
             user: resolveUser(interaction)?.id,

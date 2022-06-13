@@ -1,8 +1,8 @@
 import { Message } from 'discord.js'
 
-import config from '../../../config.json'
+import { generalConfig } from '@configs'
 
 export const getPrefixFromMessage = (message: Message) => {
 
-    return config.simpleCommandsPrefix
+    return generalConfig.simpleCommandsPrefix
 }

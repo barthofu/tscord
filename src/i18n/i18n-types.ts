@@ -62,7 +62,7 @@ type RootTranslation = {
 				/**
 				 * Guild
 				 */
-				GUILD: string
+				GUILDS: string
 				/**
 				 * Active Users
 				 */
@@ -123,7 +123,7 @@ export type TranslationFunctions = {
 				/**
 				 * Guild
 				 */
-				GUILD: () => LocalizedString
+				GUILDS: () => LocalizedString
 				/**
 				 * Active Users
 				 */

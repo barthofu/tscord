@@ -4,7 +4,7 @@ import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx'
 import { resolveUser, isInMaintenance, replyToInteraction } from '@utils/functions'
 import { getLocaleFromInteraction, L } from '@i18n'
 
-import config from '../../config.json'
+import { generalConfig } from '@configs'
 
 /**
  * Prevent interactions from running when bot is in maintenance
@@ -25,7 +25,7 @@ export const Maintenance: GuardFunction<
         if (
             maintenance &&
             user?.id &&
-            !config.devs.includes(user.id)
+            !generalConfig.devs.includes(user.id)
         ) {
 
             const locale = getLocaleFromInteraction(arg),

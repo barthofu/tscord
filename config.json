@@ -1,70 +1,77 @@
 {
-  "__templateVersion": "2.0.0",
+	"__templateVersion": "2.0.0",
 
-  "name": "",
-  "description": "",
-  "defaultLocale": "en",
-  "simpleCommandsPrefix": "!",
-  "owner": "YOUR_ID_HERE",
-  "timezone": "Europe/Paris",
+	"name": "",
+	"description": "",
+	"defaultLocale": "en",
+	"simpleCommandsPrefix": "!",
+	"owner": "YOUR_ID_HERE",
+	"timezone": "Europe/Paris",
 
-  "devs": [
-    "260908777446965248"
-  ],
-  
-  "eval": {
-    "name": "bot",
-    "onlyOwner": false
-  },
+	"devs": [
+		"260908777446965248"
+	],
 
-  "logs": {
+	"eval": {
+		"name": "bot",
+		"onlyOwner": false
+	},
 
-    "debug": true,
-    "interaction": {
-      "file": true,
-      "console": true
-    },
-    "simpleCommand": {
-      "file": true,
-      "console": true
-    },
-    "newUser": {
-      "file": true,
-      "console": true
-    },
-    "newGuild": {
-      "file": true,
-      "console": true
-    }
-  },
+	"logs": {
 
-  "database": {
-    "type": "sqlite",
-    "path": "./database/",
-    "backup": {
-      "enabled": false,
-      "interval": "daily",
-      "time": "00:00",
-      "path": ""
-    }
-  },
+		"debug": true,
+		
+		"interaction": {
+			"file": true,
+			"console": true,
+			"channel": null,
 
-  "activities": [
-    {
-      "text": "discord.js v13",
-      "type": "PLAYING"
-    },
-    {
-      "text": "some knowledge",
-      "type": "STREAMING"
-    }
-  ],
-  
-  "channels": {
-    "logs": {
-      "commands": null,
-      "guildCreate": null,
-      "guildDelete": null
-    }
-  }
+			"exclude": ["BUTTON_INTERACTION", "SELECT_MENU_INTERACTION"]
+		},
+		"simpleCommand": {
+			"file": true,
+			"console": true,
+			"channel": null
+		},
+		"newUser": {
+			"file": true,
+			"console": true,
+			"channel": null
+		},
+		"newGuild": {
+			"file": true,
+			"console": true,
+			"channel": null
+		}
+	},
+
+	"database": {
+		"type": "sqlite",
+		"path": "./database/",
+		"backup": {
+		"enabled": false,
+		"interval": "daily",
+		"time": "00:00",
+		"path": ""
+		}
+	},
+
+	"activities": [
+		{
+			"text": "discord.js v13",
+			"type": "PLAYING"
+		},
+		{
+			"text": "some knowledge",
+			"type": "STREAMING"
+		}
+	],
+
+	"channels": {
+		"logs": {
+			"commands": null,
+			"guildCreate": null,
+			"guildDelete": null
+		}
+	}
 }

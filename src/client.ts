@@ -2,7 +2,7 @@ import { Intents } from 'discord.js'
 
 import { Maintenance, NotBot } from '@guards'
 
-import config from '../config.json'
+import { generalConfig, logsConfig } from '@configs'
 
 export const clientConfig = {
     
@@ -19,7 +19,7 @@ export const clientConfig = {
     ],
   
     // debug logs are disabled in silent mode
-    silent: !config.logs.debug,
+    silent: !logsConfig.debug,
 
     guards: [
         NotBot,
@@ -28,7 +28,7 @@ export const clientConfig = {
   
     // configuration for @SimpleCommand
     simpleCommand: {
-      prefix: config.simpleCommandsPrefix,
+      prefix: generalConfig.simpleCommandsPrefix,
     }
     
 }

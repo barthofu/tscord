@@ -23,7 +23,7 @@ const en: BaseTranslation = {
 		STATS: {
 			HEADERS: {
 				COMMANDS: 'Commands',
-				GUILD: 'Guild',
+				GUILDS: 'Guild',
 				ACTIVE_USERS: 'Active Users',
 				USERS: 'Users',
 			}

@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 import { Once, Discord, Schedule } from '@decorators'
 import { syncAllGuilds } from '@utils/functions'
 
-import config from '../../config.json'
+import { generalConfig } from '@configs'
 
 @Discord()
 export default class Ready {
@@ -43,7 +43,7 @@ export default class Ready {
 
         const client = container.resolve(Client)
 
-        const activity = config.activities[this.activityIndex]
+        const activity = generalConfig.activities[this.activityIndex]
         
         activity.text = eval(`new String(\`${activity.text}\`).toString()`)
             
@@ -64,7 +64,7 @@ export default class Ready {
         }
 
         this.activityIndex++
-        if (this.activityIndex === config.activities.length) this.activityIndex = 0
+        if (this.activityIndex === generalConfig.activities.length) this.activityIndex = 0
 
     }
 }

@@ -6,7 +6,7 @@ import fs from 'fs'
 
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
 
-import config from '../../config.json'
+import { logsConfig } from '@configs'
 
 @singleton()
 export class Logger {
@@ -42,16 +42,18 @@ export class Logger {
 
     logInteraction(interaction: AllInteractions) {
 
-        if (config.logs.interaction.console) {
+        if (logsConfig.interaction.console) {
 
             const type = constant(getTypeOfInteraction(interaction))
+            if (logsConfig.interaction.exclude.includes(type)) return
+            
             const action = resolveAction(interaction)
             const channel = resolveChannel(interaction)
             const user = resolveUser(interaction)
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in #${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
 
-            const saveToFile = config.logs.interaction.file
+            const saveToFile = logsConfig.interaction.file
     
             this.log('info', message, saveToFile)
         }
@@ -59,7 +61,7 @@ export class Logger {
 
     logSimpleCommand(command: SimpleCommandMessage) {
 
-        if (config.logs.simpleCommand.console) {
+        if (logsConfig.simpleCommand.console) {
 
             const type = 'SIMPLE_COMMAND_MESSAGE'
             const action = resolveAction(command)
@@ -68,7 +70,7 @@ export class Logger {
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
 
-            const saveToFile = config.logs.interaction.file
+            const saveToFile = logsConfig.interaction.file
     
             this.log('info', message, saveToFile)
         }
@@ -76,19 +78,19 @@ export class Logger {
 
     logNewUser(user: User) {
 
-        if (config.logs.newUser.console) {
+        if (logsConfig.newUser.console) {
 
             this.log(
                 'info',
                 `(NEW_USER) ${user.username}#${user.discriminator} (${user.id}) has been added to the db`,
-                config.logs.newUser.file
+                logsConfig.newUser.file
             )
         }
     }
 
     logGuild(type: 'NEW_GUILD' | 'DELETE_GUILD' | 'RECOVER_GUILD', guildId: string) {
 
-        if (config.logs.newGuild.console) {
+        if (logsConfig.newGuild.console) {
 
             const additionalMessage = 
                 type === 'NEW_GUILD' ? 'has been added to the db' : 
@@ -98,7 +100,7 @@ export class Logger {
             this.log(
                 'info',
                 `(${type}) ${guildId} ${additionalMessage}`,
-                config.logs.newGuild.file
+                logsConfig.newGuild.file
             )
         }
     }
