@@ -73,6 +73,28 @@ type RootTranslation = {
 				USERS: string
 			}
 		}
+		HELP: {
+			/**
+			 * Help pannel
+			 */
+			TITLE: string
+			/**
+			 * {category} Commands
+			 * @param {string} category
+			 */
+			CATEGORY_TITLE: RequiredParams<'category'>
+			SELECT_MENU: {
+				/**
+				 * Select a category
+				 */
+				TITLE: string
+				/**
+				 * {category} commands
+				 * @param {string} category
+				 */
+				CATEGORY_DESCRIPTION: RequiredParams<'category'>
+			}
+		}
 	}
 }
 
@@ -132,6 +154,26 @@ export type TranslationFunctions = {
 				 * Users
 				 */
 				USERS: () => LocalizedString
+			}
+		}
+		HELP: {
+			/**
+			 * Help pannel
+			 */
+			TITLE: () => LocalizedString
+			/**
+			 * {category} Commands
+			 */
+			CATEGORY_TITLE: (arg: { category: string }) => LocalizedString
+			SELECT_MENU: {
+				/**
+				 * Select a category
+				 */
+				TITLE: () => LocalizedString
+				/**
+				 * {category} commands
+				 */
+				CATEGORY_DESCRIPTION: (arg: { category: string }) => LocalizedString
 			}
 		}
 	}

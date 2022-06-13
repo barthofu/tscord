@@ -5,7 +5,7 @@ import { injectable } from "tsyringe"
 
 import { Database } from "@core/Database"
 import { Slash, Discord, SlashOption } from "@decorators"
-import { Guard } from "@guards"
+import { Guard, UserPermissions } from "@guards"
 import { Guild } from "@entities"
 import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 import { ErrorHandler } from "@helpers"
@@ -26,7 +26,9 @@ export default class Prefix {
 	@Slash('prefix', { description: 
 		'Here goes the command description!'
     })
-	@Guard()
+	@Guard(
+		UserPermissions(['ADMINISTRATOR'])
+	)
 	async prefix(
 		@SlashOption('prefix', { required: false, type: 'STRING' }) prefix: string | undefined,
 		interaction: CommandInteraction

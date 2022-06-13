@@ -28,6 +28,14 @@ const fr: Translation = {
 				USERS: 'Utilisateurs',
 			}
 		},
+		HELP: {
+			TITLE: "Pannel d'aide",
+			CATEGORY_TITLE: 'Commandes de {category}',
+			SELECT_MENU: {
+				TITLE: 'Sélectionnez une catégorie',
+				CATEGORY_DESCRIPTION: 'Commandes de {category}',
+			}
+		},
 	},
 }
 

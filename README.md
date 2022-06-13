@@ -53,9 +53,9 @@
 
 #### Built-in commands
 - [ ] General
-    - [ ] `help`
     - [ ] `info`
     - [ ] `invite`
+    - [x] `help`
     - [x] `stats`
     - [x] `ping` (with latency)
     
