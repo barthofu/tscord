@@ -1,9 +1,8 @@
 # Discord Bot Template (v13)
 
 ## Todo
-- [x] Add the possibility to filter or not interactions logs at a granular level (button, selectmenu, etc) in the `config.json`
-- [x] Timezone in config (e.g: Schedule)
-- [x] Remove extended client (in favor of a full DI pattern)
+- [ ] complete function [getPrefixFromMessage()](src/utils/functions/prefix.ts) (fallback prefix for DMs and retrieve prefix from Guild database)
+- [ ] JSDoc on config files properties
 
 ## Features
 
@@ -66,20 +65,20 @@
     - [x] `maintenance`
 
 #### DevOps
-- [ ] Unit tests (jest)
 - [ ] CI/CD
 - [x] PM2
 - [x] Docker
 - [x] .env.example
 - [x] Debugging config for VSCode
+- ~~Unit tests (not relevant atm)~~
 
 #### Other
-- [ ] JDoc
 - [ ] Comment code
 - [ ] ESlint / Prettier
 - [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) + Doc / wiki 
 - [ ] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
 - [ ] Code of conduct
+- [x] JSDoc
 
 #### Bonus
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))

@@ -1,5 +1,5 @@
 import { Client, ArgsOf } from 'discordx'
-import { Collection, Role } from 'discord.js'
+import { Collection, GuildMember, Role } from 'discord.js'
 import { injectable } from 'tsyringe'
 
 import { Logger, Stats } from '@helpers'
@@ -24,8 +24,8 @@ export default class {
             if(newAdminRoles.size === 0) return;
 
             /**
-             * @param newMember GuildMember
-             * @param newAdminRoles Collection<String, Role>
+             * @param {GuildMember} newMember
+             * @param {Collection<String, Role>} newAdminRoles 
              */
             client.emit('guildAdminAdd', newMember, newAdminRoles);
         } else if(oldMember.roles.cache.size > newMember.roles.cache.size) {

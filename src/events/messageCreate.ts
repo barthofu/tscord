@@ -2,7 +2,7 @@ import { Client, ArgsOf } from 'discordx'
 
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
-import { syncUser, executeEval } from '@utils/functions'
+import { syncUser, executeEvalFromMessage } from '@utils/functions'
 
 import { generalConfig } from '@configs'
 
@@ -26,7 +26,7 @@ export default class MessageCreate {
                 || (generalConfig.eval.onlyOwner && message.author.id === generalConfig.owner)
             )
         ) {
-            executeEval(message)
+            executeEvalFromMessage(message)
         }
 
         await client.executeCommand(message, { caseSensitive: false })

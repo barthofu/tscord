@@ -7,6 +7,9 @@ import { defaultData } from '@core/Database'
 
 type DataType = keyof typeof defaultData
 
+/**
+ * Initiate the EAV Data table if properties defined in the `defaultData` doesn't exist in it yet.
+ */
 export const initDataTable = async () => {
 
     const db = container.resolve(Database)

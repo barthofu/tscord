@@ -3,6 +3,9 @@ import { container } from "tsyringe"
 import { Database } from "@core/Database"
 import { Data } from "@entities"
 
+/**
+ * Get the maintenance state of the bot.
+ */
 export const isInMaintenance = async (): Promise<boolean> => {
             
     const dataRepository = container.resolve(Database).getRepo(Data)
@@ -11,6 +14,9 @@ export const isInMaintenance = async (): Promise<boolean> => {
     return maintenance
 }
 
+/**
+ * Set the maintenance state of the bot.
+ */
 export const setMaintenance = async (maintenance: boolean) =>  {
 
     const dataRepository = container.resolve(Database).getRepo(Data)

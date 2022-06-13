@@ -29,6 +29,9 @@ export default class {
 
         if (command && command instanceof SimpleCommandMessage) {
 
+            /**
+             * @param {SimpleCommandMessage} command
+             */
             client.emit('simpleCommandCreate', command)
         }
     } 

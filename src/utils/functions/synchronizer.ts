@@ -8,6 +8,10 @@ import { Client } from "discordx"
 
 const db = container.resolve(Database)
 
+/**
+ * Add a active user to the database if doesn't exist.
+ * @param user 
+ */
 export const syncUser = async (user: DUser) => {
 
     const userRepo = db.getRepo(User)
@@ -29,6 +33,11 @@ export const syncUser = async (user: DUser) => {
     }
 }
 
+/**
+ * Sync a guild with the database.
+ * @param guildId 
+ * @param client 
+ */
 export const syncGuild = async (guildId: string, client: Client) => {
 
     const stats = container.resolve(Stats),
@@ -76,6 +85,10 @@ export const syncGuild = async (guildId: string, client: Client) => {
     }
 }
 
+/**
+ * Sync all guilds with the database.
+ * @param client 
+ */
 export const syncAllGuilds = async (client: Client)  => {
 
     // add missing guilds

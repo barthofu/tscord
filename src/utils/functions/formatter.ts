@@ -9,6 +9,12 @@ const dateMasks = {
     onlyDate: 'DD/MM/YYYY',
 }
 
+/**
+ * Format a date object to a templated string using the [date-and-time](https://www.npmjs.com/package/date-and-time) library.
+ * @param date 
+ * @param mask - template for the date format
+ * @returns 
+ */
 export const formatDate = (date: Date, mask: keyof typeof dateMasks = 'default') => {
 
     const convertedDate = convertTZ(date, generalConfig.timezone)

@@ -1,7 +1,9 @@
 import { singleton } from 'tsyringe'
 import { EntityManager, EntityName, MikroORM } from '@mikro-orm/core'
 
-// default data for the Data table (dynamic EAV key/value pattern)
+/**
+ * Default data for the Data table (dynamic EAV key/value pattern) 
+ */
 export const defaultData = {
 
     maintenance: false,

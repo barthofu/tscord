@@ -23,6 +23,12 @@ export class Stats {
         this.statsRepo = this.db.getRepo(Stat)
     }
 
+    /**
+     * Add an entry to the stats table.
+     * @param type 
+     * @param value 
+     * @param additionalData in JSON format
+     */
     async register(type: string, value: string, additionalData?: any) {
 
         const stat = new Stat()
@@ -33,6 +39,11 @@ export class Stats {
         await this.statsRepo.persistAndFlush(stat)
     }
 
+    /**
+     * Record an interaction and add it to the database.
+     * @param interaction 
+     * @returns 
+     */
     async registerInteraction(interaction: AllInteractions) {
 
         // we extract data from the interaction
@@ -50,6 +61,10 @@ export class Stats {
         await this.register(type, value, additionalData)
     }
 
+    /**
+     * Record a simple command message and add it to the database.
+     * @param command 
+     */
     async registerSimpleCommand(command: SimpleCommandMessage) {
 
         // we extract data from the interaction
@@ -60,6 +75,9 @@ export class Stats {
         await this.register(type, value)
     }
 
+    /**
+     * Returns an object with the daily stats for each type
+     */
     async getDailyStats() {
 
         const statsObj = {
@@ -71,6 +89,11 @@ export class Stats {
         return statsObj
     }
 
+    /**
+     * Returns the amount of row for a given type per day in a given interval of days from now.
+     * @param type 
+     * @param days 
+     */
     async getStatPerDays(type: string, days: number): Promise<StatPerInterval> {
 
         const now = Date.now()
@@ -90,7 +113,11 @@ export class Stats {
         return this.cummulateStatPerInterval(stats)
     }
 
-    cummulateStatPerInterval(stats: StatPerInterval) {
+    /**
+     * Transform individual day stats into cumulated stats.
+     * @param stats 
+     */
+    cummulateStatPerInterval(stats: StatPerInterval): StatPerInterval {
 
         const cummulatedStats = 
             stats
@@ -110,7 +137,13 @@ export class Stats {
         return cummulatedStats
     }
 
-    sumStats(stats1: StatPerInterval, stats2: StatPerInterval) {
+    /**
+     * Sum two array of stats.
+     * @param stats1 
+     * @param stats2 
+     * @returns 
+     */
+    sumStats(stats1: StatPerInterval, stats2: StatPerInterval): StatPerInterval {
 
         const allDays = [...new Set(stats1.concat(stats2).map(stat => stat.date))]
             .sort((a, b) => {
@@ -129,6 +162,11 @@ export class Stats {
         return sumStats
     }
 
+    /**
+     * Returns the total count of row for a given type at a given day.
+     * @param type 
+     * @param date - day to get the stats for (any time of the day will work as it extract the very beginning and the very ending of the day as the two limits)
+     */
     async getCountForGivenDay(type: string, date: Date): Promise<number> {
 
         const start = DateTime.fromJSDate(date).startOf('day').toJSDate()
@@ -145,7 +183,10 @@ export class Stats {
         return stats.length
     }
 
-    @Schedule('0 0 * * *')
+    /**
+     * Run each day at 23:59 to update daily stats
+     */
+    @Schedule('59 23 * * *')
     async registerDailyStats() {
 
         const dailyStats = await this.getDailyStats()
@@ -154,11 +195,6 @@ export class Stats {
             const value = JSON.stringify(dailyStats[type as keyof typeof dailyStats])
             await this.register(type, value)
         }
-    }
-
-    async getStats(): Promise<Stat[]> {
-
-        return this.statsRepo.findAll()
     }
 
 }

@@ -14,6 +14,12 @@ export class Logger {
     private logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
     private levels = ['debug', 'info', 'warn', 'error'] as const
 
+    /**
+     * Most atomic log function, that will either log in console, file or other depending params.
+     * @param level debug, info, warn, error
+     * @param message message to log
+     * @param saveToFile if true, the message will be saved to a file
+     */
     log(
         level: typeof this.levels[number] = 'info', 
         message: string = '', 
@@ -40,6 +46,10 @@ export class Logger {
         }
     }
 
+    /**
+     * Logs any interaction that is not excluded in the config.
+     * @param interaction 
+     */
     logInteraction(interaction: AllInteractions) {
 
         if (logsConfig.interaction.console) {
@@ -59,6 +69,10 @@ export class Logger {
         }
     }
 
+    /**
+     * Logs any simple message command that is not excluded in the config.
+     * @param command 
+     */
     logSimpleCommand(command: SimpleCommandMessage) {
 
         if (logsConfig.simpleCommand.console) {
@@ -76,6 +90,10 @@ export class Logger {
         }
     }
 
+    /**
+     * Logs all new users.
+     * @param user 
+     */
     logNewUser(user: User) {
 
         if (logsConfig.newUser.console) {
@@ -88,6 +106,11 @@ export class Logger {
         }
     }
 
+    /**
+     * Logs all 'actions' (create, delete, etc) of a guild.
+     * @param type NEW_GUILD, DELETE_GUILD, RECOVER_GUILD
+     * @param guildId 
+     */
     logGuild(type: 'NEW_GUILD' | 'DELETE_GUILD' | 'RECOVER_GUILD', guildId: string) {
 
         if (logsConfig.newGuild.console) {

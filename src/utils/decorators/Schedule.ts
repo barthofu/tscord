@@ -6,8 +6,7 @@ import { generalConfig } from '@configs'
 
 /**
  * Schedule a job to be executed at a specific time (cron)
- * @param cronExpression 
- * @param cronOptions 
+ * @param cronExpression - cron expression to use (e.g: "0 0 * * *" will run each day at 00:00)
  */
 export const Schedule = (cronExpression: string) => {
 

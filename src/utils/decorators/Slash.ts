@@ -16,6 +16,16 @@ type ApplicationCommandOptions = {
     nameLocalizations?: LocalizationMap;
 }
 
+/**
+ * Handle a slash command with a defined nam
+ * @param name - slash name
+ * @param options - slash options
+ * ___
+ *
+ * [View Documentation](https://discord-ts.js.org/docs/decorators/commands/slash)
+ *
+ * @category Decorator
+ */
 export const Slash = <T extends string>(name?: VerifyName<T>, options?: ApplicationCommandOptions) => {
 
     // convert 'en' localizations to 'en-US' and 'en-GB'

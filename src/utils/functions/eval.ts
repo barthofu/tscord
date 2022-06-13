@@ -7,7 +7,11 @@ const clean = (text: any) => {
     else return text
 }
 
-export const executeEval = (message: Message) => {
+/**
+ * Eval a code snippet extracted from a Discord message.
+ * @param message - Discord message containing the code to eval
+ */
+export const executeEvalFromMessage = (message: Message) => {
 
     try {
 
