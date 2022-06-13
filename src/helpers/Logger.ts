@@ -11,7 +11,7 @@ import { logsConfig } from '@configs'
 @singleton()
 export class Logger {
 
-    private logPath: string = `${__dirname}/../../logs`
+    private logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
     private levels = ['debug', 'info', 'warn', 'error'] as const
 
     log(
