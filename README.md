@@ -66,9 +66,9 @@
     - [x] `maintenance`
 
 #### DevOps
-- [ ] PM2
 - [ ] Unit tests (jest)
 - [ ] CI/CD
+- [x] PM2
 - [x] Docker
 - [x] .env.example
 - [x] Debugging config for VSCode
