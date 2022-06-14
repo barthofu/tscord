@@ -6,9 +6,11 @@ import { DIService, Client } from 'discordx'
 import { importx } from '@discordx/importer'
 
 import { Database } from '@core/Database'
+import { ImagesUpload } from '@helpers'
 import { initDataTable } from '@utils/functions'
 
 import { clientConfig } from './client'
+import { generalConfig } from '@configs'
 
 async function run() {
 
@@ -30,6 +32,11 @@ async function run() {
     // log in with the bot token
     if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")
     await client.login(process.env.BOT_TOKEN)
+
+    // upload images to imgur if configured
+    if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
+        container.resolve(ImagesUpload).synchroWithDatabase()
+    }
 }
 
 run()

@@ -8,6 +8,7 @@ export const generalConfig = {
 	simpleCommandsPrefix: '!',
 	owner: 'YOUR_ID_HERE',
 	timezone: 'Europe/Paris',
+	automaticUploadImagesToImgur: true,
 
 	devs: [
 		'260908777446965248'

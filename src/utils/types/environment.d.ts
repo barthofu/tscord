@@ -4,6 +4,7 @@ declare global {
         NODE_ENV: 'development' | 'production'
         BOT_TOKEN: string
         TEST_GUILD_ID: string
+        IMGUR_CLIENT_ID: string
       }
     }
   }
