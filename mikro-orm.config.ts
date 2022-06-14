@@ -1,20 +1,3 @@
-import { Options } from '@mikro-orm/core'
-import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
+import { databaseConfig } from './configs/database'
 
-import * as entities from '@entities'
-
-const config: Options = {
-	type: 'sqlite',
-	dbName: './database/db.sqlite',
-	entities: Object.values(entities),
-	highlighter: new SqlHighlighter(),
-	allowGlobalContext: true,
-	debug: false,
-	migrations: {
-		path: './database/migrations',
-		emit: 'ts',
-		snapshot: true
-	}
-}
-
-export default config
+export default databaseConfig.mikroORMConfig
