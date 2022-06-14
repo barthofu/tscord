@@ -1,4 +1,8 @@
-# Discord Bot Template (v13)
+<p align="center">
+    <img width="500" height="500" src="https://i.imgur.com/19Nas88.png">
+</p>
+
+> Currently under heavy development <3
 
 ## Todo
 - [ ] complete function [getPrefixFromMessage()](src/utils/functions/prefix.ts) (fallback prefix for DMs and retrieve prefix from Guild database)
@@ -32,7 +36,8 @@
 - [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
 
 #### Data
-- [ ] Other databases
+- [ ] Other databases support
+- [ ] Automatic assets upload and association
 - [x] Users/Guilds sync with database
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
@@ -66,6 +71,7 @@
 
 #### DevOps
 - [ ] CI/CD
+- [ ] .devcontainer (Codespaces config)
 - [x] PM2
 - [x] Docker
 - [x] .env.example
@@ -73,9 +79,10 @@
 - ~~Unit tests (not relevant atm)~~
 
 #### Other
+- [ ] Documentation using [docusaurus](https://docusaurus.io)
 - [ ] Comment code
 - [ ] ESlint / Prettier
-- [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) + Doc / wiki 
+- [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
 - [ ] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
 - [ ] Code of conduct
 - [x] JSDoc
