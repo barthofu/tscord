@@ -8,7 +8,7 @@ import {
 } from "@discordx/pagination"
 
 import { Discord, Slash, SlashOption } from "@decorators"
-import { Stats as StatsHelper } from "@helpers"
+import { Stats as StatsHelper } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 
 const statsResolver: StatsResolverType = [

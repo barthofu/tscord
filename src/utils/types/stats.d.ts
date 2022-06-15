@@ -6,5 +6,5 @@ type StatPerInterval = {
 
 type StatsResolverType = { 
 	name: string, 
-	data: (statsHelper: import('@helpers').Stats, days: number) => Promise<StatPerInterval> 
+	data: (statsHelper: import('@services').Stats, days: number) => Promise<StatPerInterval> 
 }[]

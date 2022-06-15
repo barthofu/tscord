@@ -2,7 +2,7 @@ import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/c
 import { EntityRepository } from "@mikro-orm/sqlite"
 import { CustomBaseEntity } from "./BaseEntity"
 
-import { defaultData } from '@core/Database'
+import { defaultData } from 'src/services/Database'
 
 type DataType = keyof typeof defaultData
 

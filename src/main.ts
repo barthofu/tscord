@@ -5,8 +5,7 @@ import { container } from 'tsyringe'
 import { DIService, Client } from 'discordx'
 import { importx } from '@discordx/importer'
 
-import { Database } from '@core/Database'
-import { ImagesUpload } from '@helpers'
+import { Database, ImagesUpload } from '@services'
 import { initDataTable } from '@utils/functions'
 
 import { clientConfig } from './client'

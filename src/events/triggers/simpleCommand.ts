@@ -1,7 +1,7 @@
 import { Client, ArgsOf, SimpleCommandMessage } from 'discordx'
 import { injectable } from 'tsyringe'
 
-import { Logger, Stats } from '@helpers'
+import { Logger, Stats } from '@services'
 import { Maintenance } from '@guards'
 import { On, Discord, Guard } from '@decorators';
 import { getPrefixFromMessage } from '@utils/functions';

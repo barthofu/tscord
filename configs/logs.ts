@@ -12,17 +12,20 @@ export const logsConfig = {
             'SELECT_MENU_INTERACTION'
         ]
     },
+
     simpleCommand: {
         file: true,
         console: true,
         channel: null
     },
+
     newUser: {
         file: true,
         console: true,
         channel: null
     },
-    newGuild: {
+
+    guild: {
         file: true,
         console: true,
         channel: null

@@ -1,7 +1,7 @@
 import { CommandInteraction } from 'discord.js'
 import { singleton } from 'tsyringe'
 
-import { Logger } from '@helpers'
+import { Logger } from '@services'
 import { getLocaleFromInteraction, L } from '@i18n'
 import { simpleErrorEmbed } from '@utils/functions/embeds'
 

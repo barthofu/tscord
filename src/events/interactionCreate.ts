@@ -1,7 +1,7 @@
 import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
 
-import { Logger, Stats } from '@helpers'
+import { Logger, Stats } from '@services'
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators';
 import { syncUser } from '@utils/functions';

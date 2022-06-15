@@ -3,12 +3,11 @@ import { Category } from "@discordx/utilities"
 import type { CommandInteraction } from "discord.js"
 import { injectable } from "tsyringe"
 
-import { Database } from "@core/Database"
 import { Slash, Discord, SlashOption } from "@decorators"
 import { Guard, UserPermissions } from "@guards"
 import { Guild } from "@entities"
 import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
-import { ErrorHandler } from "@helpers"
+import { Database, ErrorHandler } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 
 import { generalConfig } from '@configs'

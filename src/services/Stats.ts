@@ -4,7 +4,7 @@ import { EntityRepository } from '@mikro-orm/core'
 import { constant } from 'case'
 import { DateTime } from 'luxon'
 
-import { Database } from '@core/Database'
+import { Database } from '@services'
 import { Stat, User } from '@entities'
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
 import { Schedule } from '@decorators'

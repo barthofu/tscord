@@ -1,9 +1,8 @@
 import { container } from "tsyringe"
 import { User as DUser, Guild as DGuild } from "discord.js"
 
-import { Database } from "@core/Database"
 import { User, Guild } from "@entities"
-import { Logger, Stats } from "@helpers"
+import { Database, Logger, Stats } from "@services"
 import { Client } from "discordx"
 
 const db = container.resolve(Database)

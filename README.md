@@ -38,6 +38,7 @@
 #### Data
 - [ ] Other databases support
 - [ ] Automatic assets upload and association
+- [ ] Automatic backup
 - [x] Users/Guilds sync with database
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
@@ -53,6 +54,7 @@
 - [x] Stats
 - [x] Localization
 - [x] Logger
+    - [ ] log to discord channel
 - [x] Cron tasks
 
 #### Built-in commands

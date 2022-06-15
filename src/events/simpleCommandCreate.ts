@@ -2,7 +2,7 @@ import { ArgsOf, Client, SimpleCommandMessage } from 'discordx'
 import { injectable } from 'tsyringe'
 
 import { On, Discord } from '@decorators'
-import { Stats, Logger } from '@helpers'
+import { Stats, Logger } from '@services'
 
 @Discord()
 @injectable()

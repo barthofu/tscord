@@ -2,7 +2,7 @@ import { Client, ArgsOf } from 'discordx'
 import { Collection, GuildMember, Role } from 'discord.js'
 import { injectable } from 'tsyringe'
 
-import { Logger, Stats } from '@helpers'
+import { Logger, Stats } from '@services'
 import { On, Discord } from '@decorators'
 
 @Discord()

@@ -1,4 +1,4 @@
-import { Database } from "@core/Database"
+import { Database } from "@services"
 import { Image } from "@entities"
 import { container } from "tsyringe"
 

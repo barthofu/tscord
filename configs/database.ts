@@ -19,11 +19,10 @@ const mikroORMConfig: Options = {
 
 export const databaseConfig = {
     
-    type: "sqlite",
-
     mikroORMConfig,
 
     path: "./database/",
+    
     backup: {
         enabled: false,
         interval: "daily",

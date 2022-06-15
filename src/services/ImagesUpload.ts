@@ -4,8 +4,7 @@ import { ImgurClient } from "imgur"
 import { imageHash as callbackImageHash } from "image-hash"
 import { promisify } from "util"
 
-import { Database } from "@core/Database"
-import { Logger } from "@helpers"
+import { Database, Logger } from "@services"
 import { Image, ImageRepository } from "@entities"
 import { base64Encode } from "@utils/functions"
 

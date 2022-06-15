@@ -113,7 +113,7 @@ export class Logger {
      */
     logGuild(type: 'NEW_GUILD' | 'DELETE_GUILD' | 'RECOVER_GUILD', guildId: string) {
 
-        if (logsConfig.newGuild.console) {
+        if (logsConfig.guild.console) {
 
             const additionalMessage = 
                 type === 'NEW_GUILD' ? 'has been added to the db' : 
@@ -123,7 +123,7 @@ export class Logger {
             this.log(
                 'info',
                 `(${type}) ${guildId} ${additionalMessage}`,
-                logsConfig.newGuild.file
+                logsConfig.guild.file
             )
         }
     }

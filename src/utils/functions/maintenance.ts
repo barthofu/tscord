@@ -1,6 +1,6 @@
 import { container } from "tsyringe"
 
-import { Database } from "@core/Database"
+import { Database } from "@services"
 import { Data } from "@entities"
 
 /**
