@@ -3,6 +3,7 @@ import type { CommandInteraction } from "discord.js"
 
 import { Slash, Discord, SlashOption, On } from "@decorators"
 import { Guard, Match } from "@guards"
+import { getImage } from "@utils/functions"
 
 @Discord()
 export default class Tests {
@@ -14,5 +15,12 @@ export default class Tests {
 	async testMatch(): Promise<void> {
 		
 		console.log('"test" trouvé !')
+	}
+
+	@Slash('test')
+	async test(interaction: CommandInteraction) {
+
+		const image = await getImage('tscord-template-icon')
+		interaction.reply(image!)
 	}
 }
