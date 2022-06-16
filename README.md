@@ -37,8 +37,8 @@
 
 #### Data
 - [ ] Other databases support
-- [ ] Automatic assets upload and association
 - [ ] Automatic backup
+- [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
@@ -91,6 +91,7 @@
 
 #### Bonus
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
+- [ ] Extensions
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
 - [ ] Multiple database server instances connections
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))

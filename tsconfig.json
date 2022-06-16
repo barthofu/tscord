@@ -35,7 +35,7 @@
 		},
 	},
 
-	"include": ["./src", "./configs", "./assets", "**/*.ts"],
+	"include": ["./src", "./configs", "**/*.ts"],
 	"exclude": ["build", "node_modules"],
 	"paths": ["node_modules/*", "src/utils/types/*"],
 

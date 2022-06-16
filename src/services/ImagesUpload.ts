@@ -3,6 +3,7 @@ import fs from "fs"
 import { ImgurClient } from "imgur"
 import { imageHash as callbackImageHash } from "image-hash"
 import { promisify } from "util"
+import axios from "axios"
 
 import { Database, Logger } from "@services"
 import { Image, ImageRepository } from "@entities"
@@ -59,7 +60,7 @@ export class ImagesUpload {
                 hash: imageHash 
             })
 
-            if (!imageInDb) await this.addNewImage(imageFileName, imageHash)
+            if (!imageInDb) await this.addNewImageToImgur(imageFileName, imageHash)
         }
 
         // remove images from the database that are not anymore in the filesystem
@@ -67,13 +68,41 @@ export class ImagesUpload {
         const imagesInDb = await this.imageRepo.findAll()
 
         for (const image of imagesInDb) {
+
+            // delete the image if it is not in the filesystem anymore
             if (!images.includes(image.fileName)) {
-                await this.imageRepo.remove(image)
+
+                await this.imageRepo.remove(image).flush()
+
+                await this.deleteImageFromImgur(image)
             }
+
+            // reupload if the image is not on imgur anymore
+            if (!await this.isImgurImageValid(image.url)) {
+                
+                await this.imageRepo.remove(image).flush()
+
+                await this.addNewImageToImgur(image.fileName, image.hash, true)
+            }
+
         }
+
     }
 
-    async addNewImage(imageFileName: string, imageHash: string) {
+    async deleteImageFromImgur(image: Image) {
+
+        if (!this.imgurClient) return
+
+        await this.imgurClient.deleteImage(image.deleteHash)
+
+        this.logger.log(
+            'info', 
+            `Image ${image.fileName} deleted from database because it is not in the filesystem anymore`, 
+            true
+        )
+    }
+
+    async addNewImageToImgur(imageFileName: string, imageHash: string, reupload: boolean = false) {
 
         if (!this.imgurClient) return
 
@@ -88,22 +117,36 @@ export class ImagesUpload {
                 name: imageFileName.split('')[0]
             })
 
+            if (!uploadResponse.data) return
+
             // add the image to the database
             const image = new Image()
             image.fileName = imageFileName
-            image.url = uploadResponse.data?.link
+            image.url = uploadResponse.data.link
             image.hash = imageHash
+            image.deleteHash = uploadResponse.data.deletehash || ''
+            image.size = uploadResponse.data.size
             await this.imageRepo.persistAndFlush(image)
 
             // log the success
             this.logger.log(
-                'info', 
-                `Image ${imageFileName} uploaded to imgur`, 
-                true)
+                'info',
+                `Image ${imageFileName} ${reupload ? true : false}uploaded to imgur`, 
+                true
+            )
 
         } 
         catch (error: any) {
             this.logger.log('error', error?.toString())
         }
+    }
+
+    async isImgurImageValid(imageUrl: string): Promise<boolean> {
+
+        if (!this.imgurClient) return false
+
+        const res = await axios.get(imageUrl)
+
+        return !res.request?.path.includes('/removed')        
     }
 }

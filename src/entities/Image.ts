@@ -20,6 +20,12 @@ export class Image extends CustomBaseEntity {
 
     @Property()
     hash: string
+
+    @Property()
+    deleteHash: string
+
+    @Property()
+    size: number
 }
 
 @singleton()

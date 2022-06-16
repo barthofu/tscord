@@ -1,15 +1,8 @@
-import { imageHash } from 'image-hash'
-import { promisify } from 'util'
+import axios from 'axios'
 
-const foo = promisify(imageHash)
+(async() => {
 
-async function test () {
+    const res = await axios.get('https://i.imgur.com/aZ62CqH.png')
 
-    return await foo(
-        './assets/images/tscord-template-icon.png',
-        16,
-        true
-    )
-}
-
-test().then(console.log)
+    console.log(res.request?.path)
+})()
