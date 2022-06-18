@@ -4,7 +4,7 @@ import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx'
 import { resolveUser, isInMaintenance, replyToInteraction } from '@utils/functions'
 import { getLocaleFromInteraction, L } from '@i18n'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 /**
  * Prevent interactions from running when bot is in maintenance

@@ -2,7 +2,7 @@ import { container, InjectionToken } from "tsyringe"
 import { isValidCron } from "cron-validator"
 import { CronJob } from 'cron'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 /**
  * Schedule a job to be executed at a specific time (cron)

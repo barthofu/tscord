@@ -4,7 +4,7 @@ import { CommandInteraction, ContextMenuInteraction } from 'discord.js'
 import { getLocaleFromInteraction, L } from '@i18n'
 import { resolveUser, replyToInteraction } from '@utils/functions'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 /**
  * Prevent interaction from running when it is disabled

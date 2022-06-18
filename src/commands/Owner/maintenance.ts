@@ -5,7 +5,7 @@ import { setMaintenance, simpleSuccessEmbed } from "@utils/functions"
 import { getLocaleFromInteraction, L } from "@i18n"
 
 @Discord()
-export default class Maintenance {
+export default class MaintenanceCommand {
 
 	@Slash("maintenance", { description:
 		'Set the bot in maintenance mode.'

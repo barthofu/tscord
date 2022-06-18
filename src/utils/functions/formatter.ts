@@ -2,7 +2,7 @@ import dateformat from "date-and-time"
 
 import { convertTZ } from "./converter"
 
-import { generalConfig } from "@configs"
+import { generalConfig } from "@config"
 
 const dateMasks = {
     default: 'DD/MM/YYYY - HH:mm:ss',

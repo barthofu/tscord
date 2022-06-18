@@ -11,7 +11,7 @@ type CommandCategory = DApplicationCommand & ICategory
 
 @Discord()
 @Category('General')
-export default class Help {
+export default class HelpCommand {
 
 	private readonly _categories: Map<string, CommandCategory[]> = new Map()
 

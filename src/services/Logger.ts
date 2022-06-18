@@ -6,7 +6,7 @@ import fs from 'fs'
 
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveUser } from '@utils/functions'
 
-import { logsConfig } from '@configs'
+import { logsConfig } from '@config'
 
 @singleton()
 export class Logger {

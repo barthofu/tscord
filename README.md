@@ -7,6 +7,7 @@
 ## Todo
 - [ ] complete function [getPrefixFromMessage()](src/utils/functions/prefix.ts) (fallback prefix for DMs and retrieve prefix from Guild database)
 - [ ] JSDoc on config files properties
+- [x] Move `configs` to `@config`
 
 ## Features
 

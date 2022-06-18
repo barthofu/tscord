@@ -6,7 +6,7 @@ import { Guard, Match } from "@guards"
 import { getImage } from "@utils/functions"
 
 @Discord()
-export default class Tests {
+export default class TestsCommand {
 
 	@On("messageCreate")
 	@Guard(

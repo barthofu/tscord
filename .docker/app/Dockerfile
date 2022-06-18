@@ -13,7 +13,6 @@ RUN npm install
 # Move source files
 COPY src ./src
 COPY assets ./assets
-COPY configs ./configs
 
 COPY tsconfig.json .
 COPY mikro-orm.config.ts .

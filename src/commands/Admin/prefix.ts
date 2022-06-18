@@ -10,12 +10,12 @@ import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 import { Database, ErrorHandler } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 @Discord()
 @injectable()
 @Category('Admin')
-export default class Prefix {
+export default class PrefixCommand {
 
 	constructor(
 		private db: Database,

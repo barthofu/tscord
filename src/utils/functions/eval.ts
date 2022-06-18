@@ -1,6 +1,6 @@
 import { Message } from 'discord.js'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 const clean = (text: any) => {
     if (typeof (text) === 'string') return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203))

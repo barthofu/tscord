@@ -28,14 +28,14 @@
 			"@guards": ["src/guards"],
 			"@services": ["src/services"],
 			"@i18n": ["./src/i18n"],
-			"@configs": ["./configs"],
+			"@config": ["src/config"],
 			
 			"@core/*": ["./src/core/*"],
 			"@utils/*": ["./src/utils/*"],
 		},
 	},
 
-	"include": ["./src", "./configs", "**/*.ts"],
+	"include": ["./src", "**/*.ts"],
 	"exclude": ["build", "node_modules"],
 	"paths": ["node_modules/*", "src/utils/types/*"],
 

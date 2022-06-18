@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 import { Once, Discord, Schedule } from '@decorators'
 import { syncAllGuilds } from '@utils/functions'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 @Discord()
 export default class Ready {

@@ -9,7 +9,7 @@ import { Stat, User } from '@entities'
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
 import { Schedule } from '@decorators'
 
-import { statsConfig } from '@configs'
+import { statsConfig } from '@config'
 
 @singleton()
 export class Stats {

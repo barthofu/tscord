@@ -2,7 +2,7 @@ import { detectLocale } from './i18n-util'
 
 import { resolveLocale } from '@utils/functions'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 const allInteractionsLocaleDetector = (interaction: AllInteractions) => {
 

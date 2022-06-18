@@ -2,7 +2,7 @@ import { Intents } from 'discord.js'
 
 import { Maintenance, NotBot } from '@guards'
 
-import { generalConfig, logsConfig } from '@configs'
+import { generalConfig, logsConfig } from '@config'
 
 export const clientConfig = {
     

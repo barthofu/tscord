@@ -4,7 +4,7 @@ import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
 import { syncUser, executeEvalFromMessage } from '@utils/functions'
 
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 @Discord()
 export default class MessageCreate {

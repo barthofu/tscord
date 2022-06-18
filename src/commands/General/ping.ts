@@ -9,7 +9,7 @@ import { Match } from "@guards"
 
 @Discord()
 @Category('General')
-export default class Common {
+export default class PingCommand {
 
 	@Slash('ping', { description: 
 		'Pong!'

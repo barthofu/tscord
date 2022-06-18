@@ -38,7 +38,7 @@ const statsResolver: StatsResolverType = [
 @Discord()
 @injectable()
 @Category('General')
-export default class Stats {
+export default class StatsCommand {
 
 	constructor(
 		private statsHelper: StatsHelper

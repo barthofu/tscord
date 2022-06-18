@@ -9,7 +9,7 @@ import { Database, ImagesUpload } from '@services'
 import { initDataTable } from '@utils/functions'
 
 import { clientConfig } from './client'
-import { generalConfig } from '@configs'
+import { generalConfig } from '@config'
 
 async function run() {
 
