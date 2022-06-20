@@ -2,14 +2,62 @@
     <img width="500" height="500" src="https://i.imgur.com/19Nas88.png">
 </p>
 
-> Currently under heavy development <3
+# 🌟 What is TSCord
+
+**TSCord** is a fully-featured *template* written in [Typescript](https://www.typescriptlang.org/) for *discord bots*, intended to provide a framework that's easy to use, extend and modify.
+
+It uses [discord.ts](https://github.com/oceanroleplay/discord.ts) and [discord.js v13](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
+
+This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply copy this repo, follow the [setup instructions](https://barthofu.github.io/tscord-template-docs), and have a working bot with many boilerplate features already included!
+
+# 📜 Features
+
+Talking about features, here are some of the core features of this template:
+
+- Advanced handlers for:
+    - Interactions (slash, context menu, button, modal, select menu, etc)
+    - Simple message commands
+    - Discord events listeners
+- Guards functions, acting like middlewares on handlers with some built-ins:
+    - Rate limiter
+    - Maintenance mode
+    - Disabling command
+    - Guild only command (no DMs)
+    - NSFW only command
+    - Message's content match using regex
+- Multiple databases support out-of-the-box using an ORM
+- Migrations system to keep a safe database
+- Automatic static assets upload to [imgur](https://imgur.com/)
+- Custom events handlers
+- Error handler
+- Fully-typed localization (i18n)
+- Local store
+- Advanced logger with log files and discord channels support
+- Scheduler for cron jobs
+- Built-in rich statistics system
+
+Also, this template is developper friendly and follow strict design patterns to ease its maintenance:
+- Written in Typescript
+- Built around the Dependency Injection and Singleton patterns
+- Uses battle-tested libraries under the hood (*discord.ts* and *discord.js*)
+- Built-in debugging setup for VSCode
+- Support for running with the [PM2](https://pm2.keymetrics.io/) process manger
+- Support for running with [Docker](https://www.docker.com/)
+- CI/CD integration with Github Actions
+
+and many more!
+
+<details>
+<summary>
 
 ## Todo
+
+</summary>
+
+#### Quick todo-list
 - [ ] complete function [getPrefixFromMessage()](src/utils/functions/prefix.ts) (fallback prefix for DMs and retrieve prefix from Guild database)
 - [ ] JSDoc on config files properties
 - [x] Move `configs` to `@config`
-
-## Features
 
 #### Discord
 - [ ] Custom events
@@ -103,3 +151,5 @@
     - [x] Commands
     - [x] Guards
     - [x] Events
+
+</details>
