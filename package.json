@@ -47,6 +47,7 @@
     "luxon": "^2.4.0",
     "oneline": "^1.0.3",
     "reflect-metadata": "^0.1.13",
+    "rxeta": "^1.1.2",
     "tsyringe": "^4.6.0",
     "typesafe-i18n": "^5.4.3",
     "uuid": "^8.3.2"
