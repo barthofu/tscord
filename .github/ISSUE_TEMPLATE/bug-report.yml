@@ -24,10 +24,8 @@ body:
     id: reproduction
     attributes:
       label: Reproduction
-      description: You must provide a way to reproduce the problem.
+      description: You should provide a way to reproduce the problem.
       placeholder: Repo link or code
-    validations:
-      required: true
 
   - type: textarea
     id: logs
