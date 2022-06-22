@@ -134,8 +134,8 @@ and many more!
 - [ ] Comment code
 - [ ] ESlint / Prettier
 - [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
-- [ ] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
-- [ ] Code of conduct
+- [x] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
+- [x] Code of conduct
 - [x] JSDoc
 
 #### Bonus
