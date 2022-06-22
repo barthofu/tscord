@@ -54,7 +54,7 @@ Also, this template is developper friendly and follow strict design patterns to 
 
 and many more!
 
-## 📑 Documentation
+## 📚 Documentation
 
 #### Check the [**Documentation**](https://barthofu.github.io/tscord-template-docs) to get started and to understand how to use this template.
 
@@ -67,7 +67,7 @@ You can also find useful documentations:
 <details>
 <summary>
 
-## Todo
+## ✅ Todo
 
 </summary>
 
@@ -169,7 +169,7 @@ You can also find useful documentations:
 
 </details>
 
-# License
+## 📑 License
 
 MIT License
 
