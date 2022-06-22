@@ -2,15 +2,22 @@
     <img width="500" height="500" src="https://i.imgur.com/19Nas88.png">
 </p>
 
+<table>
+  <tr>
+    <td align="center">
+   
 # 🌟 What is TSCord
 
-**TSCord** is a fully-featured *template* written in [Typescript](https://www.typescriptlang.org/) for *discord bots*, intended to provide a framework that's easy to use, extend and modify.
+#### **TSCord** is a fully-featured *template* written in [Typescript](https://www.typescriptlang.org/) for *discord bots*, intended to provide a framework that's easy to use, extend and modify.
 
-It uses [discord.ts](https://github.com/oceanroleplay/discord.ts) and [discord.js v13](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
+It uses [`discord.ts`](https://github.com/oceanroleplay/discord.ts) and [`discord.js v13`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
-This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply copy this repo, follow the [setup instructions](https://barthofu.github.io/tscord-template-docs), and have a working bot with many boilerplate features already included!
+This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply copy this repo, follow the [setup instructions](https://barthofu.github.io/tscord-template-docs), and have a working bot with many boilerplate features already included!        
+    </td>
+  </tr>
+</table>
 
-# 📜 Features
+## 📜 Features
 
 Talking about features, here are some of the core features of this template:
 
@@ -46,6 +53,16 @@ Also, this template is developper friendly and follow strict design patterns to 
 - CI/CD integration with Github Actions
 
 and many more!
+
+## 📑 Documentation
+
+#### Check the [**Documentation**](https://barthofu.github.io/tscord-template-docs) to get started and to understand how to use this template.
+
+You can also find useful documentations:
+- in [discord.ts documentation](https://discord-ts.js.org/)
+- in [Discord's developer portal](https://discord.com/developers/docs/intro)
+- in [Discord.js Guide](https://discordjs.guide/)
+- in [Discord.ts official documentation](https://owencalvin.github.io/discord.ts/)
 
 <details>
 <summary>
@@ -151,3 +168,9 @@ and many more!
     - [x] Events
 
 </details>
+
+# License
+
+MIT License
+
+Copyright (c) barthofu
