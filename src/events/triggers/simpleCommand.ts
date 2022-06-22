@@ -24,7 +24,7 @@ export default class {
         client: Client
     ) {
        
-        const prefix = getPrefixFromMessage(message)
+        const prefix = await getPrefixFromMessage(message)
         const command = await client.parseCommand(prefix, message, false)
 
         if (command && command instanceof SimpleCommandMessage) {
