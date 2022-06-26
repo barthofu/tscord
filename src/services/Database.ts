@@ -1,8 +1,11 @@
-import { singleton } from 'tsyringe'
+import { delay, inject, singleton } from 'tsyringe'
 import { EntityManager, EntityName, MikroORM } from '@mikro-orm/core'
 import { backup, restore } from 'saveqlite'
 
 import { Schedule } from '@decorators'
+import { Logger } from '@services'
+import { formatDate } from '@utils/functions'
+
 import { databaseConfig, mikroORMConfig } from '@config'
 
 /**
@@ -17,6 +20,10 @@ export const defaultData = {
 
 @singleton()
 export class Database {
+
+    constructor(
+        @inject(delay(() => Logger)) private logger: Logger
+    ) {}
 
     private _orm: MikroORM
 
@@ -44,15 +51,18 @@ export class Database {
         return this.orm.em.getRepository<T>(entity)
     }
     
-    @Schedule('*/10 * * * * *')
-    async backup() {
+    /**
+     * Create a snapshot of the database each day at 23:59:59
+     */
+    @Schedule('59 59 23 * * *')
+    async backup() { 
         
         if (!databaseConfig.backup.enabled) return
 
         const backupPath = databaseConfig.backup.path
-        if (!backupPath) return console.log('Backup path not set, couldn\'t backup')
+        if (!backupPath) return this.logger.log('error', 'Backup path not set, couldn\'t backup')
 
-        const snapshotName = `snapshot-${Date.now()}.txt`
+        const snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}.txt`
         const objectsPath = `${backupPath}objects/` as `${string}/`
 
         backup(
@@ -60,6 +70,28 @@ export class Database {
             snapshotName, 
             objectsPath
         )
+    }
+
+    /**
+     * Restore the database from a snapshot file.
+     * @param snapshotDate Date of the snapshot to restore
+     * @returns 
+     */
+    async restore(snapshotDate: string) {
+
+        const backupPath = databaseConfig.backup.path
+        if (!backupPath) return console.log('Backup path not set, couldn\'t restore')
+
+        try {
+
+            restore(
+                mikroORMConfig.dbName!,
+                `${backupPath}snapshot-${snapshotDate}.txt`,
+            )
+
+        } catch (error) {
+            this.logger.log('error', 'Snapshot file not found, couldn\'t restore')
+        }
     }
 
 }
