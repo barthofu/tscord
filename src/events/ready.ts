@@ -1,20 +1,25 @@
 import { Client } from 'discordx'
-import { container } from 'tsyringe'
+import { container, injectable } from 'tsyringe'
 
 import { Once, Discord, Schedule } from '@decorators'
+import { Database } from '@services'
+import { Data } from '@entities'
 import { syncAllGuilds } from '@utils/functions'
 
 import { generalConfig } from '@config'
 
 @Discord()
+@injectable()
 export default class Ready {
+
+    constructor(
+        private db: Database,
+    ) {}
 
     private activityIndex = 0
 
     @Once('ready')
-    async ready(rawClient: Client | Client[]) {
-
-        const client: Client = rawClient instanceof Array ? rawClient[0] : rawClient
+    async ready([client]: [Client]) {
 
         // make sure all guilds are cached
         await client.guilds.fetch()
@@ -36,13 +41,15 @@ export default class Ready {
 
         // change activity
         await this.changeActivity()
+
+        // update last startup time in the database
+        await this.db.getRepo(Data).set('lastStartup', Date.now())
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds
     async changeActivity() {
 
         const client = container.resolve(Client)
-
         const activity = generalConfig.activities[this.activityIndex]
         
         activity.text = eval(`new String(\`${activity.text}\`).toString()`)
