@@ -131,7 +131,7 @@ export class ImagesUpload {
             // log the success
             this.logger.log(
                 'info',
-                `Image ${imageFileName} ${reupload ? true : false}uploaded to imgur`, 
+                `Image ${imageFileName} ${reupload ? 're' : ''}uploaded to imgur`, 
                 true
             )
 
