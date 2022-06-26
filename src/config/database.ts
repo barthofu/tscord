@@ -3,9 +3,19 @@ import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
 
 import * as entities from '@entities'
 
-const mikroORMConfig: Options = {
+export const databaseConfig: DatabaseConfigType = {
+    
+    path: './database/',
+    
+    backup: {
+        enabled: true,
+        path: './database/backups/'
+    }
+}
+
+export const mikroORMConfig: Options = {
     type: 'sqlite',
-    dbName: './database/db.sqlite',
+    dbName: `${databaseConfig.path}db.sqlite`,
     entities: Object.values(entities),
     highlighter: new SqlHighlighter(),
     allowGlobalContext: true,
@@ -14,19 +24,5 @@ const mikroORMConfig: Options = {
         path: './database/migrations',
         emit: 'ts',
         snapshot: true
-    }
-}
-
-export const databaseConfig = {
-    
-    mikroORMConfig,
-
-    path: "./database/",
-    
-    backup: {
-        enabled: false,
-        interval: "daily",
-        time: "00:00",
-        path: ""
     }
 }

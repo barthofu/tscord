@@ -1,3 +1,3 @@
-import { databaseConfig } from './src/config/database'
+import { mikroORMConfig } from './src/config/database'
 
-export default databaseConfig.mikroORMConfig
+export default mikroORMConfig

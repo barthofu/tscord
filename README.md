@@ -158,6 +158,7 @@ You can also find useful documentations:
 - [ ] Extensions
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
 - [ ] Multiple database server instances connections
+- [ ] Database backups automatic upload to [MEGA](https://mega.io/)
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
 - [ ] Integrations with bot lists (e.g: top.gg)
 - [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))

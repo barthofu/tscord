@@ -10,6 +10,8 @@ build/
 
 # db
 *.sqlite*
+objects/
+snapshot*.txt
 
 # logs
 logs/

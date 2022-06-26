@@ -7,6 +7,7 @@ import { generalConfig } from "@config"
 const dateMasks = {
     default: 'DD/MM/YYYY - HH:mm:ss',
     onlyDate: 'DD/MM/YYYY',
+    onlyDateFileName: 'YYYY-MM-DD' 
 }
 
 /**
