@@ -4,7 +4,6 @@ import { backup, restore } from 'saveqlite'
 
 import { Schedule } from '@decorators'
 import { Logger } from '@services'
-import { formatDate } from '@utils/functions'
 
 import { databaseConfig, mikroORMConfig } from '@config'
 
@@ -23,7 +22,7 @@ export class Database {
 
     constructor(
         @inject(delay(() => Logger)) private logger: Logger
-    ) {}
+    ) { }
 
     private _orm: MikroORM
 
@@ -56,6 +55,8 @@ export class Database {
      */
     @Schedule('59 59 23 * * *')
     async backup() { 
+
+        const { formatDate } = await import('@utils/functions') 
         
         if (!databaseConfig.backup.enabled) return
 
