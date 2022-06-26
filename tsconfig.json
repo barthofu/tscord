@@ -35,8 +35,8 @@
 		},
 	},
 
-	"include": ["./src", "**/*.ts"],
-	"exclude": ["build", "node_modules"],
+	"include": ["src", "**/*.ts"],
+	"exclude": ["build", "node_modules", "database", "tests"],
 	"paths": ["node_modules/*", "src/utils/types/*"],
 
 	"ts-node": {
