@@ -8,7 +8,7 @@
    
 # 🌟 What is TSCord
 
-#### **TSCord** is a fully-featured *template* written in [Typescript](https://www.typescriptlang.org/) for *discord bots*, intended to provide a framework that's easy to use, extend and modify.
+#### **TSCord** is a fully-featured **Discord bots** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
 
 It uses [`discord.ts`](https://github.com/oceanroleplay/discord.ts) and [`discord.js v13`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
@@ -64,14 +64,12 @@ You can also find useful documentations:
 - in [Discord.js Guide](https://discordjs.guide/)
 - in [Discord.ts official documentation](https://owencalvin.github.io/discord.ts/)
 
+## 🌐 Roadmap
+
 <details>
-<summary>
+<summary>Click here to expand the roadmap</summary>
 
-## ✅ Todo
-
-</summary>
-
-#### Quick todo-list
+#### Todo
 - [ ] (JSDoc on config files properties)
 
 #### Discord
@@ -101,7 +99,7 @@ You can also find useful documentations:
 
 #### Data
 - [ ] Other databases support
-- [ ] Automatic backup
+- [x] Automatic backup
 - [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
 - [x] SQLite database
