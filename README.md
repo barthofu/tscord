@@ -99,6 +99,10 @@ You can also find useful documentations:
 
 #### Data
 - [ ] Other databases support
+    - [x] MySQL
+    - [x] MariaDB
+        - [ ] Add docker-compose service
+    - [ ] PosgreSQL
 - [x] Automatic backup
 - [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
@@ -157,6 +161,7 @@ You can also find useful documentations:
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
 - [ ] Multiple database server instances connections
 - [ ] Database backups automatic upload to [MEGA](https://mega.io/)
+- [ ] Add support for NoSQL databases (mongo)
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
 - [ ] Integrations with bot lists (e.g: top.gg)
 - [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
