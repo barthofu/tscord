@@ -14,3 +14,39 @@ services:
         - ./database:/app/database
         - ./logs/:/app/logs
     restart: always
+    networks:
+      - dev
+    # depends_on:
+    #   - database
+
+  # database:
+  #   image: mysql
+  #   container_name: database
+  #   restart: always
+  #   volumes:
+  #     - ./data:/var/lib/mysql:rw
+  #   environment:
+  #     - MYSQL_DATABASE=${DATABASE_NAME}
+  #     - MYSQL_USER=${DATABASE_USER}
+  #     - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+  #   ports:
+  #     - 3306:3306
+  #   networks:
+  #     - dev
+
+  # phpmyadmin:
+  #   image: phpmyadmin
+  #   container_name: phpmyadmin
+  #   restart: always
+  #   depends_on:
+  #       - database
+  #   ports:
+  #       - 8080:80
+  #   environment:
+  #       PMA_HOST: database
+  #   networks:
+  #       - dev
+
+networks:
+  dev:

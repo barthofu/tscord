@@ -9,9 +9,10 @@ node_modules/
 build/
 
 # db
-*.sqlite*
+*.sqlite
 objects/
 snapshot*.txt
+/data/
 
 # logs
 logs/
