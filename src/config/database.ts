@@ -13,16 +13,25 @@ export const databaseConfig: DatabaseConfigType = {
     }
 }
 
-export const mikroORMConfig: Options = {
-    type: 'sqlite',
-    dbName: `${databaseConfig.path}db.sqlite`,
-    entities: Object.values(entities),
-    highlighter: new SqlHighlighter(),
-    allowGlobalContext: true,
-    debug: false,
-    migrations: {
-        path: './database/migrations',
-        emit: 'ts',
-        snapshot: true
+const envMikroORMConfig: { production: Options, development?: Options } = {
+
+    production: {
+
+        type: 'sqlite',
+        dbName: `${databaseConfig.path}db.sqlite`,
+        entities: Object.values(entities),
+        highlighter: new SqlHighlighter(),
+        allowGlobalContext: true,
+        debug: false,
+        migrations: {
+            path: './database/migrations',
+            emit: 'ts',
+            snapshot: true
+        }
     }
+
 }
+
+if (!envMikroORMConfig['development']) envMikroORMConfig['development'] = envMikroORMConfig['production']
+
+export const mikroORMConfig = envMikroORMConfig

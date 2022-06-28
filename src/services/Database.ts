@@ -27,7 +27,12 @@ export class Database {
     private _orm: MikroORM
 
     public async initialize() {
+
+        // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
         this._orm = await MikroORM.init()
+
+        // migrate to the latest migration
+        await this._orm.getMigrator().up()
     }
 
     public getOrm() {
@@ -67,7 +72,7 @@ export class Database {
         const objectsPath = `${backupPath}objects/` as `${string}/`
 
         backup(
-            mikroORMConfig.dbName!, 
+            mikroORMConfig[process.env.NODE_ENV].dbName!, 
             snapshotName, 
             objectsPath
         )
@@ -86,7 +91,7 @@ export class Database {
         try {
 
             restore(
-                mikroORMConfig.dbName!,
+                mikroORMConfig[process.env.NODE_ENV].dbName!,
                 `${backupPath}snapshot-${snapshotDate}.txt`,
             )
 
