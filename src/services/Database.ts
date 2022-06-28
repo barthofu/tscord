@@ -73,6 +73,7 @@ export class Database {
         const { formatDate } = await import('@utils/functions') 
         
         if (!databaseConfig.backup.enabled) return
+        if (!this.isSQLiteDatabase()) return this.logger.log('error', 'Database is not SQLite, couldn\'t backup')
 
         const backupPath = databaseConfig.backup.path
         if (!backupPath) return this.logger.log('error', 'Backup path not set, couldn\'t backup')
@@ -88,11 +89,13 @@ export class Database {
     }
 
     /**
-     * Restore the database from a snapshot file.
+     * Restore the SQLite database from a snapshot file.
      * @param snapshotDate Date of the snapshot to restore
      * @returns 
      */
     async restore(snapshotDate: string) {
+
+        if (!this.isSQLiteDatabase()) return this.logger.log('error', 'Database is not SQLite, couldn\'t restore')
 
         const backupPath = databaseConfig.backup.path
         if (!backupPath) return console.log('Backup path not set, couldn\'t restore')
@@ -107,6 +110,10 @@ export class Database {
         } catch (error) {
             this.logger.log('error', 'Snapshot file not found, couldn\'t restore')
         }
+    }
+
+    private isSQLiteDatabase() {
+        return mikroORMConfig[process.env.NODE_ENV]!.type === 'sqlite'
     }
 
 }
