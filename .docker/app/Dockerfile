@@ -27,11 +27,12 @@ FROM node:lts-alpine as prod-runner
 # Set work directory
 WORKDIR /app
 
-# Copy package.json from build-runner
+# Copy package.json and package-lock.json from build-runner
 COPY --from=build-runner /tmp/app/package.json /app/package.json
+COPY --from=build-runner /tmp/app/package-lock.json /app/package-lock.json
 
 # Install dependencies from package-lock.json
-RUN npm ci --production
+RUN npm ci --omit=dev
 
 # Move build files
 COPY --from=build-runner /tmp/app/build /app/build
