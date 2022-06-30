@@ -23,6 +23,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
+          envs: PROJECT_PATH
           script: |
             cd $PROJECT_PATH
             git pull https://github.com/barthofu/tscord-template.git main
