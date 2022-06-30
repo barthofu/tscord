@@ -119,7 +119,7 @@ You can also find useful documentations:
 - [x] Stats
 - [x] Localization
 - [x] Logger
-    - [ ] log to discord channel
+    - [x] log to discord channel
 - [x] Cron tasks
 
 #### Built-in commands

@@ -1,14 +1,11 @@
 {
-  "namespaces": [
-    "public"
-  ],
-  "name": "public",
+  "namespaces": [],
   "tables": [
     {
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "integer",
           "unsigned": true,
           "autoincrement": true,
           "primary": true,
@@ -17,63 +14,63 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "file_name": {
           "name": "file_name",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "url": {
           "name": "url",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "hash": {
           "name": "hash",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "delete_hash": {
           "name": "delete_hash",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "size": {
           "name": "size",
-          "type": "int",
+          "type": "integer",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -82,10 +79,9 @@
         }
       },
       "name": "image",
-      "schema": "public",
       "indexes": [
         {
-          "keyName": "image_pkey",
+          "keyName": "primary",
           "columnNames": [
             "id"
           ],
@@ -101,7 +97,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "integer",
           "unsigned": true,
           "autoincrement": true,
           "primary": true,
@@ -110,25 +106,25 @@
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "value": {
           "name": "value",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "additional_data": {
           "name": "additional_data",
-          "type": "jsonb",
+          "type": "json",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -137,20 +133,19 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         }
       },
       "name": "stat",
-      "schema": "public",
       "indexes": [
         {
-          "keyName": "stat_pkey",
+          "keyName": "primary",
           "columnNames": [
             "id"
           ],
@@ -166,48 +161,47 @@
       "columns": {
         "key": {
           "name": "key",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "value": {
           "name": "value",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         }
       },
       "name": "data",
-      "schema": "public",
       "indexes": [
         {
-          "keyName": "data_pkey",
+          "keyName": "primary",
           "columnNames": [
             "key"
           ],
@@ -223,57 +217,56 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "prefix": {
           "name": "prefix",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "deleted": {
           "name": "deleted",
-          "type": "boolean",
+          "type": "integer",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "boolean"
+          "mappedType": "integer"
         }
       },
       "name": "guild",
-      "schema": "public",
       "indexes": [
         {
-          "keyName": "guild_pkey",
+          "keyName": "primary",
           "columnNames": [
             "id"
           ],
@@ -289,39 +282,38 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(0)",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
+          "length": 0,
           "mappedType": "datetime"
         }
       },
       "name": "user",
-      "schema": "public",
       "indexes": [
         {
-          "keyName": "user_pkey",
+          "keyName": "primary",
           "columnNames": [
             "id"
           ],

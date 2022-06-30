@@ -24,7 +24,7 @@ export default class GuildAdminAdd {
         newAdminRoles: Collection<String, Role>,
         client: Client
     ) {
-        console.log(client);
-        this.logger.log('info', `${newMember.nickname} has been added as an admin`);
+        
+        this.logger.log('info', `${newMember.nickname} has been added as an admin`)
     }
 }

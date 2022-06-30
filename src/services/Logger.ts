@@ -1,6 +1,6 @@
 import { Guild, TextChannel, ThreadChannel, User } from 'discord.js'
-import { SimpleCommandMessage } from 'discordx'
-import { singleton } from 'tsyringe'
+import { Client, SimpleCommandMessage } from 'discordx'
+import { container, singleton } from 'tsyringe'
 import { constant } from 'case'
 import fs from 'fs'
 
@@ -11,19 +11,21 @@ import { logsConfig } from '@config'
 @singleton()
 export class Logger {
 
-    private logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
-    private levels = ['debug', 'info', 'warn', 'error'] as const
+    private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
+    private readonly levels = ['debug', 'info', 'warn', 'error'] as const
 
     /**
      * Most atomic log function, that will either log in console, file or other depending params.
      * @param level debug, info, warn, error
      * @param message message to log
      * @param saveToFile if true, the message will be saved to a file
+     * @param channelId Discord channel to log to (if `null`, nothing will be logged to Discord)
      */
     log(
         level: typeof this.levels[number] = 'info', 
         message: string = '', 
-        saveToFile: boolean = false
+        saveToFile: boolean = true,
+        channelId: string | null = null
     ) {
 
         if (message === '') return
@@ -44,6 +46,21 @@ export class Logger {
 
             fs.appendFileSync(fileName, `${templatedLog}\n`)
         }
+
+        // send to discord channel
+        if (channelId) {
+
+            const client = container.resolve(Client)
+            const channel = client.channels.cache.get(channelId)
+
+            if (
+                channel instanceof TextChannel 
+                || channel instanceof ThreadChannel
+            ) {
+
+                channel.send(message)
+            }
+        }
     }
 
     /**
@@ -62,10 +79,13 @@ export class Logger {
             const user = resolveUser(interaction)
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in #${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
-
-            const saveToFile = logsConfig.interaction.file
     
-            this.log('info', message, saveToFile)
+            this.log(
+                'info', 
+                message, 
+                logsConfig.interaction.file,
+                logsConfig.interaction.channel
+            )
         }
     }
 
@@ -83,10 +103,13 @@ export class Logger {
             const user = resolveUser(command)
 
             const message = `(${type}) "${action}" ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in ${channel.name}`: ''}${user ? ` by ${user.username}#${user.discriminator}`: ''}`
-
-            const saveToFile = logsConfig.interaction.file
     
-            this.log('info', message, saveToFile)
+            this.log(
+                'info', 
+                message, 
+                logsConfig.interaction.file,
+                logsConfig.interaction.channel
+            )
         }
     }
 
@@ -101,7 +124,8 @@ export class Logger {
             this.log(
                 'info',
                 `(NEW_USER) ${user.username}#${user.discriminator} (${user.id}) has been added to the db`,
-                logsConfig.newUser.file
+                logsConfig.newUser.file,
+                logsConfig.newUser.channel
             )
         }
     }
@@ -123,7 +147,8 @@ export class Logger {
             this.log(
                 'info',
                 `(${type}) ${guildId} ${additionalMessage}`,
-                logsConfig.guild.file
+                logsConfig.guild.file,
+                logsConfig.guild.channel
             )
         }
     }
