@@ -21,8 +21,8 @@ services:
     restart: always
     networks:
       - dev
-    depends_on:
-      - database
+    # depends_on:
+    #   - database
 
   # ==== MySQL database ====
 
