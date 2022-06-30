@@ -109,7 +109,7 @@ export default class StatsCommand {
                 legend: { display: false },
                 scales: {
                     xAxes: [ { ticks: { fontColor: 'rgba(255,255,254,0.6)' } } ],
-                    yAxes: [ { ticks: { fontColor: 'rgba(255,255,254,0.6)', beginAtZero: false } } ]
+                    yAxes: [ { ticks: { fontColor: 'rgba(255,255,254,0.6)', beginAtZero: false, stepSize: 1 } } ]
                 }
             }
         }
