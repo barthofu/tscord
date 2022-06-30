@@ -22,4 +22,5 @@ export class ErrorHandler {
 
         simpleErrorEmbed(interaction, L[locale]['ERRORS']['UNKNOWN']())
     }
+
 }

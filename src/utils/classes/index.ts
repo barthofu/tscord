@@ -1,1 +1,1 @@
-export * from './ErrorHandler'
+export * from './BaseError'

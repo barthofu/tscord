@@ -7,8 +7,7 @@ import { Slash, Discord, SlashOption } from "@decorators"
 import { Guard, UserPermissions } from "@guards"
 import { Guild } from "@entities"
 import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
-import { Database } from "@services"
-import { ErrorHandler } from "@utils/classes"
+import { Database, ErrorHandler } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 
 import { generalConfig } from '@config'
