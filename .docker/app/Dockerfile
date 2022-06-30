@@ -4,8 +4,9 @@ FROM node:lts-alpine as build-runner
 # Set temp directory
 WORKDIR /tmp/app
 
-# Move package.json
+# Move package.json and package-lock.json
 COPY package.json .
+COPY package-lock.json .
 
 # Install dependencies from package-lock.json
 RUN npm ci
