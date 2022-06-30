@@ -1,4 +1,4 @@
-export const statsConfig = {
+export const statsConfig: StatsConfigType = {
 
     interaction: {
 

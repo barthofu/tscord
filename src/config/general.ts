@@ -1,4 +1,6 @@
-export const generalConfig = {
+
+
+export const generalConfig: GeneralConfigType = {
 
     __templateVersion: '2.0.0',
 
@@ -28,10 +30,11 @@ export const generalConfig = {
 			text: 'some knowledge',
 			type: 'STREAMING'
 		}
-	],
+	]
 
-	colors: {
+}
 
-		primary: '#2F3136',
-	}
+export const colorsConfig = {
+
+	primary: '#2F3136'
 }

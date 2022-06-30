@@ -1,4 +1,4 @@
-export const logsConfig = {
+export const logsConfig: LogsConfigType = {
 
     debug: true,
 		
