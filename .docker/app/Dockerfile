@@ -7,8 +7,8 @@ WORKDIR /tmp/app
 # Move package.json
 COPY package.json .
 
-# Install dependencies
-RUN npm install
+# Install dependencies from package-lock.json
+RUN npm ci
 
 # Move source files
 COPY src ./src
@@ -29,8 +29,8 @@ WORKDIR /app
 # Copy package.json from build-runner
 COPY --from=build-runner /tmp/app/package.json /app/package.json
 
-# Install dependencies
-RUN npm install --only=production
+# Install dependencies from package-lock.json
+RUN npm ci --production
 
 # Move build files
 COPY --from=build-runner /tmp/app/build /app/build
