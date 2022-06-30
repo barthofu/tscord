@@ -29,4 +29,9 @@ export const generalConfig = {
 			type: 'STREAMING'
 		}
 	],
+
+	colors: {
+
+		primary: '#2F3136',
+	}
 }

@@ -4,7 +4,7 @@ import { CommandInteraction, Formatters, Message, MessageActionRow, MessageEmbed
 
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Guard } from "@guards"
-import { chunkArray, validString } from "@utils/functions"
+import { chunkArray, getColor, validString } from "@utils/functions"
 import { getLocaleFromInteraction, L, Locales } from "@i18n"
 
 type CommandCategory = DApplicationCommand & ICategory
@@ -73,6 +73,7 @@ export default class HelpCommand {
 				})
 				.setTitle(L[locale]['COMMANDS']['HELP']['TITLE']())
 				.setThumbnail('https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png')
+				.setColor(getColor('primary'))
 
 			for (const category of this._categories) {
 				embed.addField(

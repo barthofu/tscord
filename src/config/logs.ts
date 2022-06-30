@@ -5,7 +5,7 @@ export const logsConfig = {
     interaction: {
         file: true,
         console: true,
-        channel: '717012699162345523',
+        channel: null,
 
         exclude: [
             'BUTTON_INTERACTION', 

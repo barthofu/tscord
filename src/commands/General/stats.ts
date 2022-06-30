@@ -10,6 +10,7 @@ import {
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Stats as StatsHelper } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
+import { getColor } from "@utils/functions"
 
 const statsResolver: StatsResolverType = [
 	{
@@ -123,7 +124,7 @@ export default class StatsCommand {
 				name: author.username, 
 				iconURL: author.displayAvatarURL({ dynamic: true }) 
 			})
-			.setColor('#0099ff')
+			.setColor(getColor('primary'))
 			.setImage(link)
 	}
 }
