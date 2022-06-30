@@ -1,6 +1,11 @@
 version: '3'
 
+networks:
+  dev:
+
 services:
+
+  # ==== Application ====
 
   app:
     container_name: my_bot
@@ -16,11 +21,13 @@ services:
     restart: always
     networks:
       - dev
-    # depends_on:
-    #   - database
+    depends_on:
+      - database
+
+  # ==== MySQL database ====
 
   # database:
-  #   image: mysql
+  #   image: mysql # or `mariadb`
   #   container_name: database
   #   restart: always
   #   volumes:
@@ -35,6 +42,25 @@ services:
   #   networks:
   #     - dev
 
+  # ==== PostgreSQL database ====
+
+  # database:
+  #   image: postgres
+  #   container_name: database
+  #   restart: always
+  #   volumes:
+  #     - ./data:/var/lib/postgresql:rw
+  #   environment:
+  #     - POSTGRES_DB=${DATABASE_NAME}
+  #     - POSTGRES_USER=${DATABASE_USER}
+  #     - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+  #   ports:
+  #     - 5432:5432
+  #   networks:
+  #     - dev
+
+  # ==== phpMyAdmin ====
+
   # phpmyadmin:
   #   image: phpmyadmin
   #   container_name: phpmyadmin
@@ -47,6 +73,3 @@ services:
   #       PMA_HOST: database
   #   networks:
   #       - dev
-
-networks:
-  dev:

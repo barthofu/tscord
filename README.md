@@ -98,11 +98,10 @@ You can also find useful documentations:
 - [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
 
 #### Data
-- [ ] Other databases support
+- [x] Other databases support
     - [x] MySQL
     - [x] MariaDB
-        - [ ] Add docker-compose service
-    - [ ] PosgreSQL
+    - [x] PosgreSQL
 - [x] Automatic backup
 - [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
@@ -148,9 +147,9 @@ You can also find useful documentations:
 
 #### Other
 - [ ] Documentation using [docusaurus](https://docusaurus.io)
-- [ ] Comment code
 - [ ] ESlint / Prettier
-- [ ] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
+- [x] Comment code
+- [x] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
 - [x] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
 - [x] Code of conduct
 - [x] JSDoc
