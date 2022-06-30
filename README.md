@@ -155,6 +155,7 @@ You can also find useful documentations:
 - [x] JSDoc
 
 #### Bonus
+- [ ] Beautify discord channels logs
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Extensions
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
