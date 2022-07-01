@@ -4,13 +4,14 @@ import { Context } from "koa"
 import { injectable } from "tsyringe"
 
 import { BaseController } from "@utils/classes"
-import { botOnline } from "@api/middlewares"
+import { authenticated, botOnline } from "@api/middlewares"
 import { Stats } from "@services"
 import { User } from "discord.js"
 
 @Router({ options: { prefix: '/bot' }})
 @Middleware(
-    botOnline
+    botOnline,
+    authenticated
 )
 @injectable()
 export class BotController extends BaseController {

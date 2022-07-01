@@ -14,6 +14,7 @@ declare global {
         DATABASE_PASSWORD: string
         
         API_PORT: string
+        API_ADMIN_TOKEN: string
         
         IMGUR_CLIENT_ID: string
       }
