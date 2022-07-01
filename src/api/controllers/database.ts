@@ -7,6 +7,8 @@ import { Database } from "@services"
 import { BaseController } from "@utils/classes"
 import { formatDate } from "@utils/functions"
 
+import { databaseConfig } from "@config"
+
 @Router({ options: { prefix: "/database" } })
 @injectable()
 export class DatabaseController extends BaseController {
@@ -49,5 +51,19 @@ export class DatabaseController extends BaseController {
 
         if (success) this.ok(ctx.response, { message: "Backup restored" })
         else this.error(ctx.response, "Couldn't restore backup, see the logs for more informations", 500)
+    }
+
+    @Get('/backup/list')
+    async getBackupList(ctx: Context) {
+
+        const backupPath = databaseConfig.backup.path
+        if (!backupPath) {
+            return this.error(ctx.response, "Couldn't list backups, see the logs for more informations", 500)
+        }
+
+        const backupList = this.db.getBackupList()
+
+        if (backupList) this.ok(ctx.response, backupList)
+        else this.error(ctx.response, "Couldn't list backups, see the logs for more informations", 500)
     }
 }
