@@ -6,11 +6,15 @@ const logger = container.resolve(Logger)
 
 export function globalLog(ctx: Context, next: Next) {
 
-    logger.log(
-        'info',
-        `global logger - request: ${ctx.url}`,
-        true
-    )
+    // don't log anything if the request has a `logIgnore` query params
+    if (!ctx.query.logIgnore) {
+
+        logger.log(
+            'info',
+            `global logger - request: ${ctx.url}`,
+            true
+        )
+    }
 
     return next()
 }
