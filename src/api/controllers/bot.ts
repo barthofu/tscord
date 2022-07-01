@@ -6,6 +6,7 @@ import { injectable } from "tsyringe"
 import { BaseController } from "@utils/classes"
 import { botOnline } from "@api/middlewares"
 import { Stats } from "@services"
+import { User } from "discord.js"
 
 @Router({ options: { prefix: '/bot' }})
 @Middleware(
@@ -44,6 +45,30 @@ export class BotController extends BaseController {
 
     @Get('/users')
     async users(ctx: Context) {
+
+        const users: User[] = [],
+              guilds = this.client.guilds.cache.map(guild => guild)
+
+        for (const guild of guilds) {
+
+            const members = await guild.members.fetch()
+
+            for (const member of members.values()) {
+                if (!users.find(user => user.id === member.id)) {
+                    users.push(member.user)
+                }
+            }
+        }
+
+        const body = {
+            users: users.map(user => user.toJSON()),
+        }
+
+        this.ok(ctx.response, body)
+    }
+
+    @Get('/cachedUsers')
+    async cachedUsers(ctx: Context) {
 
         const body = {
             users: this.client.users.cache.map(user => user.toJSON()),
