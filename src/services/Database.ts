@@ -1,6 +1,7 @@
 import { delay, inject, singleton } from 'tsyringe'
 import { EntityManager, EntityName, MikroORM } from '@mikro-orm/core'
 import { backup, restore } from 'saveqlite'
+import fs from 'fs'
 
 import { Schedule } from '@decorators'
 import { Logger } from '@services'
@@ -134,6 +135,20 @@ export class Database {
             this.logger.log('error', 'Snapshot file not found, couldn\'t restore', true)
             return false
         }
+    }
+
+    getBackupList(): string[] | null {
+
+        const backupPath = databaseConfig.backup.path
+        if (!backupPath) {
+            this.logger.log('error', 'Backup path not set, couldn\'t get list of backups')
+            return null
+        }
+
+        const files = fs.readdirSync(backupPath)
+        const backupList = files.filter(file => file.startsWith('snapshot'))
+
+        return backupList
     }
 
     private isSQLiteDatabase() {
