@@ -5,7 +5,7 @@ import { BaseController } from "@utils/classes"
 import { injectable } from "tsyringe"
 import { Stats } from "@services"
 
-@Router()
+@Router({ options: { prefix: '/stats' }})
 @injectable()
 export class StatsController extends BaseController {
 
@@ -15,9 +15,13 @@ export class StatsController extends BaseController {
         super()
     }
 
-    @Get('/stats/')
+    @Get('/getTotals')
     async info(ctx: Context) {
 
-        this.ok(ctx.response, "a")
+        const body = {
+            stats: await this.stats.getTotalStats()
+        }
+
+        this.ok(ctx.response, body)
     }
 }

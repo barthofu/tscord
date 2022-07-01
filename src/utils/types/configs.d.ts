@@ -6,7 +6,7 @@ type GeneralConfigType = {
     description: string,
     defaultLocale: string,
     simpleCommandsPrefix: string,
-    owner: string,
+    ownerId: string,
     timezone: string,
     automaticUploadImagesToImgur: boolean,
 

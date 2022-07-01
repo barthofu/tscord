@@ -23,7 +23,7 @@ export default class MessageCreate {
             message.content.startsWith(`\`\`\`${generalConfig.eval.name}`)
             && (
                 (!generalConfig.eval.onlyOwner && generalConfig.devs.includes(message.author.id))
-                || (generalConfig.eval.onlyOwner && message.author.id === generalConfig.owner)
+                || (generalConfig.eval.onlyOwner && message.author.id === generalConfig.ownerId)
             )
         ) {
             executeEvalFromMessage(message)
