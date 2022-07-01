@@ -3,7 +3,7 @@ import { Response } from 'koa'
 
 export abstract class BaseController {
 
-    protected doError(res: Response, message: string, status: StatusCodes): Response {
+    protected error(res: Response, message: string, status: StatusCodes): Response {
 
         res.status = status
         res.body = {
