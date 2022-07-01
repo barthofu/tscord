@@ -1,12 +1,14 @@
-import { Get, Middleware, Router } from "@discordx/koa"
+import { Get, Middleware, Post, Router } from "@discordx/koa"
 import { Client } from "discordx"
 import { Context } from "koa"
 import { injectable } from "tsyringe"
+import validator, { Joi } from 'koa-context-validator'
 
 import { BaseController } from "@utils/classes"
 import { authenticated, botOnline } from "@api/middlewares"
 import { User } from "discord.js"
 import { generalConfig } from "@config"
+import { isInMaintenance, setMaintenance } from "@utils/functions"
 
 @Router({ options: { prefix: '/bot' }})
 @Middleware(
@@ -72,6 +74,36 @@ export class BotController extends BaseController {
 
         const body = {
             users: this.client.users.cache.map(user => user.toJSON()),
+        }
+
+        this.ok(ctx.response, body)
+    }
+
+    @Get('/maintenance')
+    async maintenance(ctx: Context) {
+
+        const body = {
+            maintenance: await isInMaintenance(),
+        }
+
+        this.ok(ctx.response, body)
+    }
+
+    @Post('/maintenance')
+    @Middleware(
+        validator({
+            body: Joi.object().keys({
+                maintenance: Joi.boolean().required()
+            })
+        })
+    )
+    async setMaintenance(ctx: Context) {
+
+        const data = <{ maintenance: boolean }>ctx.request.body
+        await setMaintenance(data.maintenance)
+
+        const body = {
+            maintenance: data.maintenance,
         }
 
         this.ok(ctx.response, body)
