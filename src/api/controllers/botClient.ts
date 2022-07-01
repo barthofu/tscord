@@ -3,10 +3,10 @@ import { BaseController } from "@utils/classes"
 import { Context } from "koa"
 
 @Router()
-export class HealthCheckController extends BaseController {
+export class BotClientController extends BaseController {
 
-    @Get('/healthcheck')
-    async healthcheck(ctx: Context) {
+    @Get('/bot/info')
+    async info(ctx: Context) {
 
         this.ok(ctx.response, "a")
     }

@@ -1,6 +1,8 @@
 import { Koa } from "@discordx/koa"
-import { Logger } from "@services"
 import { singleton } from "tsyringe"
+
+import { globalLog } from "@api/middlewares"
+import { Logger } from "@services"
 
 @singleton()
 export class Server {
@@ -13,7 +15,11 @@ export class Server {
 
     async start() {
 
-        const server = new Koa()
+        const server = new Koa({
+            globalMiddlewares: [
+                globalLog
+            ]
+        })
 
         await server.build()
 
