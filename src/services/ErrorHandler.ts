@@ -1,5 +1,6 @@
 import { CommandInteraction } from 'discord.js'
 import { singleton } from 'tsyringe'
+import { parse } from 'stacktrace-parser'
 
 import { Logger } from '@services'
 import { BaseError } from '@utils/classes'
@@ -20,7 +21,8 @@ export class ErrorHandler {
             if(error instanceof BaseError) return error.handle();
 
             // If the error is not a instance of BaseError
-            this.logger.log("error", `Uncaught Exception : ${error.message}`);
+            const trace = parse(error.stack || "")?.[0];
+            this.logger.log("error", `Uncaught Exception at : ${trace?.file}:${trace?.lineNumber}\n\t> ${error.message}`);
         });
 
         // Catch all Unhandled Rejection (promise)
