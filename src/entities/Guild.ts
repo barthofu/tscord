@@ -1,8 +1,11 @@
 import { Entity, PrimaryKey, Property, EntityRepositoryType } from '@mikro-orm/core'
 import { EntityRepository } from '@mikro-orm/sqlite'
-import { singleton } from 'tsyringe'
 
 import { CustomBaseEntity } from './BaseEntity'
+
+// ===========================================
+// ================= Entity ==================
+// ===========================================
 
 @Entity({ customRepository: () => GuildRepository })
 export class Guild extends CustomBaseEntity {
@@ -19,7 +22,10 @@ export class Guild extends CustomBaseEntity {
     deleted: boolean = false
 }
 
-@singleton()
+// ===========================================
+// =========== Custom Repository =============
+// ===========================================
+
 export class GuildRepository extends EntityRepository<Guild> { 
 
 }

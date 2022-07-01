@@ -2,10 +2,17 @@ import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/c
 import { EntityRepository } from "@mikro-orm/sqlite"
 import { CustomBaseEntity } from "./BaseEntity"
 
-import { defaultData } from 'src/services/Database'
+/**
+ * Default data for the Data table (dynamic EAV key/value pattern) 
+ */
+ export const defaultData = {
+
+    maintenance: false,
+    lastMaintenance: Date.now(),
+    lastStartup: Date.now()
+}
 
 type DataType = keyof typeof defaultData
-
 
 // ===========================================
 // ================= Entity ==================

@@ -1,7 +1,8 @@
 import { container } from 'tsyringe'
 
-import { Database, defaultData } from '@services'
+import { Database } from '@services'
 import { Data } from '@entities'
+import { defaultData } from 'src/entities/Data'
 
 type DataType = keyof typeof defaultData
 

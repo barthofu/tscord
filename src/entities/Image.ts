@@ -4,6 +4,10 @@ import { singleton } from 'tsyringe'
 
 import { CustomBaseEntity } from './BaseEntity'
 
+// ===========================================
+// ================= Entity ==================
+// ===========================================
+
 @Entity({ customRepository: () => ImageRepository })
 export class Image extends CustomBaseEntity {
 
@@ -27,6 +31,10 @@ export class Image extends CustomBaseEntity {
     @Property()
     size: number
 }
+
+// ===========================================
+// =========== Custom Repository =============
+// ===========================================
 
 @singleton()
 export class ImageRepository extends EntityRepository<Image> { 

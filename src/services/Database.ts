@@ -7,16 +7,6 @@ import { Logger } from '@services'
 
 import { databaseConfig, mikroORMConfig } from '@config'
 
-/**
- * Default data for the Data table (dynamic EAV key/value pattern) 
- */
-export const defaultData = {
-
-    maintenance: false,
-    lastMaintenance: Date.now(),
-    lastStartup: Date.now()
-}
-
 @singleton()
 export class Database {
 
