@@ -5,8 +5,8 @@ import { injectable } from "tsyringe"
 
 import { BaseController } from "@utils/classes"
 import { authenticated, botOnline } from "@api/middlewares"
-import { Stats } from "@services"
 import { User } from "discord.js"
+import { generalConfig } from "@config"
 
 @Router({ options: { prefix: '/bot' }})
 @Middleware(
@@ -18,7 +18,6 @@ export class BotController extends BaseController {
 
     constructor(
         private readonly client: Client,
-        private readonly stats: Stats
     ) {
         super()
     }
@@ -28,7 +27,7 @@ export class BotController extends BaseController {
 
         const body = {
             user: this.client.user?.toJSON(),
-            stats: await this.stats.getTotalStats()
+            owner: (await this.client.users.fetch(generalConfig.ownerId)).toJSON(),
         }
 
         this.ok(ctx.response, body)
