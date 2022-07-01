@@ -3,7 +3,7 @@ import { Response } from 'koa'
 
 export abstract class BaseController {
 
-    protected doError(res, message: string, status: StatusCodes): Response {
+    protected doError(res: Response, message: string, status: StatusCodes): Response {
 
         res.status = status
         res.body = {
@@ -16,10 +16,9 @@ export abstract class BaseController {
 
     protected ok(res: Response, json: any): Response {
 
-        const serialisedJson: string = JSON.stringify(json)
         res.headers['content-type'] = 'application/json'
         res.status = StatusCodes.OK
-        res.body = serialisedJson
+        res.body = json
 
         return res
     }
