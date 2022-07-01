@@ -15,7 +15,7 @@ export class StatsController extends BaseController {
         super()
     }
 
-    @Get('/getTotals')
+    @Get('/totals')
     async info(ctx: Context) {
 
         const body = {
