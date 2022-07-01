@@ -7,6 +7,7 @@ import { importx } from '@discordx/importer'
 
 import { Database, ImagesUpload } from '@services'
 import { initDataTable } from '@utils/functions'
+import { Server } from '@api/server'
 
 import { clientConfig } from './client'
 import { generalConfig } from '@config'
@@ -23,7 +24,7 @@ async function run() {
     container.registerInstance(Client, client)
 
     // import all the commands and events
-    await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
+    await importx(__dirname + "/{events,commands,api}/**/*.{ts,js}")
         
     // init the data table if it doesn't exist
     await initDataTable()
@@ -36,6 +37,9 @@ async function run() {
     if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
         container.resolve(ImagesUpload).synchroWithDatabase()
     }
+
+    // start the api server
+    await container.resolve(Server).start()
 }
 
 run()
