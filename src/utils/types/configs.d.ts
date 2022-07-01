@@ -72,3 +72,8 @@ type StatsConfigType = {
         exclude: string[]
     }
 }
+
+type APIConfigType = {
+
+    port: number,
+}
