@@ -34,6 +34,11 @@ export class Database {
         await this._orm.getMigrator().up()
     }
 
+    public async refreshConnection() {
+        await this.orm.close()
+        this._orm = await MikroORM.init()
+    }
+
     public getOrm() {
         return this.orm
     }
@@ -58,24 +63,43 @@ export class Database {
      * Create a snapshot of the database each day at 23:59:59
      */
     @Schedule('59 59 23 * * *')
-    async backup() { 
+    async backup(snapshotName?: string): Promise<boolean> { 
 
         const { formatDate } = await import('@utils/functions') 
         
-        if (!databaseConfig.backup.enabled) return
-        if (!this.isSQLiteDatabase()) return this.logger.log('error', 'Database is not SQLite, couldn\'t backup')
+        if (!databaseConfig.backup.enabled && !snapshotName) return false
+        if (!this.isSQLiteDatabase()) {
+            this.logger.log('error', 'Database is not SQLite, couldn\'t backup')
+            return false
+        }
 
         const backupPath = databaseConfig.backup.path
-        if (!backupPath) return this.logger.log('error', 'Backup path not set, couldn\'t backup')
+        if (!backupPath) {
+            this.logger.log('error', 'Backup path not set, couldn\'t backup', true)
+            return false
+        }
 
-        const snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}.txt`
+        if (!snapshotName) snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}`
         const objectsPath = `${backupPath}objects/` as `${string}/`
 
-        backup(
-            mikroORMConfig[process.env.NODE_ENV]!.dbName!, 
-            snapshotName, 
-            objectsPath
-        )
+        try {
+
+            await backup(
+                mikroORMConfig[process.env.NODE_ENV]!.dbName!, 
+                snapshotName + '.txt', 
+                objectsPath
+            )
+
+            return true
+
+        } catch(e) {
+
+            const errorMessage = typeof e === 'string' ? e : e instanceof Error ? e.message : 'Unknown error'
+
+            this.logger.log('error', 'Couldn\'t backup : ' + errorMessage, true)
+            return false
+        }
+
     }
 
     /**
@@ -83,22 +107,32 @@ export class Database {
      * @param snapshotDate Date of the snapshot to restore
      * @returns 
      */
-    async restore(snapshotDate: string) {
+    async restore(snapshotName: string): Promise<boolean> {
 
-        if (!this.isSQLiteDatabase()) return this.logger.log('error', 'Database is not SQLite, couldn\'t restore')
+        if (!this.isSQLiteDatabase()) {
+            this.logger.log('error', 'Database is not SQLite, couldn\'t restore')
+            return false
+        }
 
         const backupPath = databaseConfig.backup.path
-        if (!backupPath) return console.log('Backup path not set, couldn\'t restore')
-
+        if (!backupPath) {
+            this.logger.log('error', 'Backup path not set, couldn\'t restore', true)
+        }
+        
         try {
 
-            restore(
+            await restore(
                 mikroORMConfig[process.env.NODE_ENV]!.dbName!,
-                `${backupPath}snapshot-${snapshotDate}.txt`,
+                `${backupPath}${snapshotName}.txt`,
             )
 
+            await this.refreshConnection()
+
+            return true
+
         } catch (error) {
-            this.logger.log('error', 'Snapshot file not found, couldn\'t restore')
+            this.logger.log('error', 'Snapshot file not found, couldn\'t restore', true)
+            return false
         }
     }
 
