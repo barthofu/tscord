@@ -4,5 +4,5 @@ export abstract class BaseError extends Error {
         super(message)
     }
 
-    public handler() {}
+    public handle() {}
 }

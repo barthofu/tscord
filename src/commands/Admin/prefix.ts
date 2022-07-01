@@ -11,6 +11,7 @@ import { Database, ErrorHandler } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 
 import { generalConfig } from '@config'
+import { UnknownReplyError } from "@errors"
 
 @Discord()
 @injectable()
@@ -49,7 +50,8 @@ export default class PrefixCommand {
 				}))
 		} 
 		else {
-			this.errorHandler.unknownErrorReply(interaction)
+			throw new UnknownReplyError(interaction);
+			//this.errorHandler.unknownErrorReply(interaction)
 		}
 			  
 	}

@@ -2,25 +2,34 @@ import { CommandInteraction } from 'discord.js'
 import { singleton } from 'tsyringe'
 
 import { Logger } from '@services'
-import { getLocaleFromInteraction, L } from '@i18n'
-import { simpleErrorEmbed } from '@utils/functions/embeds'
+import { BaseError } from '@utils/classes'
+
 
 @singleton()
 export class ErrorHandler {
 
     constructor(
         private logger: Logger
-    ) {}
+    ) {
+        // Catch all exeptions
+        process.on('uncaughtException', (error: Error, origin: string) => {
+            // Stop if is unhandledRejection
+            if(origin === "unhandledRejection") return;
 
-    /**
-     * Automatically handles errors and sends a message to the user using a discord embed.
-     * @param interaction
-     */
-    async unknownErrorReply(interaction: CommandInteraction) {
+            // If instance of BaseError, call `handle` method
+            if(error instanceof BaseError) return error.handle();
 
-        const locale = getLocaleFromInteraction(interaction)
+            // If the error is not a instance of BaseError
+            this.logger.log("error", `Uncaught Exception : ${error.message}`);
+        });
 
-        simpleErrorEmbed(interaction, L[locale]['ERRORS']['UNKNOWN']())
+        // Catch all Unhandled Rejection (promise)
+        process.on('unhandledRejection', (error: Error | any, promise: Promise<any>) => {
+            // If instance of BaseError, call `handle` method
+            if(error instanceof BaseError) return error.handle();
+
+            // If the error is not a instance of BaseError
+            this.logger.log("error", `Unhandled rejection at ${promise}\nreason: ${error.message}`);
+        });
     }
-
 }
