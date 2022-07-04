@@ -53,7 +53,7 @@ export class Stats {
         const value = resolveAction(interaction)
         const additionalData = {
             user: resolveUser(interaction)?.id,
-            guild: resolveGuild(interaction)?.id,
+            guild: resolveGuild(interaction)?.id || 'dm',
             channel: resolveChannel(interaction)?.id
         }
 
@@ -70,9 +70,14 @@ export class Stats {
         // we extract data from the interaction
         const type = 'SIMPLE_COMMAND_MESSAGE'
         const value = command.name
+        const additionalData = {
+            user: command.message.author.id,
+            guild: command.message.guild?.id || 'dm',
+            channel: command.message.channel?.id
+        }
 
         // add it to the db
-        await this.register(type, value)
+        await this.register(type, value, additionalData)
     }
 
     /**
