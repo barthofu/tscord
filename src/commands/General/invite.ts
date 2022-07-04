@@ -6,6 +6,7 @@ import { Discord, Slash, SlashOption } from "@decorators"
 import { Guard } from "@guards"
 import { getColor } from "@utils/functions"
 import { getLocaleFromInteraction, L } from "@i18n"
+import { generalConfig } from "@config"
 
 @Discord()
 @Category('General')
@@ -19,7 +20,7 @@ export default class Invite {
 		const locale = getLocaleFromInteraction(interaction)
 		const embed = new MessageEmbed()
 			.setTitle(L[locale].COMMANDS.INVITE.TITLE())
-			.setDescription(L[locale].COMMANDS.INVITE.DESCRIPTION({link: "https://www.change_link_here"}))
+			.setDescription(L[locale].COMMANDS.INVITE.DESCRIPTION({link: generalConfig.inviteLink}))
 			.setColor(getColor('primary'))
 			.setFooter({ text : 'Powered by DiscBot Team ❤'})
 

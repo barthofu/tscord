@@ -9,6 +9,7 @@ type GeneralConfigType = {
     ownerId: string,
     timezone: string,
     automaticUploadImagesToImgur: boolean,
+    inviteLink: string,
 
     devs: string[],
 
