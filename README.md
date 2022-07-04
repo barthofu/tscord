@@ -106,7 +106,7 @@ You can also find useful documentations:
 - [x] Automatic backup
 - [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
-    - [ ] Register last interaction of a user with the bot
+    - [x] Register last interaction of a user with the bot
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
 - [x] EAV pattern implementation for single data types

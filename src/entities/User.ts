@@ -15,6 +15,8 @@ export class User extends CustomBaseEntity {
     @PrimaryKey({ autoincrement: false })
     id!: string
 
+    @Property()
+    lastInteract: Date = new Date()
 }
 
 // ===========================================
@@ -23,4 +25,13 @@ export class User extends CustomBaseEntity {
 
 export class UserRepository extends EntityRepository<User> { 
 
+    async updateLastInteract(userId?: string): Promise<void> {
+
+        const user = await this.findOne({ id: userId })
+
+        if (user) {
+            user.lastInteract = new Date()
+            await this.flush()
+        }
+    }
 }
