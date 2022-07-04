@@ -39,6 +39,17 @@ type RootTranslation = {
 		UNKNOWN: string
 	}
 	COMMANDS: {
+		INVITE: {
+			/**
+			 * Invite me to your server!
+			 */
+			TITLE: string
+			/**
+			 * [Click here]({link}) to invite me!
+			 * @param {string} link
+			 */
+			DESCRIPTION: RequiredParams<'link'>
+		}
 		PREFIX: {
 			/**
 			 * Prefix changed to `{prefix}`.
@@ -124,6 +135,16 @@ export type TranslationFunctions = {
 		UNKNOWN: () => LocalizedString
 	}
 	COMMANDS: {
+		INVITE: {
+			/**
+			 * Invite me to your server!
+			 */
+			TITLE: () => LocalizedString
+			/**
+			 * [Click here]({link}) to invite me!
+			 */
+			DESCRIPTION: (arg: { link: string }) => LocalizedString
+		}
 		PREFIX: {
 			/**
 			 * Prefix changed to `{prefix}`.

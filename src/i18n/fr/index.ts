@@ -14,6 +14,10 @@ const fr: Translation = {
 	},
 
 	COMMANDS: {
+		INVITE: {
+			TITLE: 'Invite moi sur ton serveur!',
+			DESCRIPTION: '[Clique ici]({link}) pour m\'inviter!'
+		},
 		PREFIX: {
 			CHANGED: 'Prefix changé en `{prefix}`.',
 		},
