@@ -22,7 +22,7 @@ export class ErrorHandler {
 
             // If the error is not a instance of BaseError
             const trace = parse(error.stack || "")?.[0];
-            if(trace) return this.logger.log("error", `Uncaught Exception at : ${trace?.file}:${trace?.lineNumber}\n\t> ${error.message}`);
+            if(trace) return this.logger.log("error", `Exception at : ${trace?.file}:${trace?.lineNumber}\n\t> ${error.message}`);
 
             this.logger.log("error", "An error as occured in a unknow file\n\t> " + error.message);
         });
@@ -36,7 +36,7 @@ export class ErrorHandler {
             const trace = parse(error.stack || "")?.[0];
             if(trace) return this.logger.log("error", `Unhandled rejection at ${trace?.file}:${trace?.lineNumber}\n\t> ${error.message}`);
 
-            this.logger.log("error", "An error as occured in a unknow file\n\t> " + error.message);
+            this.logger.log("error", "An unhandled rejection as occured in a unknow file\n\t> " + error);
         });
     }
 }
