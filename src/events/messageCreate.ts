@@ -2,7 +2,7 @@ import { Client, ArgsOf, SimpleCommandMessage } from 'discordx'
 
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
-import { syncUser, executeEvalFromMessage, getPrefixFromMessage } from '@utils/functions'
+import { executeEvalFromMessage, getPrefixFromMessage } from '@utils/functions'
 
 import { generalConfig } from '@config'
 
@@ -17,9 +17,6 @@ export default class MessageCreateEvent {
         [message]: ArgsOf<"messageCreate">, 
         client: Client
      ) {
-
-        // insert user in db if not exists
-        await syncUser(message.author)
 
         // eval command
         if (

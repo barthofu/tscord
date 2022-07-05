@@ -5,7 +5,7 @@ import { On, Discord } from '@decorators'
 import { Stats, Logger, Database } from '@services'
 import { Guild, User } from '@entities'
 import { Maintenance } from '@guards'
-import { getPrefixFromMessage } from '@utils/functions'
+import { getPrefixFromMessage, syncUser } from '@utils/functions'
 
 @Discord()
 @injectable()
@@ -23,6 +23,9 @@ export default class SimpleCommandCreateEvent {
 
     @On('simpleCommandCreate')
     async simpleCommandCreateHandler([command]: [SimpleCommandMessage]) {
+
+        // insert user in db if not exists
+        await syncUser(command.message.author)
 
         // update last interaction time of both user and guild
         await this.db.getRepo(User).updateLastInteract(command.message.author.id)
