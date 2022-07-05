@@ -6,8 +6,8 @@ import { Discord, Slash, SlashOption } from "@decorators"
 import { Guard } from "@guards"
 
 @Discord()
-@Category('General')
-export default class {{pascalCase name}} {
+@Category('{{pascalCase category}}')
+export default class {{pascalCase name}}Command {
 
 	@Slash('{{camelCase name}}', { description: 
 		'Here goes the command description!'
