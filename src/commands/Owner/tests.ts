@@ -1,4 +1,4 @@
-import { Client, ContextMenu } from "discordx"
+import { Client, ContextMenu, SimpleCommand } from "discordx"
 import type { CommandInteraction } from "discord.js"
 import { backup, restore } from 'saveqlite'
 
@@ -20,19 +20,10 @@ export default class TestsCommand {
 		console.log('"test" trouvé !')
 	}
 
-	@Slash('test')
+	@SimpleCommand('dm')
 	async test(interaction: CommandInteraction) {
 
-		const stats = container.resolve(Stats)
-		for (let i = 0; i < 10000; i++) {
-
-			await stats.registerDailyStats()
-		}
+		console.log('dm invoked')
 	}
 
-	@ContextMenu('USER')
-	async backup() {
-
-		backup('database/db.sqlite', 'snapshot1.txt', 'database/backups/objects/')
-	}
 }
