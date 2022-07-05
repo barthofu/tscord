@@ -124,13 +124,11 @@ You can also find useful documentations:
 - [x] Cron tasks
 
 #### Built-in commands
-- [ ] General
-    - [ ] `info`
-    - [ ] `invite`
+- [x] General
+    - [x] `invite`
     - [x] `help`
     - [x] `stats`
     - [x] `ping` (with latency)
-    
 - [x] Admin
     - [x] `prefix`
 - [x] Owner
@@ -156,8 +154,8 @@ You can also find useful documentations:
 - ~~ESlint / Prettier~~
 
 #### Bonus
-- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
 - [ ] Beautify discord channels logs
+- [ ] `info` command
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Extensions
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
@@ -166,6 +164,7 @@ You can also find useful documentations:
 - [ ] Add support for NoSQL databases (mongo)
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
 - [ ] Integrations with bot lists (e.g: top.gg)
+- [x] Pimp console logs ([chalk](https://github.com/chalk/chalk))
 - [x] CLI to generates (also using *plop*) :
     - [x] Entities (maybe a simple wrapper of *mikro-orm* CLI)
     - [x] Commands

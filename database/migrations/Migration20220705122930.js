@@ -2,7 +2,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 const { Migration } = require('@mikro-orm/migrations');
 
-class Migration20220704084648 extends Migration {
+class Migration20220705122930 extends Migration {
 
   async up() {
     this.addSql('create table `image` (`id` integer not null primary key autoincrement, `created_at` datetime not null, `updated_at` datetime not null, `file_name` text not null, `url` text not null, `hash` text not null, `delete_hash` text not null, `size` integer not null);');
@@ -17,4 +17,4 @@ class Migration20220704084648 extends Migration {
   }
 
 }
-exports.Migration20220704084648 = Migration20220704084648;
+exports.Migration20220705122930 = Migration20220705122930;

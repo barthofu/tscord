@@ -23,7 +23,7 @@ export const oneLine = (strings: TemplateStringsArray, ...keys: any[]) => {
     return strings
         .reduce((result, part, i) => result + part + (keys[i] ?? '') , '')
         .replace(/(?:\n(?:\s*))+/g, ' ')
-        .split('\N')
+        .split('\NEWLINE')
         .join('\n')
         .trim()
 }

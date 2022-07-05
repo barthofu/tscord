@@ -8,6 +8,7 @@ import axios from "axios"
 import { Database, Logger } from "@services"
 import { Image, ImageRepository } from "@entities"
 import { base64Encode } from "@utils/functions"
+import chalk from "chalk"
 
 const imageHasher = promisify(callbackImageHash)
 
@@ -129,10 +130,9 @@ export class ImagesUpload {
             await this.imageRepo.persistAndFlush(image)
 
             // log the success
-            this.logger.log(
+            this.logger.console(
                 'info',
-                `Image ${imageFileName} ${reupload ? 're' : ''}uploaded to imgur`, 
-                true
+                `Image ${chalk.bold.green(imageFileName)} uploaded to imgur`,
             )
 
         } 

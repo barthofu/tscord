@@ -23,6 +23,6 @@ export default class SimpleCommandCreate {
         await this.db.getRepo(Guild).updateLastInteract(command.message.guild?.id)
 
         await this.stats.registerSimpleCommand(command)
-        this.logger.logSimpleCommand(command)
+        this.logger.logInteraction(command)
     }
 }

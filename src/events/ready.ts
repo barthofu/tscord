@@ -48,9 +48,6 @@ export default class Ready {
          */
         //await client.initApplicationPermissions(false)
 
-        // syncrhonize guilds between discord and the database
-        await syncAllGuilds(client)
-
         // change activity
         await this.changeActivity()
 
@@ -62,6 +59,9 @@ export default class Ready {
 
         // log startup
         await this.logger.logStartingConsole()
+
+        // syncrhonize guilds between discord and the database
+        await syncAllGuilds(client)
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds
