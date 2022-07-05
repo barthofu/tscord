@@ -41,7 +41,7 @@ export class ImagesUpload {
         return false
     }
 
-    async synchroWithDatabase() {
+    async syncWithDatabase() {
 
         // add missing images to the database
 

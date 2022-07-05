@@ -7,7 +7,7 @@ import { Slash, Discord, SlashOption } from "@decorators"
 import { Guard, UserPermissions } from "@guards"
 import { Guild } from "@entities"
 import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
-import { Database, ErrorHandler } from "@services"
+import { Database } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 
 import { generalConfig } from '@config'
@@ -20,7 +20,6 @@ export default class PrefixCommand {
 
 	constructor(
 		private db: Database,
-		private errorHandler: ErrorHandler
 	) {}
 
 	@Slash('prefix', { description: 
@@ -50,8 +49,7 @@ export default class PrefixCommand {
 				}))
 		} 
 		else {
-			throw new UnknownReplyError(interaction);
-			//this.errorHandler.unknownErrorReply(interaction)
+			throw new UnknownReplyError(interaction)
 		}
 			  
 	}

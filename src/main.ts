@@ -29,7 +29,7 @@ async function run() {
     container.registerInstance(Client, client)
 
     // init the error handler
-    container.resolve(ErrorHandler);
+    container.resolve(ErrorHandler)
 
     // import all the commands and events
     await importx(__dirname + "/{events,commands,api}/**/*.{ts,js}")
@@ -43,7 +43,7 @@ async function run() {
 
     // upload images to imgur if configured
     if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-        container.resolve(ImagesUpload).synchroWithDatabase()
+        container.resolve(ImagesUpload).syncWithDatabase()
     }
 
     // start the api server
