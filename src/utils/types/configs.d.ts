@@ -44,7 +44,7 @@ type LogsConfigType = {
         console: boolean,
         channel: string | null,
 
-        exclude: string[]
+        exclude: InteractionsConstants[]
     }
 
     simpleCommand: {
@@ -70,7 +70,7 @@ type StatsConfigType = {
 
     interaction: {
         
-        exclude: string[]
+        exclude: InteractionsConstants[]
     }
 }
 
