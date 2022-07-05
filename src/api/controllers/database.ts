@@ -8,8 +8,12 @@ import { BaseController } from "@utils/classes"
 import { formatDate } from "@utils/functions"
 
 import { databaseConfig } from "@config"
+import { authenticated } from "@api/middlewares"
 
 @Router({ options: { prefix: "/database" } })
+@Middleware(
+    authenticated
+)
 @injectable()
 export class DatabaseController extends BaseController {
 
