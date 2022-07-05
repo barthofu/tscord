@@ -9,7 +9,7 @@ import { syncUser } from '@utils/functions'
 
 @Discord()
 @injectable()
-export default class InteractionCreate {
+export default class InteractionCreateEvent {
 
     constructor(
         private stats: Stats,
@@ -21,7 +21,7 @@ export default class InteractionCreate {
     @Guard(
         Maintenance
     )
-    async interactionCreate(
+    async interactionCreateHandler(
         [interaction]: ArgsOf<'interactionCreate'>, 
         client: Client
     ) {

@@ -10,7 +10,7 @@ import { generalConfig } from "@config"
 
 @Discord()
 @Category('General')
-export default class Invite {
+export default class InviteCommand {
 
 	@Slash('invite', { description: 
 		'A simple invite command!'

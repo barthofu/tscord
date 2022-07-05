@@ -4,10 +4,10 @@ import { On, Discord } from '@decorators'
 import { syncGuild } from '@utils/functions'
 
 @Discord()
-export default class GuildCreate {
+export default class GuildCreateEvent {
 
     @On('guildCreate')
-    async handler(
+    async guildCreateHandler(
         [newGuild]: ArgsOf<'guildCreate'>,
         client: Client
     ) {

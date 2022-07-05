@@ -10,7 +10,7 @@ import { generalConfig, logsConfig } from '@config'
 
 @Discord()
 @injectable()
-export default class Ready {
+export default class ReadyEvent {
 
     constructor(
         private db: Database,
@@ -21,7 +21,7 @@ export default class Ready {
     private activityIndex = 0
 
     @Once('ready')
-    async ready([client]: [Client]) {
+    async readyHandler([client]: [Client]) {
 
         // make sure all guilds are cached
         await client.guilds.fetch()
