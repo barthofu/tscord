@@ -31,11 +31,6 @@ export class Server {
 
     async listen() {
 
-        this.logger.log(
-            'info',
-            `discord api server started on ${apiConfig.port}`,
-            true
-        )
     }
 
 }

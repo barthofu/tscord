@@ -71,7 +71,6 @@ You can also find useful documentations:
 <summary>Click here to expand the roadmap</summary>
 
 #### Todo
-- [ ] (JSDoc on config files properties)
 
 #### Discord
 - [ ] Custom events
@@ -149,14 +148,15 @@ You can also find useful documentations:
 
 #### Other
 - [ ] Documentation using [docusaurus](https://docusaurus.io)
-- [ ] ESlint / Prettier
 - [x] Comment code
 - [x] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
 - [x] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
 - [x] Code of conduct
 - [x] JSDoc
+- ~~ESlint / Prettier~~
 
 #### Bonus
+- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
 - [ ] Beautify discord channels logs
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Extensions
@@ -166,7 +166,6 @@ You can also find useful documentations:
 - [ ] Add support for NoSQL databases (mongo)
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
 - [ ] Integrations with bot lists (e.g: top.gg)
-- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
 - [x] CLI to generates (also using *plop*) :
     - [x] Entities (maybe a simple wrapper of *mikro-orm* CLI)
     - [x] Commands

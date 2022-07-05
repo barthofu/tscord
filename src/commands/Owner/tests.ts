@@ -1,4 +1,4 @@
-import { Client } from "discordx"
+import { Client, ContextMenu } from "discordx"
 import type { CommandInteraction } from "discord.js"
 import { backup, restore } from 'saveqlite'
 
@@ -30,7 +30,7 @@ export default class TestsCommand {
 		}
 	}
 
-	@Slash('backup')
+	@ContextMenu('USER')
 	async backup() {
 
 		backup('database/db.sqlite', 'snapshot1.txt', 'database/backups/objects/')

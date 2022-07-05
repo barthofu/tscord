@@ -17,7 +17,9 @@ export default class Invite {
     })
 	@Guard()
 	invite(interaction: CommandInteraction): void {
+
 		const locale = getLocaleFromInteraction(interaction)
+
 		const embed = new MessageEmbed()
 			.setTitle(L[locale].COMMANDS.INVITE.TITLE())
 			.setDescription(L[locale].COMMANDS.INVITE.DESCRIPTION({link: generalConfig.inviteLink}))
@@ -25,10 +27,7 @@ export default class Invite {
 			.setFooter({ text : 'Powered by DiscBot Team ❤'})
 
 		interaction.reply({
-			
 			embeds: [embed]
-		
-
 		})
 	}
 }

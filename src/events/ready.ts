@@ -2,11 +2,11 @@ import { Client } from 'discordx'
 import { container, injectable } from 'tsyringe'
 
 import { Once, Discord, Schedule } from '@decorators'
-import { Database } from '@services'
+import { Database, Logger, Scheduler } from '@services'
 import { Data } from '@entities'
 import { syncAllGuilds } from '@utils/functions'
 
-import { generalConfig } from '@config'
+import { generalConfig, logsConfig } from '@config'
 
 @Discord()
 @injectable()
@@ -14,6 +14,8 @@ export default class Ready {
 
     constructor(
         private db: Database,
+        private logger: Logger,
+        private scheduler: Scheduler
     ) {}
 
     private activityIndex = 0
@@ -27,14 +29,24 @@ export default class Ready {
         // synchronize applications commands with Discord
         await client.initApplicationCommands({
             global: {
+                log: logsConfig.debug,
                 disable: {
                     delete: false
                 }
+            },
+            guild: {
+                log: logsConfig.debug
             }
         })
 
         // synchronize applications command permissions with Discord
-        await client.initApplicationPermissions()
+        /**
+         * ************************************************************
+         * Discord has deprecated permissions v1 api in favour permissions v2, await future updates
+         * see https://github.com/discordjs/discord.js/pull/7857
+         * ************************************************************
+         */
+        //await client.initApplicationPermissions(false)
 
         // syncrhonize guilds between discord and the database
         await syncAllGuilds(client)
@@ -44,6 +56,12 @@ export default class Ready {
 
         // update last startup time in the database
         await this.db.getRepo(Data).set('lastStartup', Date.now())
+
+        // start scheduled jobs
+        this.scheduler.startAllJobs()
+
+        // log startup
+        await this.logger.logStartingConsole()
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds

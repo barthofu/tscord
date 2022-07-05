@@ -17,3 +17,18 @@ export const validString = (...strings: Array<unknown>): boolean => {
 
     return true
 }
+
+export const oneLine = (strings: TemplateStringsArray, ...keys: any[]) => {
+
+    return strings
+        .reduce((result, part, i) => result + part + (keys[i] ?? '') , '')
+        .replace(/(?:\n(?:\s*))+/g, ' ')
+        .split('\N')
+        .join('\n')
+        .trim()
+}
+
+export const numberAlign = (number: number, align: number = 2) => {
+
+    return number.toString().padStart(align, ' ')
+}

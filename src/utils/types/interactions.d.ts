@@ -5,3 +5,5 @@ type EmittedInteractions = import('discord.js').CommandInteraction | import('dis
 type OnTheFlyInteractions = import('discord.js').ButtonInteraction | import('discord.js').SelectMenuInteraction | import('discord.js').ModalSubmitInteraction
 
 type AllInteractions = EmittedInteractions | OnTheFlyInteractions
+
+type CommandCategory = import('discordx').DApplicationCommand & import('@discordx/utilities').ICategory

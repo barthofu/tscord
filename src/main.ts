@@ -5,7 +5,7 @@ import { container } from 'tsyringe'
 import { DIService, Client } from 'discordx'
 import { importx } from '@discordx/importer'
 
-import { Database, ImagesUpload } from '@services'
+import { Database, ImagesUpload, Logger } from '@services'
 import { initDataTable } from '@utils/functions'
 import { Server } from '@api/server'
 
@@ -13,6 +13,11 @@ import { clientConfig } from './client'
 import { generalConfig } from '@config'
 
 async function run() {
+
+    // start loading
+    const logger = container.resolve(Logger)
+    console.log('\n')
+    logger.startSpinner('Starting...')
 
     // init the sqlite database
     const db = container.resolve(Database)

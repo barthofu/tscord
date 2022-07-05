@@ -1,6 +1,6 @@
 export const logsConfig: LogsConfigType = {
 
-    debug: true,
+    debug: false,
 		
     interaction: {
         file: true,
