@@ -14,6 +14,10 @@ const en: BaseTranslation = {
 	},
 
 	COMMANDS: {
+		INVITE: {
+			TITLE: "Invite me to your server!",
+			DESCRIPTION: "[Click here]({link:string}) to invite me!"
+		},
 		PREFIX: {
 			CHANGED: "Prefix changed to `{prefix:string}`.",
 		},

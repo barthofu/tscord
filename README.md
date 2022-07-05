@@ -22,37 +22,38 @@ This template was created to give developers a starting point for new Discord bo
 Talking about features, here are some of the core features of this template:
 
 - Advanced handlers for:
-    - Interactions (slash, context menu, button, modal, select menu, etc)
-    - Simple message commands
-    - Discord events listeners
-- Guards functions, acting like middlewares on handlers with some built-ins:
+    - **Interactions** (slash, context menu, button, modal, select menu, etc)
+    - **Simple message commands**
+    - **Discord events** listeners
+- **Guards** functions, acting like middlewares on handlers with some built-ins:
     - Rate limiter
     - Maintenance mode
     - Disabling command
     - Guild only command (no DMs)
     - NSFW only command
     - Message's content match using regex
-- Multiple databases support out-of-the-box using an ORM
-- Migrations system to keep a safe database
-- Automatic static assets upload to [imgur](https://imgur.com/)
-- Custom events handlers
-- Error handler
-- Fully-typed localization (i18n)
-- Local store
-- Advanced logger with log files and discord channels support
-- Scheduler for cron jobs
-- Built-in rich statistics system
+- Internal **API** to interact with the bot from external services, with built-in useful endpoints
+- Multiple **databases** support out-of-the-box using an ORM
+- **Migrations** system to keep a safe database
+- **Custom events** handlers
+- Advanced **error handler**
+- Fully-typed **localization** (i18n)
+- Local **store** to manage state through the app
+- Advanced **logger** with log files and discord channels support
+- **Scheduler** for cron jobs
+- Built-in rich **statistics** system
+- Automatic **static assets upload** to [imgur](https://imgur.com/)
 
 Also, this template is developper friendly and follow strict design patterns to ease its maintenance:
-- Written in Typescript
-- Built around the Dependency Injection and Singleton patterns
-- Uses battle-tested libraries under the hood (*discord.ts* and *discord.js*)
-- Built-in debugging setup for VSCode
-- Support for running with the [PM2](https://pm2.keymetrics.io/) process manger
-- Support for running with [Docker](https://www.docker.com/)
-- CI/CD integration with Github Actions
+- Written in **Typescript**
+- Built around the **Dependency Injection** and **Singleton patterns**
+- Uses battle-tested **libraries** under the hood (*discord.ts* and *discord.js*)
+- Built-in **debugging** setup for VSCode
+- Support for running with the **[PM2](https://pm2.keymetrics.io/)** process manger
+- Support for running with **[Docker](https://www.docker.com/)**
+- CI/CD integration with **Github Actions**
 
-and many more!
+*and many more!*
 
 ## 📚 Documentation
 
@@ -70,7 +71,6 @@ You can also find useful documentations:
 <summary>Click here to expand the roadmap</summary>
 
 #### Todo
-- [ ] (JSDoc on config files properties)
 
 #### Discord
 - [ ] Custom events
@@ -105,6 +105,7 @@ You can also find useful documentations:
 - [x] Automatic backup
 - [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
+    - [x] Register last interaction of a user with the bot
 - [x] SQLite database
 - [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
 - [x] EAV pattern implementation for single data types
@@ -123,13 +124,11 @@ You can also find useful documentations:
 - [x] Cron tasks
 
 #### Built-in commands
-- [ ] General
-    - [ ] `info`
-    - [ ] `invite`
+- [x] General
+    - [x] `invite`
     - [x] `help`
     - [x] `stats`
     - [x] `ping` (with latency)
-    
 - [x] Admin
     - [x] `prefix`
 - [x] Owner
@@ -137,8 +136,8 @@ You can also find useful documentations:
     - [x] `maintenance`
 
 #### DevOps
-- [ ] CI/CD
 - [ ] .devcontainer (Codespaces config)
+- [x] CI/CD
 - [x] PM2
 - [x] Docker
 - [x] .env.example
@@ -147,15 +146,16 @@ You can also find useful documentations:
 
 #### Other
 - [ ] Documentation using [docusaurus](https://docusaurus.io)
-- [ ] ESlint / Prettier
 - [x] Comment code
 - [x] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
 - [x] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
 - [x] Code of conduct
 - [x] JSDoc
+- ~~ESlint / Prettier~~
 
 #### Bonus
 - [ ] Beautify discord channels logs
+- [ ] `info` command
 - [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Extensions
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
@@ -164,7 +164,7 @@ You can also find useful documentations:
 - [ ] Add support for NoSQL databases (mongo)
 - [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
 - [ ] Integrations with bot lists (e.g: top.gg)
-- [ ] Pimp console logs ([chalk](https://github.com/chalk/chalk))
+- [x] Pimp console logs ([chalk](https://github.com/chalk/chalk))
 - [x] CLI to generates (also using *plop*) :
     - [x] Entities (maybe a simple wrapper of *mikro-orm* CLI)
     - [x] Commands

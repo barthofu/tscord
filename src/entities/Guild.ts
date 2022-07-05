@@ -1,8 +1,11 @@
 import { Entity, PrimaryKey, Property, EntityRepositoryType } from '@mikro-orm/core'
 import { EntityRepository } from '@mikro-orm/sqlite'
-import { singleton } from 'tsyringe'
 
 import { CustomBaseEntity } from './BaseEntity'
+
+// ===========================================
+// ================= Entity ==================
+// ===========================================
 
 @Entity({ customRepository: () => GuildRepository })
 export class Guild extends CustomBaseEntity {
@@ -17,9 +20,24 @@ export class Guild extends CustomBaseEntity {
 
     @Property()
     deleted: boolean = false
+
+    @Property()
+    lastInteract: Date = new Date()
 }
 
-@singleton()
+// ===========================================
+// =========== Custom Repository =============
+// ===========================================
+
 export class GuildRepository extends EntityRepository<Guild> { 
 
+    async updateLastInteract(guildId?: string): Promise<void> {
+
+        const guild = await this.findOne({ id: guildId })
+        
+        if (guild) {
+            guild.lastInteract = new Date()
+            await this.flush()
+        }
+    }
 }

@@ -19,3 +19,4 @@ logs/
 *.log
 
 # other
+tests/

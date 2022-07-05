@@ -7,8 +7,9 @@ import { generalConfig } from '@config'
 /**
  * Schedule a job to be executed at a specific time (cron)
  * @param cronExpression - cron expression to use (e.g: "0 0 * * *" will run each day at 00:00)
+ * @param jobName - name of the job (the name of the function will be used if it is not provided)
  */
-export const Schedule = (cronExpression: string) => {
+export const Schedule = (cronExpression: string, jobName?: string) => {
 
     if (!isValidCron(cronExpression, { alias: true, seconds: true })) throw new Error(`Invalid cron expression: ${cronExpression}`)
 
@@ -17,8 +18,6 @@ export const Schedule = (cronExpression: string) => {
 		propertyKey: string,
 		descriptor: PropertyDescriptor
 	) => {
-
-        console.log(`Scheduling ${propertyKey} to run at ${cronExpression}`)
 
         // associate the context to the function, with the injected dependencies defined
         const oldDescriptor = descriptor.value
@@ -35,6 +34,9 @@ export const Schedule = (cronExpression: string) => {
             target
         )
 
-        job.start()
+        import('@services').then(services => {
+            const scheduler = container.resolve(services.Scheduler)
+            scheduler.addJob(jobName ?? propertyKey, job)
+        })
 	}
 }

@@ -7,8 +7,6 @@ import { Guard } from "@guards"
 import { chunkArray, getColor, validString } from "@utils/functions"
 import { getLocaleFromInteraction, L, Locales } from "@i18n"
 
-type CommandCategory = DApplicationCommand & ICategory
-
 @Discord()
 @Category('General')
 export default class HelpCommand {
@@ -151,6 +149,7 @@ export default class HelpCommand {
 	loadCategories(): void {
 
 		const commands: CommandCategory[] = MetadataStorage.instance.applicationCommandSlashesFlat as CommandCategory[]
+		
 		for (const command of commands) {
 
 			const { category } = command

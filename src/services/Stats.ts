@@ -47,13 +47,13 @@ export class Stats {
     async registerInteraction(interaction: AllInteractions) {
 
         // we extract data from the interaction
-        const type = constant(getTypeOfInteraction(interaction))
+        const type = constant(getTypeOfInteraction(interaction)) as InteractionsConstants
         if (statsConfig.interaction.exclude.includes(type)) return
         
         const value = resolveAction(interaction)
         const additionalData = {
             user: resolveUser(interaction)?.id,
-            guild: resolveGuild(interaction)?.id,
+            guild: resolveGuild(interaction)?.id || 'dm',
             channel: resolveChannel(interaction)?.id
         }
 
@@ -70,23 +70,34 @@ export class Stats {
         // we extract data from the interaction
         const type = 'SIMPLE_COMMAND_MESSAGE'
         const value = command.name
+        const additionalData = {
+            user: command.message.author.id,
+            guild: command.message.guild?.id || 'dm',
+            channel: command.message.channel?.id
+        }
 
         // add it to the db
-        await this.register(type, value)
+        await this.register(type, value, additionalData)
     }
 
     /**
-     * Returns an object with the daily stats for each type
+     * Returns an object with the total stats for each type
      */
-    async getDailyStats() {
+    async getTotalStats() {
 
-        const statsObj = {
+        const totalStatsObj = {
             TOTAL_USERS: this.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
             TOTAL_GUILDS: this.client.guilds.cache.size,
-            TOTAL_ACTIVE_USERS: await this.db.getRepo(User).count()
+            TOTAL_ACTIVE_USERS: await this.db.getRepo(User).count(),
+            TOTAL_COMMANDS: await this.statsRepo.count({ 
+                $or: [ 
+                    { type: 'SIMPLE_COMMAND_MESSAGE' }, 
+                    { type: 'COMMAND_INTERACTION' }
+                ] 
+            })
         }
 
-        return statsObj
+        return totalStatsObj
     }
 
     /**
@@ -189,10 +200,10 @@ export class Stats {
     @Schedule('59 23 * * *')
     async registerDailyStats() {
 
-        const dailyStats = await this.getDailyStats()
+        const totalStats = await this.getTotalStats()
         
-        for (const type of Object.keys(dailyStats)) {
-            const value = JSON.stringify(dailyStats[type as keyof typeof dailyStats])
+        for (const type of Object.keys(totalStats)) {
+            const value = JSON.stringify(totalStats[type as keyof typeof totalStats])
             await this.register(type, value)
         }
     }

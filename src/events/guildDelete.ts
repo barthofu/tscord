@@ -4,10 +4,10 @@ import { On, Discord } from '@decorators'
 import { syncGuild } from '@utils/functions'
 
 @Discord()
-export default class GuildDelete {
+export default class GuildDeleteEvent {
 
     @On('guildDelete')
-    async handler(
+    async guildDeleteHandler(
         [oldGuild]: ArgsOf<'guildDelete'>,
         client: Client
     ) {

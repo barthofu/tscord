@@ -6,9 +6,10 @@ type GeneralConfigType = {
     description: string,
     defaultLocale: string,
     simpleCommandsPrefix: string,
-    owner: string,
+    ownerId: string,
     timezone: string,
     automaticUploadImagesToImgur: boolean,
+    inviteLink: string,
 
     devs: string[],
 
@@ -43,7 +44,7 @@ type LogsConfigType = {
         console: boolean,
         channel: string | null,
 
-        exclude: string[]
+        exclude: InteractionsConstants[]
     }
 
     simpleCommand: {
@@ -69,6 +70,11 @@ type StatsConfigType = {
 
     interaction: {
         
-        exclude: string[]
+        exclude: InteractionsConstants[]
     }
+}
+
+type APIConfigType = {
+
+    port: number,
 }

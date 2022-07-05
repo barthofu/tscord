@@ -5,13 +5,20 @@ import { container } from 'tsyringe'
 import { DIService, Client } from 'discordx'
 import { importx } from '@discordx/importer'
 
-import { Database, ImagesUpload, ErrorHandler } from '@services'
+import { Database, ImagesUpload, ErrorHandler, Logger } from '@services'
 import { initDataTable } from '@utils/functions'
+import { Server } from '@api/server'
 
 import { clientConfig } from './client'
 import { generalConfig } from '@config'
 
 async function run() {
+
+    // start loading
+    const logger = container.resolve(Logger)
+    console.log('\n')
+    logger.startSpinner('Starting...')
+
     // init the sqlite database
     const db = container.resolve(Database)
     await db.initialize()
@@ -25,7 +32,7 @@ async function run() {
     container.resolve(ErrorHandler);
 
     // import all the commands and events
-    await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
+    await importx(__dirname + "/{events,commands,api}/**/*.{ts,js}")
         
     // init the data table if it doesn't exist
     await initDataTable()
@@ -38,6 +45,9 @@ async function run() {
     if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
         container.resolve(ImagesUpload).synchroWithDatabase()
     }
+
+    // start the api server
+    await container.resolve(Server).start()
 }
 
 run()

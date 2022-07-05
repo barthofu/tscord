@@ -1,0 +1,43 @@
+name: Deploy (SSH)
+
+on:
+  # push:
+  #   branches: [ main ]
+
+  # allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 17.6.0
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        env:
+          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+          # PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          host: ${{ secrets.IP }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          envs: PROJECT_PATH
+          script: |
+            cd $PROJECT_PATH
+            git pull https://github.com/barthofu/tscord-template.git main
+            docker-compose up -d --build
