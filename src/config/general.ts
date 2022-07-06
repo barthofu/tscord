@@ -1,20 +1,18 @@
-
-
 export const generalConfig: GeneralConfigType = {
 
-    __templateVersion: '2.0.0',
+    __templateVersion: '1.0.0',
 
 	name: '',
 	description: '',
 	defaultLocale: 'en',
 	simpleCommandsPrefix: '!',
-	ownerId: '260908777446965248',
+	ownerId: 'YOUR_ID_HERE',
 	timezone: 'Europe/Paris',
 	automaticUploadImagesToImgur: true,
 	inviteLink: 'https://www.change_invite_link_here.com',
 
 	devs: [
-		'260908777446965248'
+		'YOUR_ID_HERE',
 	],
 
 	eval: {
