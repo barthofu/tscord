@@ -11,6 +11,7 @@ import { Server } from '@api/server'
 
 import { clientConfig } from './client'
 import { generalConfig } from '@config'
+import { NoBotTokenError } from '@errors'
 
 async function run() {
 
@@ -38,7 +39,7 @@ async function run() {
     await initDataTable()
 
     // log in with the bot token
-    if (!process.env.BOT_TOKEN) throw Error("Could not find BOT_TOKEN in your environment")
+    if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
     await client.login(process.env.BOT_TOKEN)
 
     // upload images to imgur if configured

@@ -31,9 +31,13 @@ export class Logger {
 
     console(level: typeof this.levels[number] = 'info', message: string = '') {
 
+        this.spinner.stop()
+
         if (!validString(message)) return
 
-        const templatedMessage = `[${chalk.dim.gray(formatDate(new Date()))}] ${message}`
+        let templatedMessage = `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
+        if (level === 'error') templatedMessage = chalk.red(templatedMessage)
+        
         console[level](templatedMessage)
     }
 
@@ -219,7 +223,7 @@ export class Logger {
 
         console.log(chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`))
         console.log(chalk.dim.gray(oneLine`
-            \u200b ${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\NEWLINE
+            ${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\NEWLINE
             ${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\NEWLINE
             ${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus
         `))
