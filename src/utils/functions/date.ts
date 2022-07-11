@@ -1,8 +1,15 @@
-import dateformat from "date-and-time"
-
-import { convertTZ } from "./converter"
+import dayjs from "dayjs"
+import dayjsTimeZone from 'dayjs/plugin/timezone'
+import dayjsUTC from 'dayjs/plugin/utc'
 
 import { generalConfig } from "@config"
+
+dayjs.extend(dayjsUTC)
+dayjs.extend(dayjsTimeZone)
+
+dayjs.tz.setDefault(generalConfig.timezone)
+
+export const datejs = dayjs.tz
 
 const dateMasks = {
     default: 'DD/MM/YYYY - HH:mm:ss',
@@ -18,6 +25,5 @@ const dateMasks = {
  */
 export const formatDate = (date: Date, mask: keyof typeof dateMasks = 'default') => {
 
-    const convertedDate = convertTZ(date, generalConfig.timezone)
-    return dateformat.format(convertedDate, dateMasks[mask], true)
+    return datejs(date).format(dateMasks[mask])
 }

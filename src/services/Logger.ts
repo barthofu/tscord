@@ -222,11 +222,7 @@ export class Logger {
         const commandsSum = slashCommands.length + simpleCommands.length + contextMenus.length
 
         console.log(chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`))
-        console.log(chalk.dim.gray(oneLine`
-            ${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\NEWLINE
-            ${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\NEWLINE
-            ${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus
-        `))
+        console.log(chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`))
 
         // events
         const events = MetadataStorage.instance.events

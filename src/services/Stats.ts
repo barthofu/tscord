@@ -2,7 +2,7 @@ import { Client, SimpleCommandMessage } from 'discordx'
 import { singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
 import { constant } from 'case'
-import { DateTime } from 'luxon'
+import { datejs } from '@utils/functions'
 
 import { Database } from '@services'
 import { Stat, User } from '@entities'
@@ -180,8 +180,8 @@ export class Stats {
      */
     async getCountForGivenDay(type: string, date: Date): Promise<number> {
 
-        const start = DateTime.fromJSDate(date).startOf('day').toJSDate()
-        const end = DateTime.fromJSDate(date).endOf('day').toJSDate()
+        const start = datejs(date).startOf('day').toDate()
+        const end = datejs(date).endOf('day').toDate()
 
         const stats = await this.statsRepo.find({
             type,
