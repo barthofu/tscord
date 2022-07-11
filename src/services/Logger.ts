@@ -9,7 +9,7 @@ import boxen from 'boxen'
 import ora from 'ora'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString } from '@utils/functions'
-import { Scheduler } from '@services'
+import { Scheduler, WebSocket } from '@services'
 
 import { apiConfig, logsConfig } from '@config'
 
@@ -18,7 +18,8 @@ export class Logger {
 
     constructor(
         @inject(delay(() => Client)) private client: Client,
-        @inject(delay(() => Scheduler)) private scheduler: Scheduler
+        @inject(delay(() => Scheduler)) private scheduler: Scheduler,
+        @inject(delay(() => WebSocket)) private websocket: WebSocket
     ) {}
 
     private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
@@ -39,6 +40,12 @@ export class Logger {
         if (level === 'error') templatedMessage = chalk.red(templatedMessage)
         
         console[level](templatedMessage)
+        
+        // send the log to all connected websockets clients
+        this.websocket.broadcast('log', { 
+            level, 
+            message: templatedMessage 
+        })
     }
 
     file(level: typeof this.levels[number] = 'info', message: string = '') {
