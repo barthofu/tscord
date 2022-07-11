@@ -5,7 +5,7 @@ import { container } from 'tsyringe'
 import { DIService, Client } from 'discordx'
 import { importx } from '@discordx/importer'
 
-import { Database, ImagesUpload, ErrorHandler, Logger } from '@services'
+import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
 import { initDataTable } from '@utils/functions'
 import { Server } from '@api/server'
 
@@ -49,6 +49,9 @@ async function run() {
 
     // start the api server
     await container.resolve(Server).start()
+
+    // connect to the dashboard websocket
+    container.resolve(WebSocket)
 }
 
 run()

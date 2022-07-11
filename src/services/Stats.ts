@@ -1,15 +1,16 @@
 import { Client, SimpleCommandMessage } from 'discordx'
-import { singleton } from 'tsyringe'
+import { delay, inject, singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
 import { constant } from 'case'
-import { datejs } from '@utils/functions'
+import osu from 'node-os-utils'
 
-import { Database } from '@services'
+import { Database, WebSocket } from '@services'
 import { Stat, User } from '@entities'
-import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@utils/functions'
-import { Schedule } from '@decorators'
+import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance } from '@utils/functions'
+import { Schedule, WSOn } from '@decorators'
 
 import { statsConfig } from '@config'
+import pidusage from 'pidusage'
 
 @singleton()
 export class Stats {
@@ -18,7 +19,8 @@ export class Stats {
 
     constructor(
         private client: Client,
-        private db: Database
+        private db: Database,
+        @inject(delay(() => WebSocket)) private webSocket: WebSocket
     ) {
         this.statsRepo = this.db.getRepo(Stat)
     }
@@ -195,6 +197,38 @@ export class Stats {
     }
 
     /**
+     * Get the current process usage (CPU, RAM, etc)
+     */
+    async getPidUsage() {
+
+        const pidUsage = await pidusage(process.pid)
+
+        return {
+            ...pidUsage,
+            memory: {
+                usedInMb: pidUsage.memory / (1024 * 1024),
+                percentage: pidUsage.memory / osu.mem.totalMem() * 100
+            }
+        }
+    }
+
+    /**
+     * Get the current host health (CPU, RAM, etc)
+     */
+    async getHostUsage() {
+
+        return {
+            cpu: await osu.cpu.usage(),
+            memory: await osu.mem.info(),
+            os: await osu.os.oos(),
+            uptime: await osu.os.uptime(),
+            hostname: await osu.os.hostname(),
+            platform: await osu.os.platform()
+            // drive: osu.drive.info(),
+        }
+    }
+
+    /**
      * Run each day at 23:59 to update daily stats
      */
     @Schedule('59 23 * * *')
@@ -206,6 +240,25 @@ export class Stats {
             const value = JSON.stringify(totalStats[type as keyof typeof totalStats])
             await this.register(type, value)
         }
+    }
+
+    // ORDER OF DECORATORS IS IMPORTANT! 
+    @WSOn('getHealth')
+    @Schedule('*/10 * * * * *')
+    async sendWebSocketHealth(response?: WSResponseFunction) {
+
+        const data = {
+            botStatus: {
+                online: true,
+                uptime: this.client.uptime,
+                maintenance: await isInMaintenance()
+            },
+            host: await this.getHostUsage(),
+            pid: await this.getPidUsage()
+        }
+
+        if (response) response('monitoring', data)
+        else this.webSocket.broadcast('monitoring', data)
     }
 
 }

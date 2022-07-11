@@ -19,3 +19,4 @@ export {
 export * from './On'
 export * from './Slash'
 export * from './Schedule'
+export * from './WSOn'

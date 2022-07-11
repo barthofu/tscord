@@ -2,7 +2,7 @@ export const generalConfig: GeneralConfigType = {
 
     __templateVersion: '1.0.0',
 
-	name: '',
+	name: 'tscord',
 	description: '',
 	defaultLocale: 'en',
 	simpleCommandsPrefix: '!',

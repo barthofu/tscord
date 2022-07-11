@@ -2,6 +2,7 @@ import { io, Socket } from 'socket.io-client'
 import { singleton } from 'tsyringe'
 
 import { generalConfig } from '@config'
+import { validString } from '@utils/functions'
 
 @singleton()
 export class WebSocket {
@@ -12,9 +13,13 @@ export class WebSocket {
         this._socket = io(process.env['WEBSOCKET_URL'], {
             query: {
                 token: process.env['BOT_TOKEN'],
-                botName: generalConfig.name,
+                botName: validString(generalConfig.name) ? generalConfig.name : 'bot',
                 type: 'bot'
             }
+        })
+
+        this._socket.on('connect', () => {
+            console.log('Connected to the dashboard websocket')
         })
     }
 
