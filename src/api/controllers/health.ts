@@ -1,7 +1,7 @@
 import { Get, Router } from "@discordx/koa"
 import { Client } from "discordx"
 import { Context } from "koa"
-import { injectable } from "tsyringe"
+import { delay, inject, injectable } from "tsyringe"
 
 import { Database, Stats } from "@services"
 import { Data } from "@entities"
@@ -14,7 +14,7 @@ export class HealthController extends BaseController {
     constructor(
         private readonly client: Client,
         private readonly db: Database,
-        private readonly stats: Stats
+        @inject(delay(() => Stats)) private readonly stats: Stats
     ) {
         super()
     }
@@ -27,6 +27,14 @@ export class HealthController extends BaseController {
             uptime: this.client.uptime,
             lastStartup: await this.db.getRepo(Data).get('lastStartup'),
         }
+
+        this.ok(ctx.response, body)
+    }
+
+    @Get('/latency')
+    async latency(ctx: Context) {
+
+        const body = this.stats.getLatency()
 
         this.ok(ctx.response, body)
     }

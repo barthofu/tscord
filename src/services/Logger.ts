@@ -19,7 +19,7 @@ export class Logger {
     constructor(
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
-        @inject(delay(() => WebSocket)) private websocket: WebSocket
+        @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {}
 
     private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
@@ -30,21 +30,26 @@ export class Logger {
     // ======== Output Providers =======
     // =================================
 
-    console(level: typeof this.levels[number] = 'info', message: string = '') {
+    console(level: typeof this.levels[number] = 'info', message: string = '', ignoreTemplate = false) {
 
         this.spinner.stop()
 
         if (!validString(message)) return
 
-        let templatedMessage = `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
+        let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
         if (level === 'error') templatedMessage = chalk.red(templatedMessage)
         
         console[level](templatedMessage)
-        
+
+        this.websocket(level, message)
+    }
+
+    websocket(level: typeof this.levels[number] = 'info', message: string) {
+
         // send the log to all connected websockets clients
-        this.websocket.broadcast('log', { 
+        this.ws.broadcast('log', { 
             level, 
-            message: templatedMessage 
+            message: message 
         })
     }
 
@@ -217,7 +222,7 @@ export class Logger {
 
         this.spinner.stop()
 
-        console.log(chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'))
+        this.console('info', chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'), true)
 
         // commands
         const slashCommands = MetadataStorage.instance.applicationCommandSlashes
@@ -228,13 +233,13 @@ export class Logger {
         ]
         const commandsSum = slashCommands.length + simpleCommands.length + contextMenus.length
 
-        console.log(chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`))
-        console.log(chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`))
+        this.console('info', chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`), true)
+        this.console('info', chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`), true)
 
         // events
         const events = MetadataStorage.instance.events
 
-        console.log(chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`))
+        this.console('info', chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), true)
 
         // entities
         const entities = fs.readdirSync('./src/entities')
@@ -244,27 +249,27 @@ export class Logger {
             )
             .map(entity => entity.split('.')[0])
 
-        console.log(chalk.red(`${symbol} ${numberAlign(entities.length)} ${chalk.bold('entities')} loaded`))
+        this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length)} ${chalk.bold('entities')} loaded`), true)
 
         // services
         const services = fs.readdirSync('./src/services')
             .filter(service => !service.startsWith('index'))
             .map(service => service.split('.')[0])
         
-        console.log(chalk.yellow(`${symbol} ${numberAlign(services.length)} ${chalk.bold('services')} loaded`))
+        this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length)} ${chalk.bold('services')} loaded`), true)
 
         // api
         const endpoints = KoaMetadataStorage.instance.routes
 
-        console.log(chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`))
+        this.console('info', chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), true)
     
         // scheduled jobs
         const scheduledJobs = this.scheduler.jobs.size
 
-        console.log(chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`))
+        this.console('info', chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), true)
     
         // connected
-        console.log(chalk.gray(boxen(
+        this.console('info', chalk.gray(boxen(
             ` API Server listening on port ${chalk.bold(apiConfig.port)} `,
             {
                 padding: 0,
@@ -272,9 +277,9 @@ export class Logger {
                 borderStyle: 'round',
                 dimBorder: true
             }
-        )))
+        )), true)
 
-        console.log(chalk.hex('7289DA')(boxen(
+        this.console('info', chalk.hex('7289DA')(boxen(
             ` ${this.client.user ? `${chalk.bold(this.client.user.tag)}` : 'Bot'} is ${chalk.green('connected')}! `,
             {
                 padding: 0,
@@ -287,6 +292,6 @@ export class Logger {
                 borderStyle: 'round',
                 dimBorder: true
             }
-        )))
+        )), true)
     }
 }

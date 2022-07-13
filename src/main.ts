@@ -51,7 +51,8 @@ async function run() {
     await container.resolve(Server).start()
 
     // connect to the dashboard websocket
-    container.resolve(WebSocket)
+    const websocket = new WebSocket(client.user?.id || null)
+    container.registerInstance(WebSocket, websocket)
 }
 
 run()

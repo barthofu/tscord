@@ -25,13 +25,16 @@ export const WSOn = (event: string) => {
 
         import('@services').then(services => {
 
-            const webSocket = container.resolve(services.WebSocket)
+            setTimeout(() => {
+
+                const webSocket = container.resolve(services.WebSocket)
         
-            webSocket.socket.on(event, async (socketId, ...args) => {
-                descriptor.value((eventName: string, ...args: any) => {
-                    webSocket.socket.emit('request', socketId, eventName, ...args)
-                }, ...args)
-            })
+                webSocket.socket.on(event, async (socketId, ...args) => {
+                    descriptor.value((eventName: string, ...args: any) => {
+                        webSocket.emit(socketId, eventName, ...args)
+                    }, ...args)
+                })
+            }, 3000)
         })
     }
 }

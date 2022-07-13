@@ -20,7 +20,7 @@ export class Stats {
     constructor(
         private client: Client,
         private db: Database,
-        @inject(delay(() => WebSocket)) private webSocket: WebSocket
+        @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
         this.statsRepo = this.db.getRepo(Stat)
     }
@@ -205,9 +205,10 @@ export class Stats {
 
         return {
             ...pidUsage,
+            cpu: pidUsage.cpu.toFixed(1),
             memory: {
-                usedInMb: pidUsage.memory / (1024 * 1024),
-                percentage: pidUsage.memory / osu.mem.totalMem() * 100
+                usedInMb: (pidUsage.memory / (1024 * 1024)).toFixed(1),
+                percentage: (pidUsage.memory / osu.mem.totalMem() * 100).toFixed(1)
             }
         }
     }
@@ -228,6 +229,13 @@ export class Stats {
         }
     }
 
+    getLatency() {
+
+        return {
+            ping: this.client.ws.ping
+        }
+    }
+
     /**
      * Run each day at 23:59 to update daily stats
      */
@@ -244,7 +252,7 @@ export class Stats {
 
     // ORDER OF DECORATORS IS IMPORTANT! 
     @WSOn('getHealth')
-    @Schedule('*/10 * * * * *')
+    @Schedule('*/5 * * * * *')
     async sendWebSocketHealth(response?: WSResponseFunction) {
 
         const data = {
@@ -254,11 +262,12 @@ export class Stats {
                 maintenance: await isInMaintenance()
             },
             host: await this.getHostUsage(),
-            pid: await this.getPidUsage()
+            pid: await this.getPidUsage(),
+            latency: this.getLatency()
         }
 
         if (response) response('monitoring', data)
-        else this.webSocket.broadcast('monitoring', data)
+        else this.ws.broadcast('monitoring', data)
     }
 
 }
