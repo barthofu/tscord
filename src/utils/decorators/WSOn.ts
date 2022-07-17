@@ -34,7 +34,7 @@ export const WSOn = (event: string) => {
                         webSocket.emit(socketId, eventName, ...args)
                     }, ...args)
                 })
-            }, 3000)
+            }, 5 * 1000)
         })
     }
 }

@@ -1,9 +1,7 @@
 import { io, Socket } from 'socket.io-client'
-import { container, delay, inject, singleton } from 'tsyringe'
-import { Client } from 'discordx'
 
 import { generalConfig } from '@config'
-import { validString } from '@utils/functions'
+import { getDevs, validString } from '@utils/functions'
 
 export class WebSocket {
 
@@ -20,7 +18,7 @@ export class WebSocket {
                 botName: this._botName,
                 type: 'bot',
                 botId: botId || '',
-                authorized: [...generalConfig.devs, generalConfig.ownerId]
+                authorized: getDevs()
             }
         })
 
