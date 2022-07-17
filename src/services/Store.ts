@@ -2,11 +2,13 @@ import { singleton } from 'tsyringe'
 import { Store as RxStore } from 'rxeta'
 
 interface State {
-    counter: number
+
+    authorizedAPITokens: string[]
 }
 
 const initialState: State = {
-    counter: 0
+    
+    authorizedAPITokens: []
 }
 
 @singleton()
