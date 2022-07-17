@@ -16,23 +16,23 @@ const statsResolver: StatsResolverType = [
 	{
 		name: 'COMMANDS',
 		data: async (statsHelper: StatsHelper, days: number) => {
-			const simpleCommandMessages = await statsHelper.getStatPerDays('SIMPLE_COMMAND_MESSAGE', days),
-			commandInteractions = await statsHelper.getStatPerDays('COMMAND_INTERACTION', days)
+			const simpleCommandMessages = await statsHelper.countStatsPerDays('SIMPLE_COMMAND_MESSAGE', days),
+			commandInteractions = await statsHelper.countStatsPerDays('COMMAND_INTERACTION', days)
 	  
 	  		return statsHelper.sumStats(simpleCommandMessages, commandInteractions)
 		}
 	},
 	{
 		name: 'GUILDS',
-		data: async (statsHelper, days) => (await statsHelper.getStatPerDays('TOTAL_GUILDS', days)),
+		data: async (statsHelper, days) => (await statsHelper.countStatsPerDays('TOTAL_GUILDS', days)),
 	},
 	{
 		name: 'ACTIVE_USERS',
-		data: async (statsHelper, days) => (await statsHelper.getStatPerDays('TOTAL_ACTIVE_USERS', days)),
+		data: async (statsHelper, days) => (await statsHelper.countStatsPerDays('TOTAL_ACTIVE_USERS', days)),
 	},
 	{
 		name: 'USERS',
-		data: async (statsHelper, days) => (await statsHelper.getStatPerDays('TOTAL_USERS', days)),
+		data: async (statsHelper, days) => (await statsHelper.countStatsPerDays('TOTAL_USERS', days)),
 	},
 ]
 

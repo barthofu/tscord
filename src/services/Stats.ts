@@ -12,6 +12,15 @@ import { Schedule, WSOn } from '@decorators'
 import { statsConfig } from '@config'
 import pidusage from 'pidusage'
 
+const allInteractions = { 
+    $or: [ 
+        { type: 'SIMPLE_COMMAND_MESSAGE' }, 
+        { type: 'COMMAND_INTERACTION' },
+        { type: 'USER_CONTEXT_MENU_INTERACTION' },
+        { type: 'MESSAGE_CONTEXT_MENU_INTERACTION' },
+    ] 
+}
+
 @singleton()
 export class Stats {
 
@@ -91,15 +100,19 @@ export class Stats {
             TOTAL_USERS: this.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
             TOTAL_GUILDS: this.client.guilds.cache.size,
             TOTAL_ACTIVE_USERS: await this.db.getRepo(User).count(),
-            TOTAL_COMMANDS: await this.statsRepo.count({ 
-                $or: [ 
-                    { type: 'SIMPLE_COMMAND_MESSAGE' }, 
-                    { type: 'COMMAND_INTERACTION' }
-                ] 
-            })
+            TOTAL_COMMANDS: await this.statsRepo.count(allInteractions)
         }
 
         return totalStatsObj
+    }
+
+    async getLastInteraction() {
+
+        const lastInteraction = await this.statsRepo.findOne(allInteractions, {
+            orderBy: { createdAt: 'DESC' }
+        })
+
+        return lastInteraction
     }
 
     /**
@@ -107,7 +120,7 @@ export class Stats {
      * @param type 
      * @param days 
      */
-    async getStatPerDays(type: string, days: number): Promise<StatPerInterval> {
+    async countStatsPerDays(type: string, days: number): Promise<StatPerInterval> {
 
         const now = Date.now()
         const stats: StatPerInterval = []
