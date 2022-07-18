@@ -5,7 +5,7 @@ import { constant } from 'case'
 import osu from 'node-os-utils'
 
 import { Database, WebSocket } from '@services'
-import { Stat, User } from '@entities'
+import { Guild, Stat, User } from '@entities'
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance } from '@utils/functions'
 import { Schedule, WSOn } from '@decorators'
 
@@ -142,21 +142,52 @@ export class Stats {
 
         for (const user of users) {
 
-            const interactionsCount = await this.db.getRepo(Stat).count({
+            const commandsCount = await this.db.getRepo(Stat).count({
                 ...allInteractions,
                 additionalData: {
                     user: user.id
                 }
             })
 
-            if (interactionsCount <= 10) usersActivity['1-10']++
-            else if (interactionsCount <= 50) usersActivity['11-50']++
-            else if (interactionsCount <= 100) usersActivity['51-100']++
-            else if (interactionsCount <= 1000) usersActivity['101-1000']++
+            if (commandsCount <= 10) usersActivity['1-10']++
+            else if (commandsCount <= 50) usersActivity['11-50']++
+            else if (commandsCount <= 100) usersActivity['51-100']++
+            else if (commandsCount <= 1000) usersActivity['101-1000']++
             else usersActivity['>1000']++
         }
 
         return usersActivity
+    }
+
+    async getTopGuilds() {
+
+        const topGuilds: {
+            id: string,
+            name: string,
+            totalCommands: number
+        }[] = []
+
+        const guilds = await this.db.getRepo(Guild).findAll()
+
+        for (const guild of guilds) {
+
+            const discordGuild = this.client.guilds.cache.get(guild.id)
+
+            const commandsCount = await this.db.getRepo(Stat).count({
+                ...allInteractions,
+                additionalData: {
+                    guild: guild.id
+                }
+            })
+
+            topGuilds.push({
+                id: guild.id,
+                name: discordGuild?.name || '',
+                totalCommands: commandsCount
+            })
+        }
+
+        return topGuilds
     }
 
     /**

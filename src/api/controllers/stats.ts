@@ -94,4 +94,12 @@ export class StatsController extends BaseController {
         this.ok(ctx.response, usersActivity)
     }
 
+    @Get('/topGuilds')
+    async topGuilds(ctx: Context) {
+
+        const topGuilds = await this.stats.getTopGuilds()
+
+        this.ok(ctx.response, topGuilds)
+    }
+
 }
