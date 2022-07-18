@@ -128,6 +128,37 @@ export class Stats {
         return slashCommands
     }
 
+    async getUsersActivity() {
+
+        const usersActivity = {
+            '1-10': 0,
+            '11-50': 0,
+            '51-100': 0,
+            '101-1000': 0,
+            '>1000': 0
+        }
+
+        const users = await this.db.getRepo(User).findAll()
+
+        for (const user of users) {
+
+            const interactionsCount = await this.db.getRepo(Stat).count({
+                ...allInteractions,
+                additionalData: {
+                    user: user.id
+                }
+            })
+
+            if (interactionsCount <= 10) usersActivity['1-10']++
+            else if (interactionsCount <= 50) usersActivity['11-50']++
+            else if (interactionsCount <= 100) usersActivity['51-100']++
+            else if (interactionsCount <= 1000) usersActivity['101-1000']++
+            else usersActivity['>1000']++
+        }
+
+        return usersActivity
+    }
+
     /**
      * Returns the amount of row for a given type per day in a given interval of days from now.
      * @param type 

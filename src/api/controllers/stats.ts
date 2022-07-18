@@ -86,4 +86,12 @@ export class StatsController extends BaseController {
         this.ok(ctx.response, topCommands)
     }
 
+    @Get('/usersActivity')
+    async usersActivity(ctx: Context) {
+
+        const usersActivity = await this.stats.getUsersActivity()
+
+        this.ok(ctx.response, usersActivity)
+    }
+
 }
