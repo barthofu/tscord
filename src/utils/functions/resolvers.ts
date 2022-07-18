@@ -17,7 +17,8 @@ const resolvers = {
 	user: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.user,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.author,
-		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
+		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
+		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member?.user,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member?.user,
@@ -34,7 +35,8 @@ const resolvers = {
 	guild: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.guild,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild,
-		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild,
+		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild,
+		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild,
@@ -46,7 +48,8 @@ const resolvers = {
 	channel: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.channel,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.channel,
-		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.channel,
+		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.channel,
+		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.channel,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.channel,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.channel,
@@ -65,7 +68,8 @@ const resolvers = {
 	action: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
-		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
+		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
+		MessageMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.customId,
@@ -77,7 +81,8 @@ const resolvers = {
 	locale: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.locale,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild?.preferredLocale ?? 'default',
-		ContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.locale,
+		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.locale,
+		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.locale,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.locale,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.locale,

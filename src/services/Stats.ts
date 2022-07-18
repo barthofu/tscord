@@ -11,6 +11,7 @@ import { Schedule, WSOn } from '@decorators'
 
 import { statsConfig } from '@config'
 import pidusage from 'pidusage'
+import { ContextMenuInteraction } from 'discord.js'
 
 const allInteractions = { 
     $or: [ 
@@ -113,6 +114,18 @@ export class Stats {
         })
 
         return lastInteraction
+    }
+
+    async getTopCommands() {
+
+        const qb = this.db.em.createQueryBuilder(Stat)
+        const query = qb
+            .select(['type', 'value', 'count(*) as count'])
+            .where(allInteractions)
+            .groupBy(['type', 'value'])
+
+        const slashCommands = await query.execute()
+        return slashCommands
     }
 
     /**

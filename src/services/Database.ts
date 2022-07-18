@@ -1,5 +1,6 @@
 import { delay, inject, singleton } from 'tsyringe'
-import { EntityManager, EntityName, MikroORM } from '@mikro-orm/core'
+import { EntityName, MikroORM } from '@mikro-orm/core'
+import { EntityManager, SqliteDriver } from '@mikro-orm/sqlite'
 import { backup, restore } from 'saveqlite'
 import fs from 'fs'
 
@@ -15,7 +16,7 @@ export class Database {
         @inject(delay(() => Logger)) private logger: Logger
     ) { }
 
-    private _orm: MikroORM
+    private _orm: MikroORM<SqliteDriver>
 
     public async initialize() {
 
@@ -44,7 +45,7 @@ export class Database {
         return this.orm
     }
 
-    get orm(): MikroORM {
+    get orm(): MikroORM<SqliteDriver> {
         return this._orm
     }
 

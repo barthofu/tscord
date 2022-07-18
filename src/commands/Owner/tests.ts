@@ -15,7 +15,7 @@ export default class TestsCommand {
 		console.log('test invoked')
 	}
 
-	@ContextMenu('USER')
+	@ContextMenu('USER', 'help')
 	async contextMenu(interaction: CommandInteraction) {
 		
 		console.log('contextMenu invoked')

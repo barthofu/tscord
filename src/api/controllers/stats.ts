@@ -78,4 +78,12 @@ export class StatsController extends BaseController {
         this.ok(ctx.response, body)
     }
 
+    @Get('/topCommands')
+    async topCommands(ctx: Context) {
+
+        const topCommands = await this.stats.getTopCommands()
+
+        this.ok(ctx.response, topCommands)
+    }
+
 }
