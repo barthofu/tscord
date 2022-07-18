@@ -8,31 +8,38 @@ import {
 } from "@discordx/pagination"
 
 import { Discord, Slash, SlashOption } from "@decorators"
-import { Stats as StatsHelper } from "@services"
+import { Stats } from "@services"
 import { getLocaleFromInteraction, L } from "@i18n"
 import { getColor } from "@utils/functions"
 
 const statsResolver: StatsResolverType = [
 	{
 		name: 'COMMANDS',
-		data: async (statsHelper: StatsHelper, days: number) => {
-			const simpleCommandMessages = await statsHelper.countStatsPerDays('SIMPLE_COMMAND_MESSAGE', days),
-			commandInteractions = await statsHelper.countStatsPerDays('COMMAND_INTERACTION', days)
+		data: async (stats: Stats, days: number) => {
+			
+			const simpleCommandMessages = await stats.countStatsPerDays('SIMPLE_COMMAND_MESSAGE', days)
+			const commandInteractions = await stats.countStatsPerDays('COMMAND_INTERACTION', days)
+			const userContextMenus = await stats.countStatsPerDays('USER_CONTEXT_MENU_INTERACTION', days)
+			const messageContextMenus = await stats.countStatsPerDays('MESSAGE_CONTEXT_MENU_INTERACTION', days)
+
 	  
-	  		return statsHelper.sumStats(simpleCommandMessages, commandInteractions)
+	  		return stats.sumStats(
+				stats.sumStats(simpleCommandMessages, commandInteractions),
+				stats.sumStats(userContextMenus, messageContextMenus)
+			)
 		}
 	},
 	{
 		name: 'GUILDS',
-		data: async (statsHelper, days) => (await statsHelper.countStatsPerDays('TOTAL_GUILDS', days)),
+		data: async (stats, days) => (await stats.countStatsPerDays('TOTAL_GUILDS', days)),
 	},
 	{
 		name: 'ACTIVE_USERS',
-		data: async (statsHelper, days) => (await statsHelper.countStatsPerDays('TOTAL_ACTIVE_USERS', days)),
+		data: async (stats, days) => (await stats.countStatsPerDays('TOTAL_ACTIVE_USERS', days)),
 	},
 	{
 		name: 'USERS',
-		data: async (statsHelper, days) => (await statsHelper.countStatsPerDays('TOTAL_USERS', days)),
+		data: async (stats, days) => (await stats.countStatsPerDays('TOTAL_USERS', days)),
 	},
 ]
 
@@ -42,16 +49,16 @@ const statsResolver: StatsResolverType = [
 export default class StatsCommand {
 
 	constructor(
-		private statsHelper: StatsHelper
+		private stats: Stats
 	) {}
 
 	@Slash('stats', { description: 
 		'Here goes the command description!'
     })
-	async stats(
+	async statsHandler(
 		@SlashOption('days') days: number,
 		interaction: CommandInteraction
-	): Promise<void> {
+	) {
 
 		const embeds: MessageEmbed[] = []
 
@@ -59,7 +66,7 @@ export default class StatsCommand {
 
 		for (const stat of statsResolver) {
 			
-			const stats = await stat.data(this.statsHelper, days),
+			const stats = await stat.data(this.stats, days),
 			link = await this.generateLink(
 				stats, 
 				L[locale]['COMMANDS']['STATS']['HEADERS'][stat.name as keyof typeof L[(typeof locale)]['COMMANDS']['STATS']['HEADERS']]()),

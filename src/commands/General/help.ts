@@ -35,7 +35,7 @@ export default class HelpCommand {
 	}
 
 	@SelectMenuComponent('help-category-selector')
-	async selectCategory(interaction: SelectMenuInteraction, client: Client): Promise<void> {
+	async selectCategory(interaction: SelectMenuInteraction, client: Client) {
 
 		const locale = getLocaleFromInteraction(interaction)
 

@@ -31,7 +31,7 @@ export default class PrefixCommand {
 	async prefix(
 		@SlashOption('prefix', { required: false, type: 'STRING' }) prefix: string | undefined,
 		interaction: CommandInteraction
-	): Promise<void> {
+	) {
 		
 		const guild = resolveGuild(interaction),
 			  guildData = await this.db.getRepo(Guild).findOne({ id: guild?.id || '' })

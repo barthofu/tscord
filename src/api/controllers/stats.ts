@@ -102,4 +102,26 @@ export class StatsController extends BaseController {
         this.ok(ctx.response, topGuilds)
     }
 
+    @Get('/usersAndGuilds')
+    @Middleware(
+        validator({
+            query: Joi.object().keys({
+                numberOfDays: Joi.number().default(7)
+            })
+        })
+    )
+    async usersAndGuilds(ctx: Context) {
+
+        const data = <{ numberOfDays: string }>ctx.request.query
+        const numberOfDays = parseInt(data.numberOfDays)
+
+        const body = {
+            activeUsers: await this.stats.countStatsPerDays('TOTAL_ACTIVE_USERS', numberOfDays),
+            users: await this.stats.countStatsPerDays('TOTAL_USERS', numberOfDays),
+            guilds: await this.stats.countStatsPerDays('TOTAL_GUILDS', numberOfDays),
+        }
+
+        this.ok(ctx.response, body)
+    }
+
 }

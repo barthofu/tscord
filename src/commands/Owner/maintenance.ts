@@ -17,7 +17,7 @@ export default class MaintenanceCommand {
 	async maintenance(
 		@SlashOption('state') state: boolean,
 		interaction: CommandInteraction
-	): Promise<void> {
+	) {
 		
 		await setMaintenance(state)
 
