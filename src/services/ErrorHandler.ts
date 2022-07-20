@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import { parse } from 'stacktrace-parser'
+import { parse, StackFrame } from 'stacktrace-parser'
 
 import { Logger } from '@services'
 import { BaseError } from '@utils/classes'
@@ -20,8 +20,8 @@ export class ErrorHandler {
             if (error instanceof BaseError) return error.handle()
 
             // if the error is not a instance of BaseError
-            const trace = parse(error.stack || "")?.[0]
-            if (trace) return this.logger.log("error", `Exception at : ${trace?.file}:${trace?.lineNumber}\n\t> ${error.message}`)
+            const trace = parse(error.stack || "")
+            if (trace[0]) return this.logger.log("error", `Exception : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join("\n")}`)
 
             this.logger.log("error", "An error as occured in a unknow file\n\t> " + error.message)
         })
@@ -33,8 +33,8 @@ export class ErrorHandler {
             if(error instanceof BaseError) return error.handle()
 
             // if the error is not a instance of BaseError
-            const trace = parse(error.stack || "")?.[0]
-            if(trace) return this.logger.log("error", `Unhandled rejection at ${trace?.file}:${trace?.lineNumber}\n\t> ${error.message}`)
+            const trace = parse(error.stack || "")
+            if(trace[0]) return this.logger.log("error", `Unhandled rejection : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join("\n")}`)
 
             this.logger.log("error", "An unhandled rejection as occured in a unknow file\n\t> " + error)
         })
