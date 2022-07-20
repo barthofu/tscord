@@ -1,6 +1,5 @@
-import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
-import type { CommandInteraction } from "discord.js"
+import { ApplicationCommandOptionType, CommandInteraction } from "discord.js"
 import { injectable } from "tsyringe"
 
 import { Slash, Discord, SlashOption } from "@decorators"
@@ -26,10 +25,10 @@ export default class PrefixCommand {
 		'Here goes the command description!'
     })
 	@Guard(
-		UserPermissions(['ADMINISTRATOR'])
+		UserPermissions(['Administrator'])
 	)
 	async prefix(
-		@SlashOption('prefix', { required: false, type: 'STRING' }) prefix: string | undefined,
+		@SlashOption('prefix', { required: false, type: ApplicationCommandOptionType.String }) prefix: string | undefined,
 		interaction: CommandInteraction
 	) {
 		

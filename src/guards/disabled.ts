@@ -1,5 +1,5 @@
 import { GuardFunction, SimpleCommandMessage } from 'discordx'
-import { CommandInteraction, ContextMenuInteraction } from 'discord.js'
+import { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js'
 
 import { getLocaleFromInteraction, L } from '@i18n'
 import { resolveUser, replyToInteraction } from '@utils/functions'
@@ -12,7 +12,7 @@ import { generalConfig } from '@config'
 export const Disabled: GuardFunction<
     | CommandInteraction
     | SimpleCommandMessage
-    | ContextMenuInteraction
+    | ContextMenuCommandInteraction
 > = async (arg, client, next) => {
 
     const user = resolveUser(arg)

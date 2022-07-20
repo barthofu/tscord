@@ -1,6 +1,6 @@
 import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
-import { CommandInteraction, MessageEmbed } from "discord.js"
+import { CommandInteraction, EmbedBuilder } from "discord.js"
 
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Guard } from "@guards"
@@ -20,7 +20,7 @@ export default class InviteCommand {
 
 		const locale = getLocaleFromInteraction(interaction)
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle(L[locale].COMMANDS.INVITE.TITLE())
 			.setDescription(L[locale].COMMANDS.INVITE.DESCRIPTION({link: generalConfig.inviteLink}))
 			.setColor(getColor('primary'))

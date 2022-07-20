@@ -1,11 +1,9 @@
-import { Client, SimpleCommand, SimpleCommandMessage } from "discordx"
+import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import type { CommandInteraction, Message } from "discord.js"
 import oneLine from 'oneline'
 
-import { Slash, Discord, Guard, SlashOption, On } from "@decorators"
-import { resolveChannel, resolveGuild, setMaintenance } from "@utils/functions"
-import { Match } from "@guards"
+import { Slash, Discord } from "@decorators"
 
 @Discord()
 @Category('General')

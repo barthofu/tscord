@@ -1,4 +1,4 @@
-import { Collection, GuildMember, Role } from 'discord.js';
+import { Collection, GuildMember, PermissionFlagsBits, Role } from 'discord.js';
 import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
 
@@ -59,7 +59,7 @@ export default class GuildAdminAddEvent {
             const newAdminRoles: Collection<String, Role> = 
                 newMember.roles.cache.filter(role => 
                     !oldMember.roles.cache.has(role.id) 
-                    && role.permissions.has('ADMINISTRATOR')
+                    && role.permissions.has(PermissionFlagsBits.Administrator)
                 )
             if (newAdminRoles.size === 0) return
 
@@ -74,7 +74,7 @@ export default class GuildAdminAddEvent {
             const oldAdminRoles: Collection<String, Role> = 
                 oldMember.roles.cache.filter(role => 
                     !newMember.roles.cache.has(role.id) 
-                    && role.permissions.has('ADMINISTRATOR')
+                    && role.permissions.has(PermissionFlagsBits.Administrator)
                 )
             if (oldAdminRoles.size === 0) return
 

@@ -2,7 +2,7 @@ import { ArgsOf, SimpleCommandMessage } from "discordx"
 import {
     CommandInteraction,
 	ButtonInteraction,
-	ContextMenuInteraction,
+	ContextMenuCommandInteraction,
     ModalSubmitInteraction,
 	SelectMenuInteraction,
 	Message,
@@ -17,8 +17,8 @@ const resolvers = {
 	user: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.user,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.author,
-		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
-		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.member?.user,
+		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
+		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member?.user,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member?.user,
@@ -35,8 +35,8 @@ const resolvers = {
 	guild: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.guild,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild,
-		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild,
-		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.guild,
+		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
+		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild,
@@ -48,8 +48,8 @@ const resolvers = {
 	channel: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.channel,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.channel,
-		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.channel,
-		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.channel,
+		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
+		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.channel,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.channel,
@@ -68,8 +68,8 @@ const resolvers = {
 	action: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
-		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
-		MessageMenuInteraction: (interaction: ContextMenuInteraction) => interaction.commandName,
+		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
+		MessageMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.customId,
@@ -81,8 +81,8 @@ const resolvers = {
 	locale: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.locale,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild?.preferredLocale ?? 'default',
-		UserContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.locale,
-		MessageContextMenuInteraction: (interaction: ContextMenuInteraction) => interaction.locale,
+		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
+		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.locale,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.locale,

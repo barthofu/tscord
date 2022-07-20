@@ -1,4 +1,5 @@
 import { Client } from 'discordx'
+import { ActivityType } from 'discord.js'
 import { container, injectable } from 'tsyringe'
 
 import { Once, Discord, Schedule } from '@decorators'
@@ -66,6 +67,7 @@ export default class ReadyEvent {
 
     @Schedule('*/15 * * * * *') // each 15 seconds
     async changeActivity() {
+        const ActivityTypeEnumString = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM", "COMPETING"] // DO NOT CHANGE THE ORDER
 
         const client = container.resolve(Client)
         const activity = generalConfig.activities[this.activityIndex]
@@ -78,13 +80,13 @@ export default class ReadyEvent {
             client.user?.setStatus('online')
             client.user?.setActivity(activity.text, {
                 'url': 'https://www.twitch.tv/discord',
-                'type': 'STREAMING'
+                'type': ActivityType.Streaming
             })
         } else {
             //other activities
             
             client.user?.setActivity(activity.text, {
-                type: activity.type as 'PLAYING' | 'WATCHING' | 'LISTENING' | 'STREAMING'
+                type: ActivityTypeEnumString.indexOf(activity.type)
             })
         }
 

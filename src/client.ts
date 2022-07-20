@@ -1,4 +1,4 @@
-import { Constants, Intents } from 'discord.js'
+import { GatewayIntentBits, Partials } from 'discord.js'
 
 import { Maintenance, NotBot } from '@guards'
 
@@ -11,16 +11,16 @@ export const clientConfig = {
 
 	// discord intents
 	intents: [
-		Intents.FLAGS.GUILDS,
-		Intents.FLAGS.GUILD_MEMBERS,
-		Intents.FLAGS.GUILD_MESSAGES,
-		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-		Intents.FLAGS.GUILD_VOICE_STATES,
-		Intents.FLAGS.DIRECT_MESSAGES
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildVoiceStates,
+		GatewayIntentBits.DirectMessages
 	],
 
 	partials: [
-		Constants.PartialTypes.CHANNEL,
+		Partials.Channel
 	],
 
 	// debug logs are disabled in silent mode

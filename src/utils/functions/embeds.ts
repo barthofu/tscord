@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js"
+import { CommandInteraction, EmbedBuilder } from "discord.js"
 
 /**
  * Send a simple success embed
@@ -7,8 +7,8 @@ import { CommandInteraction, MessageEmbed } from "discord.js"
  */
 export const simpleSuccessEmbed = (interaction: CommandInteraction, message: string) => {
 
-    const embed = new MessageEmbed()
-        .setColor('GREEN')
+    const embed = new EmbedBuilder()
+        .setColor(0x57f287) // GREEN // see: https://github.com/discordjs/discord.js/blob/main/packages/discord.js/src/util/Colors.js
         .setTitle(`✅ ${message}`)
 
     interaction.reply({ embeds: [embed] })
@@ -21,8 +21,8 @@ export const simpleSuccessEmbed = (interaction: CommandInteraction, message: str
  */
 export const simpleErrorEmbed = (interaction: CommandInteraction, message: string) => {
 
-    const embed = new MessageEmbed()
-        .setColor('RED')
+    const embed = new EmbedBuilder()
+        .setColor(0xed4245) // RED // see: https://github.com/discordjs/discord.js/blob/main/packages/discord.js/src/util/Colors.js
         .setTitle(`❌ ${message}`)
 
     interaction.reply({ embeds: [embed] })

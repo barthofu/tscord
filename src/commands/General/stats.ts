@@ -1,6 +1,6 @@
 import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
-import { CommandInteraction, MessageEmbed, User } from "discord.js"
+import { CommandInteraction, EmbedBuilder, User } from "discord.js"
 import { injectable } from "tsyringe"
 import {
 	Pagination,
@@ -60,7 +60,7 @@ export default class StatsCommand {
 		interaction: CommandInteraction
 	) {
 
-		const embeds: MessageEmbed[] = []
+		const embeds: EmbedBuilder[] = []
 
 		const locale = getLocaleFromInteraction(interaction)
 
@@ -124,12 +124,12 @@ export default class StatsCommand {
         return `https://quickchart.io/chart?c=${JSON.stringify(obj)}&format=png`.split(' ').join('%20')
 	}
 
-	getEmbed(author: User, link: string): MessageEmbed {
+	getEmbed(author: User, link: string): EmbedBuilder {
 
-		return new MessageEmbed()
+		return new EmbedBuilder()
 			.setAuthor({ 
 				name: author.username, 
-				iconURL: author.displayAvatarURL({ dynamic: true }) 
+				iconURL: author.displayAvatarURL({ forceStatic: false }) 
 			})
 			.setColor(getColor('primary'))
 			.setImage(link)

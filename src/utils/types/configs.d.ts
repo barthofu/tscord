@@ -20,7 +20,7 @@ type GeneralConfigType = {
 
     activities: {
         text: string,
-        type: string
+        type: "PLAYING" | "STREAMING" | "LISTENING" | "WATCHING" | "CUSTOM" | "COMPETING"
     }[],
 
 }

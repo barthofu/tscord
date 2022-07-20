@@ -1,5 +1,4 @@
-import { ClientEvents } from 'discord.js'
-import { EventOptions, MethodDecoratorEx, DOn, MetadataStorage, On as Onx } from 'discordx'
+import { DiscordEvents, EventOptions, MethodDecoratorEx, DOn, MetadataStorage } from 'discordx'
 
 /**
  * Handle both discord and custom events with a defined handler
@@ -20,11 +19,11 @@ export const On = (event: string, options?: EventOptions): MethodDecoratorEx => 
     ) {
 
         const clazz = target as unknown as new () => unknown
-        const on = DOn.create(event as (keyof ClientEvents), false, options?.botIds).decorate(
-            clazz.constructor,
-            key,
-            descriptor?.value
-        )
+        const on = DOn.create({
+            botIds: options?.botIds,
+            event: event as DiscordEvents,
+            once: false,
+        }).decorate(clazz.constructor, key, descriptor?.value);
 
         MetadataStorage.instance.addOn(on)
     }

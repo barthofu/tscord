@@ -1,4 +1,4 @@
-import type { CommandInteraction } from "discord.js"
+import { ApplicationCommandType, CommandInteraction } from "discord.js"
 
 import { ContextMenu, Discord, Slash } from "@decorators"
 import { Disabled, Guard } from "@guards"
@@ -15,7 +15,7 @@ export default class TestsCommand {
 		console.log('test invoked')
 	}
 
-	@ContextMenu('USER', 'help')
+	@ContextMenu(ApplicationCommandType.User, 'help')
 	async contextMenu(interaction: CommandInteraction) {
 		
 		console.log('contextMenu invoked')

@@ -1,8 +1,8 @@
-import { Client, ArgsOf, SimpleCommandMessage } from 'discordx'
+import { Client, ArgsOf } from 'discordx'
 
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
-import { executeEvalFromMessage, getPrefixFromMessage } from '@utils/functions'
+import { executeEvalFromMessage } from '@utils/functions'
 
 import { generalConfig } from '@config'
 

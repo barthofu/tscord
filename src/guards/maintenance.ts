@@ -1,4 +1,4 @@
-import { CommandInteraction, ContextMenuInteraction } from 'discord.js'
+import { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js'
 import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx'
 
 import { resolveUser, isInMaintenance, replyToInteraction } from '@utils/functions'
@@ -16,7 +16,7 @@ export const Maintenance: GuardFunction<
     if (
         arg instanceof CommandInteraction ||
         arg instanceof SimpleCommandMessage ||
-        arg instanceof ContextMenuInteraction
+        arg instanceof ContextMenuCommandInteraction
     ) {
 
         const user = resolveUser(arg),
