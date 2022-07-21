@@ -20,11 +20,19 @@ export class Logger {
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket
-    ) {}
+    ) {
+        this.defaultConsole = { ...console };
+        console.log     = (...args) => this.log("info",     args.join(", "))
+        console.info    = (...args) => this.log("info",     args.join(", "))
+        console.warn    = (...args) => this.log("warn",     args.join(", "))
+        console.error   = (...args) => this.log("error",    args.join(", "))
+        console.debug   = (...args) => this.log("debug",    args.join(", "))
+    }
 
     private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
     private readonly levels = ['debug', 'info', 'warn', 'error'] as const
     private spinner = ora()
+    private defaultConsole: typeof console;
 
     // =================================
     // ======== Output Providers =======
@@ -39,7 +47,7 @@ export class Logger {
         let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
         if (level === 'error') templatedMessage = chalk.red(templatedMessage)
         
-        console[level](templatedMessage)
+        this.defaultConsole[level](templatedMessage)
 
         this.websocket(level, message)
     }
