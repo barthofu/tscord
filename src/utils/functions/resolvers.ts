@@ -34,6 +34,25 @@ const resolvers = {
 		fallback: (interaction: any) => null
 	},
 
+	member: {
+		CommandInteraction: (interaction: CommandInteraction) => interaction.member,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.member,
+		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.member,
+		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
+		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
+		
+		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member,
+		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member,
+        ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.member,
+
+		Message: (interaction: Message) => interaction.member,
+		VoiceState: (interaction: VoiceState) => interaction.member,
+		MessageReaction: (interaction: MessageReaction) => interaction.message.member,
+		PartialMessageReaction: (interaction: PartialMessageReaction) => interaction.message.member,
+
+		fallback: (interaction: any) => null
+	},
+
 	guild: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.guild,
 		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.guild,
@@ -101,6 +120,10 @@ const resolvers = {
 
 export const resolveUser = (interaction: AllInteractions | Interaction | Message | VoiceState | MessageReaction | PartialMessageReaction) => {
 	return resolvers.user[getTypeOfInteraction(interaction) as keyof typeof resolvers.user]?.(interaction) || resolvers.user['fallback'](interaction)
+}
+
+export const resolveMember = (interaction: AllInteractions | Interaction | Message | VoiceState | MessageReaction | PartialMessageReaction) => {
+	return resolvers.member[getTypeOfInteraction(interaction) as keyof typeof resolvers.member]?.(interaction) || resolvers.member['fallback'](interaction)
 }
 
 export const resolveGuild = (interaction: AllInteractions | Interaction | Message | VoiceState | MessageReaction | PartialMessageReaction) => {
