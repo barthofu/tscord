@@ -1,6 +1,7 @@
 import { ArgsOf, SimpleCommandMessage } from "discordx"
 import {
     CommandInteraction,
+	ChatInputCommandInteraction,
 	ButtonInteraction,
 	ContextMenuCommandInteraction,
     ModalSubmitInteraction,
@@ -16,6 +17,7 @@ const resolvers = {
 
 	user: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.user,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.member,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.author,
 		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
 		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
@@ -34,6 +36,7 @@ const resolvers = {
 
 	guild: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.guild,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.guild,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild,
 		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
 		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
@@ -47,6 +50,7 @@ const resolvers = {
 
 	channel: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.channel,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.channel,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.channel,
 		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
 		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
@@ -60,6 +64,7 @@ const resolvers = {
 
 	commandName: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
 		
 		fallback: (_: any) => ''
@@ -67,6 +72,7 @@ const resolvers = {
 
 	action: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
 		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
 		MessageMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
@@ -80,6 +86,7 @@ const resolvers = {
 
 	locale: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.locale,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.locale,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild?.preferredLocale ?? 'default',
 		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
 		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
