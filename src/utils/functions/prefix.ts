@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
 
+import { waitForDependency } from "@utils/functions"
 import { generalConfig } from '@config'
-import { container } from 'tsyringe'
 import { Database } from '@services'
 import { Guild } from '@entities'
 
@@ -10,8 +10,8 @@ import { Guild } from '@entities'
  * @param message
  */
 export const getPrefixFromMessage = async (message: Message) => {
-
-    const guildRepo = container.resolve(Database).getRepo(Guild)
+    const db = await waitForDependency(Database)
+    const guildRepo = db.getRepo(Guild)
 
     const guildId = message.guild?.id
     const guildData = await guildRepo.findOne({ id: guildId })

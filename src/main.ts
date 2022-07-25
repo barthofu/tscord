@@ -6,7 +6,7 @@ import { DIService, Client } from 'discordx'
 import { importx } from '@discordx/importer'
 
 import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
-import { initDataTable } from '@utils/functions'
+import { initDataTable, waitForDependency } from '@utils/functions'
 import { Server } from '@api/server'
 
 import { clientConfig } from './client'
@@ -16,12 +16,12 @@ import { NoBotTokenError } from '@errors'
 async function run() {
 
     // start loading
-    const logger = container.resolve(Logger)
+    const logger = await waitForDependency(Logger)
     console.log('\n')
     logger.startSpinner('Starting...')
 
     // init the sqlite database
-    const db = container.resolve(Database)
+    const db = await waitForDependency(Database)
     await db.initialize()
 
     // init the client
@@ -30,7 +30,7 @@ async function run() {
     container.registerInstance(Client, client)
 
     // init the error handler
-    container.resolve(ErrorHandler)
+    await waitForDependency(ErrorHandler)
 
     // import all the commands and events
     await importx(__dirname + "/{events,commands,api}/**/*.{ts,js}")
@@ -43,14 +43,17 @@ async function run() {
     await client.login(process.env.BOT_TOKEN)
 
     // start the api server
-    await container.resolve(Server).start()
+    const server = await waitForDependency(Server)
+    await server.start()
 
     // connect to the dashboard websocket
-    await container.resolve(WebSocket).init(client.user?.id || null)
+    const webSocket = await waitForDependency(WebSocket)
+    await webSocket.init(client.user?.id || null)
 
     // upload images to imgur if configured
     if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-        container.resolve(ImagesUpload).syncWithDatabase()
+        const imagesUpload = await waitForDependency(ImagesUpload)
+        await imagesUpload.syncWithDatabase()
     }    
 }
 
