@@ -15,7 +15,7 @@ export class UnknownReplyError extends BaseError {
         this.interaction = interaction
     }
 
-    public handle() {
+    handle() {
 
         const locale = getLocaleFromInteraction(this.interaction)
         simpleErrorEmbed(this.interaction, L[locale]['ERRORS']['UNKNOWN']())

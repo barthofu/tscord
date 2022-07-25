@@ -42,17 +42,16 @@ async function run() {
     if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
     await client.login(process.env.BOT_TOKEN)
 
-    // upload images to imgur if configured
-    if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-        container.resolve(ImagesUpload).syncWithDatabase()
-    }
-
     // start the api server
     await container.resolve(Server).start()
 
     // connect to the dashboard websocket
-    const websocket = new WebSocket(client.user?.id || null)
-    container.registerInstance(WebSocket, websocket)
+    await container.resolve(WebSocket).init(client.user?.id || null)
+
+    // upload images to imgur if configured
+    if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
+        container.resolve(ImagesUpload).syncWithDatabase()
+    }    
 }
 
 run()

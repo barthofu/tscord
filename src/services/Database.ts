@@ -18,7 +18,7 @@ export class Database {
 
     private _orm: MikroORM<SqliteDriver>
 
-    public async initialize() {
+    async initialize() {
 
         // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
         this._orm = await MikroORM.init()
@@ -36,12 +36,12 @@ export class Database {
         await this._orm.getMigrator().up()
     }
 
-    public async refreshConnection() {
+    async refreshConnection() {
         await this.orm.close()
         this._orm = await MikroORM.init()
     }
 
-    public getOrm() {
+    getOrm() {
         return this.orm
     }
 

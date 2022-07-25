@@ -11,5 +11,5 @@ export abstract class BaseError extends Error {
         this.logger = container.resolve(Logger)
     }
 
-    public handle() {}
+    handle() {}
 }
