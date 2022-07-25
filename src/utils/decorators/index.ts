@@ -7,7 +7,6 @@ export {
     Guild,
     ModalComponent,
     Once,
-    Permission,
     SelectMenuComponent,
     SimpleCommand,
     SimpleCommandOption,

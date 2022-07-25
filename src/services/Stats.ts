@@ -11,7 +11,6 @@ import { Schedule, WSOn } from '@decorators'
 
 import { statsConfig } from '@config'
 import pidusage from 'pidusage'
-import { ContextMenuInteraction } from 'discord.js'
 
 const allInteractions = { 
     $or: [ 

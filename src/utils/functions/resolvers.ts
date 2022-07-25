@@ -17,7 +17,7 @@ const resolvers = {
 
 	user: {
 		CommandInteraction: (interaction: CommandInteraction) => interaction.user,
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.member,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.user,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.author,
 		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
 		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
