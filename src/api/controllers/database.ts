@@ -70,4 +70,12 @@ export class DatabaseController extends BaseController {
         if (backupList) this.ok(ctx.response, backupList)
         else this.error(ctx.response, "Couldn't list backups, see the logs for more informations", 500)
     }
+
+    @Get('/size')
+    async size(ctx: Context) {
+
+        const size = await this.db.getSize()
+
+        this.ok(ctx.response, size)
+    }
 }

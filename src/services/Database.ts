@@ -3,6 +3,7 @@ import { EntityName, MikroORM } from '@mikro-orm/core'
 import { EntityManager, SqliteDriver } from '@mikro-orm/sqlite'
 import { backup, restore } from 'saveqlite'
 import fs from 'fs'
+import fastFolderSizeSync from 'fast-folder-size/sync'
 
 import { Schedule } from '@decorators'
 import { Logger } from '@services'
@@ -125,7 +126,7 @@ export class Database {
 
             await restore(
                 mikroORMConfig[process.env.NODE_ENV]!.dbName!,
-                `${backupPath}${snapshotName}.txt`,
+                `${backupPath}${snapshotName}`,
             )
 
             await this.refreshConnection()
@@ -133,6 +134,8 @@ export class Database {
             return true
 
         } catch (error) {
+            
+            console.debug(error)
             this.logger.log('error', 'Snapshot file not found, couldn\'t restore', true)
             return false
         }
@@ -152,7 +155,34 @@ export class Database {
         return backupList
     }
 
-    private isSQLiteDatabase() {
+    getSize(): DatabaseSize {
+
+        const size: DatabaseSize = {
+            db: null,
+            backups: null
+        }
+
+        if (this.isSQLiteDatabase()) {
+
+            const dbPath = mikroORMConfig[process.env.NODE_ENV]!.dbName!
+            const dbSize = fs.statSync(dbPath).size
+
+            size.db = dbSize
+        }
+
+        const backupPath = databaseConfig.backup.path
+        if (backupPath) {
+
+            const backupSize = fastFolderSizeSync(backupPath)
+            console.log(backupSize)
+
+            size.backups = backupSize || null
+        }
+
+        return size
+    }
+
+    isSQLiteDatabase() {
         return mikroORMConfig[process.env.NODE_ENV]!.type === 'sqlite'
     }
 
