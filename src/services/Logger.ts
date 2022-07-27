@@ -26,7 +26,7 @@ export class Logger {
         console.info    = (...args) => this.log("info",     args.join(", "))
         console.warn    = (...args) => this.log("warn",     args.join(", "))
         console.error   = (...args) => this.log("error",    args.join(", "))
-        console.debug   = (...args) => this.log("debug",    args.join(", "))
+        // console.debug   = (...args) => this.log("debug",    args.join(", "))
     }
 
     private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
@@ -54,7 +54,7 @@ export class Logger {
 
     websocket(level: typeof this.levels[number] = 'info', message: string) {
 
-        // send the log to all connected websockets clients
+        // send the log to all connected websockets clients        
         this.ws.broadcast('log', { 
             level, 
             message: message 

@@ -1,4 +1,3 @@
-
 type StatPerInterval = {
     date: string,
     count: number

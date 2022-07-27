@@ -19,6 +19,9 @@ export function globalLog(ctx: Context, next: Next) {
         logger.console('info', chalkedMessage)
         logger.file('info', message)
     }
+    else {
+        delete ctx.query.logIgnore
+    }
 
     return next()
 }
