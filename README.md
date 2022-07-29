@@ -116,7 +116,7 @@ You can also find useful documentations:
     - [x] Stats
 
 #### Utilities
-- [ ] Errors handling
+- [x] Errors handling
 - [x] Stats
 - [x] Localization
 - [x] Logger
@@ -136,12 +136,12 @@ You can also find useful documentations:
     - [x] `maintenance`
 
 #### DevOps
-- [ ] .devcontainer (Codespaces config)
 - [x] CI/CD
 - [x] PM2
 - [x] Docker
 - [x] .env.example
 - [x] Debugging config for VSCode
+- ~~.devcontainer (Codespaces config)~~
 - ~~Unit tests (not relevant atm)~~
 
 #### Other

@@ -35,7 +35,7 @@ export class BotController extends BaseController {
             owner: (await this.client.users.fetch(generalConfig.ownerId)).toJSON(),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/guilds')
@@ -57,7 +57,7 @@ export class BotController extends BaseController {
             })
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/guilds/:id')
@@ -68,7 +68,7 @@ export class BotController extends BaseController {
         // get discord guild
         const discordRawGuild = await this.client.guilds.fetch(id)
         if (!discordRawGuild) {
-            this.error(ctx.response, 'Guild not found', 404)
+            this.error(ctx, 'Guild not found', 404)
             return
         }
         const discordGuild: any = discordRawGuild.toJSON()
@@ -83,7 +83,7 @@ export class BotController extends BaseController {
             database: databaseGuild
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Delete('/guilds/:id')
@@ -93,13 +93,13 @@ export class BotController extends BaseController {
 
         const guild = await this.client.guilds.fetch(id)
         if (!guild) {
-            this.error(ctx.response, 'Guild not found', 404)
+            this.error(ctx, 'Guild not found', 404)
             return
         }
 
         await guild.leave()
 
-        this.ok(ctx.response, { success: true })
+        this.ok(ctx, { success: true })
     }
 
     @Get('/guilds/:id/invite')
@@ -109,7 +109,7 @@ export class BotController extends BaseController {
 
         const guild = await this.client.guilds.fetch(id)
         if (!guild) {
-            this.error(ctx.response, 'Guild not found', 404)
+            this.error(ctx, 'Guild not found', 404)
             return
         }
 
@@ -123,13 +123,13 @@ export class BotController extends BaseController {
             .first() as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined
 
         if (!channel) {
-            this.error(ctx.response, 'Missing permission to create an invite in this guild', 401)
+            this.error(ctx, 'Missing permission to create an invite in this guild', 401)
             return
         }
 
         const invite = await channel.createInvite()
 
-        this.ok(ctx.response, invite)
+        this.ok(ctx, invite)
     }
 
     @Get('/users')
@@ -161,7 +161,7 @@ export class BotController extends BaseController {
 
         const body = users.map(user => user.toJSON())
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/users/:id')
@@ -172,7 +172,7 @@ export class BotController extends BaseController {
         // get discord user
         const discordRawUser = await this.client.users.fetch(id)
         if (!discordRawUser) {
-            this.error(ctx.response, 'User not found', 404)
+            this.error(ctx, 'User not found', 404)
             return
         }
         const discordUser: any = discordRawUser.toJSON()
@@ -187,7 +187,7 @@ export class BotController extends BaseController {
             database: databaseUser
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/cachedUsers')
@@ -197,7 +197,7 @@ export class BotController extends BaseController {
             users: this.client.users.cache.map(user => user.toJSON()),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/maintenance')
@@ -207,7 +207,7 @@ export class BotController extends BaseController {
             maintenance: await isInMaintenance(),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Post('/maintenance')
@@ -227,6 +227,12 @@ export class BotController extends BaseController {
             maintenance: data.maintenance,
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
+    }
+
+    @Get('/test')
+    async test(ctx: Context) {
+
+        this.ok(ctx, { success: true })
     }
 }

@@ -34,7 +34,7 @@ export class StatsController extends BaseController {
             }
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/lastInteraction')
@@ -42,7 +42,7 @@ export class StatsController extends BaseController {
 
         const lastInteraction = await this.stats.getLastInteraction()
 
-        this.ok(ctx.response, lastInteraction)
+        this.ok(ctx, lastInteraction)
     }
 
     @Get('/commandsUsage')
@@ -75,7 +75,7 @@ export class StatsController extends BaseController {
             })
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/topCommands')
@@ -83,7 +83,7 @@ export class StatsController extends BaseController {
 
         const topCommands = await this.stats.getTopCommands()
 
-        this.ok(ctx.response, topCommands)
+        this.ok(ctx, topCommands)
     }
 
     @Get('/usersActivity')
@@ -91,7 +91,7 @@ export class StatsController extends BaseController {
 
         const usersActivity = await this.stats.getUsersActivity()
 
-        this.ok(ctx.response, usersActivity)
+        this.ok(ctx, usersActivity)
     }
 
     @Get('/topGuilds')
@@ -99,7 +99,7 @@ export class StatsController extends BaseController {
 
         const topGuilds = await this.stats.getTopGuilds()
 
-        this.ok(ctx.response, topGuilds)
+        this.ok(ctx, topGuilds)
     }
 
     @Get('/usersAndGuilds')
@@ -121,7 +121,7 @@ export class StatsController extends BaseController {
             guilds: await this.stats.countStatsPerDays('TOTAL_GUILDS', numberOfDays),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
 }
