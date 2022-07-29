@@ -35,8 +35,6 @@ export async function authenticated(ctx: Context, next: Next) {
     // directly skip the middleware if the token is already in the store, which is used here as a "cache"
     const authorizedAPITokens = store.get('authorizedAPITokens')
     if (authorizedAPITokens.includes(token)) return next()
-
-    console.log(token)
     
     // we get the user's profile from the token using the `discord-oauth2` package
     return discordOauth2.getUser(token)

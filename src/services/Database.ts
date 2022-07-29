@@ -174,7 +174,6 @@ export class Database {
         if (backupPath) {
 
             const backupSize = fastFolderSizeSync(backupPath)
-            console.log(backupSize)
 
             size.backups = backupSize || null
         }
