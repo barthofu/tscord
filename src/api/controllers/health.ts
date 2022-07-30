@@ -28,7 +28,7 @@ export class HealthController extends BaseController {
             lastStartup: await this.db.getRepo(Data).get('lastStartup'),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/latency')
@@ -36,7 +36,7 @@ export class HealthController extends BaseController {
 
         const body = this.stats.getLatency()
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/usage')
@@ -44,7 +44,7 @@ export class HealthController extends BaseController {
 
         const body = await this.stats.getPidUsage()
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/host')
@@ -52,6 +52,6 @@ export class HealthController extends BaseController {
 
         const body = await this.stats.getHostUsage()
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 }

@@ -8,7 +8,6 @@ export function globalLog(ctx: Context, next: Next) {
     waitForDependency(Logger).then(logger => {
         // don't log anything if the request has a `logIgnore` query params
         if (!ctx.query.logIgnore) {
-
             const { method, url } = ctx.request
 
             const message = `(API) ${method} - ${url}`
@@ -16,6 +15,9 @@ export function globalLog(ctx: Context, next: Next) {
 
             logger.console('info', chalkedMessage)
             logger.file('info', message)
+            
+        } else {
+            delete ctx.query.logIgnore
         }
 
         return next()

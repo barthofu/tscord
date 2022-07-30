@@ -15,9 +15,9 @@ import pidusage from 'pidusage'
 const allInteractions = { 
     $or: [ 
         { type: 'SIMPLE_COMMAND_MESSAGE' }, 
-        { type: 'COMMAND_INTERACTION' },
-        { type: 'USER_CONTEXT_MENU_INTERACTION' },
-        { type: 'MESSAGE_CONTEXT_MENU_INTERACTION' },
+        { type: 'CHAT_INPUT_COMMAND_INTERACTION' },
+        { type: 'USER_CONTEXT_MENU_COMMAND_INTERACTION' },
+        { type: 'MESSAGE_CONTEXT_MENU_COMMAND_INTERACTION' },
     ] 
 }
 
@@ -119,12 +119,13 @@ export class Stats {
 
         const qb = this.db.em.createQueryBuilder(Stat)
         const query = qb
-            .select(['type', 'value', 'count(*) as count'])
+            .select(['type', 'value as name', 'count(*) as count'])
             .where(allInteractions)
             .groupBy(['type', 'value'])
 
         const slashCommands = await query.execute()
-        return slashCommands
+
+        return slashCommands.sort((a: any, b: any) => b.count - a.count)
     }
 
     async getUsersActivity() {
@@ -186,7 +187,7 @@ export class Stats {
             })
         }
 
-        return topGuilds
+        return topGuilds.sort((a, b) => b.totalCommands - a.totalCommands)
     }
 
     /**

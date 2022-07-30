@@ -1,4 +1,4 @@
-import { Get, Middleware, Post, Router } from "@discordx/koa"
+import { Delete, Get, Middleware, Post, Router } from "@discordx/koa"
 import { Client } from "discordx"
 import { Context } from "koa"
 import { injectable } from "tsyringe"
@@ -6,9 +6,11 @@ import validator, { Joi } from 'koa-context-validator'
 
 import { BaseController } from "@utils/classes"
 import { authenticated, botOnline } from "@api/middlewares"
-import { User } from "discord.js"
+import { BaseGuildTextChannel, BaseGuildVoiceChannel, Channel, ChannelType, Guild as DGuild, GuildTextBasedChannel, NewsChannel, PermissionsBitField, User as DUser } from "discord.js"
 import { generalConfig } from "@config"
 import { isInMaintenance, setMaintenance } from "@utils/functions"
+import { Database } from "@services"
+import { Guild, User } from '@entities'
 
 @Router({ options: { prefix: '/bot' }})
 @Middleware(
@@ -20,35 +22,120 @@ export class BotController extends BaseController {
 
     constructor(
         private readonly client: Client,
+        private readonly db: Database
     ) {
         super()
     }
 
     @Get('/info')
-    async user(ctx: Context) {
+    async info(ctx: Context) {
 
         const body = {
             user: this.client.user?.toJSON(),
             owner: (await this.client.users.fetch(generalConfig.ownerId)).toJSON(),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/guilds')
     async guilds(ctx: Context) {
 
-        const body = {
-            guilds: this.client.guilds.cache.map(guild => guild.toJSON()),
+        const body: any[] = []
+
+        for (const discordRawGuild of this.client.guilds.cache.values()) {
+
+            const discordGuild: any = discordRawGuild.toJSON()
+            discordGuild.iconURL = discordRawGuild.iconURL()
+            discordGuild.bannerURL = discordRawGuild.bannerURL()
+
+            const databaseGuild = await this.db.getRepo(Guild).findOne({ id: discordGuild.id })
+
+            body.push({
+                discord: discordGuild,
+                database: databaseGuild
+            })
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
+    }
+
+    @Get('/guilds/:id')
+    async guild(ctx: Context) {
+
+        const { id } = <{ id: string }>ctx.params
+
+        // get discord guild
+        const discordRawGuild = await this.client.guilds.fetch(id)
+        if (!discordRawGuild) {
+            this.error(ctx, 'Guild not found', 404)
+            return
+        }
+        const discordGuild: any = discordRawGuild.toJSON()
+        discordGuild.iconURL = discordRawGuild.iconURL()
+        discordGuild.bannerURL = discordRawGuild.bannerURL()
+
+        // get database guild
+        const databaseGuild = await this.db.getRepo(Guild).findOne({ id })
+
+        const body = {
+            discord: discordGuild,
+            database: databaseGuild
+        }
+
+        this.ok(ctx, body)
+    }
+
+    @Delete('/guilds/:id')
+    async deleteGuild(ctx: Context) {
+
+        const { id } = <{ id: string }>ctx.params
+
+        const guild = await this.client.guilds.fetch(id)
+        if (!guild) {
+            this.error(ctx, 'Guild not found', 404)
+            return
+        }
+
+        await guild.leave()
+
+        this.ok(ctx, { success: true })
+    }
+
+    @Get('/guilds/:id/invite')
+    async invite(ctx: Context) {
+
+        const { id } = <{ id: string }>ctx.params
+
+        const guild = await this.client.guilds.fetch(id)
+        if (!guild) {
+            this.error(ctx, 'Guild not found', 404)
+            return
+        }
+
+        // get the first channel where the bot has the permission to create an invite, 
+        // because `.createInvite()` is a method for a channel, not a guild
+        const channel = guild.channels.cache
+            .filter((channel) => 
+                guild.members.cache.get(this.client.user?.id || '')?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false
+                && [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
+            )
+            .first() as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined
+
+        if (!channel) {
+            this.error(ctx, 'Missing permission to create an invite in this guild', 401)
+            return
+        }
+
+        const invite = await channel.createInvite()
+
+        this.ok(ctx, invite)
     }
 
     @Get('/users')
     async users(ctx: Context) {
 
-        const users: User[] = [],
+        const users: any[] = [],
               guilds = this.client.guilds.cache.map(guild => guild)
 
         for (const guild of guilds) {
@@ -57,16 +144,50 @@ export class BotController extends BaseController {
 
             for (const member of members.values()) {
                 if (!users.find(user => user.id === member.id)) {
-                    users.push(member.user)
+                    
+                    const discordUser: any = member.user.toJSON()
+                    discordUser.iconURL = member.user.displayAvatarURL()
+                    discordUser.bannerURL = member.user.bannerURL()
+
+                    const databaseUser = await this.db.getRepo(User).findOne({ id: discordUser.id })
+
+                    users.push({
+                        discord: discordUser,
+                        database: databaseUser
+                    })
                 }
             }
         }
 
+        const body = users.map(user => user.toJSON())
+
+        this.ok(ctx, body)
+    }
+
+    @Get('/users/:id')
+    async user(ctx: Context) {
+
+        const { id } = <{ id: string }>ctx.params
+        
+        // get discord user
+        const discordRawUser = await this.client.users.fetch(id)
+        if (!discordRawUser) {
+            this.error(ctx, 'User not found', 404)
+            return
+        }
+        const discordUser: any = discordRawUser.toJSON()
+        discordUser.iconURL = discordRawUser.displayAvatarURL()
+        discordUser.bannerURL = discordRawUser.bannerURL()
+        
+        // get database user
+        const databaseUser = await this.db.getRepo(User).findOne({ id })
+
         const body = {
-            users: users.map(user => user.toJSON()),
+            discord: discordUser,
+            database: databaseUser
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/cachedUsers')
@@ -76,7 +197,7 @@ export class BotController extends BaseController {
             users: this.client.users.cache.map(user => user.toJSON()),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Get('/maintenance')
@@ -86,7 +207,7 @@ export class BotController extends BaseController {
             maintenance: await isInMaintenance(),
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
     }
 
     @Post('/maintenance')
@@ -106,6 +227,12 @@ export class BotController extends BaseController {
             maintenance: data.maintenance,
         }
 
-        this.ok(ctx.response, body)
+        this.ok(ctx, body)
+    }
+
+    @Get('/test')
+    async test(ctx: Context) {
+
+        this.ok(ctx, { success: true })
     }
 }

@@ -29,13 +29,13 @@ export class DatabaseController extends BaseController {
         const snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}-manual-${Date.now()}`
         const success = await this.db.backup(snapshotName)
 
-        if (success) this.ok(ctx.response, { 
+        if (success) this.ok(ctx, { 
             message: "Backup generated",
             data: {
                 snapshotName
             }
         })
-        else this.error(ctx.response, "Couldn't generate backup, see the logs for more informations", 500)
+        else this.error(ctx, "Couldn't generate backup, see the logs for more informations", 500)
 
     }
 
@@ -53,8 +53,8 @@ export class DatabaseController extends BaseController {
 
         const success = await this.db.restore(data.snapshotName)
 
-        if (success) this.ok(ctx.response, { message: "Backup restored" })
-        else this.error(ctx.response, "Couldn't restore backup, see the logs for more informations", 500)
+        if (success) this.ok(ctx, { message: "Backup restored" })
+        else this.error(ctx, "Couldn't restore backup, see the logs for more informations", 500)
     }
 
     @Get('/backup/list')
@@ -62,12 +62,20 @@ export class DatabaseController extends BaseController {
 
         const backupPath = databaseConfig.backup.path
         if (!backupPath) {
-            return this.error(ctx.response, "Couldn't list backups, see the logs for more informations", 500)
+            return this.error(ctx, "Couldn't list backups, see the logs for more informations", 500)
         }
 
         const backupList = this.db.getBackupList()
 
-        if (backupList) this.ok(ctx.response, backupList)
-        else this.error(ctx.response, "Couldn't list backups, see the logs for more informations", 500)
+        if (backupList) this.ok(ctx, backupList)
+        else this.error(ctx, "Couldn't list backups, see the logs for more informations", 500)
+    }
+
+    @Get('/size')
+    async size(ctx: Context) {
+
+        const size = await this.db.getSize()
+
+        this.ok(ctx, size)
     }
 }

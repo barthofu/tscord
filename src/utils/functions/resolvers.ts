@@ -16,11 +16,10 @@ import {
 const resolvers = {
 
 	user: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.user,
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.user,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.author,
-		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
-		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.user,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member?.user,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member?.user,
@@ -35,11 +34,10 @@ const resolvers = {
 	},
 
 	member: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.member,
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.member,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.member,
-		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
-		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.member,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member,
@@ -54,11 +52,10 @@ const resolvers = {
 	},
 
 	guild: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.guild,
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.guild,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild,
-		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
-		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.guild,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild,
@@ -68,11 +65,10 @@ const resolvers = {
 	},
 
 	channel: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.channel,
 		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.channel,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.channel,
-		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
-		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.channel,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.channel,
@@ -82,19 +78,19 @@ const resolvers = {
 	},
 
 	commandName: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
-		
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.commandName,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
+
 		fallback: (_: any) => ''
 	},
 
 	action: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.commandName,
 		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.commandName,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
-		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
-		MessageMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.customId,
@@ -104,11 +100,10 @@ const resolvers = {
 	},
 
 	locale: {
-		CommandInteraction: (interaction: CommandInteraction) => interaction.locale,
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.locale,
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.message.guild?.preferredLocale ?? 'default',
-		UserContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
-		MessageContextMenuInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.locale,
+		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
+		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.locale,
 		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.locale,
