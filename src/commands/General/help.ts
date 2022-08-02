@@ -29,7 +29,7 @@ export default class HelpCommand {
 		let components: any[] = [];
 		components.push(this.getSelectDropdown("categories", locale).toJSON())
 
-		interaction.reply({ 
+		interaction.followUp({ 
 			embeds: [embed],
 			components
 		})

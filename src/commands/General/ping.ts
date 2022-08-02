@@ -17,7 +17,7 @@ export default class PingCommand {
 		client: Client
 	) {
 		
-		const msg = (await interaction.reply({ content: "Pinging...", fetchReply: true })) as Message
+		const msg = (await interaction.followUp({ content: "Pinging...", fetchReply: true })) as Message
 
         const content = oneLine`
           ${msg.inGuild() ? `${interaction.member},` : ""}

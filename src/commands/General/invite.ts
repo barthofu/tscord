@@ -26,7 +26,7 @@ export default class InviteCommand {
 			.setColor(getColor('primary'))
 			.setFooter({ text : 'Powered by DiscBot Team ❤'})
 
-		interaction.reply({
+		interaction.followUp({
 			embeds: [embed]
 		})
 	}

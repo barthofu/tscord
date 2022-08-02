@@ -6,6 +6,7 @@ import { Maintenance } from '@guards'
 import { Guild, User } from '@entities'
 import { On, Guard, Discord } from '@decorators'
 import { syncUser } from '@utils/functions'
+import { CommandInteraction, MessageComponentInteraction } from 'discord.js'
 
 @Discord()
 @injectable()
@@ -25,6 +26,11 @@ export default class InteractionCreateEvent {
         [interaction]: ArgsOf<'interactionCreate'>, 
         client: Client
     ) {
+        // defer the reply
+        if(
+            interaction instanceof MessageComponentInteraction ||
+            interaction instanceof CommandInteraction
+        ) await interaction.deferReply();
 
         // insert user in db if not exists
         await syncUser(interaction.user)
