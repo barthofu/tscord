@@ -14,7 +14,8 @@ export default class PingCommand {
 	})
 	async ping(
 		interaction: CommandInteraction,
-		client: Client
+		client: Client,
+		{ localize }: InteractionData
 	) {
 		
 		const msg = (await interaction.followUp({ content: "Pinging...", fetchReply: true })) as Message

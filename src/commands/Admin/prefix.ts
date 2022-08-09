@@ -7,7 +7,6 @@ import { Guard, UserPermissions } from "@guards"
 import { Guild } from "@entities"
 import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 import { Database } from "@services"
-import { getLocaleFromInteraction, L } from "@i18n"
 
 import { generalConfig } from '@config'
 import { UnknownReplyError } from "@errors"
@@ -29,9 +28,11 @@ export default class PrefixCommand {
 	)
 	async prefix(
 		@SlashOption('prefix', { required: false, type: ApplicationCommandOptionType.String }) prefix: string | undefined,
-		interaction: CommandInteraction
+		interaction: CommandInteraction,
+		{ localize }: InteractionData
 	) {
-		
+
+	
 		const guild = resolveGuild(interaction),
 			  guildData = await this.db.getRepo(Guild).findOne({ id: guild?.id || '' })
 
@@ -39,13 +40,13 @@ export default class PrefixCommand {
 
 			guildData.prefix = prefix || null
 			this.db.getRepo(Guild).persistAndFlush(guildData)
-			
-			const locale = getLocaleFromInteraction(interaction)
+
 			simpleSuccessEmbed(
 				interaction, 
-				L[locale]['COMMANDS']['PREFIX']['CHANGED']({ 
+				localize['COMMANDS']['PREFIX']['CHANGED']({ 
 					prefix: prefix || generalConfig.simpleCommandsPrefix 
-				}))
+				})
+			)
 		} 
 		else {
 			throw new UnknownReplyError(interaction)

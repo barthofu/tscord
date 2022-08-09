@@ -1,11 +1,10 @@
 import { Client, MetadataStorage, SelectMenuComponent } from "discordx"
 import { Category } from "@discordx/utilities"
-import { CommandInteraction, Formatters, ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, APISelectMenuOption, SelectMenuInteraction } from "discord.js"
+import { Formatters, ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, APISelectMenuOption, CommandInteraction, SelectMenuInteraction } from "discord.js"
 
 import { Discord, Slash } from "@decorators"
-import { Guard } from "@guards"
 import { chunkArray, getColor, validString } from "@utils/functions"
-import { getLocaleFromInteraction, L, Locales } from "@i18n"
+import { L, Locales } from "@i18n"
 
 @Discord()
 @Category('General')
@@ -20,14 +19,12 @@ export default class HelpCommand {
 	@Slash('help', { description: 
 		'Get global help about the bot and its commands'
     })
-	help(interaction: CommandInteraction, client: Client): void {
+	help(interaction: CommandInteraction, client: Client, { sanitizedLocale }: InteractionData): void {
 		
-		const locale = getLocaleFromInteraction(interaction)
-
-		const embed = this.getEmbed({ client, interaction, locale });
+		const embed = this.getEmbed({ client, interaction, locale: sanitizedLocale });
 
 		let components: any[] = [];
-		components.push(this.getSelectDropdown("categories", locale).toJSON())
+		components.push(this.getSelectDropdown("categories", sanitizedLocale).toJSON())
 
 		interaction.followUp({ 
 			embeds: [embed],
@@ -36,15 +33,13 @@ export default class HelpCommand {
 	}
 
 	@SelectMenuComponent('help-category-selector')
-	async selectCategory(interaction: SelectMenuInteraction, client: Client) {
-
-		const locale = getLocaleFromInteraction(interaction)
+	async selectCategory(interaction: SelectMenuInteraction, client: Client, { sanitizedLocale }: InteractionData) {
 
         const category = interaction.values[0]
 
-        const embed = await this.getEmbed({ client, interaction, locale, category })
+        const embed = await this.getEmbed({ client, interaction, category, locale: sanitizedLocale })
 		let components: any[] = [];
-		components.push(this.getSelectDropdown("categories", locale).toJSON())
+		components.push(this.getSelectDropdown("categories", sanitizedLocale).toJSON())
 
         interaction.update({
             embeds: [embed],
@@ -53,12 +48,12 @@ export default class HelpCommand {
     }
 
 
-	private getEmbed({ client, interaction, locale, category = '', pageNumber = 0 }: {
+	private getEmbed({ client, interaction, category = '', pageNumber = 0, locale }: {
 		client: Client, 
 		interaction: CommandInteraction | SelectMenuInteraction,  
-		locale: Locales, 
 		category?: string,
 		pageNumber?: number
+		locale: Locales
 	}): EmbedBuilder {
 
 		const commands = this._categories.get(category)
@@ -77,10 +72,8 @@ export default class HelpCommand {
 
 			for (const category of this._categories) {
 				embed.addFields([{
-					name: 	category[0],
-					value: 	category[1]
-								.map(command => command.name)
-								.join(', ')
+					name: category[0],
+					value: category[1].map(command => command.name).join(', ')
 				}])
 			}
 

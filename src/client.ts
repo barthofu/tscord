@@ -1,6 +1,6 @@
 import { GatewayIntentBits, Partials } from 'discord.js'
 
-import { Maintenance, NotBot } from '@guards'
+import { ExtractLocale, Maintenance, NotBot } from '@guards'
 
 import { generalConfig, logsConfig } from '@config'
 
@@ -28,7 +28,8 @@ export const clientConfig = {
 
 	guards: [
 		NotBot,
-		Maintenance
+		Maintenance,
+		ExtractLocale
 	],
 
 	// configuration for @SimpleCommand
