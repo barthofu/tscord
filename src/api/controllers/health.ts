@@ -28,6 +28,8 @@ export class HealthController extends BaseController {
             lastStartup: await this.db.getRepo(Data).get('lastStartup'),
         }
 
+        console.debug(body)
+
         this.ok(ctx, body)
     }
 
@@ -36,7 +38,7 @@ export class HealthController extends BaseController {
 
         const body = this.stats.getLatency()
 
-        this.ok(ctx, body)
+        return this.ok(ctx, body)
     }
 
     @Get('/usage')

@@ -1,4 +1,4 @@
-import { container, InjectionToken } from 'tsyringe'
+import { waitForDependency } from '@utils/functions'
 
 /**
  * Handle websocket events
@@ -16,21 +16,13 @@ export const WSOn = (event: string) => {
 		propertyKey: string,
 		descriptor: PropertyDescriptor
     ) {
-
-        // associate the context to the function, with the injected dependencies defined
-        const oldDescriptor = descriptor.value
-        descriptor.value = function(...args: any[]) {
-            return oldDescriptor.apply(container.resolve(target.constructor as InjectionToken<any>), args)
-        }
-
         import('@services').then(services => {
-
-            const webSocket = container.resolve(services.WebSocket)
-
-            webSocket.addEvent(event, async (socketId, ...args) => {
-                descriptor.value((eventName: string, ...args: any) => {
-                    webSocket.emit(socketId, eventName, ...args)
-                }, ...args)
+            waitForDependency(services.WebSocket).then(webSocket => {
+                webSocket.addEvent(event, async (socketId, ...args) => {
+                    descriptor.value((eventName: string, ...args: any) => {
+                        webSocket.emit(socketId, eventName, ...args)
+                    }, ...args)
+                })
             })
         })
     }

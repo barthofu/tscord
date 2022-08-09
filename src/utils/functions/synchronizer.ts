@@ -1,17 +1,17 @@
-import { container } from "tsyringe"
-import { User as DUser, Guild as DGuild } from "discord.js"
+import { Client } from "discordx"
+import { User as DUser} from "discord.js"
 
 import { User, Guild } from "@entities"
 import { Database, Logger, Stats } from "@services"
-import { Client } from "discordx"
-
-const db = container.resolve(Database)
+import { waitForDependencies, waitForDependency } from "@utils/functions"
 
 /**
  * Add a active user to the database if doesn't exist.
  * @param user 
  */
 export const syncUser = async (user: DUser) => {
+    
+    const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
 
     const userRepo = db.getRepo(User)
 
@@ -27,8 +27,8 @@ export const syncUser = async (user: DUser) => {
         await userRepo.persistAndFlush(newUser)
 
         // record new user both in logs and stats
-        container.resolve(Stats).register('NEW_USER', user.id)
-        container.resolve(Logger).logNewUser(user)
+        stats.register('NEW_USER', user.id)
+        logger.logNewUser(user)
     }
 }
 
@@ -38,9 +38,7 @@ export const syncUser = async (user: DUser) => {
  * @param client 
  */
 export const syncGuild = async (guildId: string, client: Client) => {
-
-    const stats = container.resolve(Stats),
-          logger = container.resolve(Logger)
+    const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
 
     const guildRepo = db.getRepo(Guild),
           guildData = await guildRepo.findOne({ id: guildId, deleted: false })
@@ -89,6 +87,7 @@ export const syncGuild = async (guildId: string, client: Client) => {
  * @param client 
  */
 export const syncAllGuilds = async (client: Client)  => {
+    const db = await waitForDependency(Database)
 
     // add missing guilds
     const guilds = client.guilds.cache

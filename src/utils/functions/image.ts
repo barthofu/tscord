@@ -1,6 +1,6 @@
+import { waitForDependency } from "@utils/functions"
 import { Database } from "@services"
 import { Image } from "@entities"
-import { container } from "tsyringe"
 
 /**
  * Abstraction level for the image repository that will find an image by its name (with or withouth extension).
@@ -9,7 +9,8 @@ import { container } from "tsyringe"
  */
 export const getImage = async (imageName: string): Promise<string | null> => {
 
-    const imageRepo = container.resolve(Database).getRepo(Image)
+    const db = await waitForDependency(Database)
+    const imageRepo = db.getRepo(Image)
 
     let image = await imageRepo.findOne({
         $or: [

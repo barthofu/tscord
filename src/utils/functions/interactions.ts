@@ -1,5 +1,5 @@
-import { CommandInteraction } from "discord.js";
-import { SimpleCommandMessage } from "discordx";
+import { CommandInteraction } from "discord.js"
+import { SimpleCommandMessage } from "discordx"
 
 /**
  * Abstraction level to reply to either a slash command or a simple command message.

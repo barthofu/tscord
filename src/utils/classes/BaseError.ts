@@ -1,14 +1,16 @@
 import { Logger } from "@services"
-import { container } from "tsyringe"
+import { waitForDependency } from "@utils/functions"
+
 
 export abstract class BaseError extends Error {
 
     protected logger: Logger
 
     constructor(message?: string) {
-        
         super(message)
-        this.logger = container.resolve(Logger)
+        waitForDependency(Logger).then(logger => {
+            this.logger = logger
+        })
     }
 
     handle() {}

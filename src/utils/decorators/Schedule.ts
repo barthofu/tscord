@@ -3,6 +3,7 @@ import { isValidCron } from "cron-validator"
 import { CronJob } from 'cron'
 
 import { generalConfig } from '@config'
+import { waitForDependency } from "@utils/functions"
 
 /**
  * Schedule a job to be executed at a specific time (cron)
@@ -18,13 +19,12 @@ export const Schedule = (cronExpression: string, jobName?: string) => {
 		propertyKey: string,
 		descriptor: PropertyDescriptor
 	) => {
-
         // associate the context to the function, with the injected dependencies defined
         const oldDescriptor = descriptor.value
         descriptor.value = function(...args: any[]) {
             return oldDescriptor.apply(container.resolve(this.constructor as InjectionToken<any>), args)
         }
-        
+                
         const job = new CronJob(
             cronExpression, 
             descriptor.value, 
@@ -34,8 +34,8 @@ export const Schedule = (cronExpression: string, jobName?: string) => {
             target
         )
 
-        import('@services').then(services => {
-            const scheduler = container.resolve(services.Scheduler)
+        import('@services').then(async services => {
+            const scheduler = await waitForDependency(services.Scheduler)
             scheduler.addJob(jobName ?? propertyKey, job)
         })
 	}

@@ -1,13 +1,13 @@
 import { Client } from 'discordx'
+import { injectable } from 'tsyringe'
 import { ActivityType } from 'discord.js'
-import { container, injectable } from 'tsyringe'
 
+import { Data } from '@entities'
+import { generalConfig, logsConfig } from '@config'
 import { Once, Discord, Schedule } from '@decorators'
 import { Database, Logger, Scheduler } from '@services'
-import { Data } from '@entities'
-import { syncAllGuilds } from '@utils/functions'
+import { syncAllGuilds, waitForDependency } from '@utils/functions'
 
-import { generalConfig, logsConfig } from '@config'
 
 @Discord()
 @injectable()
@@ -69,7 +69,7 @@ export default class ReadyEvent {
     async changeActivity() {
         const ActivityTypeEnumString = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM", "COMPETING"] // DO NOT CHANGE THE ORDER
 
-        const client = container.resolve(Client)
+        const client = await waitForDependency(Client)
         const activity = generalConfig.activities[this.activityIndex]
         
         activity.text = eval(`new String(\`${activity.text}\`).toString()`)

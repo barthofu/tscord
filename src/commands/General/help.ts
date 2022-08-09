@@ -21,9 +21,9 @@ export default class HelpCommand {
     })
 	help(interaction: CommandInteraction, client: Client, { sanitizedLocale }: InteractionData): void {
 		
-		const embed = this.getEmbed({ client, interaction, locale: sanitizedLocale });
+		const embed = this.getEmbed({ client, interaction, locale: sanitizedLocale })
 
-		let components: any[] = [];
+		let components: any[] = []
 		components.push(this.getSelectDropdown("categories", sanitizedLocale).toJSON())
 
 		interaction.followUp({ 
@@ -38,7 +38,7 @@ export default class HelpCommand {
         const category = interaction.values[0]
 
         const embed = await this.getEmbed({ client, interaction, category, locale: sanitizedLocale })
-		let components: any[] = [];
+		let components: any[] = []
 		components.push(this.getSelectDropdown("categories", sanitizedLocale).toJSON())
 
         interaction.update({

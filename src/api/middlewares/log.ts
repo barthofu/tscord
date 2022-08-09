@@ -1,16 +1,15 @@
+import { container } from "tsyringe"
 import chalk from "chalk"
 import { Context, Next } from "koa"
-import { container } from "tsyringe"
 
 import { Logger } from "@services"
 
 const logger = container.resolve(Logger)
 
-export function globalLog(ctx: Context, next: Next) {
+export async function globalLog(ctx: Context, next: Next) {
 
     // don't log anything if the request has a `logIgnore` query params
     if (!ctx.query.logIgnore) {
-
         const { method, url } = ctx.request
 
         const message = `(API) ${method} - ${url}`
@@ -18,8 +17,8 @@ export function globalLog(ctx: Context, next: Next) {
 
         logger.console('info', chalkedMessage)
         logger.file('info', message)
-    }
-    else {
+        
+    } else {
         delete ctx.query.logIgnore
     }
 

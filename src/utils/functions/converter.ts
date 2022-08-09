@@ -7,7 +7,7 @@ import fs from "fs"
  */
 
 export const convertTZ = (date: Date, tzString: string): Date => {
-    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}))  
 }
 
 /**

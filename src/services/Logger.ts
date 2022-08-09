@@ -1,14 +1,14 @@
-import { Guild, TextChannel, ThreadChannel, User } from 'discord.js'
-import { Client, MetadataStorage, SimpleCommandMessage } from 'discordx'
+import { TextChannel, ThreadChannel, User } from 'discord.js'
+import { Client, MetadataStorage } from 'discordx'
 import { MetadataStorage as KoaMetadataStorage } from '@discordx/koa'
-import { container, delay, inject, singleton } from 'tsyringe'
+import { delay, inject, singleton } from 'tsyringe'
 import { constant } from 'case'
 import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import ora from 'ora'
 
-import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString } from '@utils/functions'
+import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
 import { Scheduler, WebSocket } from '@services'
 
 import { apiConfig, logsConfig } from '@config'
@@ -21,7 +21,7 @@ export class Logger {
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
-        this.defaultConsole = { ...console };
+        this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))
         console.info    = (...args) => this.log("info",     args.join(", "))
         console.warn    = (...args) => this.log("warn",     args.join(", "))
@@ -32,7 +32,7 @@ export class Logger {
     private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
     private readonly levels = ['debug', 'info', 'warn', 'error'] as const
     private spinner = ora()
-    private defaultConsole: typeof console;
+    private defaultConsole: typeof console
 
     // =================================
     // ======== Output Providers =======
@@ -79,17 +79,18 @@ export class Logger {
 
     discordChannel(channelId: string, message: string = '', level?: typeof this.levels[number]) {
 
-        const client = container.resolve(Client)
-        const channel = client.channels.cache.get(channelId)
+        waitForDependency(Client).then(client => {
+            const channel = client.channels.cache.get(channelId)
 
-        if (
-            channel instanceof TextChannel 
-            || channel instanceof ThreadChannel
-        ) {
-
-            // TODO: add support for embeds depending on the level
-            channel.send(message)
-        }
+            if (
+                channel instanceof TextChannel 
+                || channel instanceof ThreadChannel
+            ) {
+    
+                // TODO: add support for embeds depending on the level
+                channel.send(message)
+            }
+        })
     }
 
     // =================================
@@ -196,22 +197,24 @@ export class Logger {
             type === 'DELETE_GUILD' ? 'has been deleted' : 
             type === 'RECOVER_GUILD' ? 'has been recovered' : ''
         
-        const guild = container.resolve(Client).guilds.cache.get(guildId)
+        waitForDependency(Client).then(client => {
+            const guild = client.guilds.cache.get(guildId)
 
-        const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`
-        const chalkedMessage = oneLine`
-            (${chalk.bold.white(type)})
-            ${chalk.dim.italic.gray('Guild')}
-            ${guild ? 
-                `${chalk.bold.green(guild.name)} (${chalk.bold.blue(guildId)})`
-                : guildId
-            }
-            ${chalk.dim.italic.gray(additionalMessage)}
-        `
+            const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`
+            const chalkedMessage = oneLine`
+                (${chalk.bold.white(type)})
+                ${chalk.dim.italic.gray('Guild')}
+                ${guild ? 
+                    `${chalk.bold.green(guild.name)} (${chalk.bold.blue(guildId)})`
+                    : guildId
+                }
+                ${chalk.dim.italic.gray(additionalMessage)}
+            `
 
-        if (logsConfig.guild.console) this.console('info', chalkedMessage)
-        if (logsConfig.guild.file) this.file('info', message)
-        if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, message, 'info')
+            if (logsConfig.guild.console) this.console('info', chalkedMessage)
+            if (logsConfig.guild.file) this.file('info', message)
+            if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, message, 'info')
+        })
     }
 
     // =================================
