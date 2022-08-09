@@ -3,14 +3,15 @@ import { User as DUser} from "discord.js"
 
 import { User, Guild } from "@entities"
 import { Database, Logger, Stats } from "@services"
-import { waitForAllDependency, waitForDependency } from "@utils/functions"
+import { waitForDependencies, waitForDependency } from "@utils/functions"
 
 /**
  * Add a active user to the database if doesn't exist.
  * @param user 
  */
 export const syncUser = async (user: DUser) => {
-    const  [ db, stats, logger ] = await waitForAllDependency([Database, Stats, Logger])
+    
+    const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
 
     const userRepo = db.getRepo(User)
 
@@ -37,7 +38,7 @@ export const syncUser = async (user: DUser) => {
  * @param client 
  */
 export const syncGuild = async (guildId: string, client: Client) => {
-    const  [ db, stats, logger ] = await waitForAllDependency([Database, Stats, Logger])
+    const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
 
     const guildRepo = db.getRepo(Guild),
           guildData = await guildRepo.findOne({ id: guildId, deleted: false })

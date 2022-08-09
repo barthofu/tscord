@@ -23,7 +23,7 @@ export const On = (event: string, options?: EventOptions): MethodDecoratorEx => 
             botIds: options?.botIds,
             event: event as DiscordEvents,
             once: false,
-        }).decorate(clazz.constructor, key, descriptor?.value);
+        }).decorate(clazz.constructor, key, descriptor?.value)
 
         MetadataStorage.instance.addOn(on)
     }

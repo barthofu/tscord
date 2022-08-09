@@ -1,10 +1,10 @@
-import { Collection, GuildMember, PermissionFlagsBits, Role } from 'discord.js';
+import { Collection, GuildMember, PermissionFlagsBits, Role } from 'discord.js'
 import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
 
 import { Logger } from '@services'
 import { Maintenance } from '@guards'
-import { On, Discord, Guard } from '@decorators';
+import { On, Discord, Guard } from '@decorators'
 
 @Discord()
 @injectable()

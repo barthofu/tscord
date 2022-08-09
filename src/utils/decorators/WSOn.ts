@@ -21,9 +21,9 @@ export const WSOn = (event: string) => {
                 webSocket.addEvent(event, async (socketId, ...args) => {
                     descriptor.value((eventName: string, ...args: any) => {
                         webSocket.emit(socketId, eventName, ...args)
-                    }, ...args);
-                });
-            });
-        });
+                    }, ...args)
+                })
+            })
+        })
     }
 }

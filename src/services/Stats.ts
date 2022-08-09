@@ -249,8 +249,8 @@ export class Stats {
         const allDays = [...new Set(stats1.concat(stats2).map(stat => stat.date))]
             .sort((a, b) => {
                 var aa = a.split('/').reverse().join(),
-                    bb = b.split('/').reverse().join();
-                return aa < bb ? -1 : (aa > bb ? 1 : 0);
+                    bb = b.split('/').reverse().join()
+                return aa < bb ? -1 : (aa > bb ? 1 : 0)
             })
 
         const sumStats = allDays.map(day => ({

@@ -1,4 +1,4 @@
-import { Locale } from 'discord-api-types/v9';
+import { Locale } from 'discord-api-types/v9'
 import { IGuild, Slash as SlashX, VerifyName } from 'discordx'
 
 enum AdditionnalLocaleString {
@@ -8,12 +8,12 @@ enum AdditionnalLocaleString {
 type LocalizationMap = Partial<Record<`${Locale | AdditionnalLocaleString}`, string>>
 
 type ApplicationCommandOptions = {
-    botIds?: string[];
-    defaultPermission?: boolean;
-    description?: string;
-    descriptionLocalizations?: LocalizationMap;
-    guilds?: IGuild[];
-    nameLocalizations?: LocalizationMap;
+    botIds?: string[]
+    defaultPermission?: boolean
+    description?: string
+    descriptionLocalizations?: LocalizationMap
+    guilds?: IGuild[]
+    nameLocalizations?: LocalizationMap
 }
 
 /**

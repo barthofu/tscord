@@ -1,17 +1,18 @@
+import { container } from "tsyringe"
 import { Context, Next } from "koa"
 import DiscordOauth2 from "discord-oauth2"
 
-import { isDev, error, waitForDependency } from "@utils/functions"
+import { isDev, error } from "@utils/functions"
 import { Store } from "@services"
 
 const discordOauth2 = new DiscordOauth2()
+const store = container.resolve(Store)
 
 const timeout = 10 * 60 * 1000
 const fmaTokenRegex = /mfa\.[\w-]{84}/
 const nonFmaTokenRegex = /[\w-]{24}\.[\w-]{6}\.[\w-]{27}/
 
 export async function authenticated(ctx: Context, next: Next) {
-    const store = await waitForDependency(Store)
 
     // if we are in development mode, we don't need to check the token
     // if (process.env['NODE_ENV'] === 'development') return next()

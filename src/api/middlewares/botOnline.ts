@@ -3,9 +3,11 @@ import { Context, Next } from "koa"
 
 import { apiConfig } from "@config"
 
+const baseUrl = `http://localhost:${apiConfig.port}`
+
 export async function botOnline(ctx: Context, next: Next) {
 
-    const { data } = await axios.get(`http://localhost:${apiConfig.port}/health/check`, {
+    const { data } = await axios.get(`${baseUrl}/health/check`, {
         params: {
             logIgnore: true
         }

@@ -31,7 +31,7 @@ export default class InteractionCreateEvent {
         if(
             interaction instanceof MessageComponentInteraction ||
             interaction instanceof DCommandInteraction
-        ) await interaction.deferReply();
+        ) await interaction.deferReply()
 
         // insert user in db if not exists
         await syncUser(interaction.user)

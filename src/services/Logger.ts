@@ -21,7 +21,7 @@ export class Logger {
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
-        this.defaultConsole = { ...console };
+        this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))
         console.info    = (...args) => this.log("info",     args.join(", "))
         console.warn    = (...args) => this.log("warn",     args.join(", "))
@@ -32,7 +32,7 @@ export class Logger {
     private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
     private readonly levels = ['debug', 'info', 'warn', 'error'] as const
     private spinner = ora()
-    private defaultConsole: typeof console;
+    private defaultConsole: typeof console
 
     // =================================
     // ======== Output Providers =======
