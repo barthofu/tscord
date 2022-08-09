@@ -30,12 +30,27 @@ export class BotController extends BaseController {
     @Get('/info')
     async info(ctx: Context) {
 
+        const user: any = this.client.user?.toJSON()
+        if (user) {
+            user.iconURL = this.client.user?.displayAvatarURL()
+            user.bannerURL = this.client.user?.bannerURL()
+        }
+
         const body = {
-            user: this.client.user?.toJSON(),
+            user,
             owner: (await this.client.users.fetch(generalConfig.ownerId)).toJSON(),
         }
 
         this.ok(ctx, body)
+    }
+
+
+    @Get('/commands')
+    async commands(ctx: Context) {
+
+        const commands = this.client.applicationCommands
+
+        this.ok(ctx, commands)
     }
 
     @Get('/guilds')
