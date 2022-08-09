@@ -1,3 +1,4 @@
+import { MessageComponentInteraction, CommandInteraction as DCommandInteraction } from 'discord.js'
 import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
 
@@ -6,6 +7,7 @@ import { Maintenance } from '@guards'
 import { Guild, User } from '@entities'
 import { On, Guard, Discord } from '@decorators'
 import { syncUser } from '@utils/functions'
+import { getLocaleFromInteraction, L } from '@i18n'
 
 @Discord()
 @injectable()
@@ -25,6 +27,11 @@ export default class InteractionCreateEvent {
         [interaction]: ArgsOf<'interactionCreate'>, 
         client: Client
     ) {
+        // defer the reply
+        if(
+            interaction instanceof MessageComponentInteraction ||
+            interaction instanceof DCommandInteraction
+        ) await interaction.deferReply();
 
         // insert user in db if not exists
         await syncUser(interaction.user)

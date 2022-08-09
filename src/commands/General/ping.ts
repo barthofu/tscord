@@ -14,10 +14,11 @@ export default class PingCommand {
 	})
 	async ping(
 		interaction: CommandInteraction,
-		client: Client
+		client: Client,
+		{ localize }: InteractionData
 	) {
 		
-		const msg = (await interaction.reply({ content: "Pinging...", fetchReply: true })) as Message
+		const msg = (await interaction.followUp({ content: "Pinging...", fetchReply: true })) as Message
 
         const content = oneLine`
           ${msg.inGuild() ? `${interaction.member},` : ""}

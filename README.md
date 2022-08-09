@@ -71,6 +71,8 @@ You can also find useful documentations:
 <summary>Click here to expand the roadmap</summary>
 
 #### Todo
+- [ ] fix backup path fs for docker (with __dirname)
+- [ ] finish full localization of built-in commands
 
 #### Discord
 - [ ] Custom events

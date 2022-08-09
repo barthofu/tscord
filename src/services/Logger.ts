@@ -253,7 +253,7 @@ export class Logger {
         this.console('info', chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), true)
 
         // entities
-        const entities = fs.readdirSync('./src/entities')
+        const entities = fs.readdirSync(`${__dirname}/../entities`)
             .filter(entity => 
                 !entity.startsWith('index')
                 && !entity.startsWith('BaseEntity')
@@ -263,7 +263,7 @@ export class Logger {
         this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length)} ${chalk.bold('entities')} loaded`), true)
 
         // services
-        const services = fs.readdirSync('./src/services')
+        const services = fs.readdirSync(`${__dirname}/../services`)
             .filter(service => !service.startsWith('index'))
             .map(service => service.split('.')[0])
         

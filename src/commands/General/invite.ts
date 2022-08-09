@@ -1,11 +1,9 @@
-import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import { CommandInteraction, EmbedBuilder } from "discord.js"
 
-import { Discord, Slash, SlashOption } from "@decorators"
+import { Discord, Slash } from "@decorators"
 import { Guard } from "@guards"
 import { getColor } from "@utils/functions"
-import { getLocaleFromInteraction, L } from "@i18n"
 import { generalConfig } from "@config"
 
 @Discord()
@@ -16,17 +14,15 @@ export default class InviteCommand {
 		'A simple invite command!'
     })
 	@Guard()
-	invite(interaction: CommandInteraction): void {
-
-		const locale = getLocaleFromInteraction(interaction)
+	invite(interaction: CommandInteraction, { localize }: InteractionData): void {
 
 		const embed = new EmbedBuilder()
-			.setTitle(L[locale].COMMANDS.INVITE.TITLE())
-			.setDescription(L[locale].COMMANDS.INVITE.DESCRIPTION({link: generalConfig.inviteLink}))
+			.setTitle(localize.COMMANDS.INVITE.TITLE())
+			.setDescription(localize.COMMANDS.INVITE.DESCRIPTION({link: generalConfig.inviteLink}))
 			.setColor(getColor('primary'))
 			.setFooter({ text : 'Powered by DiscBot Team ❤'})
 
-		interaction.reply({
+		interaction.followUp({
 			embeds: [embed]
 		})
 	}

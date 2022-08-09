@@ -1,4 +1,3 @@
-import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import { CommandInteraction, EmbedBuilder, User } from "discord.js"
 import { injectable } from "tsyringe"
@@ -9,7 +8,6 @@ import {
 
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Stats } from "@services"
-import { getLocaleFromInteraction, L } from "@i18n"
 import { getColor } from "@utils/functions"
 
 const statsResolver: StatsResolverType = [
@@ -57,19 +55,18 @@ export default class StatsCommand {
     })
 	async statsHandler(
 		@SlashOption('days') days: number,
-		interaction: CommandInteraction
+		interaction: CommandInteraction,
+		{ localize }: InteractionData
 	) {
 
 		const embeds: EmbedBuilder[] = []
-
-		const locale = getLocaleFromInteraction(interaction)
 
 		for (const stat of statsResolver) {
 			
 			const stats = await stat.data(this.stats, days),
 			link = await this.generateLink(
 				stats, 
-				L[locale]['COMMANDS']['STATS']['HEADERS'][stat.name as keyof typeof L[(typeof locale)]['COMMANDS']['STATS']['HEADERS']]()),
+				localize['COMMANDS']['STATS']['HEADERS'][stat.name as keyof typeof localize['COMMANDS']['STATS']['HEADERS']]()),
 				embed = this.getEmbed(interaction.user, link)
 			
 			embeds.push(embed)
