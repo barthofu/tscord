@@ -1,7 +1,6 @@
 import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import type { CommandInteraction, Message } from "discord.js"
-import oneLine from 'oneline'
 
 import { Slash, Discord } from "@decorators"
 
@@ -21,12 +20,11 @@ export default class PingCommand {
 		
 		const msg = (await interaction.followUp({ content: "Pinging...", fetchReply: true })) as Message
 
-        const content = oneLine`
-          ${msg.inGuild() ? `${interaction.member},` : ""}
-          Pong! The message round-trip took
-          ${msg.createdTimestamp - interaction.createdTimestamp}ms.
-          ${client.ws.ping ? `The heartbeat ping is ${Math.round(client.ws.ping)}ms.` : ""}
-        `
+		const content = localize["COMMANDS"]["PING"]["MESSAGE"]({
+			member: msg.inGuild() ? `${interaction.member},` : "",
+			time: msg.createdTimestamp - interaction.createdTimestamp,
+			heartbeat: client.ws.ping ? `The heartbeat ping is ${Math.round(client.ws.ping)}ms.` : ""
+		});
 
         await msg.edit(content)
 	}

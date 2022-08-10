@@ -4,7 +4,7 @@ import { Formatters, ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, APISelec
 
 import { Discord, Slash } from "@decorators"
 import { chunkArray, getColor, validString } from "@utils/functions"
-import { L, Locales } from "@i18n"
+import { TranslationFunctions } from "src/i18n/i18n-types"
 
 @Discord()
 @Category('General')
@@ -23,13 +23,13 @@ export default class HelpCommand {
 	async help(
 		interaction: CommandInteraction, 
 		client: Client, 
-		{ sanitizedLocale }: InteractionData
+		{ localize }: InteractionData
 	) {
 		
-		const embed = this.getEmbed({ client, interaction, locale: sanitizedLocale })
+		const embed = this.getEmbed({ client, interaction, locale: localize })
 
 		let components: any[] = []
-		components.push(this.getSelectDropdown("categories", sanitizedLocale).toJSON())
+		components.push(this.getSelectDropdown("categories", localize).toJSON())
 
 		interaction.followUp({ 
 			embeds: [embed],
@@ -40,13 +40,13 @@ export default class HelpCommand {
 	@SelectMenuComponent({
 		id: 'help-category-selector'
 	})
-	async selectCategory(interaction: SelectMenuInteraction, client: Client, { sanitizedLocale }: InteractionData) {
+	async selectCategory(interaction: SelectMenuInteraction, client: Client, { localize }: InteractionData) {
 
         const category = interaction.values[0]
 
-        const embed = await this.getEmbed({ client, interaction, category, locale: sanitizedLocale })
+        const embed = await this.getEmbed({ client, interaction, category, locale: localize })
 		let components: any[] = []
-		components.push(this.getSelectDropdown("categories", sanitizedLocale).toJSON())
+		components.push(this.getSelectDropdown("categories", localize).toJSON())
 
         interaction.update({
             embeds: [embed],
@@ -60,7 +60,7 @@ export default class HelpCommand {
 		interaction: CommandInteraction | SelectMenuInteraction,  
 		category?: string,
 		pageNumber?: number
-		locale: Locales
+		locale: TranslationFunctions
 	}): EmbedBuilder {
 
 		const commands = this._categories.get(category)
@@ -73,7 +73,7 @@ export default class HelpCommand {
 					name: interaction.user.username, 
 					iconURL: interaction.user.displayAvatarURL({ forceStatic: false })
 				})
-				.setTitle(L[locale]['COMMANDS']['HELP']['TITLE']())
+				.setTitle(locale['COMMANDS']['HELP']['TITLE']())
 				.setThumbnail('https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png')
 				.setColor(getColor('primary'))
 
@@ -97,7 +97,7 @@ export default class HelpCommand {
 				name: interaction.user.username,
 				iconURL: interaction.user.displayAvatarURL({ forceStatic: false })
 			})
-			.setTitle(L[locale]['COMMANDS']['HELP']['CATEGORY_TITLE']({category}))
+			.setTitle(locale['COMMANDS']['HELP']['CATEGORY_TITLE']({category}))
 			.setFooter({
 				text: `${client.user!.username} • Page ${pageNumber + 1} of ${maxPage}`
 			})
@@ -121,12 +121,12 @@ export default class HelpCommand {
 		return embed
 	}
 
-	private getSelectDropdown(defaultValue = "categories", locale: Locales): ActionRowBuilder  {
+	private getSelectDropdown(defaultValue = "categories", locale: TranslationFunctions): ActionRowBuilder  {
 
         const optionsForEmbed: APISelectMenuOption[] = []
 
         optionsForEmbed.push({
-            description: L[locale]['COMMANDS']['HELP']['SELECT_MENU']['TITLE'](),
+            description: locale['COMMANDS']['HELP']['SELECT_MENU']['TITLE'](),
             label: "Categories",
             value: "categories",
             default: defaultValue === "categories"
@@ -134,7 +134,7 @@ export default class HelpCommand {
 
         for (const [category] of this._categories) {
 
-            const description = L[locale]['COMMANDS']['HELP']['SELECT_MENU']['CATEGORY_DESCRIPTION']({category})
+            const description = locale['COMMANDS']['HELP']['SELECT_MENU']['CATEGORY_DESCRIPTION']({category})
             optionsForEmbed.push({
                 description,
                 label: category,
