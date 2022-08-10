@@ -106,6 +106,15 @@ type RootTranslation = {
 				CATEGORY_DESCRIPTION: RequiredParams<'category'>
 			}
 		}
+		PING: {
+			/**
+			 * {member} Pong! The message round-trip took {time}ms.{heartbeat}
+			 * @param {string} heartbeat
+			 * @param {string} member
+			 * @param {number} time
+			 */
+			MESSAGE: RequiredParams<'heartbeat' | 'member' | 'time'>
+		}
 	}
 }
 
@@ -196,6 +205,12 @@ export type TranslationFunctions = {
 				 */
 				CATEGORY_DESCRIPTION: (arg: { category: string }) => LocalizedString
 			}
+		}
+		PING: {
+			/**
+			 * {member} Pong! The message round-trip took {time}ms.{heartbeat}
+			 */
+			MESSAGE: (arg: { heartbeat: string, member: string, time: number }) => LocalizedString
 		}
 	}
 }

@@ -40,6 +40,9 @@ const en: BaseTranslation = {
 				CATEGORY_DESCRIPTION: "{category:string} commands",
 			}
 		},
+		PING: {
+			MESSAGE: "{member:string} Pong! The message round-trip took {time:number}ms.{heartbeat:string}"
+		}
 	},
 }
 

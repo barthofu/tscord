@@ -40,6 +40,9 @@ const fr: Translation = {
 				CATEGORY_DESCRIPTION: 'Commandes de {category}',
 			}
 		},
+		PING: {
+			MESSAGE: "{member} Pong! Le temps de réponse de la réponse était {time}ms.{heartbeat}",
+		}
 	},
 }
 
