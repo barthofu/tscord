@@ -1,5 +1,5 @@
 ## build runner
-FROM node:lts-alpine as build-runner
+FROM node:16.16-alpine as build-runner
 
 # Set temp directory
 WORKDIR /tmp/app
@@ -22,7 +22,7 @@ COPY mikro-orm.config.ts .
 RUN npm run build
 
 ## producation runner
-FROM node:lts-alpine as prod-runner
+FROM node:16.16-alpine as prod-runner
 
 # Set work directory
 WORKDIR /app
