@@ -1,6 +1,6 @@
 import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
-import { } from "discord.js"
+import { CommandInteraction } from "discord.js"
 
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Guard } from "@guards"
@@ -14,7 +14,7 @@ export default class {{pascalCase name}}Command {
     })
 	@Guard()
 	{{camelCase name}}(
-		interaction: CommandInteraction
+		interaction: CommandInteraction,
 		{ localize }: InteractionData
 	): void {
 		
