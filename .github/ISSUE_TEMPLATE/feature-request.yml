@@ -1,6 +1,6 @@
 name: Feature request
 description: Request a new feature
-title: "[Feature]: "
+title: "[Feature] "
 labels: [enhancement]
 assignees:
   - barthofu

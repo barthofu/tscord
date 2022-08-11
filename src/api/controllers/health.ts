@@ -28,8 +28,6 @@ export class HealthController extends BaseController {
             lastStartup: await this.db.getRepo(Data).get('lastStartup'),
         }
 
-        console.debug(body)
-
         this.ok(ctx, body)
     }
 

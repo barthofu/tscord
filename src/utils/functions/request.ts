@@ -12,12 +12,8 @@ export const error = async (ctx: Context, message: string, status: StatusCodes) 
 }
 
 export const ok = async (ctx: Context, json: any) => {
-
-    console.debug('ok function started')
     
     ctx.headers['content-type'] = 'application/json'
     ctx.status = StatusCodes.OK
     ctx.body = json
-    
-    console.debug('ok function finished')
 }
