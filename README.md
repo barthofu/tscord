@@ -19,12 +19,12 @@ This template was created to give developers a starting point for new Discord bo
 
 ## 📜 Features
 
-Talking about features, here are some of the core features of this template:
+Talking about features, here are some of the core features of the template:
 
-- Advanced handlers for:
-    - **Interactions** (slash, context menu, button, modal, select menu, etc)
-    - **Simple message commands**
-    - **Discord events** listeners
+- Advanced **handlers** for:
+    - Interactions (slash, context menu, button, modal, select menu, etc)
+    - Simple message commands
+    - Discord events listeners
 - **Guards** functions, acting like middlewares on handlers with some built-ins:
     - Rate limiter
     - Maintenance mode
@@ -33,21 +33,22 @@ Talking about features, here are some of the core features of this template:
     - NSFW only command
     - Message's content match using regex
 - Internal **API** to interact with the bot from external services, with built-in useful endpoints
-- Multiple **databases** support out-of-the-box using an ORM
+- Multiple **databases** support out-of-the-box using [Mikro-ORM](https://mikro-orm.io/)
 - **Migrations** system to keep a safe database
 - **Custom events** handlers
 - Advanced **error handler**
 - Fully-typed **localization** (i18n)
-- Local **store** to manage state through the app
+- Local **store** to manage global state through the app
 - Advanced **logger** with log files and discord channels support
 - **Scheduler** for cron jobs
 - Built-in rich **statistics** system
 - Automatic **static assets upload** to [imgur](https://imgur.com/)
+- **WebSocket** server with decorators driven events system
 
-Also, this template is developper friendly and follow strict design patterns to ease its maintenance:
+This template is also developper friendly and follow strict design patterns to ease its maintenance:
 - Written in **Typescript**
-- Built around the **Dependency Injection** and **Singleton patterns**
-- Uses battle-tested **libraries** under the hood (*discord.ts* and *discord.js*)
+- Built around the **Dependency Injection** and **Singleton** patterns
+- Use of battle-tested **libraries** under the hood (*discord.ts* and *discord.js*)
 - Built-in **debugging** setup for VSCode
 - Support for running with the **[PM2](https://pm2.keymetrics.io/)** process manger
 - Support for running with **[Docker](https://www.docker.com/)**
@@ -57,22 +58,19 @@ Also, this template is developper friendly and follow strict design patterns to 
 
 ## 📚 Documentation
 
-#### Check the [**Documentation**](https://barthofu.github.io/tscord-template-docs) to get started and to understand how to use this template.
+### Check the [**official documentation (WIP)**](https://barthofu.github.io/tscord-template-docs) to get started and understand how to use this template.
 
-You can also find useful documentations:
-- in [discord.ts documentation](https://discord-ts.js.org/)
-- in [Discord's developer portal](https://discord.com/developers/docs/intro)
-- in [Discord.js Guide](https://discordjs.guide/)
-- in [Discord.ts official documentation](https://owencalvin.github.io/discord.ts/)
+You can also find useful documentations at:
+- [discord.ts documentation](https://discord-ts.js.org/)
+- [Discord.js Guide](https://discordjs.guide/)
+- [Discord's developer portal](https://discord.com/developers/docs/intro)
 
 ## 🌐 Roadmap
 
-<details>
-<summary>Click here to expand the roadmap</summary>
+#### [Click here](https://github.com/barthofu/tscord-template/milestones?direction=asc&sort=title&state=open) to access the milestone roadmap
 
-#### Todo
-- [ ] fix backup path fs for docker (with __dirname)
-- [ ] finish full localization of built-in commands
+<details>
+<summary>Or expand here to see the old roadmap</summary>
 
 #### Discord
 - [ ] Custom events
