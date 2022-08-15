@@ -8,7 +8,7 @@
    
 # 🌟 What is TSCord
 
-#### **TSCord** is a fully-featured **Discord bots** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
+#### **TSCord** is a fully-featured **[discord bot](https://discord.com/developers/docs/intro#bots-and-apps)** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
 
 It uses [`discord.ts`](https://github.com/oceanroleplay/discord.ts) and [`discord.js v14`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
