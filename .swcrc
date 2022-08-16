@@ -1,0 +1,29 @@
+{
+    "jsc": {
+		"parser": {
+			"syntax": "typescript",
+			"tsx": false,
+			"decorators": true,
+			"dynamicImport": true
+		},
+		"target": "es2021",
+		"baseUrl": ".",
+		"paths": {
+			"@types": ["src/utils/types"],
+			"@decorators": ["src/utils/decorators"],
+			"@errors": ["src/utils/errors"],
+			"@entities": ["src/entities"],
+			"@guards": ["src/guards"],
+			"@services": ["src/services"],
+			"@i18n": ["src/i18n"],
+			"@config": ["src/config"],
+			
+			"@core/*": ["src/core/*"],
+			"@utils/*": ["src/utils/*"],
+			"@api/*": ["src/api/*"]
+		}
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}
