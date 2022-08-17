@@ -29,7 +29,7 @@ export class Logger {
         // console.debug   = (...args) => this.log("debug",    args.join(", "))
     }
 
-    private readonly logPath: string = `${__dirname.includes('build') ? `${__dirname}/..` : __dirname}/../../logs`
+    private readonly logPath: string = `${__dirname}/../../logs`
     private readonly levels = ['debug', 'info', 'warn', 'error'] as const
     private spinner = ora()
     private defaultConsole: typeof console
