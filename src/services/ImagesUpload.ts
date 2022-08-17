@@ -130,9 +130,10 @@ export class ImagesUpload {
             await this.imageRepo.persistAndFlush(image)
 
             // log the success
-            this.logger.console(
+            this.logger.log(
                 'info',
                 `Image ${chalk.bold.green(imageFileName)} uploaded to imgur`,
+                true
             )
 
         } 
