@@ -41,30 +41,52 @@ type RootTranslation = {
 	COMMANDS: {
 		INVITE: {
 			/**
-			 * Invite me to your server!
+			 * Invite the bot to your server!
 			 */
-			TITLE: string
-			/**
-			 * [Click here]({link}) to invite me!
-			 * @param {string} link
-			 */
-			DESCRIPTION: RequiredParams<'link'>
+			DESCRIPTION: string
+			EMBED: {
+				/**
+				 * Invite me on your server!
+				 */
+				TITLE: string
+				/**
+				 * [Click here]({link}) to invite me!
+				 * @param {unknown} link
+				 */
+				DESCRIPTION: RequiredParams<'link'>
+			}
 		}
 		PREFIX: {
 			/**
-			 * Prefix changed to `{prefix}`.
-			 * @param {string} prefix
+			 * Change the prefix of the bot.
 			 */
-			CHANGED: RequiredParams<'prefix'>
+			DESCRIPTION: string
+			EMBED: {
+				/**
+				 * Prefix changed to `{prefix}`.
+				 * @param {string} prefix
+				 */
+				DESCRIPTION: RequiredParams<'prefix'>
+			}
 		}
 		MAINTENANCE: {
 			/**
-			 * Maintenance mode set to `{state}`.
-			 * @param {string} state
+			 * Set the maintenance mode of the bot.
 			 */
-			SUCCESS: RequiredParams<'state'>
+			DESCRIPTION: string
+			EMBED: {
+				/**
+				 * Maintenance mode set to `{state}`.
+				 * @param {string} state
+				 */
+				DESCRIPTION: RequiredParams<'state'>
+			}
 		}
 		STATS: {
+			/**
+			 * Get some stats about the bot.
+			 */
+			DESCRIPTION: string
 			HEADERS: {
 				/**
 				 * Commands
@@ -86,14 +108,20 @@ type RootTranslation = {
 		}
 		HELP: {
 			/**
-			 * Help pannel
+			 * Get global help about the bot and its commands
 			 */
-			TITLE: string
-			/**
-			 * {category} Commands
-			 * @param {string} category
-			 */
-			CATEGORY_TITLE: RequiredParams<'category'>
+			DESCRIPTION: string
+			EMBED: {
+				/**
+				 * Help pannel
+				 */
+				TITLE: string
+				/**
+				 * {category} Commands
+				 * @param {string} category
+				 */
+				CATEGORY_TITLE: RequiredParams<'category'>
+			}
 			SELECT_MENU: {
 				/**
 				 * Select a category
@@ -107,6 +135,10 @@ type RootTranslation = {
 			}
 		}
 		PING: {
+			/**
+			 * Pong!
+			 */
+			DESCRIPTION: string
 			/**
 			 * {member} Pong! The message round-trip took {time}ms.{heartbeat}
 			 * @param {string} heartbeat
@@ -146,27 +178,49 @@ export type TranslationFunctions = {
 	COMMANDS: {
 		INVITE: {
 			/**
-			 * Invite me to your server!
+			 * Invite the bot to your server!
 			 */
-			TITLE: () => LocalizedString
-			/**
-			 * [Click here]({link}) to invite me!
-			 */
-			DESCRIPTION: (arg: { link: string }) => LocalizedString
+			DESCRIPTION: () => LocalizedString
+			EMBED: {
+				/**
+				 * Invite me on your server!
+				 */
+				TITLE: () => LocalizedString
+				/**
+				 * [Click here]({link}) to invite me!
+				 */
+				DESCRIPTION: (arg: { link: unknown }) => LocalizedString
+			}
 		}
 		PREFIX: {
 			/**
-			 * Prefix changed to `{prefix}`.
+			 * Change the prefix of the bot.
 			 */
-			CHANGED: (arg: { prefix: string }) => LocalizedString
+			DESCRIPTION: () => LocalizedString
+			EMBED: {
+				/**
+				 * Prefix changed to `{prefix}`.
+				 */
+				DESCRIPTION: (arg: { prefix: string }) => LocalizedString
+			}
 		}
 		MAINTENANCE: {
 			/**
-			 * Maintenance mode set to `{state}`.
+			 * Set the maintenance mode of the bot.
 			 */
-			SUCCESS: (arg: { state: string }) => LocalizedString
+			DESCRIPTION: () => LocalizedString
+			EMBED: {
+				/**
+				 * Maintenance mode set to `{state}`.
+				 */
+				DESCRIPTION: (arg: { state: string }) => LocalizedString
+			}
 		}
 		STATS: {
+			/**
+			 * Get some stats about the bot.
+			 */
+			DESCRIPTION: () => LocalizedString
 			HEADERS: {
 				/**
 				 * Commands
@@ -188,13 +242,19 @@ export type TranslationFunctions = {
 		}
 		HELP: {
 			/**
-			 * Help pannel
+			 * Get global help about the bot and its commands
 			 */
-			TITLE: () => LocalizedString
-			/**
-			 * {category} Commands
-			 */
-			CATEGORY_TITLE: (arg: { category: string }) => LocalizedString
+			DESCRIPTION: () => LocalizedString
+			EMBED: {
+				/**
+				 * Help pannel
+				 */
+				TITLE: () => LocalizedString
+				/**
+				 * {category} Commands
+				 */
+				CATEGORY_TITLE: (arg: { category: string }) => LocalizedString
+			}
 			SELECT_MENU: {
 				/**
 				 * Select a category
@@ -207,6 +267,10 @@ export type TranslationFunctions = {
 			}
 		}
 		PING: {
+			/**
+			 * Pong!
+			 */
+			DESCRIPTION: () => LocalizedString
 			/**
 			 * {member} Pong! The message round-trip took {time}ms.{heartbeat}
 			 */

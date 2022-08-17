@@ -6,6 +6,7 @@ import { Discord, Slash } from "@decorators"
 import { Guard } from "@guards"
 import { getColor } from "@utils/functions"
 import { generalConfig } from "@config"
+import { L } from "@i18n"
 
 @Discord()
 @Category('General')
@@ -13,7 +14,10 @@ export default class InviteCommand {
 
 	@Slash({ 
 		name: 'invite',
-		description: 'A simple invite command!'
+		description: 'A simple invite command!',
+		descriptionLocalizations: {
+			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.INVITE.DESCRIPTION()]))
+		}
     })
 	@Guard()
 	async invite(
@@ -23,8 +27,8 @@ export default class InviteCommand {
 	) {
 
 		const embed = new EmbedBuilder()
-			.setTitle(localize.COMMANDS.INVITE.TITLE())
-			.setDescription(localize.COMMANDS.INVITE.DESCRIPTION({link: generalConfig.inviteLink}))
+			.setTitle(localize.COMMANDS.INVITE.EMBED.TITLE())
+			.setDescription(localize.COMMANDS.INVITE.EMBED.DESCRIPTION({link: generalConfig.inviteLink}))
 			.setColor(getColor('primary'))
 			.setFooter({ text : 'Powered by DiscBot Team ❤'})
 

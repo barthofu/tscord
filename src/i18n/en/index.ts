@@ -15,16 +15,30 @@ const en: BaseTranslation = {
 
 	COMMANDS: {
 		INVITE: {
-			TITLE: "Invite me to your server!",
-			DESCRIPTION: "[Click here]({link:string}) to invite me!"
+			DESCRIPTION: "Invite the bot to your server!",
+
+			EMBED: {
+				TITLE: "Invite me on your server!",
+				DESCRIPTION: "[Click here]({link}) to invite me!"
+			}
 		},
 		PREFIX: {
-			CHANGED: "Prefix changed to `{prefix:string}`.",
+			DESCRIPTION: "Change the prefix of the bot.",
+
+			EMBED: {
+				DESCRIPTION: "Prefix changed to `{prefix:string}`."
+			}
 		},
 		MAINTENANCE: {
-			SUCCESS: "Maintenance mode set to `{state:string}`.",
+			DESCRIPTION: "Set the maintenance mode of the bot.",
+
+			EMBED: {
+				DESCRIPTION: "Maintenance mode set to `{state:string}`."
+			}
 		},
 		STATS: {
+			DESCRIPTION: "Get some stats about the bot.",
+
 			HEADERS: {
 				COMMANDS: "Commands",
 				GUILDS: "Guild",
@@ -33,14 +47,22 @@ const en: BaseTranslation = {
 			}
 		},
 		HELP: {
-			TITLE: "Help pannel",
-			CATEGORY_TITLE: "{category:string} Commands",
+			DESCRIPTION: 'Get global help about the bot and its commands',
+
+			EMBED: {
+				TITLE: "Help pannel",
+				CATEGORY_TITLE: "{category:string} Commands",
+
+			},
+
 			SELECT_MENU: {
 				TITLE: "Select a category",
 				CATEGORY_DESCRIPTION: "{category:string} commands",
 			}
 		},
 		PING: {
+			DESCRIPTION: "Pong!",
+
 			MESSAGE: "{member:string} Pong! The message round-trip took {time:number}ms.{heartbeat:string}"
 		}
 	},

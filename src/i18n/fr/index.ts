@@ -15,16 +15,30 @@ const fr: Translation = {
 
 	COMMANDS: {
 		INVITE: {
-			TITLE: 'Invite moi sur ton serveur!',
-			DESCRIPTION: '[Clique ici]({link}) pour m\'inviter!'
+			DESCRIPTION: 'Invitez le bot sur votre serveur!',
+
+			EMBED: {
+				TITLE: 'Invite moi sur ton serveur!',
+				DESCRIPTION: '[Clique ici]({link}) pour m\'inviter!'
+			}
 		},
 		PREFIX: {
-			CHANGED: 'Prefix changé en `{prefix}`.',
+			DESCRIPTION: 'Change le préfix du bot.',
+
+			EMBED: {
+				DESCRIPTION: 'Prefix changé en `{prefix}`.'
+			}
 		},
 		MAINTENANCE: {
-			SUCCESS: 'Le mode maintenance a été définie à `{state}`.',
+			DESCRIPTION: 'Met le mode maintenance du bot.',
+
+			EMBED: {
+				DESCRIPTION: 'Le mode maintenance a été définie à `{state}`.'
+			}
 		},
 		STATS: {
+			DESCRIPTION: 'Obtiens des statistiques sur le bot.',
+
 			HEADERS: {
 				COMMANDS: 'Commandes',
 				GUILDS: 'Serveurs',
@@ -33,14 +47,21 @@ const fr: Translation = {
 			}
 		},
 		HELP: {
-			TITLE: "Pannel d'aide",
-			CATEGORY_TITLE: 'Commandes de {category}',
+			DESCRIPTION: 'Obtenez de l\'aide globale sur le bot et ses commandes',
+
+			EMBED: {
+				TITLE: "Pannel d'aide",
+				CATEGORY_TITLE: 'Commandes de {category}',
+			},
+
 			SELECT_MENU: {
 				TITLE: 'Sélectionnez une catégorie',
 				CATEGORY_DESCRIPTION: 'Commandes de {category}',
 			}
 		},
 		PING: {
+			DESCRIPTION: "Pong!",
+
 			MESSAGE: "{member} Pong! Le temps de réponse de la réponse était {time}ms.{heartbeat}",
 		}
 	},

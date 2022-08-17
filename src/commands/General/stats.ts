@@ -10,6 +10,7 @@ import {
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Stats } from "@services"
 import { getColor } from "@utils/functions"
+import { L } from "@i18n"
 
 const statsResolver: StatsResolverType = [
 	{
@@ -53,7 +54,10 @@ export default class StatsCommand {
 
 	@Slash({ 
 		name: 'stats',
-		description: 'Here goes the command description!'
+		description: 'Here goes the command description!',
+		descriptionLocalizations: {
+			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.STATS.DESCRIPTION()]))
+		}
     })
 	async statsHandler(
 		@SlashOption({ name: 'days' }) days: number,
@@ -69,7 +73,7 @@ export default class StatsCommand {
 			const stats = await stat.data(this.stats, days),
 			link = await this.generateLink(
 				stats, 
-				localize['COMMANDS']['STATS']['HEADERS'][stat.name as keyof typeof localize['COMMANDS']['STATS']['HEADERS']]()),
+				localize.COMMANDS.STATS.HEADERS[stat.name as keyof typeof localize['COMMANDS']['STATS']['HEADERS']]()),
 				embed = this.getEmbed(interaction.user, link)
 			
 			embeds.push(embed)
