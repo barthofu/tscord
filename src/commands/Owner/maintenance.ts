@@ -26,7 +26,7 @@ export default class MaintenanceCommand {
 
 		simpleSuccessEmbed(
 			interaction, 
-			localize['COMMANDS']['MAINTENANCE']['SUCCESS']({
+			localize.COMMANDS.MAINTENANCE.EMBED.DESCRIPTION({
 				state: state ? 'on' : 'off'
 			})
 		)

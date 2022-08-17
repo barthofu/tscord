@@ -3,6 +3,7 @@ import { Category } from "@discordx/utilities"
 import type { CommandInteraction, Message } from "discord.js"
 
 import { Slash, Discord } from "@decorators"
+import { L } from "@i18n"
 
 @Discord()
 @Category('General')
@@ -10,7 +11,10 @@ export default class PingCommand {
 
 	@Slash({ 
 		name: 'ping',
-		description: 'Pong!'
+		description: 'Pong!',
+		descriptionLocalizations: {
+			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.PING.DESCRIPTION()]))
+		}
 	})
 	async ping(
 		interaction: CommandInteraction,

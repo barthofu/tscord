@@ -5,6 +5,7 @@ import { Formatters, ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, APISelec
 import { Discord, Slash } from "@decorators"
 import { chunkArray, getColor, validString } from "@utils/functions"
 import { TranslationFunctions } from "src/i18n/i18n-types"
+import { L } from "@i18n"
 
 @Discord()
 @Category('General')
@@ -18,7 +19,10 @@ export default class HelpCommand {
 
 	@Slash({ 
 		name: 'help',
-		description: 'Get global help about the bot and its commands'
+		description: 'Get global help about the bot and its commands',
+		descriptionLocalizations: {
+			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.HELP.DESCRIPTION()]))
+		}
     })
 	async help(
 		interaction: CommandInteraction, 
@@ -73,7 +77,7 @@ export default class HelpCommand {
 					name: interaction.user.username, 
 					iconURL: interaction.user.displayAvatarURL({ forceStatic: false })
 				})
-				.setTitle(locale['COMMANDS']['HELP']['TITLE']())
+				.setTitle(locale.COMMANDS.HELP.EMBED.TITLE())
 				.setThumbnail('https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png')
 				.setColor(getColor('primary'))
 
@@ -97,7 +101,7 @@ export default class HelpCommand {
 				name: interaction.user.username,
 				iconURL: interaction.user.displayAvatarURL({ forceStatic: false })
 			})
-			.setTitle(locale['COMMANDS']['HELP']['CATEGORY_TITLE']({category}))
+			.setTitle(locale.COMMANDS.HELP.EMBED.CATEGORY_TITLE({category}))
 			.setFooter({
 				text: `${client.user!.username} • Page ${pageNumber + 1} of ${maxPage}`
 			})
@@ -126,7 +130,7 @@ export default class HelpCommand {
         const optionsForEmbed: APISelectMenuOption[] = []
 
         optionsForEmbed.push({
-            description: locale['COMMANDS']['HELP']['SELECT_MENU']['TITLE'](),
+            description: locale.COMMANDS.HELP.SELECT_MENU.TITLE(),
             label: "Categories",
             value: "categories",
             default: defaultValue === "categories"
@@ -134,7 +138,7 @@ export default class HelpCommand {
 
         for (const [category] of this._categories) {
 
-            const description = locale['COMMANDS']['HELP']['SELECT_MENU']['CATEGORY_DESCRIPTION']({category})
+            const description = locale.COMMANDS.HELP.SELECT_MENU.CATEGORY_DESCRIPTION({category})
             optionsForEmbed.push({
                 description,
                 label: category,
