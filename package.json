@@ -10,9 +10,9 @@
     "build:serve": "npm run build && npm run serve",
     "build:clean": "rimraf build",
     "serve": "cross-env NODE_ENV=production node build/main.js",
-    "start": "cross-env NODE_ENV=production node --loader ts-node/esm/transpile-only src/main.ts",
-    "dev": "npm-run-all --parallel dev:i18n dev:compile dev:watch",
-    "dev:watch": "cross-env NODE_ENV=development nodemon --watch \"build/**/*\" -e js ./build/main.js",
+    "start": "cross-env NODE_ENV=production node -r @swc-node/register src/main.ts",
+    "dev": "npm-run-all --parallel dev:i18n dev:watch",
+    "dev:watch": "cross-env NODE_ENV=development nodemon --exec node -r @swc-node/register src/main.ts",
     "dev:compile": "swc src -w -d build",
     "dev:i18n": "typesafe-i18n",
     "type:check": "tsc --pretty --skipLibCheck --noEmit",
@@ -71,6 +71,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@swc-node/register": "^1.5.1",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.2.233",
     "@types/better-sqlite3": "^7.5.0",
