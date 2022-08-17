@@ -7,9 +7,7 @@
         "request": "launch",
         "runtimeExecutable": "npm",
         "runtimeArgs": ["run", "dev"],
-  
-        "args": ["src/main.ts"],
-        
+          
         "cwd": "${workspaceRoot}",
         "internalConsoleOptions": "openOnSessionStart",
         "skipFiles": ["<node_internals>/**", "node_modules/**"]

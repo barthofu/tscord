@@ -12,7 +12,6 @@ services:
     build:
       context: ./
       dockerfile: ./.docker/app/Dockerfile
-    command: "npm run serve"
     env_file:
       - .env
     ports:
@@ -20,6 +19,7 @@ services:
     volumes:
         - ./database:/app/database
         - ./logs/:/app/logs
+        - ./assets:/app/assets
     restart: always
     networks:
       - dev
