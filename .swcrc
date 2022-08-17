@@ -21,6 +21,9 @@
 			"@core/*": ["src/core/*"],
 			"@utils/*": ["src/utils/*"],
 			"@api/*": ["src/api/*"]
+		},
+		"transform": {
+			"decoratorMetadata": true
 		}
     },
     "module": {

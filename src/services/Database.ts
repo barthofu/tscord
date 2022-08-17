@@ -1,5 +1,5 @@
 import { delay, inject, singleton } from 'tsyringe'
-import { EntityName, MikroORM } from '@mikro-orm/core'
+import { EntityName, MikroORM, Options } from '@mikro-orm/core'
 import { EntityManager, SqliteDriver } from '@mikro-orm/sqlite'
 import { backup, restore } from 'saveqlite'
 import fs from 'fs'
@@ -22,7 +22,7 @@ export class Database {
     async initialize() {
 
         // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
-        this._orm = await MikroORM.init()
+        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<SqliteDriver>)
 
         const migrator = this._orm.getMigrator()
 
