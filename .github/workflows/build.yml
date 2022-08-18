@@ -1,8 +1,11 @@
 name: Build
 
 on:
-  # push:
-  #   branches: [ main ]
+
+  push:
+    branches: [ main ]
+
+  pull_request:
 
   # allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,10 +20,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # - uses: ./.github/workflows/build
-      - uses: actions/setup-node@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 17.6.0
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
