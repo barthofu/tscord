@@ -6,7 +6,9 @@ import { Disabled, Guard } from "@guards"
 @Discord()
 export default class TestsCommand {
 
-	@Slash('test')
+	@Slash({
+		name: 'test'
+	})
 	@Guard(
 		Disabled
 	)
@@ -15,7 +17,7 @@ export default class TestsCommand {
 		console.log('test invoked')
 	}
 
-	@ContextMenu(ApplicationCommandType.User, 'help')
+	@ContextMenu({ type: ApplicationCommandType.User, name: 'help'})
 	async contextMenu(interaction: CommandInteraction) {
 		
 		console.log('contextMenu invoked')

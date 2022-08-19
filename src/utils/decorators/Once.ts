@@ -1,7 +1,7 @@
 import { EventOptions, MethodDecoratorEx, DOn, MetadataStorage } from 'discordx'
 
 /**
- * Handle both discord and custom events with a defined handler
+ * Handle both discord and custom events only **once** with a defined handler
  * @param event - event name
  * @param options - event parameters
  * ___
@@ -10,7 +10,7 @@ import { EventOptions, MethodDecoratorEx, DOn, MetadataStorage } from 'discordx'
  *
  * @category Decorator
  */
-export const On = (event: string, options?: EventOptions): MethodDecoratorEx => {
+export const Once = (event: string, options?: EventOptions): MethodDecoratorEx => {
 
     return function <T>(
         target: Record<string, T>,
@@ -22,7 +22,7 @@ export const On = (event: string, options?: EventOptions): MethodDecoratorEx => 
         const on = DOn.create({
             botIds: options?.botIds,
             event: event,
-            once: false,
+            once: true,
             rest: false
         }).decorate(clazz.constructor, key, descriptor?.value)
 

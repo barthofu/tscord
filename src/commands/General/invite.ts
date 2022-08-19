@@ -10,8 +10,9 @@ import { generalConfig } from "@config"
 @Category('General')
 export default class InviteCommand {
 
-	@Slash('invite', { description: 
-		'A simple invite command!'
+	@Slash({ 
+		name: 'invite',
+		description: 'A simple invite command!'
     })
 	@Guard()
 	invite(interaction: CommandInteraction, { localize }: InteractionData): void {

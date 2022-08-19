@@ -1,5 +1,5 @@
 import { Locale } from 'discord-api-types/v9'
-import { IGuild, Slash as SlashX, VerifyName } from 'discordx'
+import { ApplicationCommandOptions as DXApplicationCommandOptions, IGuild, Slash as SlashX, VerifyName } from 'discordx'
 
 enum AdditionnalLocaleString {
     English = 'en'
@@ -7,14 +7,10 @@ enum AdditionnalLocaleString {
 
 type LocalizationMap = Partial<Record<`${Locale | AdditionnalLocaleString}`, string>>
 
-type ApplicationCommandOptions = {
-    botIds?: string[]
-    defaultPermission?: boolean
-    description?: string
+type ApplicationCommandOptions = Modify<DXApplicationCommandOptions, {
     descriptionLocalizations?: LocalizationMap
-    guilds?: IGuild[]
     nameLocalizations?: LocalizationMap
-}
+}>
 
 /**
  * Handle a slash command with a defined nam
@@ -26,7 +22,7 @@ type ApplicationCommandOptions = {
  *
  * @category Decorator
  */
-export const Slash = <T extends string>(name?: VerifyName<T>, options?: ApplicationCommandOptions) => {
+export const Slash = (options: ApplicationCommandOptions) => {
 
     // convert 'en' localizations to 'en-US' and 'en-GB'
     if (options?.nameLocalizations?.['en']) {
@@ -40,5 +36,5 @@ export const Slash = <T extends string>(name?: VerifyName<T>, options?: Applicat
         delete options.descriptionLocalizations['en']
     }
     
-    return SlashX(name, options)
+    return SlashX(options)
 }
