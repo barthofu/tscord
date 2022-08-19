@@ -1,14 +1,14 @@
 import { Get, Middleware, Post, Router } from "@discordx/koa"
 import { injectable } from "tsyringe"
 import { Context } from "koa"
-import validator, { Joi } from "koa-context-validator"
+import { Joi } from "koa-context-validator"
 
 import { Database } from "@services"
 import { BaseController } from "@utils/classes"
 import { formatDate } from "@utils/functions"
 
 import { databaseConfig } from "@config"
-import { authenticated } from "@api/middlewares"
+import { authenticated, validator } from "@api/middlewares"
 
 @Router({ options: { prefix: "/database" } })
 @Middleware(

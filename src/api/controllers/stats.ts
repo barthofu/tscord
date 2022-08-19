@@ -1,11 +1,11 @@
+import { injectable } from "tsyringe"
 import { Get, Middleware, Router } from "@discordx/koa"
+import { Joi } from "koa-context-validator"
 import { Context } from "koa"
 
 import { BaseController } from "@utils/classes"
-import { injectable } from "tsyringe"
 import { Stats } from "@services"
-import { authenticated } from "@api/middlewares"
-import validator, { Joi } from "koa-context-validator"
+import { authenticated, validator } from "@api/middlewares"
 
 @Router({ options: { prefix: '/stats' }})
 @Middleware(
