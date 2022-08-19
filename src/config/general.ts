@@ -8,8 +8,9 @@ export const generalConfig: GeneralConfigType = {
 	simpleCommandsPrefix: '!',
 	ownerId: '260908777446965248',
 	timezone: 'Europe/Paris',
-	automaticUploadImagesToImgur: true,
 	inviteLink: 'https://www.change_invite_link_here.com',
+	
+	automaticUploadImagesToImgur: false,
 
 	devs: [
 		'260908777446965248',

@@ -118,7 +118,14 @@ export class ImagesUpload {
                 name: imageFileName.split('')[0]
             })
 
-            if (!uploadResponse.data) return
+            if (!uploadResponse.success ) {
+                this.logger.log(
+                    'error',
+                    `Error uploading image ${imageFileName} to imgur: ${uploadResponse.status} ${uploadResponse.data}`,
+                    true
+                )
+                return
+            }
 
             // add the image to the database
             const image = new Image()
@@ -138,7 +145,7 @@ export class ImagesUpload {
 
         } 
         catch (error: any) {
-            this.logger.log('error', error?.toString())
+            this.logger.log('error', error?.toString(), true)
         }
     }
 
