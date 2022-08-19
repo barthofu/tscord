@@ -1,7 +1,8 @@
-import { TextChannel, ThreadChannel, User } from 'discord.js'
+import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import { MetadataStorage as KoaMetadataStorage } from '@discordx/koa'
 import { delay, inject, singleton } from 'tsyringe'
+import { StackFrame } from 'stacktrace-parser'
 import { constant } from 'case'
 import fs from 'fs'
 import chalk from 'chalk'
@@ -77,7 +78,7 @@ export class Logger {
         fs.appendFileSync(fileName, `${templatedMessage}\n`)
     }
 
-    discordChannel(channelId: string, message: string = '', level?: typeof this.levels[number]) {
+    discordChannel(channelId: string, message: string | MessageOptions = '', level?: typeof this.levels[number]) {
 
         waitForDependency(Client).then(client => {
             const channel = client.channels.cache.get(channelId)
@@ -215,6 +216,47 @@ export class Logger {
             if (logsConfig.guild.file) this.file('info', message)
             if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, message, 'info')
         })
+    }
+
+    /**
+     * Logs errors.
+     * @param error
+     * @param type uncaughtException, unhandledRejection
+     * @param trace
+     */
+     logError(error: Error | any, type: 'Exception' | 'unhandledRejection', trace: StackFrame[]) {
+        
+        let message = '(ERROR)'
+        let embedMessage = ''
+        let embedTitle = ''
+        let chalkedMessage = `(${chalk.bold.white('ERROR')})`
+
+        if(trace && trace[0]) {
+            message += ` ${type === 'Exception' ? 'Exception' : 'Unhandled rejection'} : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`
+            embedMessage += ` \`\`\`${trace.map((frame: StackFrame) => `> ${frame.file}:${frame.lineNumber}`).join('\n')}\`\`\``
+            embedTitle += `***${type === 'Exception' ? 'Exception' : 'Unhandled rejection'}* : ${error.message}**`
+            chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
+        } else {
+            if(type === 'Exception') {
+                message += `An exception as occured in a unknow file\n\t> ${error.message}`
+                embedMessage += `An exception as occured in a unknow file\n${error.message}`
+            } else {
+                message += `An unhandled rejection as occured in a unknow file\n\t> ${error}`
+                embedMessage += `An unhandled rejection as occured in a unknow file\n${error}`
+            }
+        }
+
+        if (logsConfig.error.console) this.console('error', chalkedMessage)
+        if (logsConfig.error.file) this.file('error', message)
+        if (logsConfig.error.channel) this.discordChannel(logsConfig.error.channel, {
+            embeds: [{
+                title: embedTitle,
+                description: embedMessage,
+                color: 0x7C1715,
+                timestamp: new Date().toISOString()
+                
+            }]
+        }, 'error')
     }
 
     // =================================
