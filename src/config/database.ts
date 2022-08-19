@@ -20,18 +20,15 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         /**
          * SQLite
          */
-        type: 'sqlite',
-        dbName: `${databaseConfig.path}db.sqlite`,
+        // type: 'sqlite',
+        // dbName: `${databaseConfig.path}db.sqlite`,
 
         /**
          * MongoDB
          */
-        // type: 'mongo',
-        // dbName: process.env['DATABASE_NAME'],
-        // host: process.env['DATABASE_HOST'],
-        // port: 27017,
-        // user: process.env['DATABASE_USER'],
-        // password: process.env['DATABASE_PASSWORD'],
+        type: 'mongo',
+        dbName: process.env['DATABASE_NAME'],
+        clientUrl: process.env['DATABASE_HOST'],
 
         /**
          * PostgreSQL

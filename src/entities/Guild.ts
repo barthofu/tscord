@@ -12,8 +12,8 @@ export class Guild extends CustomBaseEntity {
 
     [EntityRepositoryType]?: GuildRepository
 
-    @PrimaryKey({ autoincrement: false })
-    id!: string
+    @Property()
+    guildId!: string
 
     @Property({ nullable: true, type: 'string' })
     prefix: string | null
@@ -33,7 +33,7 @@ export class GuildRepository extends EntityRepository<Guild> {
 
     async updateLastInteract(guildId?: string): Promise<void> {
 
-        const guild = await this.findOne({ id: guildId })
+        const guild = await this.findOne({ guildId })
         
         if (guild) {
             guild.lastInteract = new Date()

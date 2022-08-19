@@ -116,14 +116,28 @@ export class Stats {
     }
 
     async getTopCommands() {
-
-        const qb = this.db.em.createQueryBuilder(Stat)
-        const query = qb
-            .select(['type', 'value as name', 'count(*) as count'])
-            .where(allInteractions)
-            .groupBy(['type', 'value'])
-
-        const slashCommands = await query.execute()
+        
+        const slashCommands = await this.db.em.aggregate(Stat, [
+            {
+                $match: allInteractions
+            },
+            {
+                "$group": {
+                    _id : { type: "$type", value: "$value" },
+                    count: { '$sum': 1 }
+                }
+            },
+            {
+                "$replaceRoot": {
+                    newRoot: {
+                        "$mergeObjects": [
+                            "$_id",
+                            { count: "$count" }
+                        ]
+                    }
+                }
+            }
+        ])
 
         return slashCommands.sort((a: any, b: any) => b.count - a.count)
     }

@@ -1,6 +1,7 @@
 import { delay, inject, singleton } from 'tsyringe'
 import { EntityName, MikroORM, Options } from '@mikro-orm/core'
-import { EntityManager, SqliteDriver } from '@mikro-orm/sqlite'
+
+import { EntityManager, MongoDriver } from '@mikro-orm/mongodb';
 import { backup, restore } from 'saveqlite'
 import fs from 'fs'
 import fastFolderSizeSync from 'fast-folder-size/sync'
@@ -17,12 +18,12 @@ export class Database {
         @inject(delay(() => Logger)) private logger: Logger
     ) { }
 
-    private _orm: MikroORM<SqliteDriver>
+    private _orm: MikroORM<MongoDriver>
 
     async initialize() {
 
         // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
-        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<SqliteDriver>)
+        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<MongoDriver>)
 
         const migrator = this._orm.getMigrator()
 
@@ -46,7 +47,7 @@ export class Database {
         return this.orm
     }
 
-    get orm(): MikroORM<SqliteDriver> {
+    get orm(): MikroORM<MongoDriver> {
         return this._orm
     }
 

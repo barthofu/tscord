@@ -13,9 +13,6 @@ export class Image extends CustomBaseEntity {
 
     [EntityRepositoryType]?: ImageRepository
 
-    @PrimaryKey()
-    id: number
-
     @Property()
     fileName: string
 
