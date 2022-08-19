@@ -16,8 +16,9 @@ export default class HelpCommand {
 		this.loadCategories()
 	}
 
-	@Slash('help', { description: 
-		'Get global help about the bot and its commands'
+	@Slash({ 
+		name: 'help',
+		description: 'Get global help about the bot and its commands'
     })
 	help(interaction: CommandInteraction, client: Client, { sanitizedLocale }: InteractionData): void {
 		
@@ -32,7 +33,9 @@ export default class HelpCommand {
 		})
 	}
 
-	@SelectMenuComponent('help-category-selector')
+	@SelectMenuComponent({
+		id: 'help-category-selector'
+	})
 	async selectCategory(interaction: SelectMenuInteraction, client: Client, { sanitizedLocale }: InteractionData) {
 
         const category = interaction.values[0]

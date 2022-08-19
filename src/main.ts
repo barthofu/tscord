@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import 'dotenv/config'
 
 import { container } from 'tsyringe'
-import { DIService, Client } from 'discordx'
+import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
 import { importx } from '@discordx/importer'
 
 import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
@@ -25,7 +25,7 @@ async function run() {
     await db.initialize()
 
     // init the client
-    DIService.container = container
+    DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
     const client = new Client(clientConfig)
     container.registerInstance(Client, client)
 

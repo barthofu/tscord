@@ -6,7 +6,6 @@ export {
     Guard,
     Guild,
     ModalComponent,
-    Once,
     SelectMenuComponent,
     SimpleCommand,
     SimpleCommandOption,
@@ -16,6 +15,7 @@ export {
 } from 'discordx'
 
 export * from './On'
+export * from './Once'
 export * from './Slash'
 export * from './Schedule'
 export * from './WSOn'

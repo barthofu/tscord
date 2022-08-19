@@ -7,7 +7,6 @@ import { Maintenance } from '@guards'
 import { Guild, User } from '@entities'
 import { On, Guard, Discord } from '@decorators'
 import { syncUser } from '@utils/functions'
-import { getLocaleFromInteraction, L } from '@i18n'
 
 @Discord()
 @injectable()

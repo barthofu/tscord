@@ -50,11 +50,12 @@ export default class StatsCommand {
 		private stats: Stats
 	) {}
 
-	@Slash('stats', { description: 
-		'Here goes the command description!'
+	@Slash({ 
+		name: 'stats',
+		description: 'Here goes the command description!'
     })
 	async statsHandler(
-		@SlashOption('days') days: number,
+		@SlashOption({ name: 'days' }) days: number,
 		interaction: CommandInteraction,
 		{ localize }: InteractionData
 	) {

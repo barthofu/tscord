@@ -20,14 +20,15 @@ export default class PrefixCommand {
 		private db: Database,
 	) {}
 
-	@Slash('prefix', { description: 
-		'Here goes the command description!'
+	@Slash({ 
+		name: 'prefix',
+		description: 'Here goes the command description!'
     })
 	@Guard(
 		UserPermissions(['Administrator'])
 	)
 	async prefix(
-		@SlashOption('prefix', { required: false, type: ApplicationCommandOptionType.String }) prefix: string | undefined,
+		@SlashOption({ name: 'prefix', type: ApplicationCommandOptionType.String, required: false }) prefix: string | undefined,
 		interaction: CommandInteraction,
 		{ localize }: InteractionData
 	) {
