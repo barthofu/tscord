@@ -2,10 +2,10 @@ import { Delete, Get, Middleware, Post, Router } from "@discordx/koa"
 import { Client } from "discordx"
 import { Context } from "koa"
 import { injectable } from "tsyringe"
-import validator, { Joi } from 'koa-context-validator'
+import { Joi } from 'koa-context-validator'
 
 import { BaseController } from "@utils/classes"
-import { authenticated, botOnline } from "@api/middlewares"
+import { authenticated, botOnline, validator } from "@api/middlewares"
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, Channel, ChannelType, Guild as DGuild, GuildTextBasedChannel, NewsChannel, PermissionsBitField, User as DUser } from "discord.js"
 import { generalConfig } from "@config"
 import { isInMaintenance, setMaintenance } from "@utils/functions"
