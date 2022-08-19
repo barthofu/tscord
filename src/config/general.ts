@@ -23,7 +23,7 @@ export const generalConfig: GeneralConfigType = {
 
     activities: [
 		{
-			text: 'discord.js v13',
+			text: 'discord.js v14',
 			type: 'PLAYING'
 		},
 		{
