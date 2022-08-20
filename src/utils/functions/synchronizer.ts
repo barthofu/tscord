@@ -43,7 +43,7 @@ export const syncGuild = async (guildId: string, client: Client) => {
     const guildRepo = db.getRepo(Guild),
           guildData = await guildRepo.findOne({ id: guildId, deleted: false })
 
-    const fetchedGuild = client.guilds.cache.get(guildId)
+    const fetchedGuild = await client.guilds.fetch(guildId)
 
     //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
     if (!guildData) {
