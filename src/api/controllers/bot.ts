@@ -128,30 +128,29 @@ export class BotController extends BaseController {
             return
         }
 
-        // get the first channel where the bot has the permission to create an invite, 
-        // because `.createInvite()` is a method for a channel, not a guild
-        const channel = guild.channels.cache
-            .filter((channel) => 
-                guild.members.cache.get(this.client.user?.id || '')?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false
-                && [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
-            )
-            .first() as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined
+        const guildChannels = await guild.channels.fetch()
+        for (const channel of guildChannels.values()) {
+            if (
+                (guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false) &&
+                [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
+            ) {
+                const invite = await (channel as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined)?.createInvite()
+                if(invite) { this.ok(ctx, invite); return }
 
-        if (!channel) {
-            this.error(ctx, 'Missing permission to create an invite in this guild', 401)
-            return
+                this.error(ctx, 'Could not create an invite', 500)
+                return 
+            }
         }
 
-        const invite = await channel.createInvite()
-
-        this.ok(ctx, invite)
+        this.error(ctx, 'Missing permission to create an invite in this guild', 401)
+        return 
     }
 
     @Get('/users')
     async users(ctx: Context) {
 
         const users: any[] = [],
-              guilds = this.client.guilds.cache.map(guild => guild)
+              guilds = this.client.guilds.cache.values()
 
         for (const guild of guilds) {
 

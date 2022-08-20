@@ -77,20 +77,17 @@ export class Logger {
         fs.appendFileSync(fileName, `${templatedMessage}\n`)
     }
 
-    discordChannel(channelId: string, message: string = '', level?: typeof this.levels[number]) {
+    async discordChannel(channelId: string, message: string = '', level?: typeof this.levels[number]) {
+        const channel = await this.client.channels.fetch(channelId)
 
-        waitForDependency(Client).then(client => {
-            const channel = client.channels.cache.get(channelId)
+        if (
+            channel instanceof TextChannel 
+            || channel instanceof ThreadChannel
+        ) {
 
-            if (
-                channel instanceof TextChannel 
-                || channel instanceof ThreadChannel
-            ) {
-    
-                // TODO: add support for embeds depending on the level
-                channel.send(message)
-            }
-        })
+            // TODO: add support for embeds depending on the level
+            channel.send(message)
+        }
     }
 
     // =================================
@@ -197,8 +194,8 @@ export class Logger {
             type === 'DELETE_GUILD' ? 'has been deleted' : 
             type === 'RECOVER_GUILD' ? 'has been recovered' : ''
         
-        waitForDependency(Client).then(client => {
-            const guild = client.guilds.cache.get(guildId)
+        waitForDependency(Client).then(async client => {
+            const guild = await client.guilds.fetch(guildId)
 
             const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`
             const chalkedMessage = oneLine`
