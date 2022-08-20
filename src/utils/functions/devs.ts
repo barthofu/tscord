@@ -5,7 +5,7 @@ import { generalConfig } from "@config"
  */
 export const getDevs = (): string[] => {
 
-    return [...generalConfig.devs, generalConfig.ownerId]
+    return [...new Set([...generalConfig.devs, generalConfig.ownerId])]
 }
 
 /**
