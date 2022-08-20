@@ -171,7 +171,7 @@ export class Stats {
 
         for (const guild of guilds) {
 
-            const discordGuild = this.client.guilds.cache.get(guild.id)
+            const discordGuild = await this.client.guilds.fetch(guild.id)
 
             const commandsCount = await this.db.getRepo(Stat).count({
                 ...allInteractions,
