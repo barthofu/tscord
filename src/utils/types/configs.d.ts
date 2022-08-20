@@ -4,7 +4,7 @@ type GeneralConfigType = {
 
     name: string,
     description: string,
-    defaultLocale: string,
+    defaultLocale: import('@i18n').Locales,
     simpleCommandsPrefix: string,
     ownerId: string,
     timezone: string,

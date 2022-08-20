@@ -19,10 +19,7 @@ export default class HelpCommand {
 
 	@Slash({ 
 		name: 'help',
-		description: 'Get global help about the bot and its commands',
-		descriptionLocalizations: {
-			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.HELP.DESCRIPTION()]))
-		}
+		description: 'Get global help about the bot and its commands'
     })
 	async help(
 		interaction: CommandInteraction, 

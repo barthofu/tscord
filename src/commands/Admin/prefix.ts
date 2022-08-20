@@ -11,7 +11,7 @@ import { Database } from "@services"
 
 import { generalConfig } from '@config'
 import { UnknownReplyError } from "@errors"
-import { L } from "@i18n"
+import { Client } from "discordx"
 
 @Discord()
 @injectable()
@@ -22,13 +22,7 @@ export default class PrefixCommand {
 		private db: Database,
 	) {}
 
-	@Slash({ 
-		name: 'prefix',
-		description: 'Here goes the command description!',
-		descriptionLocalizations: {
-			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.PREFIX.DESCRIPTION()])),
-		},
-    })
+	@Slash({})
 	@Guard(
 		UserPermissions(['Administrator'])
 	)
@@ -39,7 +33,6 @@ export default class PrefixCommand {
 		{ localize }: InteractionData
 	) {
 
-	
 		const guild = resolveGuild(interaction),
 			  guildData = await this.db.getRepo(Guild).findOne({ id: guild?.id || '' })
 
@@ -50,7 +43,7 @@ export default class PrefixCommand {
 
 			simpleSuccessEmbed(
 				interaction, 
-				localize.COMMANDS.PREFIX.EMBED.DESCRIPTION({ 
+				localize['COMMANDS']['PREFIX']['EMBED']['DESCRIPTION']({ 
 					prefix: prefix || generalConfig.simpleCommandsPrefix 
 				})
 			)

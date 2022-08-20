@@ -14,10 +14,7 @@ export default class InviteCommand {
 
 	@Slash({ 
 		name: 'invite',
-		description: 'A simple invite command!',
-		descriptionLocalizations: {
-			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.INVITE.DESCRIPTION()]))
-		}
+		description: 'A simple invite command!'
     })
 	@Guard()
 	async invite(
