@@ -52,13 +52,7 @@ export default class StatsCommand {
 		private stats: Stats
 	) {}
 
-	@Slash({ 
-		name: 'stats',
-		description: 'Here goes the command description!',
-		descriptionLocalizations: {
-			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.STATS.DESCRIPTION()]))
-		}
-    })
+	@Slash({})
 	async statsHandler(
 		@SlashOption({ name: 'days' }) days: number,
 		interaction: CommandInteraction,

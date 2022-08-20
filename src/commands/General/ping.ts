@@ -11,10 +11,7 @@ export default class PingCommand {
 
 	@Slash({ 
 		name: 'ping',
-		description: 'Pong!',
-		descriptionLocalizations: {
-			...Object.fromEntries(Object.entries(L).map(([lang, local]) => [lang, local.COMMANDS.PING.DESCRIPTION()]))
-		}
+		description: 'Pong!'
 	})
 	async ping(
 		interaction: CommandInteraction,

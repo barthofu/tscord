@@ -25,5 +25,5 @@ export const ExtractLocale: GuardFunction<Interaction> = async (interaction, cli
         guardData.localize = L[sanitizedLocale]
     }
 
-    await next()
+    await next(guardData)
 }
