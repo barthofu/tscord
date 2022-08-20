@@ -105,5 +105,8 @@
       "./mikro-orm.config.ts",
       "./build/mikro-orm.config.js"
     ]
+  },
+  "volta": {
+    "node": "17.6.0"
   }
 }
