@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@discordx/importer": "^1.1.10",
-    "@discordx/koa": "^1.1.0",
+    "@discordx/koa": "^1.1.1",
     "@discordx/music": "^4.1.0",
     "@discordx/pagination": "^3.0.0",
     "@discordx/utilities": "^5.0.0",
