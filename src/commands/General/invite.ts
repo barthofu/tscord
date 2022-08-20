@@ -1,3 +1,4 @@
+import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import { CommandInteraction, EmbedBuilder } from "discord.js"
 
@@ -15,7 +16,11 @@ export default class InviteCommand {
 		description: 'A simple invite command!'
     })
 	@Guard()
-	invite(interaction: CommandInteraction, { localize }: InteractionData): void {
+	async invite(
+		interaction: CommandInteraction, 
+		client: Client,
+		{ localize }: InteractionData
+	) {
 
 		const embed = new EmbedBuilder()
 			.setTitle(localize.COMMANDS.INVITE.TITLE())

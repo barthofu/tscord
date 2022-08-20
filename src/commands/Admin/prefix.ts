@@ -1,3 +1,4 @@
+import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import { ApplicationCommandOptionType, CommandInteraction } from "discord.js"
 import { injectable } from "tsyringe"
@@ -30,6 +31,7 @@ export default class PrefixCommand {
 	async prefix(
 		@SlashOption({ name: 'prefix', type: ApplicationCommandOptionType.String, required: false }) prefix: string | undefined,
 		interaction: CommandInteraction,
+		client: Client,
 		{ localize }: InteractionData
 	) {
 

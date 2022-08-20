@@ -1,8 +1,9 @@
+import { Client } from "discordx"
+import { CommandInteraction } from "discord.js"
+
 import { Slash, Discord, SlashOption, Guard } from "@decorators"
 import { setMaintenance, simpleSuccessEmbed } from "@utils/functions"
-import { getLocaleFromInteraction, L } from "@i18n"
 import { Disabled } from "@guards"
-import { CommandInteraction } from "discord.js"
 
 @Discord()
 export default class MaintenanceCommand {
@@ -17,6 +18,7 @@ export default class MaintenanceCommand {
 	async maintenance(
 		@SlashOption({ name: 'state' }) state: boolean,
 		interaction: CommandInteraction,
+		client: Client,
 		{ localize }: InteractionData
 	) {
 				
