@@ -1,4 +1,4 @@
-import { MessageComponentInteraction, CommandInteraction as DCommandInteraction } from 'discord.js'
+import { CommandInteraction} from 'discord.js'
 import { Client, ArgsOf } from 'discordx'
 import { injectable } from 'tsyringe'
 
@@ -27,10 +27,7 @@ export default class InteractionCreateEvent {
         client: Client
     ) {
         // defer the reply
-        if(
-            interaction instanceof MessageComponentInteraction ||
-            interaction instanceof DCommandInteraction
-        ) await interaction.deferReply()
+        if(interaction instanceof CommandInteraction) await interaction.deferReply()
 
         // insert user in db if not exists
         await syncUser(interaction.user)
