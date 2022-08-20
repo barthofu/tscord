@@ -8,7 +8,7 @@ import { BaseController } from "@utils/classes"
 import { authenticated, botOnline, validator } from "@api/middlewares"
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, Channel, ChannelType, Guild as DGuild, GuildTextBasedChannel, NewsChannel, PermissionsBitField, User as DUser } from "discord.js"
 import { generalConfig } from "@config"
-import { isInMaintenance, setMaintenance } from "@utils/functions"
+import { getDevs, isDev, isInMaintenance, setMaintenance } from "@utils/functions"
 import { Database } from "@services"
 import { Guild, User } from '@entities'
 
@@ -240,6 +240,24 @@ export class BotController extends BaseController {
         const body = {
             maintenance: data.maintenance,
         }
+
+        this.ok(ctx, body)
+    }
+
+    @Get('/devs')
+    async devs(ctx: Context) {
+
+        const body = getDevs()
+
+        this.ok(ctx, body)
+    }
+
+    @Get('/devs/:id')
+    async dev(ctx: Context) {
+
+        const { id } = <{ id: string }>ctx.params
+
+        const body = isDev(id)
 
         this.ok(ctx, body)
     }
