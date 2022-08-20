@@ -167,7 +167,7 @@ export class Stats {
             totalCommands: number
         }[] = []
 
-        const guilds = await this.db.getRepo(Guild).findAll()
+        const guilds = await this.db.getRepo(Guild).getActiveGuilds()
 
         for (const guild of guilds) {
 

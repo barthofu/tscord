@@ -97,7 +97,7 @@ export const syncAllGuilds = async (client: Client)  => {
 
     // remove deleted guilds
     const guildRepo = db.getRepo(Guild)
-    const guildsData = await guildRepo.find({ deleted: false })
+    const guildsData = await guildRepo.getActiveGuilds()
     for (const guildData of guildsData) {
         await syncGuild(guildData.id, client)
     }
