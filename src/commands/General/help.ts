@@ -20,7 +20,11 @@ export default class HelpCommand {
 		name: 'help',
 		description: 'Get global help about the bot and its commands'
     })
-	help(interaction: CommandInteraction, client: Client, { sanitizedLocale }: InteractionData): void {
+	async help(
+		interaction: CommandInteraction, 
+		client: Client, 
+		{ sanitizedLocale }: InteractionData
+	) {
 		
 		const embed = this.getEmbed({ client, interaction, locale: sanitizedLocale })
 
