@@ -1,15 +1,21 @@
+import fastFolderSizeSync from 'fast-folder-size/sync'
 import { delay, inject, singleton } from 'tsyringe'
-import { EntityName, MikroORM, Options } from '@mikro-orm/core'
-import { EntityManager, SqliteDriver } from '@mikro-orm/sqlite'
 import { backup, restore } from 'saveqlite'
 import fs from 'fs'
-import fastFolderSizeSync from 'fast-folder-size/sync'
 
+import { EntityName, IDatabaseDriver, MikroORM, Options } from '@mikro-orm/core'
+import { EntityManager as PostgreSqlEntityManager, PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { EntityManager as MariaDbEntityManager, MariaDbDriver } from '@mikro-orm/mariadb'
+import { EntityManager as SqliteEntityManager, SqliteDriver } from '@mikro-orm/sqlite'
+import { EntityManager as MongoEntityManager, MongoDriver } from '@mikro-orm/mongodb'
+import { EntityManager as MySqlEntityManager, MySqlDriver } from '@mikro-orm/mysql'
+
+import { databaseConfig, mikroORMConfig } from '@config'
 import { Schedule } from '@decorators'
 import { Logger } from '@services'
 
-import { databaseConfig, mikroORMConfig } from '@config'
-
+type DatabaseDriver = SqliteDriver | MongoDriver | PostgreSqlDriver | MySqlDriver | MariaDbDriver
+type DatabaseEntityManager = SqliteEntityManager | MongoEntityManager | PostgreSqlEntityManager | MySqlEntityManager | MariaDbEntityManager
 @singleton()
 export class Database {
 
@@ -17,12 +23,12 @@ export class Database {
         @inject(delay(() => Logger)) private logger: Logger
     ) { }
 
-    private _orm: MikroORM<SqliteDriver>
+    private _orm: MikroORM<DatabaseDriver>
 
     async initialize() {
 
         // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
-        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<SqliteDriver>)
+        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>)
 
         const migrator = this._orm.getMigrator()
 
@@ -38,20 +44,16 @@ export class Database {
     }
 
     async refreshConnection() {
-        await this.orm.close()
+        await this._orm.close()
         this._orm = await MikroORM.init()
     }
 
-    getOrm() {
-        return this.orm
-    }
-
-    get orm(): MikroORM<SqliteDriver> {
+    get orm(): MikroORM<DatabaseDriver> {
         return this._orm
     }
 
-    get em(): EntityManager {
-        return this.orm.em
+    get em(): DatabaseEntityManager {
+        return this._orm.em
     }
 
     /**
@@ -59,7 +61,7 @@ export class Database {
      * @param entity Entity of the custom repository to get
      */
     getRepo<T>(entity: EntityName<T>) {
-        return this.orm.em.getRepository<T>(entity)
+        return this._orm.em.getRepository<T>(entity)
     }
     
     /**

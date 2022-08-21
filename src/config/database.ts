@@ -27,11 +27,7 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
          * MongoDB
          */
         // type: 'mongo',
-        // dbName: process.env['DATABASE_NAME'],
-        // host: process.env['DATABASE_HOST'],
-        // port: 27017,
-        // user: process.env['DATABASE_USER'],
-        // password: process.env['DATABASE_PASSWORD'],
+        // clientUrl: process.env['DATABASE_HOST'],
 
         /**
          * PostgreSQL
@@ -39,7 +35,7 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         // type: 'postgresql',
         // dbName: process.env['DATABASE_NAME'],
         // host: process.env['DATABASE_HOST'],
-        // port: 5432,
+        // port: Number(process.env['DATABASE_PORT']),,
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
@@ -49,7 +45,7 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         // type: 'mysql',
         // dbName: process.env['DATABASE_NAME'],
         // host: process.env['DATABASE_HOST'],
-        // port: 3306,
+        // port: Number(process.env['DATABASE_PORT']),
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
@@ -59,7 +55,7 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         // type: 'mariadb',
         // dbName: process.env['DATABASE_NAME'],
         // host: process.env['DATABASE_HOST'],
-        // port: 3306
+        // port: Number(process.env['DATABASE_PORT']),
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
