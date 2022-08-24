@@ -117,7 +117,9 @@ export class Stats {
 
     async getTopCommands() {
 
-        if("createQueryBuilder" in this.db.em) {
+        if ('createQueryBuilder' in this.db.em) {
+            
+            // @ts-ignore
             const qb = this.db.em.createQueryBuilder(Stat)
             const query = qb
                 .select(['type', 'value as name', 'count(*) as count'])
@@ -127,23 +129,26 @@ export class Stats {
             const slashCommands = await query.execute()
     
             return slashCommands.sort((a: any, b: any) => b.count - a.count)
-        } else if("aggregate" in this.db.em) {
+
+        } else if ('aggregate' in this.db.em) {
+            
+            // @ts-ignore
             const slashCommands = await this.db.em.aggregate(Stat, [
                 {
                     $match: allInteractions
                 },
                 {
-                    "$group": {
-                        _id : { type: "$type", value: "$value" },
+                    '$group': {
+                        _id : { type: '$type', value: '$value' },
                         count: { '$sum': 1 }
                     }
                 },
                 {
-                    "$replaceRoot": {
+                    '$replaceRoot': {
                         newRoot: {
-                            "$mergeObjects": [
-                                "$_id",
-                                { count: "$count" }
+                            '$mergeObjects': [
+                                '$_id',
+                                { count: '$count' }
                             ]
                         }
                     }

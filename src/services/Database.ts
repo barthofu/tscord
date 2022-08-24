@@ -3,27 +3,20 @@ import { delay, inject, singleton } from 'tsyringe'
 import { backup, restore } from 'saveqlite'
 import fs from 'fs'
 
-import { EntityName, IDatabaseDriver, MikroORM, Options } from '@mikro-orm/core'
-import { EntityManager as PostgreSqlEntityManager, PostgreSqlDriver } from '@mikro-orm/postgresql'
-import { EntityManager as MariaDbEntityManager, MariaDbDriver } from '@mikro-orm/mariadb'
-import { EntityManager as SqliteEntityManager, SqliteDriver } from '@mikro-orm/sqlite'
-import { EntityManager as MongoEntityManager, MongoDriver } from '@mikro-orm/mongodb'
-import { EntityManager as MySqlEntityManager, MySqlDriver } from '@mikro-orm/mysql'
+import { EntityName, MikroORM, Options } from '@mikro-orm/core'
 
 import { databaseConfig, mikroORMConfig } from '@config'
 import { Schedule } from '@decorators'
 import { Logger } from '@services'
 
-type DatabaseDriver = SqliteDriver | MongoDriver | PostgreSqlDriver | MySqlDriver | MariaDbDriver
-type DatabaseEntityManager = SqliteEntityManager | MongoEntityManager | PostgreSqlEntityManager | MySqlEntityManager | MariaDbEntityManager
 @singleton()
 export class Database {
+
+    private _orm: MikroORM<DatabaseDriver>
 
     constructor(
         @inject(delay(() => Logger)) private logger: Logger
     ) { }
-
-    private _orm: MikroORM<DatabaseDriver>
 
     async initialize() {
 
@@ -61,7 +54,7 @@ export class Database {
      * @param entity Entity of the custom repository to get
      */
     getRepo<T>(entity: EntityName<T>) {
-        return this._orm.em.getRepository<T>(entity)
+        return this._orm.em.getRepository(entity)
     }
     
     /**
