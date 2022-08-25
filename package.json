@@ -62,6 +62,7 @@
     "ora": "^5.4.1",
     "pidusage": "^3.0.0",
     "reflect-metadata": "^0.1.13",
+    "rentry-pastebin": "^1.2.3",
     "rxeta": "^1.1.2",
     "saveqlite": "^1.1.2",
     "socket.io-client": "^4.5.1",
