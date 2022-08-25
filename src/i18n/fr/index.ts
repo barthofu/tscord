@@ -24,6 +24,12 @@ const fr: Translation = {
 		},
 		PREFIX: {
 			DESCRIPTION: 'Change le préfix du bot.',
+			OPTIONS: {
+				PREFIX: {
+					NAME: "nouveau prefix",
+					DESCRIPTION: "Le nouveau préfix du bot.",
+				}
+			},
 
 			EMBED: {
 				DESCRIPTION: 'Prefix changé en `{prefix}`.'

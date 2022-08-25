@@ -3,7 +3,6 @@ import { Category } from "@discordx/utilities"
 import type { CommandInteraction, Message } from "discord.js"
 
 import { Slash, Discord } from "@decorators"
-import { L } from "@i18n"
 
 @Discord()
 @Category('General')
