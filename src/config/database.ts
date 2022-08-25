@@ -13,7 +13,7 @@ export const databaseConfig: DatabaseConfigType = {
     }
 }
 
-export const databaseType = 'sqlite' as const // 'sqlite' | 'postgres' | 'mysql' | 'mariadb' | 'mongo'
+export const databaseType = 'better-sqlite' as const // 'better-sqlite' | 'sqlite' | 'postgres' | 'mysql' | 'mariadb' | 'mongo'
 
 const envMikroORMConfig: { production: Options, development?: Options } = {
 
@@ -78,6 +78,6 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
     }
 }
 
-if (!envMikroORMConfig['development'] || envMikroORMConfig['development'] === {}) envMikroORMConfig['development'] = envMikroORMConfig['production']
+if (!envMikroORMConfig['development'] || Object.keys(envMikroORMConfig['development']).length === 0) envMikroORMConfig['development'] = envMikroORMConfig['production']
 
 export const mikroORMConfig = envMikroORMConfig
