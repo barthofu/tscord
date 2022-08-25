@@ -5,7 +5,6 @@ import { Formatters, ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, APISelec
 import { Discord, Slash } from "@decorators"
 import { chunkArray, getColor, validString } from "@utils/functions"
 import { TranslationFunctions } from "src/i18n/i18n-types"
-import { L } from "@i18n"
 
 @Discord()
 @Category('General')

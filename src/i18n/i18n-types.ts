@@ -61,6 +61,18 @@ type RootTranslation = {
 			 * Change the prefix of the bot.
 			 */
 			DESCRIPTION: string
+			OPTIONS: {
+				PREFIX: {
+					/**
+					 * new prefix
+					 */
+					NAME: string
+					/**
+					 * The new prefix of the bot.
+					 */
+					DESCRIPTION: string
+				}
+			}
 			EMBED: {
 				/**
 				 * Prefix changed to `{prefix}`.
@@ -197,6 +209,18 @@ export type TranslationFunctions = {
 			 * Change the prefix of the bot.
 			 */
 			DESCRIPTION: () => LocalizedString
+			OPTIONS: {
+				PREFIX: {
+					/**
+					 * new prefix
+					 */
+					NAME: () => LocalizedString
+					/**
+					 * The new prefix of the bot.
+					 */
+					DESCRIPTION: () => LocalizedString
+				}
+			}
 			EMBED: {
 				/**
 				 * Prefix changed to `{prefix}`.

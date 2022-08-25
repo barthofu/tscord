@@ -24,6 +24,12 @@ const en: BaseTranslation = {
 		},
 		PREFIX: {
 			DESCRIPTION: "Change the prefix of the bot.",
+			OPTIONS: {
+				PREFIX: {
+					NAME: "new prefix",
+					DESCRIPTION: "The new prefix of the bot.",
+				}
+			},
 
 			EMBED: {
 				DESCRIPTION: "Prefix changed to `{prefix:string}`."

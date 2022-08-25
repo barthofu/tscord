@@ -9,13 +9,13 @@ export {
     SelectMenuComponent,
     SimpleCommand,
     SimpleCommandOption,
-    SlashChoice,
     SlashGroup,
-    SlashOption,
 } from 'discordx'
 
 export * from './On'
 export * from './Once'
 export * from './Slash'
+export * from './SlashOption'
+export * from './SlashChoice'
 export * from './Schedule'
 export * from './WSOn'
