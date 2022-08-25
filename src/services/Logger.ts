@@ -2,7 +2,7 @@ import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import { MetadataStorage as KoaMetadataStorage } from '@discordx/koa'
 import { delay, inject, singleton } from 'tsyringe'
-import { StackFrame } from 'stacktrace-parser'
+import { parse, StackFrame } from 'stacktrace-parser'
 import { constant } from 'case'
 import fs from 'fs'
 import chalk from 'chalk'
@@ -10,9 +10,10 @@ import boxen from 'boxen'
 import ora from 'ora'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
-import { Scheduler, WebSocket } from '@services'
+import { Scheduler, WebSocket, Pastebin } from '@services'
 
 import { apiConfig, logsConfig } from '@config'
+
 
 @singleton()
 export class Logger {
@@ -20,7 +21,8 @@ export class Logger {
     constructor(
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
-        @inject(delay(() => WebSocket)) private ws: WebSocket
+        @inject(delay(() => WebSocket)) private ws: WebSocket,
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin
     ) {
         this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))
@@ -89,7 +91,7 @@ export class Logger {
             ) {
     
                 // TODO: add support for embeds depending on the level
-                channel.send(message)
+                channel.send(message).catch(console.error)
             }
         })
     }
@@ -224,7 +226,7 @@ export class Logger {
      * @param type uncaughtException, unhandledRejection
      * @param trace
      */
-     logError(error: Error | any, type: 'Exception' | 'unhandledRejection', trace: StackFrame[]) {
+    async logError(error: Error | any, type: 'Exception' | 'unhandledRejection', trace: StackFrame[] = parse(error.stack ?? '')) {
         
         let message = '(ERROR)'
         let embedMessage = ''
@@ -233,7 +235,7 @@ export class Logger {
 
         if(trace && trace[0]) {
             message += ` ${type === 'Exception' ? 'Exception' : 'Unhandled rejection'} : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`
-            embedMessage += ` \`\`\`${trace.map((frame: StackFrame) => `> ${frame.file}:${frame.lineNumber}`).join('\n')}\`\`\``
+            embedMessage += `\`\`\`\n${trace.map((frame: StackFrame) => `\> ${frame.file}:${frame.lineNumber}`).join('\n')}\n\`\`\``
             embedTitle += `***${type === 'Exception' ? 'Exception' : 'Unhandled rejection'}* : ${error.message}**`
             chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
         } else {
@@ -246,11 +248,17 @@ export class Logger {
             }
         }
 
+        if(embedMessage.length >= 4096) {        
+            const paste = await this.pastebin.createPaste(embedTitle + "\n" + embedMessage)
+            console.log(paste?.getLink())
+            embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`
+        }
+
         if (logsConfig.error.console) this.console('error', chalkedMessage)
         if (logsConfig.error.file) this.file('error', message)
         if (logsConfig.error.channel) this.discordChannel(logsConfig.error.channel, {
             embeds: [{
-                title: embedTitle,
+                title: (embedTitle.length >= 256 ? (embedTitle.substring(0, 252) + "...") : embedTitle),
                 description: embedMessage,
                 color: 0x7C1715,
                 timestamp: new Date().toISOString()

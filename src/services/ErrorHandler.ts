@@ -1,6 +1,5 @@
 import { Client } from 'discordx'
 import { singleton } from 'tsyringe'
-import { parse, StackFrame } from 'stacktrace-parser'
 
 import { Logger } from '@services'
 import { BaseError } from '@utils/classes'
@@ -22,12 +21,9 @@ export class ErrorHandler {
 
             // if instance of BaseError, call `handle` method
             if (error instanceof BaseError) return error.handle()
-
-            // if the error is not a instance of BaseError
-            const trace = parse(error.stack || '')
             
             // log the error
-            this.logger.logError(error, "Exception", trace);
+            this.logger.logError(error, "Exception");
         })
 
         // catch all Unhandled Rejection (promise)
@@ -36,11 +32,8 @@ export class ErrorHandler {
             // if instance of BaseError, call `handle` method
             if(error instanceof BaseError) return error.handle()
 
-            // if the error is not a instance of BaseError
-            const trace = parse(error.stack || '')
-
             // log the error
-            this.logger.logError(error, "unhandledRejection", trace);
+            this.logger.logError(error, "unhandledRejection");
         })
     }
 }
