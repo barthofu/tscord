@@ -1,6 +1,6 @@
 import { InvalidOptionName } from "@errors"
-import { sanitizeLocales, setOptionsLocalization } from "@utils/functions"
-import { constant, of } from "case"
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
+import { of } from "case"
 import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX } from "discordx"
 
 /**
@@ -15,29 +15,37 @@ import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX 
  */
  export const SlashOption = (options: SlashOptionOptions) => {
 
-    let localizationSource: string | null = null
+    let localizationSource: TranslationsNestedPaths | null = null
 
-    if (options.localizationSource) localizationSource = constant(options.localizationSource)
-    else if (options.name) localizationSource = constant(options.name)
+    if (options.localizationSource) localizationSource = constantPreserveDots(options.localizationSource) as TranslationsNestedPaths
 
     if (localizationSource) {
 
         options = setOptionsLocalization({
             target: 'description',
             options,
-            localizationSource: `OPTIONS.${localizationSource}`,
+            localizationSource,
         }) 
 
         options = setOptionsLocalization({
             target: 'name',
             options,
-            localizationSource: `OPTIONS.${localizationSource}`,
+            localizationSource,
         })
     }
 
     options = sanitizeLocales(options) 
 
-    if (of(options.name) !== 'lower') throw new InvalidOptionName(options.name)
+    if (!isValidOptionName(options.name)) throw new InvalidOptionName(options.name)
+    if (options.nameLocalizations) {
+        for (const name of Object.values(options.nameLocalizations)) {
+            if (!isValidOptionName(name)) throw new InvalidOptionName(name)
+        }
+    }
 
     return SlashOptionX(options as SlashOptionOptionsX)
+}
+
+const isValidOptionName = (name: string) => {
+    return ['lower', 'snake'].includes(of(name)) && !name.includes(' ') 
 }

@@ -1,3 +1,5 @@
+import { constant } from "case"
+
 /**
  * Ensures value(s) strings and has a size after trim
  * @param strings
@@ -31,4 +33,12 @@ export const oneLine = (strings: TemplateStringsArray, ...keys: any[]) => {
 export const numberAlign = (number: number, align: number = 2) => {
 
     return number.toString().padStart(align, ' ')
+}
+
+export const constantPreserveDots = (string: string) => {
+    
+    return string
+        .split('.')
+        .map(word => constant(word))
+        .join('.')
 }

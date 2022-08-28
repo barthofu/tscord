@@ -9,8 +9,7 @@ import { Disabled } from "@guards"
 export default class MaintenanceCommand {
 
 	@Slash({ 
-		name: 'maintenance',
-		description: 'Set the bot in maintenance mode.'
+		name: 'maintenance'
 	})
 	@Guard(
 		Disabled

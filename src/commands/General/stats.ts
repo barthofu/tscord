@@ -10,7 +10,6 @@ import {
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Stats } from "@services"
 import { getColor } from "@utils/functions"
-import { L } from "@i18n"
 
 const statsResolver: StatsResolverType = [
 	{
@@ -52,7 +51,9 @@ export default class StatsCommand {
 		private stats: Stats
 	) {}
 
-	@Slash({})
+	@Slash({
+		name: 'stats'
+	})
 	async statsHandler(
 		@SlashOption({ name: 'days' }) days: number,
 		interaction: CommandInteraction,

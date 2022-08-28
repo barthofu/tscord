@@ -17,8 +17,7 @@ export default class HelpCommand {
 	}
 
 	@Slash({ 
-		name: 'help',
-		description: 'Get global help about the bot and its commands'
+		name: 'help'
     })
 	async help(
 		interaction: CommandInteraction, 
