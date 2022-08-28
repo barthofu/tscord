@@ -1,7 +1,8 @@
-import { TextChannel, ThreadChannel, User } from 'discord.js'
+import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import { MetadataStorage as KoaMetadataStorage } from '@discordx/koa'
 import { delay, inject, singleton } from 'tsyringe'
+import { parse, StackFrame } from 'stacktrace-parser'
 import { constant } from 'case'
 import fs from 'fs'
 import chalk from 'chalk'
@@ -9,9 +10,10 @@ import boxen from 'boxen'
 import ora from 'ora'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
-import { Scheduler, WebSocket } from '@services'
+import { Scheduler, WebSocket, Pastebin } from '@services'
 
 import { apiConfig, logsConfig } from '@config'
+
 
 @singleton()
 export class Logger {
@@ -19,7 +21,8 @@ export class Logger {
     constructor(
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
-        @inject(delay(() => WebSocket)) private ws: WebSocket
+        @inject(delay(() => WebSocket)) private ws: WebSocket,
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin
     ) {
         this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))
@@ -77,16 +80,16 @@ export class Logger {
         fs.appendFileSync(fileName, `${templatedMessage}\n`)
     }
 
-    async discordChannel(channelId: string, message: string = '', level?: typeof this.levels[number]) {
-        const channel = await this.client.channels.fetch(channelId)
 
+    async discordChannel(channelId: string, message: string | MessageOptions = '', level?: typeof this.levels[number]) {
+        const channel = await this.client.channels.fetch(channelId)
+        
         if (
             channel instanceof TextChannel 
             || channel instanceof ThreadChannel
         ) {
-
             // TODO: add support for embeds depending on the level
-            channel.send(message)
+            channel.send(message).catch(console.error)
         }
     }
 
@@ -212,6 +215,53 @@ export class Logger {
             if (logsConfig.guild.file) this.file('info', message)
             if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, message, 'info')
         })
+    }
+
+    /**
+     * Logs errors.
+     * @param error
+     * @param type uncaughtException, unhandledRejection
+     * @param trace
+     */
+    async logError(error: Error | any, type: 'Exception' | 'unhandledRejection', trace: StackFrame[] = parse(error.stack ?? '')) {
+        
+        let message = '(ERROR)'
+        let embedMessage = ''
+        let embedTitle = ''
+        let chalkedMessage = `(${chalk.bold.white('ERROR')})`
+
+        if(trace && trace[0]) {
+            message += ` ${type === 'Exception' ? 'Exception' : 'Unhandled rejection'} : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`
+            embedMessage += `\`\`\`\n${trace.map((frame: StackFrame) => `\> ${frame.file}:${frame.lineNumber}`).join('\n')}\n\`\`\``
+            embedTitle += `***${type === 'Exception' ? 'Exception' : 'Unhandled rejection'}* : ${error.message}**`
+            chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
+        } else {
+            if(type === 'Exception') {
+                message += `An exception as occured in a unknow file\n\t> ${error.message}`
+                embedMessage += `An exception as occured in a unknow file\n${error.message}`
+            } else {
+                message += `An unhandled rejection as occured in a unknow file\n\t> ${error}`
+                embedMessage += `An unhandled rejection as occured in a unknow file\n${error}`
+            }
+        }
+
+        if(embedMessage.length >= 4096) {        
+            const paste = await this.pastebin.createPaste(embedTitle + "\n" + embedMessage)
+            console.log(paste?.getLink())
+            embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`
+        }
+
+        if (logsConfig.error.console) this.console('error', chalkedMessage)
+        if (logsConfig.error.file) this.file('error', message)
+        if (logsConfig.error.channel) this.discordChannel(logsConfig.error.channel, {
+            embeds: [{
+                title: (embedTitle.length >= 256 ? (embedTitle.substring(0, 252) + "...") : embedTitle),
+                description: embedMessage,
+                color: 0x7C1715,
+                timestamp: new Date().toISOString()
+                
+            }]
+        }, 'error')
     }
 
     // =================================

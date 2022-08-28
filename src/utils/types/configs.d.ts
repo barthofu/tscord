@@ -64,6 +64,12 @@ type LogsConfigType = {
         console: boolean,
         channel: string | null
     }
+
+    error: {
+        file: boolean,
+        console: boolean,
+        channel: string | null
+    }
 }
 
 type StatsConfigType = {

@@ -1,14 +1,16 @@
+import { Client } from 'discordx'
 import { singleton } from 'tsyringe'
-import { parse, StackFrame } from 'stacktrace-parser'
 
 import { Logger } from '@services'
 import { BaseError } from '@utils/classes'
+
 
 @singleton()
 export class ErrorHandler {
 
     constructor(
-        private logger: Logger
+        private logger: Logger,
+        private client: Client
     ) {
 
         // Catch all exeptions
@@ -19,19 +21,9 @@ export class ErrorHandler {
 
             // if instance of BaseError, call `handle` method
             if (error instanceof BaseError) return error.handle()
-
-            // if the error is not a instance of BaseError
-            const trace = parse(error.stack || '')
-            if (trace[0]) this.logger.log(
-                'error', 
-                `Exception : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`,
-                true    
-            )
-            else this.logger.log(
-                'error', 
-                'An error as occured in a unknow file\n\t> ' + error.message,
-                true
-            )
+            
+            // log the error
+            this.logger.logError(error, "Exception");
         })
 
         // catch all Unhandled Rejection (promise)
@@ -40,18 +32,8 @@ export class ErrorHandler {
             // if instance of BaseError, call `handle` method
             if(error instanceof BaseError) return error.handle()
 
-            // if the error is not a instance of BaseError
-            const trace = parse(error.stack || '')
-            if (trace[0]) this.logger.log(
-                'error', 
-                `Unhandled rejection : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`,
-                true    
-            )
-            else this.logger.log(
-                'error', 
-                'An unhandled rejection as occured in a unknow file\n\t> ' + error,
-                true
-            )
+            // log the error
+            this.logger.logError(error, "unhandledRejection");
         })
     }
 }
