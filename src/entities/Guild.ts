@@ -40,4 +40,8 @@ export class GuildRepository extends EntityRepository<Guild> {
             await this.flush()
         }
     }
+
+    async getActiveGuilds() {
+        return this.find({ deleted: false })
+    }
 }

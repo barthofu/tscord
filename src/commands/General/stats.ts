@@ -1,3 +1,4 @@
+import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import { CommandInteraction, EmbedBuilder, User } from "discord.js"
 import { injectable } from "tsyringe"
@@ -57,6 +58,7 @@ export default class StatsCommand {
 	async statsHandler(
 		@SlashOption({ name: 'days' }) days: number,
 		interaction: CommandInteraction,
+		client: Client,
 		{ localize }: InteractionData
 	) {
 

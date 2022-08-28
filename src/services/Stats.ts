@@ -117,15 +117,46 @@ export class Stats {
 
     async getTopCommands() {
 
-        const qb = this.db.em.createQueryBuilder(Stat)
-        const query = qb
-            .select(['type', 'value as name', 'count(*) as count'])
-            .where(allInteractions)
-            .groupBy(['type', 'value'])
+        if ('createQueryBuilder' in this.db.em) {
+            
+            // @ts-ignore
+            const qb = this.db.em.createQueryBuilder(Stat)
+            const query = qb
+                .select(['type', 'value as name', 'count(*) as count'])
+                .where(allInteractions)
+                .groupBy(['type', 'value'])
+    
+            const slashCommands = await query.execute()
+    
+            return slashCommands.sort((a: any, b: any) => b.count - a.count)
 
-        const slashCommands = await query.execute()
-
-        return slashCommands.sort((a: any, b: any) => b.count - a.count)
+        } else if ('aggregate' in this.db.em) {
+            
+            // @ts-ignore
+            const slashCommands = await this.db.em.aggregate(Stat, [
+                {
+                    $match: allInteractions
+                },
+                {
+                    '$group': {
+                        _id : { type: '$type', value: '$value' },
+                        count: { '$sum': 1 }
+                    }
+                },
+                {
+                    '$replaceRoot': {
+                        newRoot: {
+                            '$mergeObjects': [
+                                '$_id',
+                                { count: '$count' }
+                            ]
+                        }
+                    }
+                }
+            ])
+    
+            return slashCommands.sort((a: any, b: any) => b.count - a.count)
+        } else return []
     }
 
     async getUsersActivity() {
@@ -167,11 +198,11 @@ export class Stats {
             totalCommands: number
         }[] = []
 
-        const guilds = await this.db.getRepo(Guild).findAll()
+        const guilds = await this.db.getRepo(Guild).getActiveGuilds()
 
         for (const guild of guilds) {
 
-            const discordGuild = this.client.guilds.cache.get(guild.id)
+            const discordGuild = await this.client.guilds.fetch(guild.id)
 
             const commandsCount = await this.db.getRepo(Stat).count({
                 ...allInteractions,

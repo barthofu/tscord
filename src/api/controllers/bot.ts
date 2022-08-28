@@ -8,7 +8,7 @@ import { BaseController } from "@utils/classes"
 import { authenticated, botOnline, validator } from "@api/middlewares"
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, Channel, ChannelType, Guild as DGuild, GuildTextBasedChannel, NewsChannel, PermissionsBitField, User as DUser } from "discord.js"
 import { generalConfig } from "@config"
-import { isInMaintenance, setMaintenance } from "@utils/functions"
+import { getDevs, isDev, isInMaintenance, setMaintenance } from "@utils/functions"
 import { Database } from "@services"
 import { Guild, User } from '@entities'
 
@@ -128,30 +128,29 @@ export class BotController extends BaseController {
             return
         }
 
-        // get the first channel where the bot has the permission to create an invite, 
-        // because `.createInvite()` is a method for a channel, not a guild
-        const channel = guild.channels.cache
-            .filter((channel) => 
-                guild.members.cache.get(this.client.user?.id || '')?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false
-                && [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
-            )
-            .first() as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined
+        const guildChannels = await guild.channels.fetch()
+        for (const channel of guildChannels.values()) {
+            if (
+                (guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false) &&
+                [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
+            ) {
+                const invite = await (channel as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined)?.createInvite()
+                if(invite) { this.ok(ctx, invite); return }
 
-        if (!channel) {
-            this.error(ctx, 'Missing permission to create an invite in this guild', 401)
-            return
+                this.error(ctx, 'Could not create an invite', 500)
+                return 
+            }
         }
 
-        const invite = await channel.createInvite()
-
-        this.ok(ctx, invite)
+        this.error(ctx, 'Missing permission to create an invite in this guild', 401)
+        return 
     }
 
     @Get('/users')
     async users(ctx: Context) {
 
         const users: any[] = [],
-              guilds = this.client.guilds.cache.map(guild => guild)
+              guilds = this.client.guilds.cache.values()
 
         for (const guild of guilds) {
 
@@ -241,6 +240,24 @@ export class BotController extends BaseController {
         const body = {
             maintenance: data.maintenance,
         }
+
+        this.ok(ctx, body)
+    }
+
+    @Get('/devs')
+    async devs(ctx: Context) {
+
+        const body = getDevs()
+
+        this.ok(ctx, body)
+    }
+
+    @Get('/devs/:id')
+    async dev(ctx: Context) {
+
+        const { id } = <{ id: string }>ctx.params
+
+        const body = isDev(id)
 
         this.ok(ctx, body)
     }

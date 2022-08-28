@@ -43,5 +43,5 @@ export const validator = (inputSchema: InputSchema, options: ValidationOptions =
         }
     }
 
-    next()
+    return next()
 }

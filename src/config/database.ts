@@ -13,6 +13,8 @@ export const databaseConfig: DatabaseConfigType = {
     }
 }
 
+export const databaseType = 'better-sqlite' as const // 'better-sqlite' | 'sqlite' | 'postgres' | 'mysql' | 'mariadb' | 'mongo'
+
 const envMikroORMConfig: { production: Options, development?: Options } = {
 
     production: {
@@ -20,46 +22,42 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         /**
          * SQLite
          */
-        type: 'sqlite',
+        type: databaseType,
         dbName: `${databaseConfig.path}db.sqlite`,
 
         /**
          * MongoDB
          */
-        // type: 'mongo',
-        // dbName: process.env['DATABASE_NAME'],
-        // host: process.env['DATABASE_HOST'],
-        // port: 27017,
-        // user: process.env['DATABASE_USER'],
-        // password: process.env['DATABASE_PASSWORD'],
+        // type: databaseType,
+        // clientUrl: process.env['DATABASE_HOST'],
 
         /**
          * PostgreSQL
          */
-        // type: 'postgresql',
+        // type: databaseType,
         // dbName: process.env['DATABASE_NAME'],
         // host: process.env['DATABASE_HOST'],
-        // port: 5432,
+        // port: Number(process.env['DATABASE_PORT']),,
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
         /**
          * MySQL
          */
-        // type: 'mysql',
+        // type: databaseType,
         // dbName: process.env['DATABASE_NAME'],
         // host: process.env['DATABASE_HOST'],
-        // port: 3306,
+        // port: Number(process.env['DATABASE_PORT']),
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
         /**
          * MariaDB
          */
-        // type: 'mariadb',
+        // type: databaseType,
         // dbName: process.env['DATABASE_NAME'],
         // host: process.env['DATABASE_HOST'],
-        // port: 3306
+        // port: Number(process.env['DATABASE_PORT']),
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
@@ -73,10 +71,13 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
             emit: 'js',
             snapshot: true
         }
-    }
+    },
 
+    development: {
+
+    }
 }
 
-if (!envMikroORMConfig['development']) envMikroORMConfig['development'] = envMikroORMConfig['production']
+if (!envMikroORMConfig['development'] || Object.keys(envMikroORMConfig['development']).length === 0) envMikroORMConfig['development'] = envMikroORMConfig['production']
 
 export const mikroORMConfig = envMikroORMConfig

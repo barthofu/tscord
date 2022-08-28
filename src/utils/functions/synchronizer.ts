@@ -43,7 +43,7 @@ export const syncGuild = async (guildId: string, client: Client) => {
     const guildRepo = db.getRepo(Guild),
           guildData = await guildRepo.findOne({ id: guildId, deleted: false })
 
-    const fetchedGuild = client.guilds.cache.get(guildId)
+    const fetchedGuild = await client.guilds.fetch(guildId)
 
     //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
     if (!guildData) {
@@ -97,7 +97,7 @@ export const syncAllGuilds = async (client: Client)  => {
 
     // remove deleted guilds
     const guildRepo = db.getRepo(Guild)
-    const guildsData = await guildRepo.find({ deleted: false })
+    const guildsData = await guildRepo.getActiveGuilds()
     for (const guildData of guildsData) {
         await syncGuild(guildData.id, client)
     }
