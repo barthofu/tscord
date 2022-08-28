@@ -13,8 +13,7 @@ import { L } from "@i18n"
 export default class InviteCommand {
 
 	@Slash({ 
-		name: 'invite',
-		description: 'A simple invite command!'
+		name: 'invite'
     })
 	@Guard()
 	async invite(

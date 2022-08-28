@@ -64,7 +64,7 @@ type RootTranslation = {
 			OPTIONS: {
 				PREFIX: {
 					/**
-					 * new prefix
+					 * new_prefix
 					 */
 					NAME: string
 					/**
@@ -212,7 +212,7 @@ export type TranslationFunctions = {
 			OPTIONS: {
 				PREFIX: {
 					/**
-					 * new prefix
+					 * new_prefix
 					 */
 					NAME: () => LocalizedString
 					/**

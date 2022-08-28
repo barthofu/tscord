@@ -9,8 +9,7 @@ import { Slash, Discord } from "@decorators"
 export default class PingCommand {
 
 	@Slash({ 
-		name: 'ping',
-		description: 'Pong!'
+		name: 'ping'
 	})
 	async ping(
 		interaction: CommandInteraction,

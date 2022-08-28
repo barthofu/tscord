@@ -1,23 +1,13 @@
-import { constant } from "case"
-
-import { loadedLocales, Translation } from "@i18n"
-import { getCallerFile } from "@utils/functions"
+import { loadedLocales, locales } from "@i18n"
+import type { Locales } from "@i18n"
 import { generalConfig } from "@config"
 
-export const getLocalizedCommandDescription = (commandSource: keyof Translation['COMMANDS']) => getLocalizedCommandInfo('DESCRIPTION', commandSource)
-export const getLocalizedCommandName = (commandSource: keyof Translation['COMMANDS']) => getLocalizedCommandInfo('NAME', commandSource)
-
-export const getLocalizedCommandInfo = (target: 'NAME' | 'DESCRIPTION', commandSource: string) => {
+export const getLocalizedInfo = (target: 'NAME' | 'DESCRIPTION', localizationSource: TranslationsNestedPaths) => {
 
     const localizations = Object.fromEntries(
-        Object
-            .entries(loadedLocales)
-            .map(([currLocale, localeObj]) => {
-                // @ts-ignore   
-                const hasLocalization = localeObj['COMMANDS'][commandSource]?.[target]
-                return [currLocale, hasLocalization]
-            })
-            .filter(([_, hasLocalization]) => hasLocalization)
+        locales
+            .map(locale => [locale, getLocalizationFromPathString(localizationSource + '.' + target as TranslationsNestedPaths, locale)])
+            .filter(([_, value]) => value)
     )
 
     return localizations !== {} ? localizations : null
@@ -26,17 +16,17 @@ export const getLocalizedCommandInfo = (target: 'NAME' | 'DESCRIPTION', commandS
 export const setOptionsLocalization = <K extends SanitizedOptions & { name?: string }>({ options, target, localizationSource, nameFallback }: {
     options: K, 
     target: 'name' | 'description',
-    localizationSource: string,
+    localizationSource: TranslationsNestedPaths,
     nameFallback?: string
 }) => {
 
     if (!options[`${target}Localizations`]) {
-        options[`${target}Localizations`] = getLocalizedCommandInfo(target.toUpperCase() as 'NAME' | 'DESCRIPTION', localizationSource)
+        options[`${target}Localizations`] = getLocalizedInfo(target.toUpperCase() as 'NAME' | 'DESCRIPTION', localizationSource)
     }
     
     if (!options[target as keyof typeof options]) {
         options[target as keyof typeof options] = 
-            getLocalizedCommandInfo(target.toUpperCase() as 'NAME' | 'DESCRIPTION', localizationSource)[generalConfig.defaultLocale]
+            getLocalizedInfo(target.toUpperCase() as 'NAME' | 'DESCRIPTION', localizationSource)[generalConfig.defaultLocale]
             || (target === 'name' ? nameFallback : undefined)
     }
 
@@ -58,4 +48,16 @@ export const sanitizeLocales = <K extends SanitizedOptions>(option: K) => {
     }
 
     return option
+}
+
+export const getLocalizationFromPathString = (path: TranslationsNestedPaths, locale?: Locales) => {
+
+    const pathArray = path.split('.')
+    let currentLocalization: any = loadedLocales[locale ?? generalConfig.defaultLocale]
+
+    for (const pathNode of pathArray) {
+        currentLocalization = currentLocalization[pathNode as keyof typeof currentLocalization]
+    }
+
+    return currentLocalization
 }

@@ -22,12 +22,19 @@ export default class PrefixCommand {
 		private db: Database,
 	) {}
 
-	@Slash({})
+	@Slash({
+		name: 'prefix'
+	})
 	@Guard(
 		UserPermissions(['Administrator'])
 	)
 	async prefix(
-		@SlashOption({ name: 'prefix', type: ApplicationCommandOptionType.String, required: false }) prefix: string | undefined,
+		@SlashOption({ 
+			name: 'prefix', 
+			localizationSource: 'COMMANDS.PREFIX.OPTIONS.PREFIX',
+			type: ApplicationCommandOptionType.String, 
+			required: false 
+		}) prefix: string | undefined,
 		interaction: CommandInteraction,
 		client: Client,
 		{ localize }: InteractionData

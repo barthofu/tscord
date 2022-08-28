@@ -1,7 +1,7 @@
 import { Slash as SlashX } from 'discordx'
 import { constant } from 'case'
 
-import { getCallerFile, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
+import { constantPreserveDots, getCallerFile, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
 
 /**
  * Handle a slash command
@@ -14,12 +14,12 @@ import { getCallerFile, sanitizeLocales, setOptionsLocalization } from '@utils/f
  */
 export const Slash = (options: ApplicationCommandOptions) => {
 
-    let localizationSource: string | null = null
+    let localizationSource: TranslationsNestedPaths | null = null
     const commandNameFromFile = getCallerFile(1)?.split('/').pop()?.split('.')[0]
 
-    if (options.localizationSource) localizationSource = constant(options.localizationSource)
-    else if (options.name) localizationSource = constant(options.name)
-    else if (commandNameFromFile) localizationSource = constant(commandNameFromFile)
+    if (options.localizationSource) localizationSource = constantPreserveDots(options.localizationSource) as TranslationsNestedPaths
+    else if (options.name) localizationSource = 'COMMANDS.' + constantPreserveDots(options.name) as TranslationsNestedPaths
+    else if (commandNameFromFile) localizationSource = 'COMMANDS.' + constantPreserveDots(commandNameFromFile) as TranslationsNestedPaths
 
     if (localizationSource) {
         
@@ -40,7 +40,5 @@ export const Slash = (options: ApplicationCommandOptions) => {
 
     options = sanitizeLocales(options)
 
-    console.debug(options)
-        
     return SlashX(options)
 }
