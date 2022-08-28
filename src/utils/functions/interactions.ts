@@ -7,6 +7,7 @@ import { SimpleCommandMessage } from "discordx"
  * @param message 
  */
 export const replyToInteraction = async (interaction: CommandInteraction | SimpleCommandMessage, message: string | {[key: string]: any}) => {
+    
     if (interaction instanceof CommandInteraction) await interaction.followUp(message)
     else if (interaction instanceof SimpleCommandMessage) await interaction.message.reply(message)
 }

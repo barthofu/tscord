@@ -1,4 +1,4 @@
-import { sanitizeLocales } from "@utils/functions"
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
 import { SlashChoice as SlashChoiceX } from "discordx"
 
 /**
@@ -14,8 +14,31 @@ import { SlashChoice as SlashChoiceX } from "discordx"
  export const SlashChoice = (...options: string[] | number[] | SlashChoiceOption[]) => {
 
     for (let i = 0; i < options.length; i++) {
-        const option = options[i]
-        if (typeof option !== 'number' && typeof option !== 'string') options[i] = sanitizeLocales(option) 
+
+        let option = options[i]
+
+        if (typeof option !== 'number' && typeof option !== 'string') {
+        
+            let localizationSource: TranslationsNestedPaths | null = null
+            if (option.localizationSource) localizationSource = constantPreserveDots(option.localizationSource) as TranslationsNestedPaths
+        
+            if (localizationSource) {
+
+                option = setOptionsLocalization({
+                    target: 'description',
+                    options: option,
+                    localizationSource,
+                }) 
+        
+                option = setOptionsLocalization({
+                    target: 'name',
+                    options: option,
+                    localizationSource,
+                })
+            }
+        
+            options[i] = sanitizeLocales(option) 
+        }
     }
 
     if (typeof options[0] === 'string') return SlashChoiceX(...options as string[])
