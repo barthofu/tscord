@@ -23,6 +23,7 @@ const fr: Translation = {
 			}
 		},
 		PREFIX: {
+			NAME: 'prefixe',
 			DESCRIPTION: 'Change le préfix du bot.',
 			OPTIONS: {
 				PREFIX: {

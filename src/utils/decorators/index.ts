@@ -1,7 +1,6 @@
 export {
     Bot,
     ButtonComponent,
-    ContextMenu,
     Discord,
     Guard,
     Guild,
@@ -17,5 +16,6 @@ export * from './Slash'
 export * from './SlashOption'
 export * from './SlashChoice'
 export * from './SlashGroup'
+export * from './ContextMenu'
 export * from './Schedule'
 export * from './WSOn'

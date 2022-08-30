@@ -58,6 +58,10 @@ type RootTranslation = {
 		}
 		PREFIX: {
 			/**
+			 * prefix
+			 */
+			NAME: string
+			/**
 			 * Change the prefix of the bot.
 			 */
 			DESCRIPTION: string
@@ -205,6 +209,10 @@ export type TranslationFunctions = {
 			}
 		}
 		PREFIX: {
+			/**
+			 * prefix
+			 */
+			NAME: () => LocalizedString
 			/**
 			 * Change the prefix of the bot.
 			 */

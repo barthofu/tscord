@@ -23,6 +23,7 @@ const en: BaseTranslation = {
 			}
 		},
 		PREFIX: {
+			NAME: 'prefix',
 			DESCRIPTION: "Change the prefix of the bot.",
 			OPTIONS: {
 				PREFIX: {
