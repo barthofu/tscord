@@ -10,7 +10,7 @@ export const getLocalizedInfo = (target: 'NAME' | 'DESCRIPTION', localizationSou
             .filter(([_, value]) => value)
     )
 
-    return localizations !== {} ? localizations : null
+    return Object.keys(localizations).length > 0 ? localizations : undefined
 }
 
 export const setOptionsLocalization = <K extends SanitizedOptions & { name?: string }>({ options, target, localizationSource, nameFallback }: {
@@ -26,7 +26,7 @@ export const setOptionsLocalization = <K extends SanitizedOptions & { name?: str
     
     if (!options[target as keyof typeof options]) {
         options[target as keyof typeof options] = 
-            getLocalizedInfo(target.toUpperCase() as 'NAME' | 'DESCRIPTION', localizationSource)[generalConfig.defaultLocale]
+            getLocalizedInfo(target.toUpperCase() as 'NAME' | 'DESCRIPTION', localizationSource)?.[generalConfig.defaultLocale]
             || (target === 'name' ? nameFallback : undefined)
     }
 
@@ -57,6 +57,7 @@ export const getLocalizationFromPathString = (path: TranslationsNestedPaths, loc
 
     for (const pathNode of pathArray) {
         currentLocalization = currentLocalization[pathNode as keyof typeof currentLocalization]
+        if (!currentLocalization) return undefined
     }
 
     return currentLocalization

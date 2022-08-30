@@ -15,3 +15,4 @@ type SanitizedOptions = {
 type ApplicationCommandOptions = Modify<import('discordx').ApplicationCommandOptions, SanitizedOptions>
 type SlashChoiceOption = Modify<import('discordx').SlashChoiceType<string, string | number>, SanitizedOptions>
 type SlashOptionOptions = Modify<import('discordx').SlashOptionOptions, SanitizedOptions>
+type SlashGroupOptions = Modify<import('discordx').SlashGroupOptions, SanitizedOptions>
