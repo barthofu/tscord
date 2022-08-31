@@ -7,7 +7,7 @@
 			"dynamicImport": true
 		},
 		"target": "es2021",
-		"baseUrl": ".",
+		"baseUrl": "./",
 		"paths": {
 			"@types": ["src/utils/types"],
 			"@decorators": ["src/utils/decorators"],
