@@ -130,7 +130,6 @@ export class Database {
 
         } catch (error) {
             
-            console.debug(error)
             this.logger.log('error', 'Snapshot file not found, couldn\'t restore', true)
             return false
         }

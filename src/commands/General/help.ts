@@ -107,7 +107,7 @@ export default class HelpCommand {
 
 			const { description } = item
 			const fieldValue = validString(description) ? description : "No description"
-			const name = validString(item.group) ? `/${item.group}} ${item.name}` : `/${item.name}`
+			const name = `/${item.group ? item.group + ' ' : ''}${item.subgroup ? item.subgroup + ' ' : ''}${item.name}`
 			const nameToDisplay = Formatters.inlineCode(name)
 
 			embed.addFields([{
