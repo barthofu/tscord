@@ -8,7 +8,12 @@ export const generalConfig: GeneralConfigType = {
 	simpleCommandsPrefix: '!',
 	ownerId: '260908777446965248',
 	timezone: 'Europe/Paris',
-	inviteLink: 'https://www.change_invite_link_here.com',
+
+	links: {
+		invite: 'https://www.change_invite_link_here.com',
+		supportServer: 'https://discord.com/your_invitation_link',
+		gitRemoteRepo: 'https://github.com/barthofu/tscord',
+	},
 	
 	automaticUploadImagesToImgur: false,
 

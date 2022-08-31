@@ -27,3 +27,8 @@ export const formatDate = (date: Date, mask: keyof typeof dateMasks = 'default')
 
     return datejs(date).format(dateMasks[mask])
 }
+
+export const timeAgo = (date: Date) => {
+    
+    return dayjs(date).fromNow()
+}
