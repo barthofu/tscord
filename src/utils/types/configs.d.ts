@@ -1,27 +1,32 @@
 type GeneralConfigType = {
 
-    __templateVersion: string,
+    __templateVersion: string
 
-    name: string,
-    description: string,
-    defaultLocale: import('@i18n').Locales,
-    simpleCommandsPrefix: string,
-    ownerId: string,
-    timezone: string,
-    automaticUploadImagesToImgur: boolean,
-    inviteLink: string,
+    name: string
+    description: string
+    defaultLocale: import('@i18n').Locales
+    simpleCommandsPrefix: string
+    ownerId: string
+    timezone: string
+    automaticUploadImagesToImgur: boolean
 
-    devs: string[],
+    links: {
+		invite: string
+		supportServer: string
+		gitRemoteRepo: string
+	}
+
+    devs: string[]
 
     eval: {
-        name: string,
+        name: string
         onlyOwner: boolean
-    },
+    }
 
     activities: {
-        text: string,
+        text: string
         type: "PLAYING" | "STREAMING" | "LISTENING" | "WATCHING" | "CUSTOM" | "COMPETING"
-    }[],
+    }[]
 
 }
 
@@ -30,44 +35,44 @@ type DatabaseConfigType = {
     path: `${string}/` 
 
     backup: {
-        enabled: boolean,
+        enabled: boolean
         path: `${string}/`
     }
 }
 
 type LogsConfigType = {
 
-    debug: boolean,
+    debug: boolean
 
     interaction: {
-        file: boolean,
-        console: boolean,
-        channel: string | null,
+        file: boolean
+        console: boolean
+        channel: string | null
 
         exclude: InteractionsConstants[]
     }
 
     simpleCommand: {
-        file: boolean,
-        console: boolean,
+        file: boolean
+        console: boolean
         channel: string | null
     }
 
     newUser: {
-        file: boolean,
-        console: boolean,
+        file: boolean
+        console: boolean
         channel: string | null
     }
 
     guild: {
-        file: boolean,
-        console: boolean,
+        file: boolean
+        console: boolean
         channel: string | null
     }
 
     error: {
-        file: boolean,
-        console: boolean,
+        file: boolean
+        console: boolean
         channel: string | null
     }
 }
@@ -82,5 +87,5 @@ type StatsConfigType = {
 
 type APIConfigType = {
 
-    port: number,
+    port: number
 }

@@ -42,3 +42,13 @@ export const constantPreserveDots = (string: string) => {
         .map(word => constant(word))
         .join('.')
 }
+
+export const isValidUrl = (url: string) => {
+    
+    try {
+        new URL(url)
+        return true
+    } catch {
+        return false
+    }
+}
