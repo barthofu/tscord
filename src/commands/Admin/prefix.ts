@@ -8,10 +8,8 @@ import { Guard, UserPermissions } from "@guards"
 import { Guild } from "@entities"
 import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 import { Database } from "@services"
-
 import { generalConfig } from '@config'
 import { UnknownReplyError } from "@errors"
-import { Client } from "discordx"
 
 @Discord()
 @injectable()
@@ -22,9 +20,7 @@ export default class PrefixCommand {
 		private db: Database,
 	) {}
 
-	@Slash({
-		name: 'prefix'
-	})
+	@Slash({ name: 'prefix' })
 	@Guard(
 		UserPermissions(['Administrator'])
 	)
