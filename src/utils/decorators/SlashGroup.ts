@@ -90,11 +90,9 @@ export function SlashGroup<TRoot extends string>(options: string | SlashGroupOpt
 
         options = sanitizeLocales(options) 
         
-        console.debug(`[SlashGroup]`, options)
         return SlashGroupX(options as SlashGroupOptionsX)
     
     } else {
-        console.debug(`[SlashGroup]`, options)
         if (root) return SlashGroupX(options, root)
         else return SlashGroupX(options)
     }

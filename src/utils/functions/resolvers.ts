@@ -87,7 +87,11 @@ const resolvers = {
 	},
 
 	action: {
-		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => interaction.commandName,
+		ChatInputCommandInteraction: (interaction: ChatInputCommandInteraction) => {
+			return interaction.commandName 
+				+ (interaction?.options.getSubcommandGroup(false) ? ' ' + interaction.options.getSubcommandGroup(false) : '')
+				+ (interaction?.options.getSubcommand(false) ? ' ' + interaction.options.getSubcommand(false) : '')
+		},
 		SimpleCommandMessage: (interaction: SimpleCommandMessage) => interaction.name,
 		UserContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
