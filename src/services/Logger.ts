@@ -327,22 +327,30 @@ export class Logger {
         this.console('info', chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), true)
     
         // connected
-        this.console('info', chalk.gray(boxen(
-            ` API Server listening on port ${chalk.bold(apiConfig.port)} `,
-            {
-                padding: 0,
-                margin: 1,
-                borderStyle: 'round',
-                dimBorder: true
-            }
-        )), true)
+        if (apiConfig.enabled) {
+
+            this.console('info', chalk.gray(boxen(
+                ` API Server listening on port ${chalk.bold(apiConfig.port)} `,
+                {
+                    padding: 0,
+                    margin: {
+                        top: 1,
+                        bottom: 0,
+                        left: 1,
+                        right: 1
+                    },
+                    borderStyle: 'round',
+                    dimBorder: true
+                }
+            )), true)
+        }
 
         this.console('info', chalk.hex('7289DA')(boxen(
             ` ${this.client.user ? `${chalk.bold(this.client.user.tag)}` : 'Bot'} is ${chalk.green('connected')}! `,
             {
                 padding: 0,
                 margin: {
-                    top: 0,
+                    top: 1,
                     bottom: 1,
                     left: 1 * 3,
                     right: 1 * 3

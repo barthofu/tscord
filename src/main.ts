@@ -10,7 +10,7 @@ import { initDataTable, waitForDependency } from '@utils/functions'
 import { Server } from '@api/server'
 
 import { clientConfig } from './client'
-import { generalConfig } from '@config'
+import { apiConfig, generalConfig, websocketConfig } from '@config'
 import { NoBotTokenError } from '@errors'
 
 async function run() {
@@ -43,18 +43,22 @@ async function run() {
     await client.login(process.env.BOT_TOKEN)
 
     // start the api server
-    const server = await waitForDependency(Server)
-    await server.start()
+    if (apiConfig.enabled) {
+        const server = await waitForDependency(Server)
+        await server.start()
+    }
 
     // connect to the dashboard websocket
-    const webSocket = await waitForDependency(WebSocket)
-    await webSocket.init(client.user?.id || null)
+    if (websocketConfig.enabled) {
+        const webSocket = await waitForDependency(WebSocket)
+        await webSocket.init(client.user?.id || null)
+    }
 
     // upload images to imgur if configured
     if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
         const imagesUpload = await waitForDependency(ImagesUpload)
         await imagesUpload.syncWithDatabase()
-    }    
+    }
 }
 
 run()

@@ -87,5 +87,11 @@ type StatsConfigType = {
 
 type APIConfigType = {
 
+    enabled: boolean
     port: number
+}
+
+type WebsocketConfigType = {
+
+    enabled: boolean
 }
