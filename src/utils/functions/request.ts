@@ -1,19 +1,17 @@
-import { StatusCodes, getReasonPhrase } from 'http-status-codes'
+import { Response } from 'express'
+import { getReasonPhrase, StatusCodes } from 'http-status-codes'
 import { Context } from 'koa'
 
-export const error = async (ctx: Context, message: string, status: StatusCodes) => {
+export const error = async (res: Response, message: string, status: StatusCodes) => {
 
-    ctx.message = message
-    ctx.status = status
-    ctx.body = {
+    res.status(status).json({
         error: `${status} ${getReasonPhrase(status)}`,
         message
-    }
+    })
 }
 
-export const ok = async (ctx: Context, json: any) => {
+export const ok = async (res: Response, json: any) => {
     
-    ctx.headers['content-type'] = 'application/json'
-    ctx.status = StatusCodes.OK
-    ctx.body = json
+    console.debug(res)
+    res.status(StatusCodes.OK).json(json)
 }
