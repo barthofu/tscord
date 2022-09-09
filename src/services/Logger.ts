@@ -1,6 +1,5 @@
 import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
-import { MetadataStorage as KoaMetadataStorage } from '@discordx/koa'
 import { delay, inject, singleton } from 'tsyringe'
 import { parse, StackFrame } from 'stacktrace-parser'
 import { constant } from 'case'
@@ -8,14 +7,13 @@ import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import ora from 'ora'
+import { getMetadataArgsStorage } from 'routing-controllers'
+import { routingControllersToSpec } from 'routing-controllers-openapi'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
 import { Scheduler, WebSocket, Pastebin } from '@services'
 
 import { apiConfig, logsConfig } from '@config'
-import { getMetadataArgsStorage } from 'routing-controllers'
-import { routingControllersToSpec } from 'routing-controllers-openapi'
-
 
 @singleton()
 export class Logger {
