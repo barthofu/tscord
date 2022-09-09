@@ -13,6 +13,8 @@ import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, 
 import { Scheduler, WebSocket, Pastebin } from '@services'
 
 import { apiConfig, logsConfig } from '@config'
+import { getMetadataArgsStorage } from 'routing-controllers'
+import { routingControllersToSpec } from 'routing-controllers-openapi'
 
 
 @singleton()
@@ -317,10 +319,15 @@ export class Logger {
         this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length)} ${chalk.bold('services')} loaded`), true)
 
         // api
-        const endpoints = KoaMetadataStorage.instance.routes
+        if (apiConfig.enabled) {
 
-        this.console('info', chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), true)
-    
+            const storage = getMetadataArgsStorage()
+            const openAPISpec = routingControllersToSpec(storage)
+            const endpoints = Object.keys(openAPISpec.paths)
+
+            this.console('info', chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), true)
+        }
+
         // scheduled jobs
         const scheduledJobs = this.scheduler.jobs.size
 
