@@ -1,11 +1,11 @@
+import * as controllers from "@api/controllers"
+import { log } from "@api/middlewares"
 import { Logger } from "@services"
 import express, { Application } from "express"
 import { ClassConstructor, getMetadataArgsStorage, IocAdapter, useContainer, useExpressServer } from "routing-controllers"
 import { routingControllersToSpec } from "routing-controllers-openapi"
 import SwaggerUi from "swagger-ui-express"
 import { container, DependencyContainer, singleton } from "tsyringe"
-import * as controllers from "./controllers"
-import { log } from "./middlewares"
 
 @singleton()
 export class Server {
