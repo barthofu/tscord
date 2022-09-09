@@ -1,13 +1,11 @@
-import fastFolderSizeSync from 'fast-folder-size/sync'
-import { delay, inject, singleton } from 'tsyringe'
-import { backup, restore } from 'saveqlite'
-import fs from 'fs'
-
-import { EntityName, MikroORM, Options } from '@mikro-orm/core'
-
 import { databaseConfig, mikroORMConfig } from '@config'
 import { Schedule } from '@decorators'
+import { EntityName, MikroORM, Options } from '@mikro-orm/core'
 import { Logger } from '@services'
+import fastFolderSizeSync from 'fast-folder-size/sync'
+import fs from 'fs'
+import { backup, restore } from 'saveqlite'
+import { delay, inject, singleton } from 'tsyringe'
 
 @singleton()
 export class Database {
@@ -119,6 +117,8 @@ export class Database {
         
         try {
 
+            console.debug(mikroORMConfig[process.env.NODE_ENV]!.dbName!)
+            console.debug(`${backupPath}${snapshotName}`)
             await restore(
                 mikroORMConfig[process.env.NODE_ENV]!.dbName!,
                 `${backupPath}${snapshotName}`,
@@ -130,6 +130,7 @@ export class Database {
 
         } catch (error) {
             
+            console.debug(error)
             this.logger.log('error', 'Snapshot file not found, couldn\'t restore', true)
             return false
         }
@@ -175,8 +176,12 @@ export class Database {
         return size
     }
 
-    isSQLiteDatabase() {
-        return mikroORMConfig[process.env.NODE_ENV]!.type === 'sqlite'
+    isSQLiteDatabase(): boolean {
+
+        const type = mikroORMConfig[process.env.NODE_ENV]!.type
+
+        if (type) return ['sqlite', 'better-sqlite'].includes(type)
+        else return false
     }
 
 }

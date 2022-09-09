@@ -1,19 +1,18 @@
-import { Delete, Get, Middleware, Post, Router } from "@discordx/koa"
-import { Client } from "discordx"
-import { Context } from "koa"
-import { injectable } from "tsyringe"
-import { Joi } from 'koa-context-validator'
-
-import { BaseController } from "@utils/classes"
-import { authenticated, botOnline, validator } from "@api/middlewares"
-import { BaseGuildTextChannel, BaseGuildVoiceChannel, Channel, ChannelType, Guild as DGuild, GuildTextBasedChannel, NewsChannel, PermissionsBitField, User as DUser } from "discord.js"
+import { authenticated, botOnline } from "@api/middlewares"
 import { generalConfig } from "@config"
-import { getDevs, isDev, isInMaintenance, setMaintenance } from "@utils/functions"
-import { Database } from "@services"
 import { Guild, User } from '@entities'
+import { Database } from "@services"
+import { BaseController } from "@utils/classes"
+import { getDevs, isDev, isInMaintenance, setMaintenance } from "@utils/functions"
+import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField } from "discord.js"
+import { Client } from "discordx"
+import type { Request, Response } from "express"
+import { Context } from "koa"
+import { Body, Controller, Get, Post, Delete, Param, UseBefore, JsonController, BodyParam } from "routing-controllers"
+import { injectable } from "tsyringe"
 
-@Router({ options: { prefix: '/bot' }})
-@Middleware(
+@JsonController('/bot')
+@UseBefore(
     botOnline,
     authenticated
 )
@@ -28,7 +27,7 @@ export class BotController extends BaseController {
     }
 
     @Get('/info')
-    async info(ctx: Context) {
+    async info() {
 
         const user: any = this.client.user?.toJSON()
         if (user) {
@@ -36,21 +35,17 @@ export class BotController extends BaseController {
             user.bannerURL = this.client.user?.bannerURL()
         }
 
-        const body = {
+        return {
             user,
             owner: (await this.client.users.fetch(generalConfig.ownerId)).toJSON(),
         }
-
-        this.ok(ctx, body)
     }
 
 
     @Get('/commands')
-    async commands(ctx: Context) {
+    async commands() {
 
-        const commands = this.client.applicationCommands
-
-        this.ok(ctx, commands)
+        return this.client.applicationCommands
     }
 
     @Get('/guilds')
@@ -72,18 +67,16 @@ export class BotController extends BaseController {
             })
         }
 
-        this.ok(ctx, body)
+        return body
     }
 
     @Get('/guilds/:id')
-    async guild(ctx: Context) {
-
-        const { id } = <{ id: string }>ctx.params
+    async guild(@Param('id') id: string, req: Request, res: Response) {
 
         // get discord guild
         const discordRawGuild = await this.client.guilds.fetch(id)
         if (!discordRawGuild) {
-            this.error(ctx, 'Guild not found', 404)
+            this.error(res, 'Guild not found', 404)
             return
         }
         const discordGuild: any = discordRawGuild.toJSON()
@@ -93,38 +86,35 @@ export class BotController extends BaseController {
         // get database guild
         const databaseGuild = await this.db.getRepo(Guild).findOne({ id })
 
-        const body = {
+        return {
             discord: discordGuild,
             database: databaseGuild
         }
-
-        this.ok(ctx, body)
     }
 
     @Delete('/guilds/:id')
-    async deleteGuild(ctx: Context) {
-
-        const { id } = <{ id: string }>ctx.params
+    async deleteGuild(@Param('id') id: string, req: Request, res: Response) {
 
         const guild = await this.client.guilds.fetch(id)
         if (!guild) {
-            this.error(ctx, 'Guild not found', 404)
+            this.error(res, 'Guild not found', 404)
             return
         }
 
         await guild.leave()
 
-        this.ok(ctx, { success: true })
+        return {
+            success: true,
+            message: 'Guild deleted'
+        }
     }
 
     @Get('/guilds/:id/invite')
-    async invite(ctx: Context) {
-
-        const { id } = <{ id: string }>ctx.params
+    async invite(@Param('id') id: string, req: Request, res: Response) {
 
         const guild = await this.client.guilds.fetch(id)
         if (!guild) {
-            this.error(ctx, 'Guild not found', 404)
+            this.error(res, 'Guild not found', 404)
             return
         }
 
@@ -135,19 +125,19 @@ export class BotController extends BaseController {
                 [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
             ) {
                 const invite = await (channel as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined)?.createInvite()
-                if(invite) { this.ok(ctx, invite); return }
+                if(invite) return invite
 
-                this.error(ctx, 'Could not create an invite', 500)
+                this.error(res, 'Could not create an invite', 500)
                 return 
             }
         }
 
-        this.error(ctx, 'Missing permission to create an invite in this guild', 401)
+        this.error(res, 'Missing permission to create an invite in this guild', 401)
         return 
     }
 
     @Get('/users')
-    async users(ctx: Context) {
+    async users() {
 
         const users: any[] = [],
               guilds = this.client.guilds.cache.values()
@@ -173,20 +163,16 @@ export class BotController extends BaseController {
             }
         }
 
-        const body = users.map(user => user.toJSON())
-
-        this.ok(ctx, body)
+        return users.map(user => user.toJSON())
     }
 
     @Get('/users/:id')
-    async user(ctx: Context) {
+    async user(@Param('id') id: string, req: Request, res: Response) {
 
-        const { id } = <{ id: string }>ctx.params
-        
         // get discord user
         const discordRawUser = await this.client.users.fetch(id)
         if (!discordRawUser) {
-            this.error(ctx, 'User not found', 404)
+            this.error(res, 'User not found', 404)
             return
         }
         const discordUser: any = discordRawUser.toJSON()
@@ -196,75 +182,45 @@ export class BotController extends BaseController {
         // get database user
         const databaseUser = await this.db.getRepo(User).findOne({ id })
 
-        const body = {
+        return {
             discord: discordUser,
             database: databaseUser
         }
-
-        this.ok(ctx, body)
     }
 
     @Get('/cachedUsers')
-    async cachedUsers(ctx: Context) {
+    async cachedUsers() {
 
-        const body = {
-            users: this.client.users.cache.map(user => user.toJSON()),
-        }
-
-        this.ok(ctx, body)
+        return this.client.users.cache.map(user => user.toJSON())
     }
 
     @Get('/maintenance')
-    async maintenance(ctx: Context) {
+    async maintenance() {
 
-        const body = {
+        return {
             maintenance: await isInMaintenance(),
         }
-
-        this.ok(ctx, body)
     }
 
     @Post('/maintenance')
-    @Middleware(
-        validator({
-            body: Joi.object().keys({
-                maintenance: Joi.boolean().required()
-            })
-        })
-    )
-    async setMaintenance(ctx: Context) {
+    async setMaintenance(@BodyParam('maintenance', { required: true, type: Boolean }) maintenance: boolean) {
 
-        const data = <{ maintenance: boolean }>ctx.request.body
-        await setMaintenance(data.maintenance)
+        await setMaintenance(maintenance)
 
-        const body = {
-            maintenance: data.maintenance,
+        return {
+            maintenance
         }
-
-        this.ok(ctx, body)
     }
 
     @Get('/devs')
-    async devs(ctx: Context) {
+    async devs() {
 
-        const body = getDevs()
-
-        this.ok(ctx, body)
+        return getDevs()
     }
 
     @Get('/devs/:id')
-    async dev(ctx: Context) {
+    async dev(@Param('id') id: string) {
 
-        const { id } = <{ id: string }>ctx.params
-
-        const body = isDev(id)
-
-        this.ok(ctx, body)
-    }
-
-    @Get('/test')
-    async test(ctx: Context) {
-
-        this.ok(ctx, { success: true })
+        return isDev(id)
     }
 }

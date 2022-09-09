@@ -1,17 +1,14 @@
-import { Get, Middleware, Post, Router } from "@discordx/koa"
-import { injectable } from "tsyringe"
-import { Context } from "koa"
-import { Joi } from "koa-context-validator"
-
+import { authenticated } from "@api/middlewares"
+import { databaseConfig } from "@config"
 import { Database } from "@services"
 import { BaseController } from "@utils/classes"
 import { formatDate } from "@utils/functions"
+import type { Request, Response } from "express"
+import { BodyParam, Get, JsonController, Post, UseBefore } from "routing-controllers"
+import { injectable } from "tsyringe"
 
-import { databaseConfig } from "@config"
-import { authenticated, validator } from "@api/middlewares"
-
-@Router({ options: { prefix: "/database" } })
-@Middleware(
+@JsonController('/database')
+@UseBefore(
     authenticated
 )
 @injectable()
@@ -24,58 +21,54 @@ export class DatabaseController extends BaseController {
     }
 
     @Post('/backup')
-    async generateBackup(ctx: Context) {
+    async generateBackup(req: Request, res: Response) {
+
+        console.debug(req, res)
 
         const snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}-manual-${Date.now()}`
         const success = await this.db.backup(snapshotName)
 
-        if (success) this.ok(ctx, { 
-            message: "Backup generated",
-            data: {
-                snapshotName
+        if (success) {
+            return { 
+                message: 'Backup generated',
+                data: {
+                    snapshotName: snapshotName + '.txt'
+                }
             }
-        })
-        else this.error(ctx, "Couldn't generate backup, see the logs for more informations", 500)
+        }
+        else this.error(res, "Couldn't generate backup, see the logs for more informations", 500)
 
     }
 
     @Post('/restore')
-    @Middleware(
-        validator({
-            body: Joi.object().keys({
-                snapshotName: Joi.string().required()
-            })
-        })
-    )
-    async restoreBackup(ctx: Context) {
+    async restoreBackup(
+        @BodyParam('snapshotName', { required: true, type: String }) snapshotName: string,
+        req: Request, res: Response
+    ) {
         
-        const data = <{ snapshotName: string }>ctx.request.body
-
-        const success = await this.db.restore(data.snapshotName)
-
-        if (success) this.ok(ctx, { message: "Backup restored" })
-        else this.error(ctx, "Couldn't restore backup, see the logs for more informations", 500)
+        const success = await this.db.restore(snapshotName)
+        console.debug(success)
+        if (success) return { message: "Backup restored" }
+        else this.error(res, "Couldn't restore backup, see the logs for more informations", 500)
     }
 
     @Get('/backup/list')
-    async getBackupList(ctx: Context) {
+    async getBackupList(req: Request, res: Response) {
 
         const backupPath = databaseConfig.backup.path
         if (!backupPath) {
-            return this.error(ctx, "Couldn't list backups, see the logs for more informations", 500)
+            return this.error(res, "Couldn't list backups, see the logs for more informations", 500)
         }
 
         const backupList = this.db.getBackupList()
 
-        if (backupList) this.ok(ctx, backupList)
-        else this.error(ctx, "Couldn't list backups, see the logs for more informations", 500)
+        if (backupList) return backupList
+        else this.error(res, "Couldn't list backups, see the logs for more informations", 500)
     }
 
     @Get('/size')
-    async size(ctx: Context) {
+    async size() {
 
-        const size = await this.db.getSize()
-
-        this.ok(ctx, size)
+        return await this.db.getSize()
     }
 }

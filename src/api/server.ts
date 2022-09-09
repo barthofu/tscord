@@ -1,14 +1,16 @@
-import { Koa } from "@discordx/koa"
-import { singleton } from "tsyringe"
-import bodyParser from 'koa-bodyparser'
-
-import { globalLog } from "@api/middlewares"
 import { Logger } from "@services"
-
-import { apiConfig } from "@config"
+import express, { Application } from "express"
+import { ClassConstructor, getMetadataArgsStorage, IocAdapter, useContainer, useExpressServer } from "routing-controllers"
+import { routingControllersToSpec } from "routing-controllers-openapi"
+import SwaggerUi from "swagger-ui-express"
+import { container, DependencyContainer, singleton } from "tsyringe"
+import * as controllers from "./controllers"
+import { log } from "./middlewares"
 
 @singleton()
 export class Server {
+
+    private server: Application
 
     constructor(
         private readonly logger: Logger
@@ -16,21 +18,43 @@ export class Server {
 
     async start() {
 
-        const server = new Koa({
-            globalMiddlewares: [
-                globalLog
-            ]
+        useContainer(new TsyringeAdapter(container))
+
+        this.server = express()
+
+        this.server.use('/', log)
+        this.setupSwaggerUi()
+
+        useExpressServer(this.server, {
+            controllers: Object.values(controllers)
         })
 
-        server.use(bodyParser())
-        
-        await server.build()
+        this.server.listen('4000', this.listen)
+    }
 
-        server.listen(apiConfig.port, this.listen.bind(this))
+    private setupSwaggerUi() {
+
+        const storage = getMetadataArgsStorage()
+        const openAPISpec = routingControllersToSpec(storage)
+        
+        this.server.use('/docs', SwaggerUi.serve, SwaggerUi.setup(openAPISpec))
     }
 
     async listen() {
 
     }
 
+}
+
+class TsyringeAdapter implements IocAdapter {
+
+    constructor(
+        private readonly TsyringeContainer: DependencyContainer
+    ) {}
+
+    get<T>(someClass: ClassConstructor<T>): T {
+
+        const childContainer = this.TsyringeContainer.createChildContainer()
+        return childContainer.resolve<T>(someClass)
+    }
 }
