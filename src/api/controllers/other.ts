@@ -1,7 +1,7 @@
 import { BaseController } from "@utils/classes"
-import { Controller, Get } from "routing-controllers"
+import { Get, JsonController } from "routing-controllers"
 
-@Controller()
+@JsonController()
 export class OtherController extends BaseController {
 
     @Get('/')

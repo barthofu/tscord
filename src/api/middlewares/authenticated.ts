@@ -1,10 +1,10 @@
 import { container } from "tsyringe"
-import { Context, Next } from "koa"
 import DiscordOauth2 from "discord-oauth2"
 import type { NextFunction, Request, Response } from "express"
 
-import { isDev, error } from "@utils/functions"
+import { isDev } from "@utils/functions"
 import { Store } from "@services"
+import { BadRequestError, UnauthorizedError } from "routing-controllers"
 
 const discordOauth2 = new DiscordOauth2()
 const store = container.resolve(Store)
@@ -20,11 +20,11 @@ export async function authenticated(req: Request, res: Response, next: NextFunct
 
     // check if the request includes valid authorization header
     const authHeader = req.headers['authorization']
-    if (!authHeader || !authHeader.startsWith('Bearer ')) return await error(res, 'Missing token', 400)
+    if (!authHeader || !authHeader.startsWith('Bearer ')) throw new BadRequestError('Missing token')
 
     // get the token from the authorization header
     const token = authHeader.split(' ')[1]
-    if (!token) return await error(res, 'Invalid token', 400)
+    if (!token) throw new BadRequestError('Invalid token')
 
     // pass if the token is the admin token of the app
     if (token === process.env['API_ADMIN_TOKEN']) return next()
@@ -53,11 +53,10 @@ export async function authenticated(req: Request, res: Response, next: NextFunct
             next()
 
         } else {
-            return await error(res, 'Unauthorized', 401)
+            throw new UnauthorizedError('Unauthorized')
         }
     })
     .catch(async (err) => {
-        console.log(err)
-        return await error(res, 'Invalid token', 400)
+        throw new BadRequestError('Invalid token')
     })
 }
