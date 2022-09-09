@@ -7,7 +7,7 @@ const logger = container.resolve(Logger)
 
 export async function log(req: Request, res: Response, next: NextFunction) {
 
-    // don't log anything if the request has a `logIgnore` query params
+    // don't log anything if the request has a `logIgnore` query param
     if (!req.query.logIgnore) {
 
         const { method, url } = req

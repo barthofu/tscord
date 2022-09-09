@@ -4,7 +4,7 @@ import { Database } from "@services"
 import { BaseController } from "@utils/classes"
 import { formatDate } from "@utils/functions"
 import type { Request, Response } from "express"
-import { BodyParam, Get, JsonController, Post, UseBefore } from "routing-controllers"
+import { BodyParam, Get, InternalServerError, JsonController, Post, UseBefore } from "routing-controllers"
 import { injectable } from "tsyringe"
 
 @JsonController('/database')
@@ -23,8 +23,6 @@ export class DatabaseController extends BaseController {
     @Post('/backup')
     async generateBackup(req: Request, res: Response) {
 
-        console.debug(req, res)
-
         const snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}-manual-${Date.now()}`
         const success = await this.db.backup(snapshotName)
 
@@ -36,8 +34,7 @@ export class DatabaseController extends BaseController {
                 }
             }
         }
-        else this.error(res, "Couldn't generate backup, see the logs for more informations", 500)
-
+        else throw new InternalServerError("Couldn't generate backup, see the logs for more informations")
     }
 
     @Post('/restore')
@@ -47,23 +44,21 @@ export class DatabaseController extends BaseController {
     ) {
         
         const success = await this.db.restore(snapshotName)
-        console.debug(success)
+
         if (success) return { message: "Backup restored" }
-        else this.error(res, "Couldn't restore backup, see the logs for more informations", 500)
+        else throw new InternalServerError("Couldn't restore backup, see the logs for more informations")
     }
 
     @Get('/backup/list')
     async getBackupList(req: Request, res: Response) {
 
         const backupPath = databaseConfig.backup.path
-        if (!backupPath) {
-            return this.error(res, "Couldn't list backups, see the logs for more informations", 500)
-        }
+        if (!backupPath) throw new InternalServerError("Backup path not set, couldn't find backups")
 
         const backupList = this.db.getBackupList()
 
         if (backupList) return backupList
-        else this.error(res, "Couldn't list backups, see the logs for more informations", 500)
+        else throw new InternalServerError("Couldn't get backup list, see the logs for more informations")
     }
 
     @Get('/size')

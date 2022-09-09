@@ -1,7 +1,6 @@
-import { error, ok } from '@utils/functions'
+import { throwError } from '@utils/functions'
 
 export abstract class BaseController {
 
-    protected error = error
-    protected ok = ok
+    protected throwError = throwError
 }
