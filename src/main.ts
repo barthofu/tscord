@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import 'dotenv/config'
 
 import { container } from 'tsyringe'
+import discordLogs from 'discord-logs'
 import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
 import { importx } from '@discordx/importer'
 
@@ -27,6 +28,8 @@ async function run() {
     // init the client
     DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
     const client = new Client(clientConfig)
+    // Load all new events
+    discordLogs(client, { debug: false })
     container.registerInstance(Client, client)
 
     // init the error handler
