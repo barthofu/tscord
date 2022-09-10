@@ -16,7 +16,9 @@ export const clientConfig = {
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.GuildMessageReactions,
 		GatewayIntentBits.GuildVoiceStates,
-		GatewayIntentBits.DirectMessages
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.MessageContent
 	],
 
 	partials: [
