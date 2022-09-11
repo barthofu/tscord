@@ -7,8 +7,7 @@ import { getDevs, isDev, isInMaintenance, setMaintenance } from "@utils/function
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField, Guild as DGuild } from "discord.js"
 import { Client, MetadataStorage } from "discordx"
 import type { Request, Response } from "express"
-import { Context } from "koa"
-import { BodyParam, Delete, Get, InternalServerError, JsonController, NotFoundError, Param, Post, UnauthorizedError, UseBefore } from "routing-controllers"
+import { BodyParam, Delete, Get, JsonController, NotFoundError, Param, Post, UnauthorizedError, UseBefore } from "routing-controllers"
 import { injectable } from "tsyringe"
 
 @JsonController('/bot')
@@ -51,7 +50,7 @@ export class BotController extends BaseController {
     }
 
     @Get('/guilds')
-    async guilds(ctx: Context) {
+    async guilds() {
 
         const body: any[] = []
 
