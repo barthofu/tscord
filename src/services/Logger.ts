@@ -1,10 +1,10 @@
-import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
+import { Embed, MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import { delay, inject, singleton } from 'tsyringe'
 import { parse, StackFrame } from 'stacktrace-parser'
 import { constant } from 'case'
 import fs from 'fs'
-import chalk from 'chalk'
+import chalk, { Level } from 'chalk'
 import boxen from 'boxen'
 import ora from 'ora'
 import { getMetadataArgsStorage } from 'routing-controllers'
@@ -12,7 +12,6 @@ import { routingControllersToSpec } from 'routing-controllers-openapi'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
 import { Scheduler, WebSocket, Pastebin } from '@services'
-
 import { apiConfig, logsConfig } from '@config'
 
 @singleton()
@@ -34,6 +33,12 @@ export class Logger {
 
     private readonly logPath: string = `${__dirname}/../../logs`
     private readonly levels = ['debug', 'info', 'warn', 'error'] as const
+    private embedLevelBuilder = {
+        debug: (message: string): MessageOptions => ({ embeds: [{ title: "DEBUG", description: message, color: 0x00f3e3, timestamp: new Date().toISOString() }] }),
+        info:  (message: string): MessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
+        warn:  (message: string): MessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
+        error: (message: string): MessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
+    }
     private spinner = ora()
     private defaultConsole: typeof console
 
@@ -91,8 +96,9 @@ export class Logger {
             channel instanceof TextChannel 
             || channel instanceof ThreadChannel
         ) {
-            // TODO: add support for embeds depending on the level
-            channel.send(message).catch(console.error)
+            if(typeof message !== 'string') return channel.send(message).catch(console.error)
+            
+            channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
         }
     }
 
