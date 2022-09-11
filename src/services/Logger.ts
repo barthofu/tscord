@@ -28,13 +28,11 @@ export class Logger {
         console.info    = (...args) => this.log("info",     args.join(", "))
         console.warn    = (...args) => this.log("warn",     args.join(", "))
         console.error   = (...args) => this.log("error",    args.join(", "))
-        // console.debug   = (...args) => this.log("debug",    args.join(", "))
     }
 
     private readonly logPath: string = `${__dirname}/../../logs`
-    private readonly levels = ['debug', 'info', 'warn', 'error'] as const
+    private readonly levels = ['info', 'warn', 'error'] as const
     private embedLevelBuilder = {
-        debug: (message: string): MessageOptions => ({ embeds: [{ title: "DEBUG", description: message, color: 0x00f3e3, timestamp: new Date().toISOString() }] }),
         info:  (message: string): MessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
         warn:  (message: string): MessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
         error: (message: string): MessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
@@ -108,7 +106,7 @@ export class Logger {
 
     /**
      * Shortcut function that will log in console, and optionnaly in file or discord channel depending params.
-     * @param level debug, info, warn, error
+     * @param level info, warn, error
      * @param message message to log
      * @param saveToFile if true, the message will be saved to a file
      * @param channelId Discord channel to log to (if `null`, nothing will be logged to Discord)
