@@ -4,7 +4,6 @@ import { singleton } from 'tsyringe'
 import { Logger } from '@services'
 import { BaseError } from '@utils/classes'
 
-
 @singleton()
 export class ErrorHandler {
 
@@ -23,7 +22,7 @@ export class ErrorHandler {
             if (error instanceof BaseError) return error.handle()
             
             // log the error
-            this.logger.logError(error, "Exception");
+            this.logger.logError(error, "Exception")
         })
 
         // catch all Unhandled Rejection (promise)
@@ -33,7 +32,7 @@ export class ErrorHandler {
             if(error instanceof BaseError) return error.handle()
 
             // log the error
-            this.logger.logError(error, "unhandledRejection");
+            this.logger.logError(error, "unhandledRejection")
         })
     }
 }
