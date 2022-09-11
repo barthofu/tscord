@@ -19,8 +19,17 @@ export class Image extends CustomBaseEntity {
     @Property()
     fileName: string
 
+    @Property({ default: '' })
+    basePath?: string
+
     @Property()
     url: string
+
+    @Property()
+    size: number
+
+    @Property()
+    tags: string[]
 
     @Property()
     hash: string
@@ -28,8 +37,6 @@ export class Image extends CustomBaseEntity {
     @Property()
     deleteHash: string
 
-    @Property()
-    size: number
 }
 
 // ===========================================

@@ -15,7 +15,7 @@ export const generalConfig: GeneralConfigType = {
 		gitRemoteRepo: 'https://github.com/barthofu/tscord',
 	},
 	
-	automaticUploadImagesToImgur: false,
+	automaticUploadImagesToImgur: true,
 
 	devs: [
 		'260908777446965248',
