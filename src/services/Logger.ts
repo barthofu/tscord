@@ -37,6 +37,14 @@ export class Logger {
         warn:  (message: string): MessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
         error: (message: string): MessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
     }
+    private interactionTypeReadable: { [key in InteractionsConstants]: string } = {
+        "CHAT_INPUT_COMMAND_INTERACTION": "Slash command",
+        "SIMPLE_COMMAND_MESSAGE": "Simple command",
+        "CONTEXT_MENU_INTERACTION": "Context menu",
+        "BUTTON_INTERACTION": "Button",
+        "SELECT_MENU_INTERACTION": "Select menu",
+        "MODAL_SUBMIT_INTERACTION": "Modal submit",
+    }
     private spinner = ora()
     private defaultConsole: typeof console
 
@@ -172,7 +180,52 @@ export class Logger {
 
         if (logsConfig.interaction.console) this.console('info', chalkedMessage)
         if (logsConfig.interaction.file) this.file('info', message)
-        if (logsConfig.interaction.channel) this.discordChannel(logsConfig.interaction.channel, message, 'info')
+        if (logsConfig.interaction.channel) this.discordChannel(logsConfig.interaction.channel, {
+            embeds: [{
+                author: {
+                    name: (user ? `${user.username}#${user.discriminator}` : 'Unknown user'),
+                    icon_url: (user?.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}` : '')
+                },
+                title: `Interaction`,
+                thumbnail: {
+                    url: guild?.iconURL({ forceStatic: true }) ?? ""
+                },
+                fields: [
+                    {
+                        name: 'Type',
+                        value: this.interactionTypeReadable[type],
+                        inline: true
+                    },
+                    {
+                        name: "\u200b",
+                        value: "\u200b",
+                        inline: true
+                    },
+                    {
+                        name: 'Action',
+                        value: action,
+                        inline: true
+                    },
+                    {
+                        name: "Guild",
+                        value: guild ? guild.name : 'Unknown',
+                        inline: true
+                    },
+                    {
+                        name: "\u200b",
+                        value: "\u200b",
+                        inline: true
+                    },
+                    {
+                        name: "Channel",
+                        value: channel instanceof TextChannel || channel instanceof ThreadChannel ? `#${channel.name}` : 'Unknown',
+                        inline: true
+                    }
+                ],
+                color: 0xdb5c21,
+                timestamp: new Date().toISOString()
+            }]
+        }, 'info')
     }
 
     /**
@@ -186,7 +239,20 @@ export class Logger {
 
         if (logsConfig.newUser.console) this.console('info', chalkedMessage)
         if (logsConfig.newUser.file) this.file('info', message)
-        if (logsConfig.newUser.channel) this.discordChannel(logsConfig.newUser.channel, message, 'info')
+        if (logsConfig.newUser.channel) this.discordChannel(logsConfig.newUser.channel, {
+            embeds: [{
+                title: 'New user',
+                description: `**${user.tag}**`,
+                thumbnail: {
+                    url: user.displayAvatarURL({ forceStatic: false })
+                },
+                color: 0x83dd80,
+                timestamp: new Date().toISOString(),
+                footer: {
+                    text: user.id
+                }
+            }]
+        }, 'info')
     }
 
     /**
