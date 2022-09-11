@@ -28,6 +28,7 @@ async function run() {
     // init the client
     DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
     const client = new Client(clientConfig)
+
     // Load all new events
     discordLogs(client, { debug: false })
     container.registerInstance(Client, client)
@@ -36,32 +37,38 @@ async function run() {
     await waitForDependency(ErrorHandler)
 
     // import all the commands and events
-    await importx(__dirname + "/{events,commands,api}/**/*.{ts,js}")
+    await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
         
     // init the data table if it doesn't exist
     await initDataTable()
 
     // log in with the bot token
     if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
-    await client.login(process.env.BOT_TOKEN)
+    client.login(process.env.BOT_TOKEN)
+    .then(async () => {
 
-    // start the api server
-    if (apiConfig.enabled) {
-        const server = await waitForDependency(Server)
-        await server.start()
-    }
+        // start the api server
+        if (apiConfig.enabled) {
+            const server = await waitForDependency(Server)
+            await server.start()
+        }
 
-    // connect to the dashboard websocket
-    if (websocketConfig.enabled) {
-        const webSocket = await waitForDependency(WebSocket)
-        await webSocket.init(client.user?.id || null)
-    }
+        // connect to the dashboard websocket
+        if (websocketConfig.enabled) {
+            const webSocket = await waitForDependency(WebSocket)
+            await webSocket.init(client.user?.id || null)
+        }
 
-    // upload images to imgur if configured
-    if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-        const imagesUpload = await waitForDependency(ImagesUpload)
-        await imagesUpload.syncWithDatabase()
-    }
+        // upload images to imgur if configured
+        if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
+            const imagesUpload = await waitForDependency(ImagesUpload)
+            await imagesUpload.syncWithDatabase()
+        }
+    })
+    .catch((err) => {
+        console.error(err)
+        process.exit(1)
+    })
 }
 
 run()
