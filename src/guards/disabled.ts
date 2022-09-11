@@ -2,9 +2,7 @@ import { GuardFunction, SimpleCommandMessage } from 'discordx'
 import { ContextMenuCommandInteraction, CommandInteraction } from 'discord.js'
 
 import { getLocaleFromInteraction, L } from '@i18n'
-import { resolveUser, replyToInteraction } from '@utils/functions'
-
-import { generalConfig } from '@config'
+import { resolveUser, replyToInteraction, isDev } from '@utils/functions'
 
 /**
  * Prevent interaction from running when it is disabled
@@ -17,7 +15,7 @@ export const Disabled: GuardFunction<
 
     const user = resolveUser(arg)
 
-    if (user?.id && generalConfig.devs.includes(user.id)) {
+    if (user?.id && isDev(user.id)) {
         return next()
     }
     else {

@@ -1,7 +1,7 @@
 import { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js'
 import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx'
 
-import { resolveUser, isInMaintenance, replyToInteraction } from '@utils/functions'
+import { resolveUser, isInMaintenance, replyToInteraction, isDev } from '@utils/functions'
 import { getLocaleFromInteraction, L } from '@i18n'
 
 import { generalConfig } from '@config'
@@ -25,7 +25,7 @@ export const Maintenance: GuardFunction<
         if (
             maintenance &&
             user?.id &&
-            !generalConfig.devs.includes(user.id)
+            !isDev(user.id)
         ) {
 
             const locale = getLocaleFromInteraction(arg),

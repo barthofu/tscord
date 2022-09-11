@@ -2,7 +2,7 @@ import { Client, ArgsOf } from 'discordx'
 
 import { Maintenance } from '@guards'
 import { On, Guard, Discord } from '@decorators'
-import { executeEvalFromMessage } from '@utils/functions'
+import { executeEvalFromMessage, isDev } from '@utils/functions'
 
 import { generalConfig } from '@config'
 
@@ -22,7 +22,7 @@ export default class MessageCreateEvent {
         if (
             message.content.startsWith(`\`\`\`${generalConfig.eval.name}`)
             && (
-                (!generalConfig.eval.onlyOwner && generalConfig.devs.includes(message.author.id))
+                (!generalConfig.eval.onlyOwner && isDev(message.author.id))
                 || (generalConfig.eval.onlyOwner && message.author.id === generalConfig.ownerId)
             )
         ) {

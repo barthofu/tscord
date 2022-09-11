@@ -6,7 +6,7 @@ export const generalConfig: GeneralConfigType = {
 	description: '',
 	defaultLocale: 'en',
 	simpleCommandsPrefix: '!',
-	ownerId: '260908777446965248',
+	ownerId: process.env['BOT_OWNER_ID'] || '',
 	timezone: 'Europe/Paris',
 
 	links: {
@@ -17,9 +17,8 @@ export const generalConfig: GeneralConfigType = {
 	
 	automaticUploadImagesToImgur: true,
 
-	devs: [
-		'260908777446965248',
-	],
+	// you don't have to put the owner id here, it is added automatically
+	devs: [],
 
 	eval: {
 		name: 'bot',
