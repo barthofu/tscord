@@ -82,6 +82,8 @@ export class Logger {
 
 
     async discordChannel(channelId: string, message: string | MessageOptions = '', level?: typeof this.levels[number]) {
+        if(!this.client.token) return
+        
         const channel = await this.client.channels.fetch(channelId)
         
         if (
