@@ -12,7 +12,7 @@
 
 It uses [`discord.ts`](https://github.com/oceanroleplay/discord.ts) and [`discord.js v14`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
-This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply copy this repo, follow the [setup instructions](https://barthofu.github.io/tscord-template-docs), and have a working bot with many boilerplate features already included!        
+This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply copy this repo, follow the [setup instructions](https://barthofu.github.io/tscord-docs), and have a working bot with many boilerplate features already included!        
     </td>
   </tr>
 </table>
@@ -58,7 +58,7 @@ This template is also developper friendly and follow strict design patterns to e
 
 ## 📚 Documentation
 
-### Check the [**official documentation (WIP)**](https://barthofu.github.io/tscord-template-docs) to get started and understand how to use this template.
+### Check the [**official documentation (WIP)**](https://barthofu.github.io/tscord-docs) to get started and understand how to use this template.
 
 You can also find useful documentations at:
 - [discord.ts documentation](https://discord-ts.js.org/)
