@@ -1,10 +1,10 @@
-import { Embed, MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
+import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import { delay, inject, singleton } from 'tsyringe'
 import { parse, StackFrame } from 'stacktrace-parser'
 import { constant } from 'case'
 import fs from 'fs'
-import chalk, { Level } from 'chalk'
+import chalk from 'chalk'
 import boxen from 'boxen'
 import ora from 'ora'
 import { getMetadataArgsStorage } from 'routing-controllers'
@@ -217,7 +217,24 @@ export class Logger {
 
             if (logsConfig.guild.console) this.console('info', chalkedMessage)
             if (logsConfig.guild.file) this.file('info', message)
-            if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, message, 'info')
+            if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, {
+                embeds: [{
+                    title: (type === 'NEW_GUILD' ? 'New guild' : type === 'DELETE_GUILD' ? 'Deleted guild' : 'Recovered guild'),
+                    //description: `**${guild.name} (\`${guild.id}\`)**\n${guild.memberCount} members`,
+                    fields: [{
+                        name: guild.name,
+                        value: `${guild.memberCount} members`
+                    }],
+                    footer: {
+                        text: guild.id
+                    },
+                    thumbnail: {
+                        url: guild?.iconURL() ?? ''
+                    },
+                    color: (type === 'NEW_GUILD' ? 0x02fd77 : type === 'DELETE_GUILD' ? 0xff0000 : 0xfffb00),
+                    timestamp: new Date().toISOString(),
+                }]
+            }, 'info')
         })
     }
 
