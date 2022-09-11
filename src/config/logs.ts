@@ -34,6 +34,6 @@ export const logsConfig: LogsConfigType = {
     error: {
         file: true,
         console: true,
-        channel: "999745206809272471"
+        channel: null
     }
 }

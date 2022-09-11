@@ -1,4 +1,4 @@
-import { ArgsOf, SimpleCommandMessage } from "discordx"
+import { SimpleCommandMessage } from "discordx"
 import {
     CommandInteraction,
 	ChatInputCommandInteraction,
