@@ -23,7 +23,7 @@ export class HealthController extends BaseController {
         return {
             online: this.client.user?.presence.status !== 'offline',
             uptime: this.client.uptime,
-            lastStartup: await this.db.getRepo(Data).get('lastStartup'),
+            lastStartup: await this.db.get(Data).get('lastStartup'),
         }
     }
 

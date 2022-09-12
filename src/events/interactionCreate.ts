@@ -34,8 +34,8 @@ export default class InteractionCreateEvent {
         await syncUser(interaction.user)
         
         // update last interaction time of both user and guild
-        await this.db.getRepo(User).updateLastInteract(interaction.user.id)
-        await this.db.getRepo(Guild).updateLastInteract(interaction.guild?.id)
+        await this.db.get(User).updateLastInteract(interaction.user.id)
+        await this.db.get(Guild).updateLastInteract(interaction.guild?.id)
 
         // register logs and stats
         await this.stats.registerInteraction(interaction as AllInteractions)

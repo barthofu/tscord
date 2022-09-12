@@ -53,7 +53,7 @@ export default class ReadyEvent {
         await this.changeActivity()
 
         // update last startup time in the database
-        await this.db.getRepo(Data).set('lastStartup', Date.now())
+        await this.db.get(Data).set('lastStartup', Date.now())
 
         // start scheduled jobs
         this.scheduler.startAllJobs()

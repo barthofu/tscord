@@ -8,7 +8,7 @@ import { Data } from "@entities"
 export const isInMaintenance = async (): Promise<boolean> => {
             
     const db = await waitForDependency(Database)
-    const dataRepository = db.getRepo(Data)
+    const dataRepository = db.get(Data)
     const maintenance = await dataRepository.get('maintenance')
     
     return maintenance
@@ -19,6 +19,6 @@ export const isInMaintenance = async (): Promise<boolean> => {
  */
 export const setMaintenance = async (maintenance: boolean) =>  {
     const db = await waitForDependency(Database)
-    const dataRepository = db.getRepo(Data)
+    const dataRepository = db.get(Data)
     await dataRepository.set('maintenance', maintenance)
 }

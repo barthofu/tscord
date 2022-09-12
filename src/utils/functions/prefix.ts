@@ -11,7 +11,7 @@ import { Guild } from '@entities'
  */
 export const getPrefixFromMessage = async (message: Message) => {
     const db = await waitForDependency(Database)
-    const guildRepo = db.getRepo(Guild)
+    const guildRepo = db.get(Guild)
 
     const guildId = message.guild?.id
     const guildData = await guildRepo.findOne({ id: guildId })

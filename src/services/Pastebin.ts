@@ -34,7 +34,7 @@ export class Pastebin {
         pasteEntity.editCode = paste.editCode
         if (lifetime) pasteEntity.lifetime = Math.floor(lifetime)
     
-        await this.db.getRepo(PastebinEntity).persistAndFlush(pasteEntity)
+        await this.db.get(PastebinEntity).persistAndFlush(pasteEntity)
     
         return paste.paste
     }
@@ -43,18 +43,18 @@ export class Pastebin {
 
         await this.waitForToken()
         
-        const paste = await this.db.getRepo(PastebinEntity).findOne({ id })
+        const paste = await this.db.get(PastebinEntity).findOne({ id })
 
         if (!paste) return
 
         await this.client.deletePaste(id, paste.editCode)
-        await this.db.getRepo(PastebinEntity).remove(paste)
+        await this.db.get(PastebinEntity).remove(paste)
     }
 
     @Schedule('*/30 * * * *')
     private async autoDelete(): Promise<void> {
         
-        const pastes = await this.db.getRepo(PastebinEntity).find({ lifetime: { $gt: 0 } })
+        const pastes = await this.db.get(PastebinEntity).find({ lifetime: { $gt: 0 } })
 
         for(const paste of pastes) {
             const diff = dayjs().diff(dayjs(paste.createdAt), 'day')

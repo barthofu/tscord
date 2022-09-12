@@ -31,7 +31,7 @@ export class Stats {
         private db: Database,
         @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
-        this.statsRepo = this.db.getRepo(Stat)
+        this.statsRepo = this.db.get(Stat)
     }
 
     /**
@@ -99,7 +99,7 @@ export class Stats {
         const totalStatsObj = {
             TOTAL_USERS: this.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
             TOTAL_GUILDS: this.client.guilds.cache.size,
-            TOTAL_ACTIVE_USERS: await this.db.getRepo(User).count(),
+            TOTAL_ACTIVE_USERS: await this.db.get(User).count(),
             TOTAL_COMMANDS: await this.statsRepo.count(allInteractions)
         }
 
@@ -169,11 +169,11 @@ export class Stats {
             '>1000': 0
         }
 
-        const users = await this.db.getRepo(User).findAll()
+        const users = await this.db.get(User).findAll()
 
         for (const user of users) {
 
-            const commandsCount = await this.db.getRepo(Stat).count({
+            const commandsCount = await this.db.get(Stat).count({
                 ...allInteractions,
                 additionalData: {
                     user: user.id
@@ -198,13 +198,13 @@ export class Stats {
             totalCommands: number
         }[] = []
 
-        const guilds = await this.db.getRepo(Guild).getActiveGuilds()
+        const guilds = await this.db.get(Guild).getActiveGuilds()
 
         for (const guild of guilds) {
 
             const discordGuild = await this.client.guilds.fetch(guild.id)
 
-            const commandsCount = await this.db.getRepo(Stat).count({
+            const commandsCount = await this.db.get(Stat).count({
                 ...allInteractions,
                 additionalData: {
                     guild: guild.id

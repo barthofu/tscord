@@ -37,12 +37,12 @@ export default class PrefixCommand {
 	) {
 
 		const guild = resolveGuild(interaction),
-			  guildData = await this.db.getRepo(Guild).findOne({ id: guild?.id || '' })
+			  guildData = await this.db.get(Guild).findOne({ id: guild?.id || '' })
 
 		if (guildData) {
 
 			guildData.prefix = prefix || null
-			this.db.getRepo(Guild).persistAndFlush(guildData)
+			this.db.get(Guild).persistAndFlush(guildData)
 
 			simpleSuccessEmbed(
 				interaction, 

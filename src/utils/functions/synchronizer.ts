@@ -13,7 +13,7 @@ export const syncUser = async (user: DUser) => {
     
     const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
 
-    const userRepo = db.getRepo(User)
+    const userRepo = db.get(User)
 
     const userData = await userRepo.findOne({
         id: user.id
@@ -40,7 +40,7 @@ export const syncUser = async (user: DUser) => {
 export const syncGuild = async (guildId: string, client: Client) => {
     const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
 
-    const guildRepo = db.getRepo(Guild),
+    const guildRepo = db.get(Guild),
           guildData = await guildRepo.findOne({ id: guildId, deleted: false })
 
     const fetchedGuild = await client.guilds.fetch(guildId)
@@ -96,7 +96,7 @@ export const syncAllGuilds = async (client: Client)  => {
     }
 
     // remove deleted guilds
-    const guildRepo = db.getRepo(Guild)
+    const guildRepo = db.get(Guild)
     const guildsData = await guildRepo.getActiveGuilds()
     for (const guildData of guildsData) {
         await syncGuild(guildData.id, client)

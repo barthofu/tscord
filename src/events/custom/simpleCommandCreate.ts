@@ -28,8 +28,8 @@ export default class SimpleCommandCreateEvent {
         await syncUser(command.message.author)
 
         // update last interaction time of both user and guild
-        await this.db.getRepo(User).updateLastInteract(command.message.author.id)
-        await this.db.getRepo(Guild).updateLastInteract(command.message.guild?.id)
+        await this.db.get(User).updateLastInteract(command.message.author.id)
+        await this.db.get(Guild).updateLastInteract(command.message.guild?.id)
 
         await this.stats.registerSimpleCommand(command)
         this.logger.logInteraction(command)

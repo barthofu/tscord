@@ -60,7 +60,7 @@ export class BotController extends BaseController {
             discordGuild.iconURL = discordRawGuild.iconURL()
             discordGuild.bannerURL = discordRawGuild.bannerURL()
 
-            const databaseGuild = await this.db.getRepo(Guild).findOne({ id: discordGuild.id })
+            const databaseGuild = await this.db.get(Guild).findOne({ id: discordGuild.id })
 
             body.push({
                 discord: discordGuild,
@@ -84,7 +84,7 @@ export class BotController extends BaseController {
             discordGuild.bannerURL = discordRawGuild.bannerURL()
 
             // get database guild
-            const databaseGuild = await this.db.getRepo(Guild).findOne({ id })
+            const databaseGuild = await this.db.get(Guild).findOne({ id })
 
             return {
                 discord: discordGuild,
@@ -167,7 +167,7 @@ export class BotController extends BaseController {
                     discordUser.iconURL = member.user.displayAvatarURL()
                     discordUser.bannerURL = member.user.bannerURL()
 
-                    const databaseUser = await this.db.getRepo(User).findOne({ id: discordUser.id })
+                    const databaseUser = await this.db.get(User).findOne({ id: discordUser.id })
 
                     users.push({
                         discord: discordUser,
@@ -193,7 +193,7 @@ export class BotController extends BaseController {
             discordUser.bannerURL = discordRawUser.bannerURL()
             
             // get database user
-            const databaseUser = await this.db.getRepo(User).findOne({ id })
+            const databaseUser = await this.db.get(User).findOne({ id })
     
             return {
                 discord: discordUser,

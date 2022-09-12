@@ -28,7 +28,7 @@ export class ImagesUpload {
         private db: Database,
         private logger: Logger
     ) {
-        this.imageRepo = this.db.getRepo(Image)
+        this.imageRepo = this.db.get(Image)
     }
 
     isValidImageFormat(file: string): boolean {

@@ -10,7 +10,7 @@ import { Image } from "@entities"
 export const getImage = async (imageName: string): Promise<string | null> => {
 
     const db = await waitForDependency(Database)
-    const imageRepo = db.getRepo(Image)
+    const imageRepo = db.get(Image)
 
     let image = await imageRepo.findOne({
         $or: [
