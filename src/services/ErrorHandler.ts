@@ -29,7 +29,7 @@ export class ErrorHandler {
         process.on('unhandledRejection', (error: Error | any, promise: Promise<any>) => {
 
             // if instance of BaseError, call `handle` method
-            if(error instanceof BaseError) return error.handle()
+            if (error instanceof BaseError) return error.handle()
 
             // log the error
             this.logger.logError(error, "unhandledRejection")

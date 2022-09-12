@@ -82,7 +82,8 @@ export class Logger {
 
 
     async discordChannel(channelId: string, message: string | MessageOptions = '', level?: typeof this.levels[number]) {
-        if(!this.client.token) return
+        
+        if (!this.client.token) return
         
         const channel = await this.client.channels.fetch(channelId)
         
@@ -232,13 +233,13 @@ export class Logger {
         let embedTitle = ''
         let chalkedMessage = `(${chalk.bold.white('ERROR')})`
 
-        if(trace && trace[0]) {
+        if (trace && trace[0]) {
             message += ` ${type === 'Exception' ? 'Exception' : 'Unhandled rejection'} : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`
             embedMessage += `\`\`\`\n${trace.map((frame: StackFrame) => `\> ${frame.file}:${frame.lineNumber}`).join('\n')}\n\`\`\``
             embedTitle += `***${type === 'Exception' ? 'Exception' : 'Unhandled rejection'}* : ${error.message}**`
             chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
         } else {
-            if(type === 'Exception') {
+            if (type === 'Exception') {
                 message += `An exception as occured in a unknow file\n\t> ${error.message}`
                 embedMessage += `An exception as occured in a unknow file\n${error.message}`
             } else {
@@ -247,7 +248,7 @@ export class Logger {
             }
         }
 
-        if(embedMessage.length >= 4096) {        
+        if (embedMessage.length >= 4096) {        
             const paste = await this.pastebin.createPaste(embedTitle + "\n" + embedMessage)
             console.log(paste?.getLink())
             embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`
@@ -255,7 +256,7 @@ export class Logger {
 
         if (logsConfig.error.console) this.console('error', chalkedMessage)
         if (logsConfig.error.file) this.file('error', message)
-        if (logsConfig.error.channel) this.discordChannel(logsConfig.error.channel, {
+        if (logsConfig.error.channel && process.env['NODE_ENV'] === 'production') this.discordChannel(logsConfig.error.channel, {
             embeds: [{
                 title: (embedTitle.length >= 256 ? (embedTitle.substring(0, 252) + "...") : embedTitle),
                 description: embedMessage,

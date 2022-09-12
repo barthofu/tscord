@@ -1,4 +1,4 @@
-import { parse } from "stacktrace-parser";
+import { parse } from "stacktrace-parser"
 
 export const getCallerFile = (depth: number = 0) => {
 

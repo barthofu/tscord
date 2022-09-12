@@ -26,8 +26,9 @@ export default class InteractionCreateEvent {
         [interaction]: ArgsOf<'interactionCreate'>, 
         client: Client
     ) {
+        
         // defer the reply
-        if(interaction instanceof CommandInteraction) await interaction.deferReply()
+        if (interaction instanceof CommandInteraction) await interaction.deferReply()
 
         // insert user in db if not exists
         await syncUser(interaction.user)
