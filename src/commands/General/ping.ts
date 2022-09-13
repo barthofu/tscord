@@ -22,7 +22,7 @@ export default class PingCommand {
 		const content = localize["COMMANDS"]["PING"]["MESSAGE"]({
 			member: msg.inGuild() ? `${interaction.member},` : "",
 			time: msg.createdTimestamp - interaction.createdTimestamp,
-			heartbeat: client.ws.ping ? `The heartbeat ping is ${Math.round(client.ws.ping)}ms.` : ""
+			heartbeat: client.ws.ping ? ` The heartbeat ping is ${Math.round(client.ws.ping)}ms.` : ""
 		})
 
         await msg.edit(content)
