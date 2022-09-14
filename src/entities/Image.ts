@@ -45,5 +45,11 @@ export class Image extends CustomBaseEntity {
 
 @singleton()
 export class ImageRepository extends EntityRepository<Image> { 
+    async findByTags(tags: string[], explicit: boolean = true): Promise<Image[]> {
+        const rows =  await this.find({
+            $and: tags.map(tag => ({ tags: new RegExp(tag) }))
+        });
 
+        return explicit ? rows.filter(row => row.tags.length === tags.length) : rows;
+    }
 }
