@@ -41,38 +41,16 @@ export class ImagesUpload {
     }
 
     async syncWithDatabase() {
-
-        // add missing images to the database
-
+        // Get all images inside the assets/images folder
         const images = getFiles(this.imageFolderPath)
             .filter(file => this.isValidImageFormat(file))
             .map(file => file.replace(this.imageFolderPath + '/', ''))
 
-        // check if the image is already in the database and that its md5 hash is the same.
-        for (const imagePath of images) {
 
-            const imageFileName = imagePath.split('/').slice(-1)[0]
-            
-            const imageHash = await imageHasher(
-                `${this.imageFolderPath}/${imagePath}`, 
-                16, 
-                true
-            ) as string
-
-            const imageInDb = await this.imageRepo.findOne({ 
-                fileName: imageFileName,
-                hash: imageHash 
-            })
-
-            if (!imageInDb) await this.addNewImageToImgur(imagePath, imageHash)
-        }
-
-        // remove images from the database that are not anymore in the filesystem
-        
+        // Remove all images from the database that are not anymore in the filesystem
         const imagesInDb = await this.imageRepo.findAll()
 
         for (const image of imagesInDb) {
-
             const imagePath = `${image.basePath !== '' ? image.basePath + '/' : ''}${image.fileName}`
 
             // delete the image if it is not in the filesystem anymore
@@ -88,9 +66,27 @@ export class ImagesUpload {
                 await this.imageRepo.remove(image).flush()
                 await this.addNewImageToImgur(imagePath, image.hash, true)
             }
-
         }
 
+        // Check if the image is already in the database and that its md5 hash is the same.
+        for (const imagePath of images) {            
+            const imageHash = await imageHasher(
+                `${this.imageFolderPath}/${imagePath}`, 
+                16, 
+                true
+            ) as string
+
+            const imageInDb = await this.imageRepo.findOne({ 
+                hash: imageHash,
+            })
+
+            if (!imageInDb) await this.addNewImageToImgur(imagePath, imageHash)
+            else if(
+                imageInDb && (
+                imageInDb.basePath != imagePath.split('/').slice(0, -1).join('/') ||
+                imageInDb.fileName != imagePath.split('/').slice(-1)[0] )
+            ) console.warn(`Image ${chalk.bold.green(imagePath)} has the same hash as ${chalk.bold.green(imageInDb.basePath + (imageInDb.basePath?.length ? "/" : "") + imageInDb.fileName)} so it will skip`)
+        }
     }
 
     async deleteImageFromImgur(image: Image) {
