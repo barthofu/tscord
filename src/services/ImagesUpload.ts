@@ -41,13 +41,13 @@ export class ImagesUpload {
     }
 
     async syncWithDatabase() {
-        // Get all images inside the assets/images folder
+        // get all images inside the assets/images folder
         const images = getFiles(this.imageFolderPath)
             .filter(file => this.isValidImageFormat(file))
             .map(file => file.replace(this.imageFolderPath + '/', ''))
 
 
-        // Remove all images from the database that are not anymore in the filesystem
+        // remove all images from the database that are not anymore in the filesystem
         const imagesInDb = await this.imageRepo.findAll()
 
         for (const image of imagesInDb) {
@@ -58,17 +58,13 @@ export class ImagesUpload {
 
                 await this.imageRepo.remove(image).flush()
                 await this.deleteImageFromImgur(image)
-            }
-
-            // reupload if the image is not on imgur anymore
-            if (!await this.isImgurImageValid(image.url)) {
-                
-                await this.imageRepo.remove(image).flush()
+            } else if (!await this.isImgurImageValid(image.url)) {
+                // reupload if the image is not on imgur anymore
                 await this.addNewImageToImgur(imagePath, image.hash, true)
             }
         }
 
-        // Check if the image is already in the database and that its md5 hash is the same.
+        // check if the image is already in the database and that its md5 hash is the same.
         for (const imagePath of images) {            
             const imageHash = await imageHasher(
                 `${this.imageFolderPath}/${imagePath}`, 
