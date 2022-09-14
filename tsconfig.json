@@ -21,25 +21,46 @@
 
 		"baseUrl": ".",
 		"paths": {
+			"@decorators": 			["src/utils/decorators"],
+			"@decorators/*": 		["plugins/*/utils/decorators"],
 
-			"@types": ["src/utils/types"],
-			"@decorators": ["src/utils/decorators"],
-			"@errors": ["src/utils/errors"],
-			"@entities": ["src/entities"],
-			"@guards": ["src/guards"],
-			"@services": ["src/services"],
-			"@i18n": ["src/i18n"],
-			"@config": ["src/config"],
+			"@errors": 				["src/utils/errors"],
+			"@errors/*": 			["plugins/*/utils/errors"],
+
+			"@entities": 			["src/entities"],
+			"@entities/*": 			["plugins/*/entities"],
+
+			"@guards": 				["src/guards"],
+			"@guards/*": 			["plugins/*/guards"],
 			
-			"@core/*": ["src/core/*"],
-			"@utils/*": ["src/utils/*"],
-			"@api/*": ["src/api/*"]
+			"@services": 			["src/services"],
+			"@services/*": 			["plugins/*/services"],
+
+			"@i18n": 				["src/i18n"],
+			"@i18n/*": 				["plugins/*/i18n"],
+
+			"@config": 				["src/config"],
+			"@config/*": 			["plugins/*/config"],
+
+			"@utils/classes": 		["src/utils/classes"],
+			"@utils/classes/*": 	["plugins/*/utils/classes"],
+
+			"@utils/functions":		["src/utils/functions"],
+			"@utils/functions/*":	["plugins/*/utils/functions"],
+
+			"@api/controllers": 	["src/api/controllers"],
+			"@api/controllers/*": 	["plugins/*/api/controllers"],
+
+			"@api/middlewares": 	["src/api/middlewares"],
+			"@api/middlewares/*": 	["plugins/*/api/middlewares"],
+
+			"@api/server": 			["src/api/server.ts"]
 		}
 	},
 
 	"include": ["src", "**/*.ts"],
 	"exclude": ["build", "node_modules", "tests"],
-	"paths": ["node_modules/*", "src/utils/types/*"],
+	"paths": ["node_modules/*", "src/utils/types/*", "plugins/*/utils/types/*"],
 
 	"ts-node": {
 		"require": ["tsconfig-paths/register"]

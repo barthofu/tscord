@@ -7,7 +7,7 @@ import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
 import { importx } from '@discordx/importer'
 
 import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
-import { initDataTable, waitForDependency } from '@utils/functions'
+import { importPluginsCommands, importPluginsEvents, importPluginsTranslations, initDataTable, waitForDependency } from '@utils/functions'
 import { Server } from '@api/server'
 
 import { clientConfig } from './client'
@@ -18,6 +18,11 @@ async function run() {
 
     // start loading
     const logger = await waitForDependency(Logger)
+
+    // Import translations from plugins
+    await importPluginsTranslations()
+
+    // Strart spinner
     console.log('\n')
     logger.startSpinner('Starting...')
 
@@ -38,6 +43,9 @@ async function run() {
 
     // import all the commands and events
     await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
+    await importPluginsCommands()
+    await importPluginsEvents()
+
         
     // init the data table if it doesn't exist
     await initDataTable()

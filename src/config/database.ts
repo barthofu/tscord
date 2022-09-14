@@ -1,8 +1,6 @@
 import { Options } from '@mikro-orm/core'
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
 
-import * as entities from '@entities'
-
 export const databaseConfig: DatabaseConfigType = {
     
     path: './database/',
@@ -61,7 +59,6 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
-        entities: Object.values(entities),
         highlighter: new SqlHighlighter(),
         allowGlobalContext: true,
         debug: false,

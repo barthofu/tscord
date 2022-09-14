@@ -6,6 +6,8 @@ import fastFolderSizeSync from 'fast-folder-size/sync'
 import fs from 'fs'
 import { backup, restore } from 'saveqlite'
 import { delay, inject, singleton } from 'tsyringe'
+import * as entities from '@entities'
+import { getPluginsEntities } from '@utils/functions'
 
 @singleton()
 export class Database {
@@ -17,9 +19,14 @@ export class Database {
     ) { }
 
     async initialize() {
+        // get config
+        let config = mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>
+
+        // defines entities into the config
+        config.entities = [...Object.values(entities), ...Object.values(await getPluginsEntities())]
 
         // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
-        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>)
+        this._orm = await MikroORM.init(config)
 
         const migrator = this._orm.getMigrator()
 

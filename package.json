@@ -114,5 +114,8 @@
   },
   "overrides": {
     "validator": "13.7.0"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/i18n/**/!(index.ts)"]
   }
 }

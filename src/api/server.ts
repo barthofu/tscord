@@ -1,6 +1,7 @@
 import * as controllers from "@api/controllers"
 import { log } from "@api/middlewares"
 import { Logger } from "@services"
+import { getPluginsControllers } from "@utils/functions"
 import express, { Application } from "express"
 import { ClassConstructor, ExpressErrorMiddlewareInterface, getMetadataArgsStorage, IocAdapter, Middleware, useContainer, useExpressServer } from "routing-controllers"
 import { routingControllersToSpec } from "routing-controllers-openapi"
@@ -26,7 +27,7 @@ export class Server {
         this.setupSwaggerUi()
 
         useExpressServer(this.server, {
-            controllers: Object.values(controllers),
+            controllers: [...Object.values(controllers), ...Object.values(await getPluginsControllers())],
             defaultErrorHandler: false
         })
 

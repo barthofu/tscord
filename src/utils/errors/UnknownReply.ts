@@ -1,7 +1,7 @@
 import { CommandInteraction } from "discord.js"
 
 import { getLocaleFromInteraction, L } from '@i18n'
-import { simpleErrorEmbed } from '@utils/functions/embeds'
+import { simpleErrorEmbed } from '@utils/functions'
 import { BaseError } from "@utils/classes"
 
 export class UnknownReplyError extends BaseError {

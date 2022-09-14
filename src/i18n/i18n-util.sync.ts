@@ -8,9 +8,18 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 import en from './en'
 import fr from './fr'
 
+import en_my_plugin from './en/my-plugin'
+import fr_my_plugin from './fr/my-plugin'
+
 const localeTranslations = {
-	en,
-	fr,
+	en: {
+		...en,
+		'my-plugin': en_my_plugin
+	},
+	fr: {
+		...fr,
+		'my-plugin': fr_my_plugin
+	},
 }
 
 export const loadLocale = (locale: Locales): void => {

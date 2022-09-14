@@ -2,16 +2,19 @@
 /* eslint-disable */
 import type { BaseTranslation as BaseTranslationType, LocalizedString, RequiredParams } from 'typesafe-i18n'
 
-export type BaseTranslation = BaseTranslationType
+export type BaseTranslation = BaseTranslationType & DisallowNamespaces
 export type BaseLocale = 'en'
 
 export type Locales =
 	| 'en'
 	| 'fr'
 
-export type Translation = RootTranslation
+export type Translation = RootTranslation & DisallowNamespaces
 
-export type Translations = RootTranslation
+export type Translations = RootTranslation &
+{
+	'my-plugin': NamespaceMyPluginTranslation
+}
 
 type RootTranslation = {
 	GUARDS: {
@@ -166,6 +169,30 @@ type RootTranslation = {
 	}
 }
 
+export type NamespaceMyPluginTranslation = {
+	PLUGIN: {
+		/**
+		 * My Plugin
+		 */
+		NAME: string
+		/**
+		 * My Plugin Description
+		 */
+		DESCRIPTION: string
+	}
+}
+
+export type Namespaces =
+	| 'my-plugin'
+
+type DisallowNamespaces = {
+	/**
+	 * reserved for 'my-plugin'-namespace\
+	 * you need to use the `./my-plugin/index.ts` file instead
+	 */
+	'my-plugin'?: "[typesafe-i18n] reserved for 'my-plugin'-namespace. You need to use the `./my-plugin/index.ts` file instead."
+}
+
 export type TranslationFunctions = {
 	GUARDS: {
 		/**
@@ -307,6 +334,18 @@ export type TranslationFunctions = {
 			 * {member} Pong! The message round-trip took {time}ms.{heartbeat}
 			 */
 			MESSAGE: (arg: { heartbeat: string, member: string, time: number }) => LocalizedString
+		}
+	}
+	'my-plugin': {
+		PLUGIN: {
+			/**
+			 * My Plugin
+			 */
+			NAME: () => LocalizedString
+			/**
+			 * My Plugin Description
+			 */
+			DESCRIPTION: () => LocalizedString
 		}
 	}
 }
