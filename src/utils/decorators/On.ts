@@ -10,7 +10,7 @@ import { EventOptions, MethodDecoratorEx, DOn, MetadataStorage } from 'discordx'
  *
  * @category Decorator
  */
-export const On = (event: string, options?: EventOptions): MethodDecoratorEx => {
+export const On = (event: string, options?: Omit<EventOptions, 'event'>): MethodDecoratorEx => {
 
     return function <T>(
         target: Record<string, T>,
@@ -23,7 +23,8 @@ export const On = (event: string, options?: EventOptions): MethodDecoratorEx => 
             botIds: options?.botIds,
             event: event,
             once: false,
-            rest: false
+            rest: false,
+            priority: options?.priority,
         }).decorate(clazz.constructor, key, descriptor?.value)
 
         MetadataStorage.instance.addOn(on)
