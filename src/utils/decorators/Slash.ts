@@ -11,7 +11,10 @@ import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from '@
  *
  * @category Decorator
  */
-export const Slash = (options: ApplicationCommandOptions = {}) => {
+export const Slash = (options?: ApplicationCommandOptions | string) => {
+
+    if (!options) options = {}
+    else if (typeof options === 'string') options = { name: options }
 
     let localizationSource: TranslationsNestedPaths | null = null
 
