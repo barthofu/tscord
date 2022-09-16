@@ -14,4 +14,8 @@ export abstract class BaseError extends Error {
     }
 
     handle() {}
+
+    kill() {
+        process.exit(1)
+    }
 }
