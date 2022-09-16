@@ -6,8 +6,8 @@ import discordLogs from 'discord-logs'
 import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
 import { importx } from '@discordx/importer'
 
-import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
-import { importPluginsCommands, importPluginsEvents, importPluginsTranslations, initDataTable, waitForDependency } from '@utils/functions'
+import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket, PluginsManager } from '@services'
+import { initDataTable, waitForDependency } from '@utils/functions'
 import { Server } from '@api/server'
 
 import { clientConfig } from './client'
@@ -15,14 +15,16 @@ import { apiConfig, generalConfig, websocketConfig } from '@config'
 import { NoBotTokenError } from '@errors'
 
 async function run() {
-
-    // start loading
+    // init logger, pluginsmanager and error handler
     const logger = await waitForDependency(Logger)
+    await waitForDependency(ErrorHandler)
+    const pluginManager = await waitForDependency(PluginsManager)
 
-    // Import translations from plugins
-    await importPluginsTranslations()
+    // load plugins and import translations
+    await pluginManager.loadPlugins()
+    await pluginManager.syncTranslations()
 
-    // Strart spinner
+    // strart spinner
     console.log('\n')
     logger.startSpinner('Starting...')
 
@@ -38,13 +40,10 @@ async function run() {
     discordLogs(client, { debug: false })
     container.registerInstance(Client, client)
 
-    // init the error handler
-    await waitForDependency(ErrorHandler)
-
     // import all the commands and events
     await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
-    await importPluginsCommands()
-    await importPluginsEvents()
+    await pluginManager.importCommands()
+    await pluginManager.importEvents()
 
         
     // init the data table if it doesn't exist

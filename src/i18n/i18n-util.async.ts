@@ -12,10 +12,10 @@ const localeTranslationLoaders = {
 
 const localeNamespaceLoaders = {
 	en: {
-		'my-plugin': () => import('./en/my-plugin')
+		'My Awesome Plugin': () => import('./en/My Awesome Plugin')
 	},
 	fr: {
-		'my-plugin': () => import('./fr/my-plugin')
+		'My Awesome Plugin': () => import('./fr/My Awesome Plugin')
 	}
 }
 

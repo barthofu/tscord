@@ -14,7 +14,7 @@ export const locales: Locales[] = [
 ]
 
 export const namespaces: Namespaces[] = [
-	'my-plugin'
+	'My Awesome Plugin'
 ]
 
 export const loadedLocales = {} as Record<Locales, Translations>

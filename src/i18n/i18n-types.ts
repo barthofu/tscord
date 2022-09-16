@@ -13,7 +13,7 @@ export type Translation = RootTranslation & DisallowNamespaces
 
 export type Translations = RootTranslation &
 {
-	'my-plugin': NamespaceMyPluginTranslation
+	'My Awesome Plugin': NamespaceMyAwesomePluginTranslation
 }
 
 type RootTranslation = {
@@ -169,7 +169,7 @@ type RootTranslation = {
 	}
 }
 
-export type NamespaceMyPluginTranslation = {
+export type NamespaceMyAwesomePluginTranslation = {
 	PLUGIN: {
 		/**
 		 * My Plugin
@@ -183,14 +183,14 @@ export type NamespaceMyPluginTranslation = {
 }
 
 export type Namespaces =
-	| 'my-plugin'
+	| 'My Awesome Plugin'
 
 type DisallowNamespaces = {
 	/**
-	 * reserved for 'my-plugin'-namespace\
-	 * you need to use the `./my-plugin/index.ts` file instead
+	 * reserved for 'My Awesome Plugin'-namespace\
+	 * you need to use the `./My Awesome Plugin/index.ts` file instead
 	 */
-	'my-plugin'?: "[typesafe-i18n] reserved for 'my-plugin'-namespace. You need to use the `./my-plugin/index.ts` file instead."
+	'My Awesome Plugin'?: "[typesafe-i18n] reserved for 'My Awesome Plugin'-namespace. You need to use the `./My Awesome Plugin/index.ts` file instead."
 }
 
 export type TranslationFunctions = {
@@ -336,7 +336,7 @@ export type TranslationFunctions = {
 			MESSAGE: (arg: { heartbeat: string, member: string, time: number }) => LocalizedString
 		}
 	}
-	'my-plugin': {
+	'My Awesome Plugin': {
 		PLUGIN: {
 			/**
 			 * My Plugin

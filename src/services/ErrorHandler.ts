@@ -8,8 +8,7 @@ import { BaseError } from '@utils/classes'
 export class ErrorHandler {
 
     constructor(
-        private logger: Logger,
-        private client: Client
+        private logger: Logger
     ) {
 
         // Catch all exeptions
