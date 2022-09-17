@@ -49,6 +49,9 @@ async function run() {
     // init the data table if it doesn't exist
     await initDataTable()
 
+    // init plugins services
+    await pluginManager.initServices()
+
     // log in with the bot token
     if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
     client.login(process.env.BOT_TOKEN)

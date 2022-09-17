@@ -12,6 +12,7 @@ export class Plugin {
     // Specific values
     private _entities: { [key: string]: EntityClass<AnyEntity> };
     private _controllers: { [key: string]: typeof BaseController };
+    private _services: { [key: string]: any };
     private _translations: { [key: string]: BaseTranslation };
 
     constructor(path: string) {
@@ -29,6 +30,7 @@ export class Plugin {
         // Load specific values
         this._entities = await this.getEntities();
         this._controllers = await this.getControllers();
+        this._services = await this.getServices();
         this._translations = await this.getTranslations();
 
 
@@ -40,6 +42,10 @@ export class Plugin {
     
     private async getEntities(): Promise<{ [key: string]: EntityClass<AnyEntity> }> { 
         return import(this._path + "/entities");
+    }
+
+    private async getServices(): Promise<{ [key: string]: any }> {
+        return import(this._path + "/services");
     }
 
     private async getTranslations(): Promise<{ [key: string]: BaseTranslation }> {
@@ -67,5 +73,6 @@ export class Plugin {
     get version() { return this._version }
     get entities() { return this._entities }
     get controllers() { return this._controllers }
+    get services() { return this._services }
     get translations() { return this._translations }
 }

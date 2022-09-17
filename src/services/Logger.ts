@@ -11,8 +11,9 @@ import { getMetadataArgsStorage } from 'routing-controllers'
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
-import { Scheduler, WebSocket, Pastebin } from '@services'
+import { Scheduler, WebSocket, Pastebin, PluginsManager } from '@services'
 import { apiConfig, logsConfig } from '@config'
+import { resolve } from '@discordx/importer'
 
 @singleton()
 export class Logger {
@@ -21,7 +22,8 @@ export class Logger {
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
+        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
         this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))
@@ -395,16 +397,23 @@ export class Logger {
                 !entity.startsWith('index')
                 && !entity.startsWith('BaseEntity')
             )
-            .map(entity => entity.split('.')[0])
 
-        this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length)} ${chalk.bold('entities')} loaded`), true)
+        const pluginsEntites = resolve(`${__dirname}/../../plugins/*/entities`)
+            .filter(entity => 
+                !entity.startsWith('index')
+                && !entity.startsWith('BaseEntity')
+            )
+
+        this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntites.length)} ${chalk.bold('entities')} loaded`), true)
 
         // services
         const services = fs.readdirSync(`${__dirname}/../services`)
             .filter(service => !service.startsWith('index'))
-            .map(service => service.split('.')[0])
+
+        const pluginsServices = resolve(`${__dirname}/../../plugins/*/services`)
+            .filter(service => !service.startsWith('index'))
         
-        this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length)} ${chalk.bold('services')} loaded`), true)
+        this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServices.length)} ${chalk.bold('services')} loaded`), true)
 
         // api
         if (apiConfig.enabled) {

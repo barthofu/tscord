@@ -38,6 +38,18 @@ export class PluginsManager {
         for (const plugin of this.plugins) await plugin.importEvents();
     }
 
+    public async initServices(): Promise<{ [key: string]: any }> {
+        let services: { [key: string]: any } = {};
+
+        for (const plugin of this.plugins) {
+            for(const service in plugin.services) {
+                services[service] = new plugin.services[service]();
+            }
+        }
+
+        return services;
+    }
+
     public async syncTranslations(saveToDisk: boolean = true, generateTypes?: boolean): Promise<void> {
         let localeMapping: ImportLocaleMapping[] =  [];
         let namespaces: { [key: string]: string[] } = {};
