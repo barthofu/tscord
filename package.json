@@ -36,6 +36,7 @@
     "@mikro-orm/postgresql": "^5.3.1",
     "@mikro-orm/sql-highlighter": "^1.0.1",
     "@mikro-orm/sqlite": "^5.3.1",
+    "@types/semver": "^7.3.12",
     "axios": "^0.27.2",
     "boxen": "^5.1.2",
     "case": "^1.6.3",
@@ -67,6 +68,7 @@
     "routing-controllers-openapi": "^3.1.0",
     "rxeta": "^1.1.2",
     "saveqlite": "^1.1.2",
+    "semver": "^7.3.7",
     "socket.io-client": "^4.5.1",
     "stacktrace-parser": "^0.1.10",
     "swagger-ui-express": "^4.5.0",
@@ -116,6 +118,8 @@
     "validator": "13.7.0"
   },
   "nodemonConfig": {
-    "ignore": ["src/i18n/**/!(index.ts)"]
+    "ignore": [
+      "src/i18n/**/!(index.ts)"
+    ]
   }
 }

@@ -11,7 +11,7 @@ import { getMetadataArgsStorage } from 'routing-controllers'
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 
 import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
-import { Scheduler, WebSocket, Pastebin, PluginsManager } from '@services'
+import { Scheduler, WebSocket, Pastebin } from '@services'
 import { apiConfig, logsConfig } from '@config'
 import { resolve } from '@discordx/importer'
 
@@ -22,8 +22,7 @@ export class Logger {
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
-        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin
     ) {
         this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))

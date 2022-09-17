@@ -18,7 +18,8 @@ export class PluginsManager {
         for (const path of pluginPaths) {
             const plugin = new Plugin(path);
             await plugin.load();
-            this.plugins.push(plugin);
+
+            if(plugin.isValid()) this.plugins.push(plugin);
         }
     }
 
