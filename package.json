@@ -19,6 +19,7 @@
     "migration:create": "npx mikro-orm migration:create",
     "migration:up": "npx mikro-orm migration:up",
     "migration:down": "npx mikro-orm migration:down",
+    "plugins:install": "npm-recursive-install --rootDir=plugins",
     "plop": "plop --plopfile ./cli/plopfile.js"
   },
   "dependencies": {
@@ -63,6 +64,7 @@
     "oneline": "^1.0.3",
     "ora": "^5.4.1",
     "pidusage": "^3.0.0",
+    "recursive-install": "^1.4.0",
     "reflect-metadata": "^0.1.13",
     "rentry-pastebin": "^1.2.3",
     "routing-controllers": "^0.9.0",
