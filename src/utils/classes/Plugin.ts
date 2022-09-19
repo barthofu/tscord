@@ -60,14 +60,17 @@ export class Plugin {
     }
 
     private async getControllers(): Promise<{ [key: string]: typeof BaseController }> {
+        if(!fs.existsSync(this._path + "/api/controllers")) return {}
         return import(this._path + "/api/controllers");
     }
     
     private async getEntities(): Promise<{ [key: string]: EntityClass<AnyEntity> }> { 
+        if(!fs.existsSync(this._path + "/entities")) return {}
         return import(this._path + "/entities");
     }
 
     private async getServices(): Promise<{ [key: string]: any }> {
+        if(!fs.existsSync(this._path + "/services")) return {}
         return import(this._path + "/services");
     }
 
