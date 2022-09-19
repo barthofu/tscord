@@ -1,8 +1,0 @@
-{
-    "author": "John Doe",
-    "name": "My Awesome Plugin",
-    "version": "1.0.0",
-    "tscordRequiredVersion": "1.0.0",
-    "description": "This plugin does awesome things",
-    "source": "https://github.com/johndoe/my-awesome-plugin"
-}

@@ -19,7 +19,7 @@
     "migration:create": "npx mikro-orm migration:create",
     "migration:up": "npx mikro-orm migration:up",
     "migration:down": "npx mikro-orm migration:down",
-    "plugins:install": "npm-recursive-install --rootDir=plugins",
+    "plugins:install": "npm-recursive-install --rootDir=src/plugins",
     "plop": "plop --plopfile ./cli/plopfile.js"
   },
   "dependencies": {

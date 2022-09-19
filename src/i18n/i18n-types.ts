@@ -2,19 +2,16 @@
 /* eslint-disable */
 import type { BaseTranslation as BaseTranslationType, LocalizedString, RequiredParams } from 'typesafe-i18n'
 
-export type BaseTranslation = BaseTranslationType & DisallowNamespaces
+export type BaseTranslation = BaseTranslationType
 export type BaseLocale = 'en'
 
 export type Locales =
 	| 'en'
 	| 'fr'
 
-export type Translation = RootTranslation & DisallowNamespaces
+export type Translation = RootTranslation
 
-export type Translations = RootTranslation &
-{
-	'My Awesome Plugin': NamespaceMyAwesomePluginTranslation
-}
+export type Translations = RootTranslation
 
 type RootTranslation = {
 	GUARDS: {
@@ -169,30 +166,6 @@ type RootTranslation = {
 	}
 }
 
-export type NamespaceMyAwesomePluginTranslation = {
-	PLUGIN: {
-		/**
-		 * My Plugin
-		 */
-		NAME: string
-		/**
-		 * My Plugin Description
-		 */
-		DESCRIPTION: string
-	}
-}
-
-export type Namespaces =
-	| 'My Awesome Plugin'
-
-type DisallowNamespaces = {
-	/**
-	 * reserved for 'My Awesome Plugin'-namespace\
-	 * you need to use the `./My Awesome Plugin/index.ts` file instead
-	 */
-	'My Awesome Plugin'?: "[typesafe-i18n] reserved for 'My Awesome Plugin'-namespace. You need to use the `./My Awesome Plugin/index.ts` file instead."
-}
-
 export type TranslationFunctions = {
 	GUARDS: {
 		/**
@@ -334,18 +307,6 @@ export type TranslationFunctions = {
 			 * {member} Pong! The message round-trip took {time}ms.{heartbeat}
 			 */
 			MESSAGE: (arg: { heartbeat: string, member: string, time: number }) => LocalizedString
-		}
-	}
-	'My Awesome Plugin': {
-		PLUGIN: {
-			/**
-			 * My Plugin
-			 */
-			NAME: () => LocalizedString
-			/**
-			 * My Plugin Description
-			 */
-			DESCRIPTION: () => LocalizedString
 		}
 	}
 }

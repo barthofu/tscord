@@ -1,3 +1,0 @@
-type pluginConfigType = {
-    enabled: boolean;
-}

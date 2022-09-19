@@ -52,7 +52,7 @@ export const sanitizeLocales = <K extends SanitizedOptions>(option: K) => {
 
 export const getLocalizationFromPathString = (path: TranslationsNestedPaths, locale?: Locales) => {
 
-    const pathArray = path.split('.')
+    const pathArray = path?.split('.') || []
     let currentLocalization: any = loadedLocales[locale ?? generalConfig.defaultLocale]
 
     for (const pathNode of pathArray) {
