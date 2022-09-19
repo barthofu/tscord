@@ -1,6 +1,7 @@
 import { AnyEntity, EntityClass } from "@mikro-orm/core";
 import { importx, resolve } from "@discordx/importer";
 import { BaseTranslation } from "typesafe-i18n";
+import dotenv from "dotenv";
 import semver from "semver";
 import fs from "fs"
 
@@ -84,6 +85,11 @@ export class Plugin {
         }
 
         return translations;
+    }
+
+    public loadEnv(): void {
+        if(!fs.existsSync(this._path + "/services")) return
+        dotenv.config({ path: this._path + "/.env" });
     }
 
     public async importCommands(): Promise<void> {

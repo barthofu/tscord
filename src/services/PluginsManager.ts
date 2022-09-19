@@ -19,7 +19,10 @@ export class PluginsManager {
             const plugin = new Plugin(path);
             await plugin.load();
 
-            if(plugin.isValid()) this.plugins.push(plugin);
+            if(plugin.isValid()) {
+                plugin.loadEnv();
+                this.plugins.push(plugin);
+            }
         }
     }
 
