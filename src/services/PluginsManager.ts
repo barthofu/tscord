@@ -54,6 +54,10 @@ export class PluginsManager {
         return services;
     }
 
+    public async execMains(): Promise<void> {
+        for (const plugin of this.plugins) await plugin.execMain();
+    }
+
     public async syncTranslations(saveToDisk: boolean = true, generateTypes?: boolean): Promise<void> {
         let localeMapping: ImportLocaleMapping[] =  [];
         let namespaces: { [key: string]: string[] } = {};

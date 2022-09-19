@@ -92,6 +92,11 @@ export class Plugin {
         dotenv.config({ path: this._path + "/.env" });
     }
 
+    public execMain(): void {
+        if(!fs.existsSync(this._path + "/main.ts")) return
+        import(this._path + "/main.ts");
+    }
+
     public async importCommands(): Promise<void> {
         await importx(this._path + "/commands/**/*.{ts,js}");
     }

@@ -52,6 +52,9 @@ async function run() {
     // init plugins services
     await pluginManager.initServices()
 
+    // init the plugin main file
+    await pluginManager.execMains()
+
     // log in with the bot token
     if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
     client.login(process.env.BOT_TOKEN)
