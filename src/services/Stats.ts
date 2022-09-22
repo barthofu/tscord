@@ -91,7 +91,7 @@ export class Stats {
     }
 
     /**
-     * Returns an object with the total stats for each type
+     * Returns an object with the total stats for each type.
      */
     async getTotalStats() {
 
@@ -106,7 +106,7 @@ export class Stats {
     }
 
     /**
-     * Get the last saved interaction
+     * Get the last saved interaction.
      */
     async getLastInteraction() {
 
@@ -115,6 +115,18 @@ export class Stats {
         })
 
         return lastInteraction
+    }
+
+    /**
+     * Get the last guild added to the database.
+     */
+    async getLastGuildAdded() {
+
+        const guilds = await this.db.get(Guild).find({}, {
+            orderBy: { createdAt: 'DESC' }
+        })
+
+        return guilds[0]
     }
 
     /**

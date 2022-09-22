@@ -40,6 +40,13 @@ export class StatsController extends BaseController {
         return lastInteraction
     }
 
+    @Get('/lastGuildAdded')
+    async lastGuildAdded() {
+
+        const lastGuild = await this.stats.getLastGuildAdded()
+        return lastGuild
+    }
+
     @Get('/commandsUsage')
     async commandsUsage(@QueryParam('numberOfDays', { type: Number }) numberOfDays: number = 7) {
         
