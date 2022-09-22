@@ -3,14 +3,14 @@ import { delay, inject, singleton } from 'tsyringe'
 import { EntityRepository } from '@mikro-orm/core'
 import { constant } from 'case'
 import osu from 'node-os-utils'
+import pidusage from 'pidusage'
 
 import { Database, WebSocket } from '@services'
 import { Guild, Stat, User } from '@entities'
 import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance } from '@utils/functions'
 import { Schedule, WSOn } from '@decorators'
 
-import { statsConfig } from '@config'
-import pidusage from 'pidusage'
+import { statsConfig, websocketConfig } from '@config'
 
 const allInteractions = { 
     $or: [ 
@@ -53,7 +53,6 @@ export class Stats {
     /**
      * Record an interaction and add it to the database.
      * @param interaction 
-     * @returns 
      */
     async registerInteraction(interaction: AllInteractions) {
 
@@ -106,6 +105,9 @@ export class Stats {
         return totalStatsObj
     }
 
+    /**
+     * Get the last saved interaction
+     */
     async getLastInteraction() {
 
         const lastInteraction = await this.statsRepo.findOne(allInteractions, {
@@ -115,6 +117,9 @@ export class Stats {
         return lastInteraction
     }
 
+    /**
+     * Get commands sorted by total amount of uses in DESC order.
+     */
     async getTopCommands() {
 
         if ('createQueryBuilder' in this.db.em) {
@@ -159,6 +164,9 @@ export class Stats {
         } else return []
     }
 
+    /**
+     * Get the users activity per slice of interactions amount in percentage. 
+     */
     async getUsersActivity() {
 
         const usersActivity = {
@@ -190,6 +198,9 @@ export class Stats {
         return usersActivity
     }
 
+    /**
+     * Get guilds sorted by total amount of commands in DESC order.  
+     */
     async getTopGuilds() {
 
         const topGuilds: {
@@ -223,8 +234,8 @@ export class Stats {
 
     /**
      * Returns the amount of row for a given type per day in a given interval of days from now.
-     * @param type 
-     * @param days 
+     * @param type the type of the stat to retrieve
+     * @param days interval of days from now
      */
     async countStatsPerDays(type: string, days: number): Promise<StatPerInterval> {
 
@@ -242,16 +253,16 @@ export class Stats {
             })
         }
 
-        return this.cummulateStatPerInterval(stats)
+        return this.cumulateStatPerInterval(stats)
     }
 
     /**
      * Transform individual day stats into cumulated stats.
      * @param stats 
      */
-    cummulateStatPerInterval(stats: StatPerInterval): StatPerInterval {
+    cumulateStatPerInterval(stats: StatPerInterval): StatPerInterval {
 
-        const cummulatedStats = 
+        const cumulatedStats = 
             stats
                 .reverse()
                 .reduce((acc, stat, i) => {
@@ -266,14 +277,13 @@ export class Stats {
                 }, [] as StatPerInterval)
                 .reverse()
 
-        return cummulatedStats
+        return cumulatedStats
     }
 
     /**
      * Sum two array of stats.
      * @param stats1 
      * @param stats2 
-     * @returns 
      */
     sumStats(stats1: StatPerInterval, stats2: StatPerInterval): StatPerInterval {
 
@@ -316,7 +326,7 @@ export class Stats {
     }
 
     /**
-     * Get the current process usage (CPU, RAM, etc)
+     * Get the current process usage (CPU, RAM, etc).
      */
     async getPidUsage() {
 
@@ -333,7 +343,7 @@ export class Stats {
     }
 
     /**
-     * Get the current host health (CPU, RAM, etc)
+     * Get the current host health (CPU, RAM, etc).
      */
     async getHostUsage() {
 
@@ -348,6 +358,9 @@ export class Stats {
         }
     }
 
+    /**
+     * Get latency from the discord websocket gate.
+     */
     getLatency() {
 
         return {
@@ -356,9 +369,9 @@ export class Stats {
     }
 
     /**
-     * Run each day at 23:59 to update daily stats
+     * Run each day at 23:59 to update daily stats.
      */
-    @Schedule('59 23 * * *')
+    @Schedule('59 59 23 * * *')
     async registerDailyStats() {
 
         const totalStats = await this.getTotalStats()
@@ -374,19 +387,23 @@ export class Stats {
     @Schedule('*/5 * * * * *')
     async sendWebSocketHealth(response?: WSResponseFunction) {
 
-        const data = {
-            botStatus: {
-                online: true,
-                uptime: this.client.uptime,
-                maintenance: await isInMaintenance()
-            },
-            host: await this.getHostUsage(),
-            pid: await this.getPidUsage(),
-            latency: this.getLatency()
+        if (websocketConfig.enabled) {
+
+            const data = {
+                botStatus: {
+                    online: true,
+                    uptime: this.client.uptime,
+                    maintenance: await isInMaintenance()
+                },
+                host: await this.getHostUsage(),
+                pid: await this.getPidUsage(),
+                latency: this.getLatency()
+            }
+    
+            if (response) response('monitoring', data)
+            else this.ws.broadcast('monitoring', data)
         }
 
-        if (response) response('monitoring', data)
-        else this.ws.broadcast('monitoring', data)
     }
 
 }

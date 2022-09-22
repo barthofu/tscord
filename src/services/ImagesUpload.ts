@@ -92,8 +92,8 @@ export class ImagesUpload {
         await this.imgurClient.deleteImage(image.deleteHash)
 
         this.logger.log(
-            'info', 
             `Image ${image.fileName} deleted from database because it is not in the filesystem anymore`, 
+            'info',
             true
         )
     }
@@ -118,8 +118,8 @@ export class ImagesUpload {
 
             if (!uploadResponse.success ) {
                 this.logger.log(
-                    'error',
                     `Error uploading image ${imageFileName} to imgur: ${uploadResponse.status} ${uploadResponse.data}`,
+                    'error',
                     true
                 )
                 return
@@ -138,14 +138,14 @@ export class ImagesUpload {
 
             // log the success
             this.logger.log(
-                'info',
                 `Image ${chalk.bold.green(imagePath)} uploaded to imgur`,
+                'info',
                 true
             )
 
         } 
         catch (error: any) {
-            this.logger.log('error', error?.toString(), true)
+            this.logger.log(error?.toString(), 'error', true)
         }
     }
 

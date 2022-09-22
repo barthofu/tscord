@@ -28,7 +28,7 @@ export default class GuildAdminAddEvent {
         client: Client
     ) {
         
-        this.logger.log('info', `${member.nickname} has been added as an admin`)
+        this.logger.log(`${member.nickname} has been added as an admin`)
     }
 
     @On('guildAdminDelete')
@@ -41,7 +41,7 @@ export default class GuildAdminAddEvent {
         client: Client
     ) {
         
-        this.logger.log('info', `${member.nickname} has been removed from admins`)
+        this.logger.log(`${member.nickname} has been removed from admins`)
     }
 
     // =============================

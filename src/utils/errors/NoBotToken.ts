@@ -8,7 +8,7 @@ export class NoBotTokenError extends BaseError {
 
     handle() {
 
-        this.logger.console('error', this.message)
+        this.logger.console(this.message, 'error')
         this.kill()
     }
 }
