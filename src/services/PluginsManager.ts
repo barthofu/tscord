@@ -14,7 +14,7 @@ export class PluginsManager {
     constructor() {}
 
     public async loadPlugins(): Promise<void> {
-        const pluginPaths = resolve(process.env.PWD + "/plugins/*");
+        const pluginPaths = resolve(process.env.PWD + "/src/plugins/*");
         for (const path of pluginPaths) {
             const plugin = new Plugin(path);
             await plugin.load();
