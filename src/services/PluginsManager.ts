@@ -9,7 +9,7 @@ import { AnyEntity, EntityClass } from "@mikro-orm/core";
 
 @singleton()
 export class PluginsManager {
-    private plugins: Plugin[] = [];
+    private _plugins: Plugin[] = [];
 
     constructor() {}
 
@@ -27,25 +27,25 @@ export class PluginsManager {
     }
 
     public getEntities(): EntityClass<AnyEntity>[] {
-        return this.plugins.map(plugin => Object.values(plugin.entities)).flat()
+        return this._plugins.map(plugin => Object.values(plugin.entities)).flat()
     }
 
     public getControllers(): typeof BaseController[] {
-        return this.plugins.map(plugin => Object.values(plugin.controllers)).flat()
+        return this._plugins.map(plugin => Object.values(plugin.controllers)).flat()
     }
 
     public async importCommands(): Promise<void> {
-        for (const plugin of this.plugins) await plugin.importCommands();
+        for (const plugin of this._plugins) await plugin.importCommands();
     }
 
     public async importEvents(): Promise<void> {
-        for (const plugin of this.plugins) await plugin.importEvents();
+        for (const plugin of this._plugins) await plugin.importEvents();
     }
 
     public async initServices(): Promise<{ [key: string]: any }> {
         let services: { [key: string]: any } = {};
 
-        for (const plugin of this.plugins) {
+        for (const plugin of this._plugins) {
             for(const service in plugin.services) {
                 services[service] = new plugin.services[service]();
             }
@@ -55,7 +55,7 @@ export class PluginsManager {
     }
 
     public async execMains(): Promise<void> {
-        for (const plugin of this.plugins) await plugin.execMain();
+        for (const plugin of this._plugins) await plugin.execMain();
     }
 
     public async syncTranslations(saveToDisk: boolean = true, generateTypes?: boolean): Promise<void> {
@@ -63,7 +63,7 @@ export class PluginsManager {
         let namespaces: { [key: string]: string[] } = {};
         let translations: { [key: string]: BaseTranslation } = { ...defaultTranslations };
 
-        for (const plugin of this.plugins) {
+        for (const plugin of this._plugins) {
             for (const locale in plugin.translations) {
                 if(!translations[locale]) translations[locale] = {};
                 if(!namespaces[locale]) namespaces[locale] = [];
@@ -84,4 +84,6 @@ export class PluginsManager {
     
         if(saveToDisk) await storeTranslationsToDisk(localeMapping, generateTypes);
     }
+
+    get plugins() { return this._plugins; }
 }

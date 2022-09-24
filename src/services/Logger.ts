@@ -14,6 +14,7 @@ import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, 
 import { Scheduler, WebSocket, Pastebin } from '@services'
 import { apiConfig, logsConfig } from '@config'
 import { resolve } from '@discordx/importer'
+import { PluginsManager } from './PluginsManager'
 
 @singleton()
 export class Logger {
@@ -22,7 +23,8 @@ export class Logger {
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
+        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
         this.defaultConsole = { ...console }
         console.log     = (...args) => this.log("info",     args.join(", "))
@@ -397,22 +399,17 @@ export class Logger {
                 && !entity.startsWith('BaseEntity')
             )
 
-        const pluginsEntites = resolve(`${__dirname}/../../plugins/*/entities`)
-            .filter(entity => 
-                !entity.startsWith('index')
-                && !entity.startsWith('BaseEntity')
-            )
+        const pluginsEntitesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.entities).length, 0)
 
-        this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntites.length)} ${chalk.bold('entities')} loaded`), true)
+        this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntitesCount)} ${chalk.bold('entities')} loaded`), true)
 
         // services
         const services = fs.readdirSync(`${__dirname}/../services`)
             .filter(service => !service.startsWith('index'))
 
-        const pluginsServices = resolve(`${__dirname}/../../plugins/*/services`)
-            .filter(service => !service.startsWith('index'))
+        const pluginsServicesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.services).length, 0)
         
-        this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServices.length)} ${chalk.bold('services')} loaded`), true)
+        this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), true)
 
         // api
         if (apiConfig.enabled) {
@@ -428,6 +425,11 @@ export class Logger {
         const scheduledJobs = this.scheduler.jobs.size
 
         this.console('info', chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), true)
+
+        // plugins
+        const pluginsCount = this.pluginsManager.plugins.length
+
+        this.console('info', chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), true)
     
         // connected
         if (apiConfig.enabled) {
