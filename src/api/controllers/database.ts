@@ -49,8 +49,8 @@ export class DatabaseController extends BaseController {
         else throw new InternalServerError("Couldn't restore backup, see the logs for more informations")
     }
 
-    @Get('/backup/list')
-    async getBackupList(req: Request, res: Response) {
+    @Get('/backups')
+    async getBackups(req: Request, res: Response) {
 
         const backupPath = databaseConfig.backup.path
         if (!backupPath) throw new InternalServerError("Backup path not set, couldn't find backups")

@@ -4,7 +4,6 @@ import { BaseController } from "@utils/classes"
 import { Get, JsonController, QueryParam, UseBefore } from "routing-controllers"
 import { injectable } from "tsyringe"
 
-
 @JsonController('/stats')
 @UseBefore(
     authenticated
@@ -33,21 +32,21 @@ export class StatsController extends BaseController {
         }
     }
 
-    @Get('/lastInteraction')
+    @Get('/interaction/last')
     async lastInteraction() {
 
         const lastInteraction = await this.stats.getLastInteraction()
         return lastInteraction
     }
 
-    @Get('/lastGuildAdded')
+    @Get('/guilds/last')
     async lastGuildAdded() {
 
         const lastGuild = await this.stats.getLastGuildAdded()
         return lastGuild
     }
 
-    @Get('/commandsUsage')
+    @Get('/commands/usage')
     async commandsUsage(@QueryParam('numberOfDays', { type: Number }) numberOfDays: number = 7) {
         
         const commandsUsage = {
@@ -70,7 +69,7 @@ export class StatsController extends BaseController {
         return body
     }
 
-    @Get('/topCommands')
+    @Get('/commands/top')
     async topCommands() {
 
         const topCommands = await this.stats.getTopCommands()
@@ -78,7 +77,7 @@ export class StatsController extends BaseController {
         return topCommands
     }
 
-    @Get('/usersActivity')
+    @Get('/users/activity')
     async usersActivity() {
 
         const usersActivity = await this.stats.getUsersActivity()
@@ -86,7 +85,7 @@ export class StatsController extends BaseController {
         return usersActivity
     }
 
-    @Get('/topGuilds')
+    @Get('/guilds/top')
     async topGuilds() {
 
         const topGuilds = await this.stats.getTopGuilds()
