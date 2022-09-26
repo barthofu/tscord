@@ -1,6 +1,6 @@
-# Contributing to discord.ts
+# Contributing to TSCord
 
-We would love for you to contribute to discord.ts and help make it even better than it is today!
+We would love for you to contribute to TSCord and help make it even better than it is today!
 As a contributor, here are the guidelines we would like you to follow:
 
 - [Code of Conduct](#coc)
@@ -14,13 +14,13 @@ As a contributor, here are the guidelines we would like you to follow:
 
 ## <a name="coc"></a> Code of Conduct
 
-Help us keep discord.ts open and inclusive.
+Help us keep TSCord open and inclusive.
 Please read and follow our [Code of Conduct][coc].
 
 ## <a name="question"></a> Got a Question or Problem?
 
 Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests.
-Instead, we recommend using [Discord Server](https://discord-ts.js.org/discord) to ask support-related questions.
+Instead, we recommend using [Discord Server](https://discord.gg/8P7jFpbKkb) to ask support-related questions.
 
 Discord is a much better place to ask questions since:
 
@@ -64,13 +64,13 @@ We understand that sometimes it might be hard to extract essential bits of code 
 
 Unfortunately, we are not able to investigate / fix bugs without a minimal reproduction, so if we don't hear back from you, we are going to close an issue that doesn't have enough info to be reproduced.
 
-You can file new issues by selecting from our [new issue templates](https://github.com/oceanroleplay/discord.ts/issues/new/choose) and filling out the issue template.
+You can file new issues by selecting from our [new issue templates](https://github.com/barthofu/tscord/issues/new/choose) and filling out the issue template.
 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-1. Search [GitHub](https://github.com/oceanroleplay/discord.ts/pulls) for an open or closed PR that relates to your submission.
+1. Search [GitHub](https://github.com/oceanroleplay/TSCord/pulls) for an open or closed PR that relates to your submission.
    You don't want to duplicate existing efforts.
 
 2. Be sure that an issue describes the problem you're fixing, or documents the design for the feature you'd like to add.
@@ -80,7 +80,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
    We cannot accept code without a signed CLA.
    Make sure you author all contributed Git commits with email address associated with your CLA signature.
 
-4. [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the oceanroleplay/discord.ts repo.
+4. [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the `barthofu/tscord` repo.
 
 5. In your forked repository, make your changes in a new git branch:
 
@@ -88,11 +88,11 @@ Before you submit your Pull Request (PR) consider the following guidelines:
    git checkout -b my-fix-branch master
    ```
 
-6. Create your patch, **including appropriate test cases**.
+6. Create your patch.
 
 7. Follow our [Coding Rules](#rules).
 
-8. Run the full discord.ts test suite, as described in the [developer documentation][dev-doc], and ensure that all tests pass.
+8. Make sure to test your changes.
 
 9. Commit your changes using a descriptive commit message that follows our [commit message conventions](#commit).
    Adherence to these conventions is necessary because release notes are automatically generated from these messages.
@@ -109,11 +109,11 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-11. In GitHub, send a pull request to `discord.ts:main`.
+11. In GitHub, send a pull request to `tscord:main`.
 
 ### Reviewing a Pull Request
 
-The discord.ts team reserves the right not to accept pull requests from community members who haven't been good citizens of the community. Such behavior includes not following the [discord.ts code of conduct](https://github.com/oceanroleplay/discord.ts/blob/main/.github/CODE_OF_CONDUCT.md) and applies within or outside of discord.ts managed channels.
+The TSCord team reserves the right not to accept pull requests from community members who haven't been good citizens of the community. Such behavior includes not following the [TSCord code of conduct](https://github.com/barthofu/tscord/blob/main/.github/CODE_OF_CONDUCT.md) and applies within or outside of TSCord managed channels.
 
 #### Addressing review feedback
 
@@ -121,16 +121,12 @@ If we ask for changes via code reviews then:
 
 1. Make the required updates to the code.
 
-2. Re-run the discoord.ts test suites to ensure tests are still passing.
-
-3. Create a fixup commit and push to your GitHub repository (this will update your Pull Request):
+2. Create a fixup commit and push to your GitHub repository (this will update your Pull Request):
 
    ```shell
    git commit --all --fixup HEAD
    git push
    ```
-
-   For more info on working with fixup commits see [here](docs/FIXUP_COMMITS.md).
 
 That's it! Thank you for your contribution!
 
@@ -157,7 +153,7 @@ In order to update the commit message of the last commit on your branch:
    git push --force-with-lease
    ```
 
-> NOTE:<br />
+> **info**
 > If you need to update the commit message of an earlier commit, you can use `git rebase` in interactive mode.
 > See the [git docs](https://git-scm.com/docs/git-rebase#_interactive_mode) for more details.
 
@@ -193,15 +189,12 @@ After your pull request is merged, you can safely delete your branch and pull th
 
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
-- All features or bug fixes **must be tested** by one or more specs (unit-tests).
+- All features or bug fixes **must be tested**.
 - All public API methods **must be documented**.
-- We follow [Google's JavaScript Style Guide][js-style-guide], but wrap all code at **100 characters**.
-
-  An automated formatter is available, see [DEVELOPER.md](docs/DEVELOPER.md#clang-format).
 
 ## <a name="commit"></a> Commit Message Format
 
-_This specification is inspired by and supersedes the [discord.ts commit message format][commit-message-format]._
+_This specification is inspired by and supersedes the [TSCord commit message format][commit-message-format]._
 
 We have very precise rules over how our Git commit messages must be formatted.
 This format leads to **easier to read commit history**.
@@ -228,7 +221,7 @@ The `footer` is optional. The [Commit Message Footer](#commit-footer) format des
 ```
 <type>(<scope>): <short summary>
   │       │             │
-  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │       │             └─⫸ Summary in present tense. **Not capitalized**. No period at the end.
   │       │
   │       └─⫸ Commit Scope: animations|bazel|benchpress|common|compiler|compiler-cli|core|
   │                          elements|forms|http|language-service|localize|platform-browser|
@@ -259,10 +252,19 @@ The scope should be the name of the npm package affected (as perceived by the pe
 
 The following is the list of supported scopes:
 
-- `decorator`
-- `music`
-- `utilities`
-
+- `api`
+- `commands`
+- `config`
+- `entities`
+- `events`
+- `guards`
+- `i18n`
+- `services`
+- `utils`
+- `cli`
+OR
+- if the commits are relative to an issue, you can pass the `#{id}` of the issue (e.g: `fix(#51): api error handling`)
+OR
 - none/empty string: useful for `test` and `refactor` changes that are done across all packages (e.g. `test: add missing unit tests`) and for docs changes that are not related to a specific package (e.g. `docs: fix typo in tutorial`).
 
 ##### Summary
