@@ -2,11 +2,13 @@
     <img width="500" height="500" src="https://i.imgur.com/19Nas88.png">
 </p>
 
+<div align="center">
+
 <table>
   <tr>
     <td align="center">
    
-# 🌟 What is TSCord
+# What is TSCord
 
 #### **TSCord** is a fully-featured **[discord bot](https://discord.com/developers/docs/intro#bots-and-apps)** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
 
@@ -16,6 +18,45 @@ This template was created to give developers a starting point for new Discord bo
     </td>
   </tr>
 </table>
+
+<table>
+<tr>
+<td align="center">
+ㅤ
+
+ㅤ **[To know how to use TSCord and all its components, check the documentation here]()** ㅤ
+
+</td>
+</tr>
+</table>
+
+*But TSCord is not only a Discord bot template...*
+
+<table>
+<tr>
+<td align="center">
+
+### [Dashboard](https://github.com/barthofu/tscord-dashboard)
+
+**A ready-to-use fancy dashboard for your TSCord bot!**
+
+![image](https://user-images.githubusercontent.com/66025667/191989444-5fa096ec-c74e-423d-9735-615b94bc100f.png)
+
+</td>
+<td align="center">
+
+### [Website](https://github.com/barthofu/tscord-website)
+
+**Static front homepage for your TSCord-based bot!**
+
+https://user-images.githubusercontent.com/66025667/184621486-7340157f-b7fc-44ea-94a9-03d76a99384c.mp4
+
+</td>
+</tr>
+</table>
+
+</div>
+
 
 ## 📜 Features
 
