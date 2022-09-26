@@ -1,10 +1,11 @@
 import { ImportLocaleMapping, storeTranslationsToDisk  } from "typesafe-i18n/importer";
 import { resolve } from "@discordx/importer";
 import { singleton } from "tsyringe";
+import fs from "fs";
 
 import { BaseController, Plugin } from "@utils/classes";
 import { BaseTranslation } from "typesafe-i18n";
-import { defaultTranslations } from "@i18n";
+import { defaultTranslations, L } from "@i18n";
 import { AnyEntity, EntityClass } from "@mikro-orm/core";
 
 @singleton()
@@ -58,7 +59,7 @@ export class PluginsManager {
         for (const plugin of this._plugins) await plugin.execMain();
     }
 
-    public async syncTranslations(saveToDisk: boolean = true, generateTypes?: boolean): Promise<void> {
+    public async syncTranslations(saveToDisk: boolean = true): Promise<void> {
         let localeMapping: ImportLocaleMapping[] =  [];
         let namespaces: { [key: string]: string[] } = {};
         let translations: { [key: string]: BaseTranslation } = { ...defaultTranslations };
@@ -81,8 +82,16 @@ export class PluginsManager {
                 namespaces: namespaces[locale]
             });
         }
-    
-        if(saveToDisk) await storeTranslationsToDisk(localeMapping, generateTypes);
+
+        const pluginsName = this._plugins.map(plugin => plugin.name);
+        for(const path of await resolve(process.env.PWD + "/src/i18n/*/*/index.ts")) {
+            const name = path.split("/").at(-2) || "";
+            if(!pluginsName.includes(name)) {
+                await fs.rmSync(path.slice(0, -8), { recursive: true, force: true });
+            }
+        }
+
+        if(saveToDisk) await storeTranslationsToDisk(localeMapping, true);
     }
 
     get plugins() { return this._plugins; }
