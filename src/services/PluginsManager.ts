@@ -5,7 +5,7 @@ import fs from "fs";
 
 import { BaseController, Plugin } from "@utils/classes";
 import { BaseTranslation } from "typesafe-i18n";
-import { defaultTranslations, L } from "@i18n";
+import { defaultTranslations } from "@i18n";
 import { AnyEntity, EntityClass } from "@mikro-orm/core";
 
 @singleton()
@@ -59,7 +59,7 @@ export class PluginsManager {
         for (const plugin of this._plugins) await plugin.execMain();
     }
 
-    public async syncTranslations(saveToDisk: boolean = true): Promise<void> {
+    public async syncTranslations(): Promise<void> {
         let localeMapping: ImportLocaleMapping[] =  [];
         let namespaces: { [key: string]: string[] } = {};
         let translations: { [key: string]: BaseTranslation } = { ...defaultTranslations };
@@ -91,7 +91,7 @@ export class PluginsManager {
             }
         }
 
-        if(saveToDisk) await storeTranslationsToDisk(localeMapping, true);
+        await storeTranslationsToDisk(localeMapping, true);
     }
 
     get plugins() { return this._plugins; }
