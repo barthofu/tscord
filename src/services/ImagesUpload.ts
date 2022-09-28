@@ -6,7 +6,7 @@ import axios from "axios"
 
 import { Database, Logger } from "@services"
 import { Image, ImageRepository } from "@entities"
-import { base64Encode, getFiles } from "@utils/functions"
+import { base64Encode, getFiles, fileOrDirectoryExists } from "@utils/functions"
 import chalk from "chalk"
 
 const imageHasher = promisify(callbackImageHash)
@@ -41,6 +41,9 @@ export class ImagesUpload {
     }
 
     async syncWithDatabase() {
+
+        if (!fileOrDirectoryExists(this.imageFolderPath)) this.logger.log('Image folder does not exist, couldn\'t sync with database', 'warn')
+
         // get all images inside the assets/images folder
         const images = getFiles(this.imageFolderPath)
             .filter(file => this.isValidImageFormat(file))

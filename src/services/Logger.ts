@@ -10,7 +10,7 @@ import ora from 'ora'
 import { getMetadataArgsStorage } from 'routing-controllers'
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 
-import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
 import { Scheduler, WebSocket, Pastebin } from '@services'
 import { apiConfig, logsConfig } from '@config'
 
@@ -85,9 +85,9 @@ export class Logger {
         const fileName = `${this.logPath}/${level}.log`
 
         // create the folder if it doesn't exist
-        if (!fs.existsSync(this.logPath)) fs.mkdirSync(this.logPath)
+        if (!fileOrDirectoryExists(this.logPath)) fs.mkdirSync(this.logPath)
         // create file if it doesn't exist
-        if (!fs.existsSync(fileName)) fs.writeFileSync(fileName, '')
+        if (!fileOrDirectoryExists(fileName)) fs.writeFileSync(fileName, '')
 
         fs.appendFileSync(fileName, `${templatedMessage}\n`)
     }
