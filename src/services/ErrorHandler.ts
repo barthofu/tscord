@@ -12,7 +12,7 @@ export class ErrorHandler {
         private client: Client
     ) {
 
-        // Catch all exeptions
+        // Catch all exceptions
         process.on('uncaughtException', (error: Error, origin: string) => {
 
             // stop in case of unhandledRejection

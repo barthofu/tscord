@@ -130,7 +130,7 @@ export default class InfoCommand {
 		const row = new ActionRowBuilder<ButtonBuilder>()
 			.addComponents(...buttons)
 		
-		// finaly send the embed
+		// finally send the embed
 		interaction.followUp({
 			embeds: [embed],
 			components: [row],

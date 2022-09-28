@@ -343,11 +343,11 @@ export class Logger {
             chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
         } else {
             if (type === 'Exception') {
-                message += `An exception as occured in a unknow file\n\t> ${error.message}`
-                embedMessage += `An exception as occured in a unknow file\n${error.message}`
+                message += `An exception as occurred in a unknown file\n\t> ${error.message}`
+                embedMessage += `An exception as occurred in a unknown file\n${error.message}`
             } else {
-                message += `An unhandled rejection as occured in a unknow file\n\t> ${error}`
-                embedMessage += `An unhandled rejection as occured in a unknow file\n${error}`
+                message += `An unhandled rejection as occurred in a unknown file\n\t> ${error}`
+                embedMessage += `An unhandled rejection as occurred in a unknown file\n${error}`
             }
         }
 

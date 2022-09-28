@@ -34,7 +34,7 @@ export class DatabaseController extends BaseController {
                 }
             }
         }
-        else throw new InternalServerError("Couldn't generate backup, see the logs for more informations")
+        else throw new InternalServerError("Couldn't generate backup, see the logs for more information")
     }
 
     @Post('/restore')
@@ -46,7 +46,7 @@ export class DatabaseController extends BaseController {
         const success = await this.db.restore(snapshotName)
 
         if (success) return { message: "Backup restored" }
-        else throw new InternalServerError("Couldn't restore backup, see the logs for more informations")
+        else throw new InternalServerError("Couldn't restore backup, see the logs for more information")
     }
 
     @Get('/backups')
@@ -58,7 +58,7 @@ export class DatabaseController extends BaseController {
         const backupList = this.db.getBackupList()
 
         if (backupList) return backupList
-        else throw new InternalServerError("Couldn't get backup list, see the logs for more informations")
+        else throw new InternalServerError("Couldn't get backup list, see the logs for more information")
     }
 
     @Get('/size')

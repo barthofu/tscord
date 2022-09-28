@@ -1,10 +1,10 @@
-declare enum AdditionnalLocaleString {
+declare enum AdditionalLocaleString {
     English = 'en'
 }
 
 type TranslationsNestedPaths = NestedPaths<import('@i18n').Translation>
 
-type LocalizationMap = Partial<Record<`${import('discord-api-types/v9').Locale | AdditionnalLocaleString}`, string>>
+type LocalizationMap = Partial<Record<`${import('discord-api-types/v9').Locale | AdditionalLocaleString}`, string>>
 
 type SanitizedOptions = {
     descriptionLocalizations?: LocalizationMap
