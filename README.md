@@ -34,13 +34,13 @@ This template was created to give developers a starting point for new Discord bo
 
 <table>
 <tr>
-<td align="center">
+<td align="center" width="50%">
 
 ### [Dashboard](https://github.com/barthofu/tscord-dashboard)
 
 **A ready-to-use fancy dashboard for your TSCord bot!**
 
-![image](https://user-images.githubusercontent.com/66025667/191989444-5fa096ec-c74e-423d-9735-615b94bc100f.png)
+<img src="https://user-images.githubusercontent.com/66025667/191989444-5fa096ec-c74e-423d-9735-615b94bc100f.png">
 
 </td>
 <td align="center">
