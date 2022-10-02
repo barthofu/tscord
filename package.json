@@ -114,5 +114,6 @@
   },
   "overrides": {
     "validator": "13.7.0"
-  }
+  },
+  "tscordTemplate": true
 }
