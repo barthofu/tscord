@@ -7,6 +7,7 @@ import fs from "fs"
 
 import { generalConfig } from "@config";
 import { BaseController } from "@utils/classes";
+import { defaultTranslations } from "@i18n";
 
 export class Plugin {
     // Common values
@@ -79,9 +80,16 @@ export class Plugin {
         const translations: { [key: string]: BaseTranslation } = {};
 
         const localesPath = resolve(this._path + "/i18n/*.{ts,js}");
-        for(const localeFile of localesPath) {
-            const locale = localeFile.split("/").at(-1)?.split(".")[0] || "unknow";
+        for (const localeFile of localesPath) {
+            const locale = localeFile.split("/").at(-1)?.split(".")[0] || "unknown";
+
             translations[locale] = (await import(localeFile)).default;
+        }
+
+        for (const defaultLocale of Object.keys(defaultTranslations)) {
+            const path = `${process.env.PWD}/src/i18n/${defaultLocale}/${this._name}/_custom.`
+            if (fs.existsSync(path + "js")) translations[defaultLocale] = (await import(path + "js")).default;
+            else if (fs.existsSync(path + "ts")) translations[defaultLocale] = (await import(path + "ts")).default;
         }
 
         return translations;
