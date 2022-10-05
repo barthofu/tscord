@@ -15,8 +15,8 @@ export async function log(req: Request, res: Response, next: NextFunction) {
         const message = `(API) ${method} - ${url}`
         const chalkedMessage = `(${chalk.bold.white('API')}) ${chalk.bold.green(method)} - ${chalk.bold.blue(url)}`
 
-        logger.console('info', chalkedMessage)
-        logger.file('info', message)
+        logger.console(chalkedMessage)
+        logger.file(message)
         
     } else {
         delete req.query.logIgnore

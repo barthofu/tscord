@@ -2,11 +2,13 @@
     <img width="500" height="500" src="https://i.imgur.com/19Nas88.png">
 </p>
 
+<div align="center">
+
 <table>
   <tr>
     <td align="center">
    
-# 🌟 What is TSCord
+# What is TSCord
 
 #### **TSCord** is a fully-featured **[discord bot](https://discord.com/developers/docs/intro#bots-and-apps)** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
 
@@ -16,6 +18,45 @@ This template was created to give developers a starting point for new Discord bo
     </td>
   </tr>
 </table>
+
+<table>
+<tr>
+<td align="center">
+ㅤ
+
+ㅤ **[To know how to use TSCord and all its components, check the documentation here]()** ㅤ
+
+</td>
+</tr>
+</table>
+
+*But TSCord is not only a Discord bot template...*
+
+<table>
+<tr>
+<td align="center" width="50%">
+
+### [Dashboard](https://github.com/barthofu/tscord-dashboard)
+
+**A ready-to-use fancy dashboard for your TSCord bot!**
+
+<img src="https://user-images.githubusercontent.com/66025667/191989444-5fa096ec-c74e-423d-9735-615b94bc100f.png">
+
+</td>
+<td align="center">
+
+### [Website](https://github.com/barthofu/tscord-website)
+
+**Static front homepage for your TSCord-based bot!**
+
+https://user-images.githubusercontent.com/66025667/184621486-7340157f-b7fc-44ea-94a9-03d76a99384c.mp4
+
+</td>
+</tr>
+</table>
+
+</div>
+
 
 ## 📜 Features
 
@@ -45,7 +86,7 @@ Talking about features, here are some of the core features of the template:
 - Automatic **static assets upload** to [imgur](https://imgur.com/)
 - **WebSocket** server with decorators driven events system
 
-This template is also developper friendly and follow strict design patterns to ease its maintenance:
+This template is also developer friendly and follow strict design patterns to ease its maintenance:
 - Written in **Typescript**
 - Built around the **Dependency Injection** and **Singleton** patterns
 - Use of battle-tested **libraries** under the hood (*discord.ts* and *discord.js*)
@@ -101,7 +142,7 @@ You can also find useful documentations at:
 - [x] Other databases support
     - [x] MySQL
     - [x] MariaDB
-    - [x] PosgreSQL
+    - [x] PostgreSQL
 - [x] Automatic backup
 - [x] Automatic assets upload and association
 - [x] Users/Guilds sync with database
@@ -147,8 +188,8 @@ You can also find useful documentations at:
 #### Other
 - [ ] Documentation using [docusaurus](https://docusaurus.io)
 - [x] Comment code
-- [x] Readme ([exemple](https://github.com/cristianireyes/ds-bot-core)) 
-- [x] Issues templates ([exemple](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
+- [x] Readme ([example](https://github.com/cristianireyes/ds-bot-core)) 
+- [x] Issues templates ([example](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
 - [x] Code of conduct
 - [x] JSDoc
 - ~~ESlint / Prettier~~
@@ -156,7 +197,7 @@ You can also find useful documentations at:
 #### Bonus
 - [ ] Beautify discord channels logs
 - [ ] `info` command
-- [ ] Online dashboard for stats viuzalisation, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
+- [ ] Online dashboard for stats visualization, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
 - [ ] Extensions
 - [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
 - [ ] Multiple database server instances connections

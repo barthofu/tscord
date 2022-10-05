@@ -3,7 +3,7 @@ import { Database } from "@services"
 import { Image } from "@entities"
 
 /**
- * Abstraction level for the image repository that will find an image by its name (with or withouth extension).
+ * Abstraction level for the image repository that will find an image by its name (with or without extension).
  * @param imageName 
  * @returns image url
  */

@@ -1,5 +1,5 @@
 ## build runner
-FROM node:17.6-alpine as build-runner
+FROM node:16.17-alpine as build-runner
 
 # Set temp directory
 WORKDIR /tmp/app
@@ -21,7 +21,7 @@ COPY tsconfig.json .
 RUN npm run build
 
 ## producation runner
-FROM node:17.6-alpine as prod-runner
+FROM node:16.17-alpine as prod-runner
 
 # set production mode
 ARG NODE_ENV=production

@@ -6,6 +6,8 @@ import fs from 'fs'
  */
 export const getFiles = (path: string): string[] => {
 
+    if (!fs.existsSync(path)) return []
+
     const files = fs.readdirSync(path)
     const fileList = []
 
@@ -22,4 +24,8 @@ export const getFiles = (path: string): string[] => {
     }
 
     return fileList
+}
+
+export const fileOrDirectoryExists = (path: string): boolean => {
+    return fs.existsSync(path)
 }

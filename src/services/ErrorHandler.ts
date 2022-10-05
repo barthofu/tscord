@@ -11,7 +11,7 @@ export class ErrorHandler {
         private logger: Logger
     ) {
 
-        // Catch all exeptions
+        // Catch all exceptions
         process.on('uncaughtException', (error: Error, origin: string) => {
 
             // stop in case of unhandledRejection

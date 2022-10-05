@@ -206,7 +206,7 @@ export class BotController extends BaseController {
         }
     }
 
-    @Get('/cachedUsers')
+    @Get('/users/cached')
     async cachedUsers() {
 
         return this.client.users.cache.map(user => user.toJSON())

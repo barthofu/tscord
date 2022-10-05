@@ -9,7 +9,7 @@ export class InvalidOptionName extends BaseError {
 
     handle() {
 
-        this.logger.console('error', this.message)
-        process.exit(1)
+        this.logger.console(this.message, 'error')
+        this.kill()
     }
 }

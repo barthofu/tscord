@@ -10,7 +10,7 @@ import ora from 'ora'
 import { getMetadataArgsStorage } from 'routing-controllers'
 import { routingControllersToSpec } from 'routing-controllers-openapi'
 
-import { formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
 import { Scheduler, WebSocket, Pastebin } from '@services'
 import { apiConfig, logsConfig } from '@config'
 import { resolve } from '@discordx/importer'
@@ -27,10 +27,9 @@ export class Logger {
         @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
         this.defaultConsole = { ...console }
-        console.log     = (...args) => this.log("info",     args.join(", "))
-        console.info    = (...args) => this.log("info",     args.join(", "))
-        console.warn    = (...args) => this.log("warn",     args.join(", "))
-        console.error   = (...args) => this.log("error",    args.join(", "))
+        console.info    = (...args) => this.log(args.join(", "), 'info')
+        console.warn    = (...args) => this.log(args.join(", "), 'info')
+        console.error   = (...args) => this.log(args.join(", "), 'info')
     }
 
     private readonly logPath: string = `${__dirname}/../../logs`
@@ -55,9 +54,15 @@ export class Logger {
     // ======== Output Providers =======
     // =================================
 
-    console(level: typeof this.levels[number] = 'info', message: string = '', ignoreTemplate = false) {
+    /**
+     * Log a message in the console.
+     * @param message the message to log
+     * @param level info (default) | warn | error
+     * @param ignoreTemplate if it should ignore the timestamp template (default to false)
+     */
+    console(message: string, level: typeof this.levels[number] = 'info', ignoreTemplate = false) {
 
-        this.spinner.stop()
+        if (this.spinner.isSpinning) this.spinner.stop()
 
         if (!validString(message)) return
 
@@ -69,16 +74,12 @@ export class Logger {
         this.websocket(level, message)
     }
 
-    websocket(level: typeof this.levels[number] = 'info', message: string) {
-
-        // send the log to all connected websockets clients        
-        this.ws.broadcast('log', { 
-            level, 
-            message: message 
-        })
-    }
-
-    file(level: typeof this.levels[number] = 'info', message: string = '') {
+    /**
+     * Log a message in a log file.
+     * @param message the message to log
+     * @param level info (default) | warn | error
+     */
+    file(message: string, level: typeof this.levels[number] = 'info') {
 
         if (!validString(message)) return
 
@@ -87,15 +88,21 @@ export class Logger {
         const fileName = `${this.logPath}/${level}.log`
 
         // create the folder if it doesn't exist
-        if (!fs.existsSync(this.logPath)) fs.mkdirSync(this.logPath)
+        if (!fileOrDirectoryExists(this.logPath)) fs.mkdirSync(this.logPath)
         // create file if it doesn't exist
-        if (!fs.existsSync(fileName)) fs.writeFileSync(fileName, '')
+        if (!fileOrDirectoryExists(fileName)) fs.writeFileSync(fileName, '')
 
         fs.appendFileSync(fileName, `${templatedMessage}\n`)
     }
 
-
-    async discordChannel(channelId: string, message: string | MessageOptions = '', level?: typeof this.levels[number]) {
+    /**
+     * Log a message in a Discord channel using embeds.
+     * @param channelId the ID of the discord channel to log to
+     * @param message the message to log or a [MessageOptions](https://discord.js.org/#/docs/discord.js/main/typedef/BaseMessageOptions) compliant object (like embeds, components, etc)
+     * @param level info (default) | warn | error
+     * @returns 
+     */
+    async discordChannel(channelId: string, message: string | MessageOptions, level?: typeof this.levels[number]) {
         
         if (!this.client.token) return
         
@@ -111,20 +118,29 @@ export class Logger {
         }
     }
 
+    websocket(level: typeof this.levels[number] = 'info', message: string) {
+
+        // send the log to all connected websocket clients        
+        this.ws.broadcast('log', { 
+            level, 
+            message: message 
+        })
+    }
+
     // =================================
     // =========== Shortcut ============
     // =================================
 
     /**
-     * Shortcut function that will log in console, and optionnaly in file or discord channel depending params.
-     * @param level info, warn, error
+     * Shortcut function that will log in the console, and optionally in a file or discord channel depending on params.
      * @param message message to log
-     * @param saveToFile if true, the message will be saved to a file
+     * @param level info (default) | warn | error
+     * @param saveToFile if true, the message will be saved to a file (default to true)
      * @param channelId Discord channel to log to (if `null`, nothing will be logged to Discord)
      */
     log(
-        level: typeof this.levels[number] = 'info', 
         message: string, 
+        level: typeof this.levels[number] = 'info', 
         saveToFile: boolean = true,
         channelId: string | null = null
     ) {
@@ -132,10 +148,10 @@ export class Logger {
         if (message === '') return
         
         // log in the console
-        this.console(level, message)
+        this.console(message, level)
         
         // save log to file
-        if (saveToFile) this.file(level, message)
+        if (saveToFile) this.file(message, level)
 
         // send to discord channel
         if (channelId) this.discordChannel(channelId, message, level)
@@ -184,8 +200,8 @@ export class Logger {
             }
         `
 
-        if (logsConfig.interaction.console) this.console('info', chalkedMessage)
-        if (logsConfig.interaction.file) this.file('info', message)
+        if (logsConfig.interaction.console) this.console(chalkedMessage)
+        if (logsConfig.interaction.file) this.file(message)
         if (logsConfig.interaction.channel) this.discordChannel(logsConfig.interaction.channel, {
             embeds: [{
                 author: {
@@ -231,7 +247,7 @@ export class Logger {
                 color: 0xdb5c21,
                 timestamp: new Date().toISOString()
             }]
-        }, 'info')
+        })
     }
 
     /**
@@ -243,8 +259,8 @@ export class Logger {
         const message = `(NEW_USER) ${user.tag} (${user.id}) has been added to the db`
         const chalkedMessage = `(${chalk.bold.white('NEW_USER')}) ${chalk.bold.green(user.tag)} (${chalk.bold.blue(user.id)}) ${chalk.dim.italic.gray('has been added to the db')}`
 
-        if (logsConfig.newUser.console) this.console('info', chalkedMessage)
-        if (logsConfig.newUser.file) this.file('info', message)
+        if (logsConfig.newUser.console) this.console(chalkedMessage)
+        if (logsConfig.newUser.file) this.file(message)
         if (logsConfig.newUser.channel) this.discordChannel(logsConfig.newUser.channel, {
             embeds: [{
                 title: 'New user',
@@ -258,7 +274,7 @@ export class Logger {
                     text: user.id
                 }
             }]
-        }, 'info')
+        })
     }
 
     /**
@@ -287,8 +303,8 @@ export class Logger {
                 ${chalk.dim.italic.gray(additionalMessage)}
             `
 
-            if (logsConfig.guild.console) this.console('info', chalkedMessage)
-            if (logsConfig.guild.file) this.file('info', message)
+            if (logsConfig.guild.console) this.console(chalkedMessage)
+            if (logsConfig.guild.file) this.file(message)
             if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, {
                 embeds: [{
                     title: (type === 'NEW_GUILD' ? 'New guild' : type === 'DELETE_GUILD' ? 'Deleted guild' : 'Recovered guild'),
@@ -306,7 +322,7 @@ export class Logger {
                     color: (type === 'NEW_GUILD' ? 0x02fd77 : type === 'DELETE_GUILD' ? 0xff0000 : 0xfffb00),
                     timestamp: new Date().toISOString(),
                 }]
-            }, 'info')
+            })
         })
     }
 
@@ -330,11 +346,11 @@ export class Logger {
             chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
         } else {
             if (type === 'Exception') {
-                message += `An exception as occured in a unknow file\n\t> ${error.message}`
-                embedMessage += `An exception as occured in a unknow file\n${error.message}`
+                message += `An exception as occurred in a unknown file\n\t> ${error.message}`
+                embedMessage += `An exception as occurred in a unknown file\n${error.message}`
             } else {
-                message += `An unhandled rejection as occured in a unknow file\n\t> ${error}`
-                embedMessage += `An unhandled rejection as occured in a unknow file\n${error}`
+                message += `An unhandled rejection as occurred in a unknown file\n\t> ${error}`
+                embedMessage += `An unhandled rejection as occurred in a unknown file\n${error}`
             }
         }
 
@@ -344,8 +360,8 @@ export class Logger {
             embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`
         }
 
-        if (logsConfig.error.console) this.console('error', chalkedMessage)
-        if (logsConfig.error.file) this.file('error', message)
+        if (logsConfig.error.console) this.console(chalkedMessage, 'error')
+        if (logsConfig.error.file) this.file(message, 'error')
         if (logsConfig.error.channel && process.env['NODE_ENV'] === 'production') this.discordChannel(logsConfig.error.channel, {
             embeds: [{
                 title: (embedTitle.length >= 256 ? (embedTitle.substring(0, 252) + "...") : embedTitle),
@@ -373,7 +389,7 @@ export class Logger {
 
         this.spinner.stop()
 
-        this.console('info', chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'), true)
+        this.console(chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'), 'info', true)
 
         // commands
         const slashCommands = MetadataStorage.instance.applicationCommandSlashes
@@ -384,13 +400,13 @@ export class Logger {
         ]
         const commandsSum = slashCommands.length + simpleCommands.length + contextMenus.length
 
-        this.console('info', chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`), true)
-        this.console('info', chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`), true)
+        this.console(chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`), 'info', true)
+        this.console(chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`), 'info', true)
 
         // events
         const events = MetadataStorage.instance.events
 
-        this.console('info', chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), true)
+        this.console(chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), 'info', true)
 
         // entities
         const entities = fs.readdirSync(`${__dirname}/../entities`)
@@ -401,7 +417,7 @@ export class Logger {
 
         const pluginsEntitesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.entities).length, 0)
 
-        this.console('info', chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntitesCount)} ${chalk.bold('entities')} loaded`), true)
+        this.console(chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntitesCount)} ${chalk.bold('entities')} loaded`), 'info', true)
 
         // services
         const services = fs.readdirSync(`${__dirname}/../services`)
@@ -409,7 +425,7 @@ export class Logger {
 
         const pluginsServicesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.services).length, 0)
         
-        this.console('info', chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), true)
+        this.console(chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true)
 
         // api
         if (apiConfig.enabled) {
@@ -418,23 +434,23 @@ export class Logger {
             const openAPISpec = routingControllersToSpec(storage)
             const endpoints = Object.keys(openAPISpec.paths)
 
-            this.console('info', chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), true)
+            this.console(chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
         }
 
         // scheduled jobs
         const scheduledJobs = this.scheduler.jobs.size
 
-        this.console('info', chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), true)
+        this.console(chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), 'info', true)
 
         // plugins
         const pluginsCount = this.pluginsManager.plugins.length
 
-        this.console('info', chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), true)
+        this.console(chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), 'info', true)
     
         // connected
         if (apiConfig.enabled) {
 
-            this.console('info', chalk.gray(boxen(
+            this.console(chalk.gray(boxen(
                 ` API Server listening on port ${chalk.bold(apiConfig.port)} `,
                 {
                     padding: 0,
@@ -447,10 +463,10 @@ export class Logger {
                     borderStyle: 'round',
                     dimBorder: true
                 }
-            )), true)
+            )), 'info', true)
         }
 
-        this.console('info', chalk.hex('7289DA')(boxen(
+        this.console(chalk.hex('7289DA')(boxen(
             ` ${this.client.user ? `${chalk.bold(this.client.user.tag)}` : 'Bot'} is ${chalk.green('connected')}! `,
             {
                 padding: 0,
@@ -463,6 +479,6 @@ export class Logger {
                 borderStyle: 'round',
                 dimBorder: true
             }
-        )), true)
+        )), 'info', true)
     }
 }

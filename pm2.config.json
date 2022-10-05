@@ -3,7 +3,7 @@
         {
             "name": "My Discord Bot",
             "script": "npm",
-            "args" : "run build:serve"
+            "args" : "run build:start"
         }
     ]
 }

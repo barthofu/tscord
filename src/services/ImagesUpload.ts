@@ -6,7 +6,7 @@ import axios from "axios"
 
 import { Database, Logger } from "@services"
 import { Image, ImageRepository } from "@entities"
-import { base64Encode, getFiles } from "@utils/functions"
+import { base64Encode, getFiles, fileOrDirectoryExists } from "@utils/functions"
 import chalk from "chalk"
 
 const imageHasher = promisify(callbackImageHash)
@@ -41,6 +41,9 @@ export class ImagesUpload {
     }
 
     async syncWithDatabase() {
+
+        if (!fileOrDirectoryExists(this.imageFolderPath)) this.logger.log('Image folder does not exist, couldn\'t sync with database', 'warn')
+
         // get all images inside the assets/images folder
         const images = getFiles(this.imageFolderPath)
             .filter(file => this.isValidImageFormat(file))
@@ -92,8 +95,8 @@ export class ImagesUpload {
         await this.imgurClient.deleteImage(image.deleteHash)
 
         this.logger.log(
-            'info', 
             `Image ${image.fileName} deleted from database because it is not in the filesystem anymore`, 
+            'info',
             true
         )
     }
@@ -118,8 +121,8 @@ export class ImagesUpload {
 
             if (!uploadResponse.success ) {
                 this.logger.log(
-                    'error',
                     `Error uploading image ${imageFileName} to imgur: ${uploadResponse.status} ${uploadResponse.data}`,
+                    'error',
                     true
                 )
                 return
@@ -138,14 +141,14 @@ export class ImagesUpload {
 
             // log the success
             this.logger.log(
-                'info',
                 `Image ${chalk.bold.green(imagePath)} uploaded to imgur`,
+                'info',
                 true
             )
 
         } 
         catch (error: any) {
-            this.logger.log('error', error?.toString(), true)
+            this.logger.log(error?.toString(), 'error', true)
         }
     }
 

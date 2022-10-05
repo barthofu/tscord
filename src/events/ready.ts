@@ -61,7 +61,7 @@ export default class ReadyEvent {
         // log startup
         await this.logger.logStartingConsole()
 
-        // syncrhonize guilds between discord and the database
+        // synchronize guilds between discord and the database
         await syncAllGuilds(client)
     }
 
