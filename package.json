@@ -24,7 +24,7 @@
   "dependencies": {
     "@discordx/importer": "~1.1.10",
     "@discordx/music": "~4.1.0",
-    "@discordx/pagination": "~3.0.0",
+    "@discordx/pagination": "~3.3.1",
     "@discordx/utilities": "~5.0.0",
     "@mikro-orm/better-sqlite": "~5.3.1",
     "@mikro-orm/cli": "~5.3.1",
