@@ -135,8 +135,9 @@ export class BotController extends BaseController {
             for (const channel of guildChannels.values()) {
     
                 if (
+                    channel &&
                     (guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false) &&
-                    [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildNews].includes(channel.type)
+                    [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildAnnouncement].includes(channel.type)
                 ) {
                     invite = await (channel as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined)?.createInvite()
                     if (invite) break

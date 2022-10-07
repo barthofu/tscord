@@ -1,4 +1,4 @@
-import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
+import { BaseMessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import { delay, inject, singleton } from 'tsyringe'
 import { parse, StackFrame } from 'stacktrace-parser'
@@ -32,9 +32,9 @@ export class Logger {
     private readonly logPath: string = `${__dirname}/../../logs`
     private readonly levels = ['info', 'warn', 'error'] as const
     private embedLevelBuilder = {
-        info:  (message: string): MessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
-        warn:  (message: string): MessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
-        error: (message: string): MessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
+        info:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
+        warn:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
+        error: (message: string): BaseMessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
     }
     private interactionTypeReadable: { [key in InteractionsConstants]: string } = {
         "CHAT_INPUT_COMMAND_INTERACTION": "Slash command",
@@ -99,7 +99,7 @@ export class Logger {
      * @param level info (default) | warn | error
      * @returns 
      */
-    async discordChannel(channelId: string, message: string | MessageOptions, level?: typeof this.levels[number]) {
+    async discordChannel(channelId: string, message: string | BaseMessageOptions, level?: typeof this.levels[number]) {
         
         if (!this.client.token) return
         
