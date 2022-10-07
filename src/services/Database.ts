@@ -51,7 +51,7 @@ export class Database {
      * Shorthand to get custom and natives repositories
      * @param entity Entity of the custom repository to get
      */
-    get<T>(entity: EntityName<T>) {
+    get<T extends object>(entity: EntityName<T>) {
         return this._orm.em.getRepository(entity)
     }
     
