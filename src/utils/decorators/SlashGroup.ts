@@ -89,8 +89,10 @@ export function SlashGroup<TRoot extends string>(options: string | SlashGroupOpt
         }
 
         options = sanitizeLocales(options) 
+
+        if (!options.description) options.description = 'No description provided'
         
-        return SlashGroupX(options as SlashGroupOptionsX)
+        return SlashGroupX(options as SlashGroupOptionsX<string, string, string>)
     
     } else {
         if (root) return SlashGroupX(options, root)
