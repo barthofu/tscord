@@ -66,7 +66,7 @@ export function SlashGroup<TName extends string, TRoot extends string>(
  *
  * @category Decorator
  */
-export function SlashGroup<TRoot extends string>(options: string | SlashGroupOptions, root?: VerifyName<TRoot>) {
+export function SlashGroup<TRoot extends string>(options: VerifyName<string> | SlashGroupOptions, root?: VerifyName<TRoot>) {
 
     if (typeof options !== 'string') {
 
@@ -92,7 +92,7 @@ export function SlashGroup<TRoot extends string>(options: string | SlashGroupOpt
 
         if (!options.description) options.description = 'No description provided'
         
-        return SlashGroupX(options as SlashGroupOptionsX<string, string, string>)
+        return SlashGroupX(options as SlashGroupOptionsX<VerifyName<string>, string, VerifyName<string>>)
     
     } else {
         if (root) return SlashGroupX(options, root)

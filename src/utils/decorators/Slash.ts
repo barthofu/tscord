@@ -1,4 +1,4 @@
-import { Slash as SlashX, ApplicationCommandOptions as ApplicationCommandOptionsX } from 'discordx'
+import { Slash as SlashX, ApplicationCommandOptions as ApplicationCommandOptionsX, VerifyName } from 'discordx'
 
 import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
 
@@ -40,5 +40,5 @@ export const Slash = (options?: ApplicationCommandOptions | string) => {
 
     if (!options.description) options.description = 'No description provided'
 
-    return SlashX(options as ApplicationCommandOptionsX<string, string>)
+    return SlashX(options as ApplicationCommandOptionsX<VerifyName<string>, string>)
 }
