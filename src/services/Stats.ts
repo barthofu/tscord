@@ -24,17 +24,14 @@ const allInteractions = {
 @singleton()
 export class Stats {
 
-    private db: Database
     private statsRepo: EntityRepository<Stat>
 
     constructor(
+        private db: Database,
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
-        waitForDependency(Database).then((db) => {
-            this.db = db
-            this.statsRepo = this.db.get(Stat)
-        })
+        this.statsRepo = this.db.get(Stat)
     }
 
     /**
