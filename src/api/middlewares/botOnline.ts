@@ -1,17 +1,22 @@
-import axios from "axios"
-
 import { apiConfig } from "@config"
-import { NextFunction, Request, Response } from "express"
+import { Middleware } from "@tsed/common"
+import { InternalServerError } from "@tsed/exceptions"
+import axios from "axios"
 
 const baseUrl = `http://localhost:${apiConfig.port}`
 
-export async function botOnline(req: Request, res: Response, next: NextFunction) {
+@Middleware()
+export class BotOnline {
 
-    const { data } = await axios.get(`${baseUrl}/health/check`, {
-        params: {
-            logIgnore: true
-        }
-    })
+    async use() {
 
-    if (data?.online) next()
+        const { data } = await axios.get(`${baseUrl}/health/check`, {
+            params: {
+                logIgnore: true
+            }
+        })
+    
+        if (!data?.online) throw new InternalServerError('Bot is offline')
+    }
+
 }

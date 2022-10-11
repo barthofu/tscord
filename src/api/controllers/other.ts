@@ -1,10 +1,10 @@
+import { Controller, Get } from "@tsed/common"
 import { BaseController } from "@utils/classes"
-import { Get, JsonController } from "routing-controllers"
 
-@JsonController()
+@Controller('/')
 export class OtherController extends BaseController {
 
-    @Get('/')
+    @Get()
     async status() {
 
         return 'API server is running'

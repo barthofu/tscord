@@ -1,20 +1,23 @@
-import { authenticated } from "@api/middlewares"
+import { Authenticated } from "@api/middlewares"
 import { Stats } from "@services"
+import { Controller, Get, QueryParams, UseBefore } from "@tsed/common"
 import { BaseController } from "@utils/classes"
-import { Get, JsonController, QueryParam, UseBefore } from "routing-controllers"
-import { injectable } from "tsyringe"
+import { waitForDependencies } from "@utils/functions"
 
-@JsonController('/stats')
+@Controller('/stats')
 @UseBefore(
-    authenticated
+    Authenticated
 )
-@injectable()
 export class StatsController extends BaseController {
 
-    constructor(
-        private readonly stats: Stats,
-    ) {
+    private stats: Stats
+
+    constructor() {
         super()
+
+        waitForDependencies([Stats]).then(([stats]) => {
+            this.stats = stats
+        })
     }
 
     @Get('/totals')
@@ -47,7 +50,7 @@ export class StatsController extends BaseController {
     }
 
     @Get('/commands/usage')
-    async commandsUsage(@QueryParam('numberOfDays', { type: Number }) numberOfDays: number = 7) {
+    async commandsUsage(@QueryParams('numberOfDays') numberOfDays: number = 7) {
         
         const commandsUsage = {
             slashCommands: await this.stats.countStatsPerDays('CHAT_INPUT_COMMAND_INTERACTION', numberOfDays),
@@ -94,7 +97,7 @@ export class StatsController extends BaseController {
     }
 
     @Get('/usersAndGuilds')
-    async usersAndGuilds(@QueryParam('numberOfDays', { type: Number }) numberOfDays: number = 7) {
+    async usersAndGuilds(@QueryParams('numberOfDays') numberOfDays: number = 7) {
 
         return {
             activeUsers: await this.stats.countStatsPerDays('TOTAL_ACTIVE_USERS', numberOfDays),

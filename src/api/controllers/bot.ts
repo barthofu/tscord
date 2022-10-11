@@ -1,28 +1,34 @@
-import { authenticated, botOnline } from "@api/middlewares"
+import { Authenticated, BotOnline } from "@api/middlewares"
+import { NotFoundError, UnauthorizedError } from "@api/utils"
 import { generalConfig } from "@config"
 import { Guild, User } from '@entities'
 import { Database } from "@services"
+import { Controller, BodyParams, Delete, Get, PathParams, Post, UseBefore } from "@tsed/common"
+import { BadRequest } from "@tsed/exceptions"
+import { Required } from "@tsed/schema"
 import { BaseController } from "@utils/classes"
-import { getDevs, isDev, isInMaintenance, setMaintenance } from "@utils/functions"
+import { getDevs, isDev, isInMaintenance, setMaintenance, waitForDependencies } from "@utils/functions"
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField, Guild as DGuild } from "discord.js"
 import { Client, MetadataStorage } from "discordx"
-import type { Request, Response } from "express"
-import { BodyParam, Delete, Get, JsonController, NotFoundError, Param, Post, UnauthorizedError, UseBefore } from "routing-controllers"
-import { injectable } from "tsyringe"
 
-@JsonController('/bot')
+@Controller('/bot')
 @UseBefore(
-    botOnline,
-    authenticated
+    BotOnline,
+    Authenticated
 )
-@injectable()
 export class BotController extends BaseController {
 
-    constructor(
-        private readonly client: Client,
-        private readonly db: Database
-    ) {
+    
+    private client: Client
+    private db: Database
+
+    constructor() {
         super()
+
+        waitForDependencies([Client, Database]).then(([client, db]) => {
+            this.client = client
+            this.db = db
+        })
     }
 
     @Get('/info')
@@ -72,7 +78,7 @@ export class BotController extends BaseController {
     }
 
     @Get('/guilds/:id')
-    async guild(@Param('id') id: string, req: Request, res: Response) {
+    async guild(@PathParams('id') id: string) {
 
         // get discord guild
         try {
@@ -98,7 +104,7 @@ export class BotController extends BaseController {
     }
 
     @Delete('/guilds/:id')
-    async deleteGuild(@Param('id') id: string, req: Request, res: Response) {
+    async deleteGuild(@PathParams('id') id: string) {
 
         try {
 
@@ -118,7 +124,7 @@ export class BotController extends BaseController {
     }
 
     @Get('/guilds/:id/invite')
-    async invite(@Param('id') id: string, req: Request, res: Response) {
+    async invite(@PathParams('id') id: string) {
 
         let guild: DGuild | undefined
         try {
@@ -182,7 +188,7 @@ export class BotController extends BaseController {
     }
 
     @Get('/users/:id')
-    async user(@Param('id') id: string, req: Request, res: Response) {
+    async user(@PathParams('id') id: string) {
 
         // get discord user
         try {
@@ -222,7 +228,7 @@ export class BotController extends BaseController {
     }
 
     @Post('/maintenance')
-    async setMaintenance(@BodyParam('maintenance', { required: true, type: Boolean }) maintenance: boolean) {
+    async setMaintenance(@Required() @BodyParams('maintenance') maintenance: boolean) {
 
         await setMaintenance(maintenance)
 
@@ -238,7 +244,7 @@ export class BotController extends BaseController {
     }
 
     @Get('/devs/:id')
-    async dev(@Param('id') id: string) {
+    async dev(@PathParams('id') id: string) {
 
         return isDev(id)
     }
