@@ -7,7 +7,7 @@ import pidusage from 'pidusage'
 
 import { Database, WebSocket } from '@services'
 import { Guild, Stat, User } from '@entities'
-import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance } from '@utils/functions'
+import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance, waitForDependency } from '@utils/functions'
 import { Schedule, WSOn } from '@decorators'
 
 import { statsConfig, websocketConfig } from '@config'
@@ -24,14 +24,17 @@ const allInteractions = {
 @singleton()
 export class Stats {
 
+    private db: Database
     private statsRepo: EntityRepository<Stat>
 
     constructor(
-        private client: Client,
-        private db: Database,
+        @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
-        this.statsRepo = this.db.get(Stat)
+        waitForDependency(Database).then((db) => {
+            this.db = db
+            this.statsRepo = this.db.get(Stat)
+        })
     }
 
     /**

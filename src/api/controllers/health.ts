@@ -1,20 +1,25 @@
 import { Data } from "@entities"
 import { Database, Stats } from "@services"
+import { Controller, Get } from "@tsed/common"
 import { BaseController } from "@utils/classes"
+import { waitForDependencies } from "@utils/functions"
 import { Client } from "discordx"
-import { Get, JsonController } from "routing-controllers"
-import { delay, inject, injectable } from "tsyringe"
 
-@injectable()
-@JsonController('/health')
+@Controller('/health')
 export class HealthController extends BaseController {
 
-    constructor(
-        private readonly db: Database,
-        @inject(delay(() => Stats)) private readonly stats: Stats,
-        @inject(delay(() => Client)) private readonly client: Client,
-    ) {
+    private client: Client
+    private db: Database
+    private stats: Stats
+
+    constructor() {
         super()
+
+        waitForDependencies([Client, Database, Stats]).then(([client, db, stats]) => {
+            this.client = client
+            this.db = db
+            this.stats = stats
+        })
     }
 
     @Get('/check')

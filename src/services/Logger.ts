@@ -7,12 +7,13 @@ import fs from 'fs'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import ora from 'ora'
-import { getMetadataArgsStorage } from 'routing-controllers'
-import { routingControllersToSpec } from 'routing-controllers-openapi'
+import * as controllers from '@api/controllers'
 
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
 import { Scheduler, WebSocket, Pastebin } from '@services'
 import { apiConfig, logsConfig } from '@config'
+import { Server } from '@api/server'
+import { Metadata, Store } from '@tsed/core'
 
 @singleton()
 export class Logger {
@@ -25,8 +26,8 @@ export class Logger {
     ) {
         this.defaultConsole = { ...console }
         console.info    = (...args) => this.log(args.join(", "), 'info')
-        console.warn    = (...args) => this.log(args.join(", "), 'info')
-        console.error   = (...args) => this.log(args.join(", "), 'info')
+        console.warn    = (...args) => this.log(args.join(", "), 'warn')
+        console.error   = (...args) => this.log(args.join(", "), 'error')
     }
 
     private readonly logPath: string = `${__dirname}/../../logs`
@@ -379,7 +380,7 @@ export class Logger {
         this.spinner.start(text)
     }
 
-    logStartingConsole() {
+    async logStartingConsole() {
 
         const symbol = '✓',
               tab = '\u200B  \u200B'
@@ -425,11 +426,16 @@ export class Logger {
         // api
         if (apiConfig.enabled) {
 
-            const storage = getMetadataArgsStorage()
-            const openAPISpec = routingControllersToSpec(storage)
-            const endpoints = Object.keys(openAPISpec.paths)
+            const endpointsCount = Object.values(controllers).reduce((acc, controller) => {
 
-            this.console(chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
+                const methodsName = Object
+                    .getOwnPropertyNames(controller.prototype)
+                    .filter(methodName => methodName !== 'constructor')
+                
+                return acc + methodsName.length
+            }, 0)
+
+            this.console(chalk.cyan(`${symbol} ${numberAlign(endpointsCount)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
         }
 
         // scheduled jobs
