@@ -91,5 +91,9 @@ export class PluginsManager {
         await storeTranslationsToDisk(localeMapping, true);
     }
 
+    public isPluginLoad(pluginName: string): boolean {
+        return this._plugins.findIndex(plugin => plugin.name === pluginName) !== -1
+    }
+
     get plugins() { return this._plugins; }
 }
