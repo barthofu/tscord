@@ -3,7 +3,7 @@ import { User as DUser} from "discord.js"
 
 import { User, Guild } from "@entities"
 import { Database, Logger, Stats } from "@services"
-import { waitForDependencies, waitForDependency } from "@utils/functions"
+import { resolveDependencies, resolveDependency } from "@utils/functions"
 
 /**
  * Add a active user to the database if doesn't exist.
@@ -11,7 +11,7 @@ import { waitForDependencies, waitForDependency } from "@utils/functions"
  */
 export const syncUser = async (user: DUser) => {
     
-    const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
+    const  [ db, stats, logger ] = await resolveDependencies([Database, Stats, Logger])
 
     const userRepo = db.get(User)
 
@@ -38,12 +38,13 @@ export const syncUser = async (user: DUser) => {
  * @param client 
  */
 export const syncGuild = async (guildId: string, client: Client) => {
-    const  [ db, stats, logger ] = await waitForDependencies([Database, Stats, Logger])
+
+    const  [ db, stats, logger ] = await resolveDependencies([Database, Stats, Logger])
 
     const guildRepo = db.get(Guild),
           guildData = await guildRepo.findOne({ id: guildId, deleted: false })
 
-    const fetchedGuild = await client.guilds.fetch(guildId)
+    const fetchedGuild = await client.guilds.fetch(guildId).catch(() => null)
 
     //check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
     if (!guildData) {
@@ -87,7 +88,7 @@ export const syncGuild = async (guildId: string, client: Client) => {
  * @param client 
  */
 export const syncAllGuilds = async (client: Client)  => {
-    const db = await waitForDependency(Database)
+    const db = await resolveDependency(Database)
 
     // add missing guilds
     const guilds = client.guilds.cache

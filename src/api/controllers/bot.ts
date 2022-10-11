@@ -7,7 +7,7 @@ import { Controller, BodyParams, Delete, Get, PathParams, Post, UseBefore } from
 import { BadRequest } from "@tsed/exceptions"
 import { Required } from "@tsed/schema"
 import { BaseController } from "@utils/classes"
-import { getDevs, isDev, isInMaintenance, setMaintenance, waitForDependencies } from "@utils/functions"
+import { getDevs, isDev, isInMaintenance, setMaintenance, resolveDependencies } from "@utils/functions"
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField, Guild as DGuild } from "discord.js"
 import { Client, MetadataStorage } from "discordx"
 
@@ -25,7 +25,7 @@ export class BotController extends BaseController {
     constructor() {
         super()
 
-        waitForDependencies([Client, Database]).then(([client, db]) => {
+        resolveDependencies(Client, Database).then(([client, db]) => {
             this.client = client
             this.db = db
         })

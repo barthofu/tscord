@@ -7,7 +7,7 @@ import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
 import { importx } from '@discordx/importer'
 
 import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
-import { initDataTable, waitForDependency } from '@utils/functions'
+import { initDataTable, resolveDependency } from '@utils/functions'
 import { Server } from '@api/server'
 
 import { clientConfig } from './client'
@@ -17,12 +17,12 @@ import { NoBotTokenError } from '@errors'
 async function run() {
 
     // start loading
-    const logger = await waitForDependency(Logger)
+    const logger = await resolveDependency(Logger)
     console.log('\n')
     logger.startSpinner('Starting...')
 
     // init the sqlite database
-    const db = await waitForDependency(Database)
+    const db = await resolveDependency(Database)
     await db.initialize()
 
     // init the client
@@ -34,7 +34,7 @@ async function run() {
     container.registerInstance(Client, client)
 
     // init the error handler
-    await waitForDependency(ErrorHandler)
+    await resolveDependency(ErrorHandler)
 
     // import all the commands and events
     await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
@@ -49,19 +49,19 @@ async function run() {
 
         // start the api server
         if (apiConfig.enabled) {
-            const server = await waitForDependency(Server)
+            const server = await resolveDependency(Server)
             await server.start()
         }
 
         // connect to the dashboard websocket
         if (websocketConfig.enabled) {
-            const webSocket = await waitForDependency(WebSocket)
+            const webSocket = await resolveDependency(WebSocket)
             await webSocket.init(client.user?.id || null)
         }
 
         // upload images to imgur if configured
         if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-            const imagesUpload = await waitForDependency(ImagesUpload)
+            const imagesUpload = await resolveDependency(ImagesUpload)
             await imagesUpload.syncWithDatabase()
         }
     })

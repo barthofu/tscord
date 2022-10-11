@@ -1,4 +1,4 @@
-import { waitForDependency } from "@utils/functions"
+import { resolveDependency } from "@utils/functions"
 import { Database } from "@services"
 import { Image } from "@entities"
 
@@ -9,7 +9,7 @@ import { Image } from "@entities"
  */
 export const getImage = async (imageName: string): Promise<string | null> => {
 
-    const db = await waitForDependency(Database)
+    const db = await resolveDependency(Database)
     const imageRepo = db.get(Image)
 
     let image = await imageRepo.findOne({

@@ -5,7 +5,7 @@ import { Database } from "@services"
 import { BodyParams, Controller, Get, Post, UseBefore } from "@tsed/common"
 import { Required } from "@tsed/schema"
 import { BaseController } from "@utils/classes"
-import { formatDate, waitForDependencies } from "@utils/functions"
+import { formatDate, resolveDependencies } from "@utils/functions"
 import { injectable } from "tsyringe"
 
 @Controller('/database')
@@ -20,7 +20,7 @@ export class DatabaseController extends BaseController {
     constructor() {
         super()
 
-        waitForDependencies([Database]).then(([db]) => {
+        resolveDependencies([Database]).then(([db]) => {
             this.db = db
         })
     }
