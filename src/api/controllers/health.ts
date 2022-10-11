@@ -2,7 +2,7 @@ import { Data } from "@entities"
 import { Database, Stats } from "@services"
 import { Controller, Get } from "@tsed/common"
 import { BaseController } from "@utils/classes"
-import { waitForDependencies } from "@utils/functions"
+import { resolveDependencies } from "@utils/functions"
 import { Client } from "discordx"
 
 @Controller('/health')
@@ -15,7 +15,7 @@ export class HealthController extends BaseController {
     constructor() {
         super()
 
-        waitForDependencies([Client, Database, Stats]).then(([client, db, stats]) => {
+        resolveDependencies([Client, Database, Stats]).then(([client, db, stats]) => {
             this.client = client
             this.db = db
             this.stats = stats

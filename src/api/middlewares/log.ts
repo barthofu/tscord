@@ -1,6 +1,6 @@
 import { Logger } from "@services"
 import { Context, Middleware, PlatformContext } from "@tsed/common"
-import { waitForDependency } from "@utils/functions"
+import { resolveDependency } from "@utils/functions"
 import chalk from "chalk"
 import { container } from "tsyringe"
 
@@ -10,7 +10,7 @@ export class Log {
     private logger: Logger
 
     constructor() {
-        waitForDependency(Logger).then((logger) => {
+        resolveDependency(Logger).then((logger) => {
             this.logger = logger
         })
     }

@@ -2,7 +2,7 @@ import { Authenticated } from "@api/middlewares"
 import { Stats } from "@services"
 import { Controller, Get, QueryParams, UseBefore } from "@tsed/common"
 import { BaseController } from "@utils/classes"
-import { waitForDependencies } from "@utils/functions"
+import { resolveDependencies } from "@utils/functions"
 
 @Controller('/stats')
 @UseBefore(
@@ -15,7 +15,7 @@ export class StatsController extends BaseController {
     constructor() {
         super()
 
-        waitForDependencies([Stats]).then(([stats]) => {
+        resolveDependencies([Stats]).then(([stats]) => {
             this.stats = stats
         })
     }

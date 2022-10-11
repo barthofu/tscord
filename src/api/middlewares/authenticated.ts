@@ -1,4 +1,4 @@
-import { isDev, waitForDependency } from "@utils/functions"
+import { isDev, resolveDependency } from "@utils/functions"
 import { Store } from "@services"
 import { BadRequestError, UnauthorizedError } from "@api/utils"
 import { BadRequest } from "@tsed/exceptions"
@@ -18,7 +18,7 @@ export class Authenticated {
     private store: Store
 
     constructor() {
-        waitForDependency(Store).then((store) => {
+        resolveDependency(Store).then((store) => {
             this.store = store
         })
     }

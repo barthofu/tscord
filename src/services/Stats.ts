@@ -7,7 +7,7 @@ import pidusage from 'pidusage'
 
 import { Database, WebSocket } from '@services'
 import { Guild, Stat, User } from '@entities'
-import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance, waitForDependency } from '@utils/functions'
+import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance, resolveDependency } from '@utils/functions'
 import { Schedule, WSOn } from '@decorators'
 
 import { statsConfig, websocketConfig } from '@config'

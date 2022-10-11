@@ -9,7 +9,7 @@ import boxen from 'boxen'
 import ora from 'ora'
 import * as controllers from '@api/controllers'
 
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, resolveDependency } from '@utils/functions'
 import { Scheduler, WebSocket, Pastebin } from '@services'
 import { apiConfig, logsConfig } from '@config'
 import { Server } from '@api/server'
@@ -287,7 +287,7 @@ export class Logger {
             type === 'DELETE_GUILD' ? 'has been deleted' : 
             type === 'RECOVER_GUILD' ? 'has been recovered' : ''
         
-        waitForDependency(Client).then(async client => {
+        resolveDependency(Client).then(async client => {
             const guild = await client.guilds.fetch(guildId)
 
             const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`

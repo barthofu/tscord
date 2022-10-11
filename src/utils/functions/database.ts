@@ -1,6 +1,6 @@
 import { Database } from '@services'
 import { Data } from '@entities'
-import { waitForDependency } from '@utils/functions'
+import { resolveDependency } from '@utils/functions'
 
 import { defaultData } from '../../entities/Data'
 
@@ -11,7 +11,7 @@ type DataType = keyof typeof defaultData
  */
 export const initDataTable = async () => {
 
-    const db = await waitForDependency(Database)
+    const db = await resolveDependency(Database)
 
     for (const key of Object.keys(defaultData)) {
 
