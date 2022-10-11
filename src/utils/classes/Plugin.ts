@@ -7,7 +7,7 @@ import fs from "fs"
 
 import { generalConfig } from "@config";
 import { BaseController } from "@utils/classes";
-import { defaultTranslations } from "@i18n";
+import { locales } from "@i18n";
 
 export class Plugin {
     // Common values
@@ -86,7 +86,7 @@ export class Plugin {
             translations[locale] = (await import(localeFile)).default;
         }
 
-        for (const defaultLocale of Object.keys(defaultTranslations)) {
+        for (const defaultLocale of locales) {
             const path = `${process.env.PWD}/src/i18n/${defaultLocale}/${this._name}/_custom.`
             if (fs.existsSync(path + "js")) translations[defaultLocale] = (await import(path + "js")).default;
             else if (fs.existsSync(path + "ts")) translations[defaultLocale] = (await import(path + "ts")).default;

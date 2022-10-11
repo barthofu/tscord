@@ -5,7 +5,7 @@ import fs from "fs";
 
 import { BaseController, Plugin } from "@utils/classes";
 import { BaseTranslation } from "typesafe-i18n";
-import { defaultTranslations } from "@i18n";
+import { locales } from "@i18n";
 import { AnyEntity, EntityClass } from "@mikro-orm/core";
 
 @singleton()
@@ -59,7 +59,12 @@ export class PluginsManager {
     public async syncTranslations(): Promise<void> {
         let localeMapping: ImportLocaleMapping[] =  [];
         let namespaces: { [key: string]: string[] } = {};
-        let translations: { [key: string]: BaseTranslation } = { ...defaultTranslations };
+        let translations: { [key: string]: BaseTranslation } = {};
+
+        for (const locale of locales) {
+            const path = process.env.PWD + "/src/i18n/"+locale
+            if(fs.existsSync(path)) translations[locale] = (await import(path))?.default;
+        }
 
         for (const plugin of this._plugins) {
             for (const locale in plugin.translations) {
@@ -71,8 +76,8 @@ export class PluginsManager {
             }
         }
 
-        for(let locale in translations) {
-            if(!Object.keys(defaultTranslations).includes(locale)) continue
+        for(const locale in translations) {
+            if(!locales.includes(locale as any)) continue
             localeMapping.push({
                 locale,
                 translations: translations[locale],
