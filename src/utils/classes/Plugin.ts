@@ -95,11 +95,6 @@ export class Plugin {
         return translations;
     }
 
-    public loadEnv(): void {
-        if(!fs.existsSync(this._path + "/services")) return
-        dotenv.config({ path: this._path + "/.env" });
-    }
-
     public execMain(): void {
         if(!fs.existsSync(this._path + "/main.ts")) return
         import(this._path + "/main.ts");
