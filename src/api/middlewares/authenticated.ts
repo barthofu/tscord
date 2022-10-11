@@ -1,10 +1,8 @@
-import { isDev, resolveDependency } from "@utils/functions"
 import { Store } from "@services"
-import { BadRequestError, UnauthorizedError } from "@api/utils"
-import { BadRequest } from "@tsed/exceptions"
 import { Context, Middleware, PlatformContext } from "@tsed/common"
+import { BadRequest, Unauthorized } from "@tsed/exceptions"
+import { isDev, resolveDependency } from "@utils/functions"
 import DiscordOauth2 from "discord-oauth2"
-import { container } from "tsyringe"
 
 const discordOauth2 = new DiscordOauth2()
 
@@ -61,11 +59,11 @@ export class Authenticated {
                 }, timeout)
 
             } else {
-                throw new UnauthorizedError('Unauthorized')
+                throw new Unauthorized('Unauthorized')
             }
         })
         .catch(async (err) => {
-            throw new BadRequestError('Invalid token')
+            throw new BadRequest('Invalid token')
         })
     }
 }

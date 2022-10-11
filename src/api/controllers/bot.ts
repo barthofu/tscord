@@ -1,14 +1,13 @@
 import { Authenticated, BotOnline } from "@api/middlewares"
-import { NotFoundError, UnauthorizedError } from "@api/utils"
 import { generalConfig } from "@config"
 import { Guild, User } from '@entities'
 import { Database } from "@services"
-import { Controller, BodyParams, Delete, Get, PathParams, Post, UseBefore } from "@tsed/common"
-import { BadRequest } from "@tsed/exceptions"
+import { BodyParams, Controller, Delete, Get, PathParams, Post, UseBefore } from "@tsed/common"
+import { NotFound, Unauthorized } from "@tsed/exceptions"
 import { Required } from "@tsed/schema"
 import { BaseController } from "@utils/classes"
-import { getDevs, isDev, isInMaintenance, setMaintenance, resolveDependencies } from "@utils/functions"
-import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField, Guild as DGuild } from "discord.js"
+import { getDevs, isDev, isInMaintenance, resolveDependencies, setMaintenance } from "@utils/functions"
+import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, Guild as DGuild, NewsChannel, PermissionsBitField } from "discord.js"
 import { Client, MetadataStorage } from "discordx"
 
 @Controller('/bot')
@@ -99,7 +98,7 @@ export class BotController extends BaseController {
 
         } catch (err) {
 
-            throw new NotFoundError('Guild not found')
+            throw new NotFound('Guild not found')
         }
     }
 
@@ -119,7 +118,7 @@ export class BotController extends BaseController {
 
         } catch (err) {
 
-            throw new NotFoundError('Guild not found')
+            throw new NotFound('Guild not found')
         }
     }
 
@@ -130,7 +129,7 @@ export class BotController extends BaseController {
         try {
             guild = await this.client.guilds.fetch(id)
         } catch (err) {
-            throw new NotFoundError('Guild not found')
+            throw new NotFound('Guild not found')
         }
 
         if (guild) {
@@ -152,7 +151,7 @@ export class BotController extends BaseController {
     
             if (invite) return invite.toJSON()
             else {
-                throw new UnauthorizedError('Missing permission to create an invite in this guild')           
+                throw new Unauthorized('Missing permission to create an invite in this guild')           
             }
         }
     }
@@ -209,7 +208,7 @@ export class BotController extends BaseController {
 
         } catch (err) {
 
-            throw new NotFoundError('User not found')
+            throw new NotFound('User not found')
         }
     }
 
