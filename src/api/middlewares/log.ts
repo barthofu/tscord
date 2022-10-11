@@ -2,7 +2,6 @@ import { Logger } from "@services"
 import { Context, Middleware, PlatformContext } from "@tsed/common"
 import { resolveDependency } from "@utils/functions"
 import chalk from "chalk"
-import { container } from "tsyringe"
 
 @Middleware()
 export class Log {
