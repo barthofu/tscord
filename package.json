@@ -1,7 +1,7 @@
 {
-  "name": "tscord-template",
-  "version": "1.0.0",
-  "description": "A fully-featured discord bots template written in Typescript, intended to provide a framework that's easy to use, extend and modify",
+  "name": "tscord",
+  "version": "1.1.0",
+  "description": "A fully-featured discord bot template written in Typescript, intended to provide a framework that's easy to use, extend and modify",
   "license": "MIT",
   "main": "build/main.js",
   "scripts": {
@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@discordx/importer": "~1.1.10",
-    "@discordx/music": "~4.1.0",
     "@discordx/pagination": "~3.3.1",
     "@discordx/utilities": "~5.1.0",
     "@mikro-orm/better-sqlite": "~5.4.2",
@@ -70,8 +69,6 @@
     "pidusage": "~3.0.0",
     "reflect-metadata": "~0.1.13",
     "rentry-pastebin": "~1.2.3",
-    "routing-controllers": "~0.9.0",
-    "routing-controllers-openapi": "~3.1.0",
     "rxeta": "~1.1.2",
     "saveqlite": "~1.1.2",
     "socket.io-client": "~4.5.2",
@@ -117,9 +114,6 @@
   },
   "volta": {
     "node": "16.17.0"
-  },
-  "overrides": {
-    "validator": "13.7.0"
   },
   "tscordTemplate": true
 }
