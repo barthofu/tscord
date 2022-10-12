@@ -1,4 +1,5 @@
 import { container, InjectionToken } from 'tsyringe'
+import { F } from 'ts-toolbelt'
 
 export const resolveDependency = async <T>(token: InjectionToken<T>, interval: number = 500): Promise<T> => {
 
@@ -9,9 +10,11 @@ export const resolveDependency = async <T>(token: InjectionToken<T>, interval: n
     return container.resolve(token)
 }
 
-export const resolveDependencies = async(...tokens: any): Promise<typeof tokens> => {
+type Forward<T> = {[Key in keyof T]: T[Key] extends abstract new (...args: any) => any ? InstanceType<T[Key]> : T[Key]}
+
+export const resolveDependencies = async <T extends readonly [...unknown[]]>(tokens: F.Narrow<T>) => {
 
     return Promise.all(tokens.map((token: any) => 
         resolveDependency(token)
-    ))
+    )) as Promise<Forward<F.Narrow<T>>>
 }

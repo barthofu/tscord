@@ -24,7 +24,7 @@ export class BotController extends BaseController {
     constructor() {
         super()
 
-        resolveDependencies(Client, Database).then(([client, db]) => {
+        resolveDependencies([Client, Database]).then(([client, db]) => {
             this.client = client
             this.db = db
         })

@@ -74,6 +74,7 @@
     "socket.io-client": "~4.5.2",
     "stacktrace-parser": "~0.1.10",
     "swagger-ui-express": "~4.5.0",
+    "ts-toolbelt": "^9.6.0",
     "tsyringe": "~4.7.0",
     "typesafe-i18n": "^5.14.0",
     "uuid": "~9.0.0"
