@@ -54,7 +54,7 @@ export default class InfoCommand {
 		/**
 		 * Owner field
 		 */
-		const owner = await client.users.fetch(generalConfig.ownerId)
+		const owner = await client.users.fetch(generalConfig.ownerId).catch(() => null)
 		if (owner) {
 			fields.push({
 				name: 'Owner',

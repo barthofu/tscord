@@ -16,7 +16,7 @@ export type Translations = RootTranslation
 type RootTranslation = {
 	GUARDS: {
 		/**
-		 * T​h​i​s​ ​c​o​m​m​a​n​d​ ​i​s​ ​c​u​r​r​e​n​t​l​y​ ​d​e​s​a​c​t​i​v​a​t​e​d​.
+		 * T​h​i​s​ ​c​o​m​m​a​n​d​ ​i​s​ ​c​u​r​r​e​n​t​l​y​ ​d​i​s​a​b​l​e​d​.
 		 */
 		DISABLED_COMMAND: string
 		/**
@@ -34,7 +34,7 @@ type RootTranslation = {
 	}
 	ERRORS: {
 		/**
-		 * A​n​ ​u​n​k​n​o​w​n​ ​e​r​r​o​r​ ​o​c​c​u​r​e​d​.
+		 * A​n​ ​u​n​k​n​o​w​n​ ​e​r​r​o​r​ ​o​c​c​u​r​r​e​d​.
 		 */
 		UNKNOWN: string
 	}
@@ -129,7 +129,7 @@ type RootTranslation = {
 			DESCRIPTION: string
 			EMBED: {
 				/**
-				 * H​e​l​p​ ​p​a​n​n​e​l
+				 * H​e​l​p​ ​p​a​n​e​l
 				 */
 				TITLE: string
 				/**
@@ -169,7 +169,7 @@ type RootTranslation = {
 export type TranslationFunctions = {
 	GUARDS: {
 		/**
-		 * This command is currently desactivated.
+		 * This command is currently disabled.
 		 */
 		DISABLED_COMMAND: () => LocalizedString
 		/**
@@ -187,7 +187,7 @@ export type TranslationFunctions = {
 	}
 	ERRORS: {
 		/**
-		 * An unknown error occured.
+		 * An unknown error occurred.
 		 */
 		UNKNOWN: () => LocalizedString
 	}
@@ -279,7 +279,7 @@ export type TranslationFunctions = {
 			DESCRIPTION: () => LocalizedString
 			EMBED: {
 				/**
-				 * Help pannel
+				 * Help panel
 				 */
 				TITLE: () => LocalizedString
 				/**

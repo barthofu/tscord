@@ -1,4 +1,4 @@
-import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX } from "discordx"
+import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX, VerifyName } from "discordx"
 import { of } from "case"
 
 import { InvalidOptionName } from "@errors"
@@ -44,7 +44,9 @@ import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@
         }
     }
 
-    return SlashOptionX(options as SlashOptionOptionsX)
+    if (!options.description) options.description = 'No description provided'
+
+    return SlashOptionX(options as SlashOptionOptionsX<VerifyName<string>, string>)
 }
 
 const isValidOptionName = (name: string) => {

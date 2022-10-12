@@ -1,4 +1,4 @@
-import { waitForDependency } from '@utils/functions'
+import { resolveDependency } from '@utils/functions'
 
 /**
  * Handle websocket events
@@ -17,7 +17,7 @@ export const WSOn = (event: string) => {
 		descriptor: PropertyDescriptor
     ) {
         import('@services').then(services => {
-            waitForDependency(services.WebSocket).then(webSocket => {
+            resolveDependency(services.WebSocket).then(webSocket => {
                 webSocket.addEvent(event, async (socketId, ...args) => {
                     descriptor.value((eventName: string, ...args: any) => {
                         webSocket.emit(socketId, eventName, ...args)

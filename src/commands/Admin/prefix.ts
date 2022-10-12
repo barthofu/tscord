@@ -28,8 +28,7 @@ export default class PrefixCommand {
 		@SlashOption({ 
 			name: 'prefix', 
 			localizationSource: 'COMMANDS.PREFIX.OPTIONS.PREFIX',
-			type: ApplicationCommandOptionType.String, 
-			required: false 
+			type: ApplicationCommandOptionType.String,
 		}) prefix: string | undefined,
 		interaction: CommandInteraction,
 		client: Client,

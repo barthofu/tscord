@@ -1,27 +1,32 @@
-import { authenticated } from "@api/middlewares"
+import { Authenticated } from "@api/middlewares"
 import { databaseConfig } from "@config"
 import { Database } from "@services"
+import { BodyParams, Controller, Get, Post, UseBefore } from "@tsed/common"
+import { InternalServerError } from "@tsed/exceptions"
+import { Required } from "@tsed/schema"
 import { BaseController } from "@utils/classes"
-import { formatDate } from "@utils/functions"
-import type { Request, Response } from "express"
-import { BodyParam, Get, InternalServerError, JsonController, Post, UseBefore } from "routing-controllers"
+import { formatDate, resolveDependencies } from "@utils/functions"
 import { injectable } from "tsyringe"
 
-@JsonController('/database')
+@Controller('/database')
 @UseBefore(
-    authenticated
+    Authenticated
 )
 @injectable()
 export class DatabaseController extends BaseController {
 
-    constructor(
-        private readonly db: Database
-    ) {
+    private db: Database
+
+    constructor() {
         super()
+
+        resolveDependencies([Database]).then(([db]) => {
+            this.db = db
+        })
     }
 
     @Post('/backup')
-    async generateBackup(req: Request, res: Response) {
+    async generateBackup() {
 
         const snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}-manual-${Date.now()}`
         const success = await this.db.backup(snapshotName)
@@ -39,8 +44,7 @@ export class DatabaseController extends BaseController {
 
     @Post('/restore')
     async restoreBackup(
-        @BodyParam('snapshotName', { required: true, type: String }) snapshotName: string,
-        req: Request, res: Response
+        @Required() @BodyParams('snapshotName') snapshotName: string,
     ) {
         
         const success = await this.db.restore(snapshotName)
@@ -50,7 +54,7 @@ export class DatabaseController extends BaseController {
     }
 
     @Get('/backups')
-    async getBackups(req: Request, res: Response) {
+    async getBackups() {
 
         const backupPath = databaseConfig.backup.path
         if (!backupPath) throw new InternalServerError("Backup path not set, couldn't find backups")

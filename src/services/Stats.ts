@@ -7,7 +7,7 @@ import pidusage from 'pidusage'
 
 import { Database, WebSocket } from '@services'
 import { Guild, Stat, User } from '@entities'
-import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance } from '@utils/functions'
+import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance, resolveDependency } from '@utils/functions'
 import { Schedule, WSOn } from '@decorators'
 
 import { statsConfig, websocketConfig } from '@config'
@@ -27,8 +27,8 @@ export class Stats {
     private statsRepo: EntityRepository<Stat>
 
     constructor(
-        private client: Client,
         private db: Database,
+        @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
         this.statsRepo = this.db.get(Stat)
@@ -225,7 +225,8 @@ export class Stats {
 
         for (const guild of guilds) {
 
-            const discordGuild = await this.client.guilds.fetch(guild.id)
+            const discordGuild = await this.client.guilds.fetch(guild.id).catch(() => null)
+            if (!discordGuild) continue
 
             const commandsCount = await this.db.get(Stat).count({
                 ...allInteractions,

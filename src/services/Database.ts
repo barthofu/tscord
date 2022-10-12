@@ -7,7 +7,7 @@ import fs from 'fs'
 import { backup, restore } from 'saveqlite'
 import { delay, inject, singleton } from 'tsyringe'
 import * as entities from '@entities'
-import { waitForDependency } from '@utils/functions'
+import { resolveDependency } from '@utils/functions'
 
 @singleton()
 export class Database {
@@ -19,7 +19,7 @@ export class Database {
     ) { }
 
     async initialize() {
-        const pluginsManager = await waitForDependency(PluginsManager)
+        const pluginsManager = await resolveDependency(PluginsManager)
 
         // get config
         let config = mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>
@@ -60,7 +60,7 @@ export class Database {
      * Shorthand to get custom and natives repositories
      * @param entity Entity of the custom repository to get
      */
-    get<T>(entity: EntityName<T>) {
+    get<T extends object>(entity: EntityName<T>) {
         return this._orm.em.getRepository(entity)
     }
     

@@ -1,19 +1,16 @@
-import { MessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
-import { Client, MetadataStorage } from 'discordx'
-import { delay, inject, singleton } from 'tsyringe'
-import { parse, StackFrame } from 'stacktrace-parser'
-import { constant } from 'case'
-import fs from 'fs'
-import chalk from 'chalk'
-import boxen from 'boxen'
-import ora from 'ora'
-import { getMetadataArgsStorage } from 'routing-controllers'
-import { routingControllersToSpec } from 'routing-controllers-openapi'
-
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, waitForDependency } from '@utils/functions'
-import { Scheduler, WebSocket, Pastebin } from '@services'
+import * as controllers from '@api/controllers'
 import { apiConfig, logsConfig } from '@config'
-import { resolve } from '@discordx/importer'
+import { Pastebin, Scheduler, WebSocket } from '@services'
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@utils/functions'
+import boxen from 'boxen'
+import { constant } from 'case'
+import chalk from 'chalk'
+import { BaseMessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
+import { Client, MetadataStorage } from 'discordx'
+import fs from 'fs'
+import ora from 'ora'
+import { parse, StackFrame } from 'stacktrace-parser'
+import { delay, inject, singleton } from 'tsyringe'
 import { PluginsManager } from './PluginsManager'
 
 @singleton()
@@ -28,16 +25,16 @@ export class Logger {
     ) {
         this.defaultConsole = { ...console }
         console.info    = (...args) => this.log(args.join(", "), 'info')
-        console.warn    = (...args) => this.log(args.join(", "), 'info')
-        console.error   = (...args) => this.log(args.join(", "), 'info')
+        console.warn    = (...args) => this.log(args.join(", "), 'warn')
+        console.error   = (...args) => this.log(args.join(", "), 'error')
     }
 
     private readonly logPath: string = `${__dirname}/../../logs`
     private readonly levels = ['info', 'warn', 'error'] as const
     private embedLevelBuilder = {
-        info:  (message: string): MessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
-        warn:  (message: string): MessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
-        error: (message: string): MessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
+        info:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
+        warn:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
+        error: (message: string): BaseMessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
     }
     private interactionTypeReadable: { [key in InteractionsConstants]: string } = {
         "CHAT_INPUT_COMMAND_INTERACTION": "Slash command",
@@ -100,20 +97,21 @@ export class Logger {
      * @param channelId the ID of the discord channel to log to
      * @param message the message to log or a [MessageOptions](https://discord.js.org/#/docs/discord.js/main/typedef/BaseMessageOptions) compliant object (like embeds, components, etc)
      * @param level info (default) | warn | error
-     * @returns 
      */
-    async discordChannel(channelId: string, message: string | MessageOptions, level?: typeof this.levels[number]) {
+    async discordChannel(channelId: string, message: string | BaseMessageOptions, level?: typeof this.levels[number]) {
         
         if (!this.client.token) return
         
-        const channel = await this.client.channels.fetch(channelId)
+        const channel = await this.client.channels.fetch(channelId).catch(() => null)
         
         if (
-            channel instanceof TextChannel 
-            || channel instanceof ThreadChannel
+            channel && 
+            ( channel instanceof TextChannel 
+            || channel instanceof ThreadChannel )
         ) {
-            if(typeof message !== 'string') return channel.send(message).catch(console.error)
-            
+
+            if (typeof message !== 'string') return channel.send(message).catch(console.error)
+
             channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
         }
     }
@@ -289,8 +287,9 @@ export class Logger {
             type === 'DELETE_GUILD' ? 'has been deleted' : 
             type === 'RECOVER_GUILD' ? 'has been recovered' : ''
         
-        waitForDependency(Client).then(async client => {
-            const guild = await client.guilds.fetch(guildId)
+        resolveDependency(Client).then(async client => {
+
+            const guild = await client.guilds.fetch(guildId).catch(() => null)
 
             const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`
             const chalkedMessage = oneLine`
@@ -310,11 +309,11 @@ export class Logger {
                     title: (type === 'NEW_GUILD' ? 'New guild' : type === 'DELETE_GUILD' ? 'Deleted guild' : 'Recovered guild'),
                     //description: `**${guild.name} (\`${guild.id}\`)**\n${guild.memberCount} members`,
                     fields: [{
-                        name: guild.name,
-                        value: `${guild.memberCount} members`
+                        name: guild?.name ?? 'Unknown',
+                        value: `${guild?.memberCount ?? 'N/A'} members`
                     }],
                     footer: {
-                        text: guild.id
+                        text: guild?.id ?? 'Unknown'
                     },
                     thumbnail: {
                         url: guild?.iconURL() ?? ''
@@ -382,7 +381,7 @@ export class Logger {
         this.spinner.start(text)
     }
 
-    logStartingConsole() {
+    async logStartingConsole() {
 
         const symbol = '✓',
               tab = '\u200B  \u200B'
@@ -430,11 +429,16 @@ export class Logger {
         // api
         if (apiConfig.enabled) {
 
-            const storage = getMetadataArgsStorage()
-            const openAPISpec = routingControllersToSpec(storage)
-            const endpoints = Object.keys(openAPISpec.paths)
+            const endpointsCount = Object.values(controllers).reduce((acc, controller) => {
 
-            this.console(chalk.cyan(`${symbol} ${numberAlign(endpoints.length)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
+                const methodsName = Object
+                    .getOwnPropertyNames(controller.prototype)
+                    .filter(methodName => methodName !== 'constructor')
+                
+                return acc + methodsName.length
+            }, 0)
+
+            this.console(chalk.cyan(`${symbol} ${numberAlign(endpointsCount)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
         }
 
         // scheduled jobs

@@ -1,75 +1,50 @@
-import * as controllers from "@api/controllers"
-import { log } from "@api/middlewares"
-import { Logger, PluginsManager } from "@services"
-import express, { Application } from "express"
-import { ClassConstructor, ExpressErrorMiddlewareInterface, getMetadataArgsStorage, IocAdapter, Middleware, useContainer, useExpressServer } from "routing-controllers"
-import { routingControllersToSpec } from "routing-controllers-openapi"
-import SwaggerUi from "swagger-ui-express"
-import { container, DependencyContainer, singleton } from "tsyringe"
+import * as controllers from '@api/controllers'
+import { Log } from '@api/middlewares'
+import { PluginsManager } from "@services"
+import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from '@tsed/common'
+import { PlatformExpress } from '@tsed/platform-express'
+import '@tsed/swagger'
+import { singleton } from 'tsyringe'
 
 @singleton()
 export class Server {
 
-    private server: Application
+    @Inject() app: PlatformApplication
 
     constructor(
-        private readonly logger: Logger,
         private readonly pluginsManager: PluginsManager
     ) {}
 
+    $beforeRoutesInit() {
+        this.app
+            .use(Log)
+            .use(PlatformAcceptMimesMiddleware)
+
+        return null
+    }
+
     async start() {
-
-        useContainer(new TsyringeAdapter(container))
-
-        this.server = express()
-
-        this.server.use('/', log)
-        this.setupSwaggerUi()
-
-        useExpressServer(this.server, {
-            controllers: [...Object.values(controllers), ...this.pluginsManager.getControllers()],
-            defaultErrorHandler: false
+        const platform = await PlatformExpress.bootstrap(Server, {
+            rootDir: __dirname,
+            httpPort: parseInt(process.env['API_PORT']) || 4000,
+            httpsPort: false,
+            acceptMimes: ['application/json'],
+            mount: {
+                '/': [...Object.values(controllers), ...this.pluginsManager.getControllers()]
+            },
+            swagger: [
+                {
+                    path: '/docs',
+                    specVersion: '3.0.1'
+                }
+            ],
+            logger: {
+                level: 'warn',
+                logRequest: false,
+                disableRoutesSummary: true
+            }
         })
 
-        this.server.listen('4000', this.listen)
-    }
-
-    private setupSwaggerUi() {
-
-        const storage = getMetadataArgsStorage()
-        const openAPISpec = routingControllersToSpec(storage)
-        
-        this.server.use('/docs', SwaggerUi.serve, SwaggerUi.setup(openAPISpec))
-    }
-
-    async listen() {
-
-    }
-
-}
-
-class TsyringeAdapter implements IocAdapter {
-
-    constructor(
-        private readonly TsyringeContainer: DependencyContainer
-    ) {}
-
-    get<T>(someClass: ClassConstructor<T>): T {
-
-        const childContainer = this.TsyringeContainer.createChildContainer()
-        return childContainer.resolve<T>(someClass)
-    }
-}
-
-@Middleware({ type: 'after' })
-class CustomErrorHandler implements ExpressErrorMiddlewareInterface {
-
-    error(error: any, req: any, res: any, next: (err?: any) => any) {
-
-        res.status(error.httpCode || 500)
-        res.json({
-            name: error.name,
-            message: error.message,
-        })
+        await platform.listen()
     }
 }

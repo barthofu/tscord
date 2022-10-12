@@ -1,4 +1,4 @@
-import { Slash as SlashX } from 'discordx'
+import { Slash as SlashX, ApplicationCommandOptions as ApplicationCommandOptionsX, VerifyName } from 'discordx'
 
 import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
 
@@ -13,7 +13,7 @@ import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from '@
  */
 export const Slash = (options?: ApplicationCommandOptions | string) => {
 
-    if (!options) options = {}
+    if (!options) options = { }
     else if (typeof options === 'string') options = { name: options }
 
     let localizationSource: TranslationsNestedPaths | null = null
@@ -38,5 +38,7 @@ export const Slash = (options?: ApplicationCommandOptions | string) => {
 
     options = sanitizeLocales(options)
 
-    return SlashX(options)
+    if (!options.description) options.description = 'No description provided'
+
+    return SlashX(options as ApplicationCommandOptionsX<VerifyName<string>, string>)
 }

@@ -2,10 +2,10 @@ import { mikroORMConfig } from './src/config/database'
 import * as entities from '@entities'
 import { PluginsManager } from '@services'
 import { Options } from '@mikro-orm/core'
-import { waitForDependency } from '@utils/functions'
+import { resolveDependency } from '@utils/functions'
 
 export default async () => {
-    const pluginsManager = await waitForDependency(PluginsManager)
+    const pluginsManager = await resolveDependency(PluginsManager)
     await pluginsManager.loadPlugins()
 
     return {

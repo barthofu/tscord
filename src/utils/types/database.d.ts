@@ -4,7 +4,7 @@ type DatabaseSize = {
 }
 
 type DatabaseConfigs = {
-    sqlite: {
+    'sqlite': {
         driver: import('@mikro-orm/sqlite').SqliteDriver,
         entityManager: import('@mikro-orm/sqlite').SqlEntityManager,
     }
@@ -12,19 +12,19 @@ type DatabaseConfigs = {
         driver: import('@mikro-orm/better-sqlite').BetterSqliteDriver,
         entityManager: import('@mikro-orm/better-sqlite').SqlEntityManager,
     }
-    postgres: {
+    'postgres': {
         driver: import('@mikro-orm/postgresql').PostgreSqlDriver,
         entityManager: import('@mikro-orm/postgresql').SqlEntityManager,
     }
-    mysql: {
+    'mysql': {
         driver: import('@mikro-orm/mysql').MySqlDriver,
         entityManager: import('@mikro-orm/mysql').SqlEntityManager,
     }
-    mariadb: {
+    'mariadb': {
         driver: import('@mikro-orm/mariadb').MariaDbDriver,
         entityManager: import('@mikro-orm/mariadb').SqlEntityManager,
     }
-    mongo: {
+    'mongo': {
         driver: import('@mikro-orm/mongodb').MongoDriver,
         entityManager: import('@mikro-orm/mongodb').MongoEntityManager,
     }

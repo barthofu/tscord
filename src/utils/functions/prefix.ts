@@ -1,6 +1,6 @@
 import { Message } from 'discord.js'
 
-import { waitForDependency } from "@utils/functions"
+import { resolveDependency } from "@utils/functions"
 import { generalConfig } from '@config'
 import { Database } from '@services'
 import { Guild } from '@entities'
@@ -10,7 +10,7 @@ import { Guild } from '@entities'
  * @param message
  */
 export const getPrefixFromMessage = async (message: Message) => {
-    const db = await waitForDependency(Database)
+    const db = await resolveDependency(Database)
     const guildRepo = db.get(Guild)
 
     const guildId = message.guild?.id
