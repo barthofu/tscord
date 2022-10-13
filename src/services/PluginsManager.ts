@@ -1,26 +1,30 @@
-import { ImportLocaleMapping, storeTranslationsToDisk  } from "typesafe-i18n/importer";
-import { resolve } from "@discordx/importer";
-import { singleton } from "tsyringe";
-import fs from "fs";
+import { ImportLocaleMapping, storeTranslationsToDisk  } from "typesafe-i18n/importer"
+import { resolve } from "@discordx/importer"
+import { singleton } from "tsyringe"
+import fs from "fs"
 
-import { BaseController, Plugin } from "@utils/classes";
-import { BaseTranslation } from "typesafe-i18n";
-import { locales } from "@i18n";
-import { AnyEntity, EntityClass } from "@mikro-orm/core";
+import { BaseController, Plugin } from "@utils/classes"
+import { BaseTranslation } from "typesafe-i18n"
+import { locales } from "@i18n"
+import { AnyEntity, EntityClass } from "@mikro-orm/core"
+import { cwd } from "process"
 
 @singleton()
 export class PluginsManager {
-    private _plugins: Plugin[] = [];
+
+    private _plugins: Plugin[] = []
 
     constructor() {}
 
     public async loadPlugins(): Promise<void> {
-        const pluginPaths = resolve(process.env.PWD + "/src/plugins/*");
-        for (const path of pluginPaths) {
-            const plugin = new Plugin(path);
-            await plugin.load();
 
-            if(plugin.isValid()) this.plugins.push(plugin);
+        const pluginPaths = resolve(process.cwd() + "/src/plugins/*")
+
+        for (const path of pluginPaths) {
+            const plugin = new Plugin(path)
+            await plugin.load()
+
+            if(plugin.isValid()) this.plugins.push(plugin)
         }
     }
 
@@ -33,46 +37,46 @@ export class PluginsManager {
     }
 
     public async importCommands(): Promise<void> {
-        for (const plugin of this._plugins) await plugin.importCommands();
+        for (const plugin of this._plugins) await plugin.importCommands()
     }
 
     public async importEvents(): Promise<void> {
-        for (const plugin of this._plugins) await plugin.importEvents();
+        for (const plugin of this._plugins) await plugin.importEvents()
     }
 
     public async initServices(): Promise<{ [key: string]: any }> {
-        let services: { [key: string]: any } = {};
+        let services: { [key: string]: any } = {}
 
         for (const plugin of this._plugins) {
             for(const service in plugin.services) {
-                services[service] = new plugin.services[service]();
+                services[service] = new plugin.services[service]()
             }
         }
 
-        return services;
+        return services
     }
 
     public async execMains(): Promise<void> {
-        for (const plugin of this._plugins) await plugin.execMain();
+        for (const plugin of this._plugins) await plugin.execMain()
     }
 
     public async syncTranslations(): Promise<void> {
-        let localeMapping: ImportLocaleMapping[] =  [];
-        let namespaces: { [key: string]: string[] } = {};
-        let translations: { [key: string]: BaseTranslation } = {};
+        let localeMapping: ImportLocaleMapping[] =  []
+        let namespaces: { [key: string]: string[] } = {}
+        let translations: { [key: string]: BaseTranslation } = {}
 
         for (const locale of locales) {
-            const path = process.env.PWD + "/src/i18n/"+locale
-            if(fs.existsSync(path)) translations[locale] = (await import(path))?.default;
+            const path = process.cwd() + "/src/i18n/"+locale
+            if(fs.existsSync(path)) translations[locale] = (await import(path))?.default
         }
 
         for (const plugin of this._plugins) {
             for (const locale in plugin.translations) {
-                if(!translations[locale]) translations[locale] = {};
-                if(!namespaces[locale]) namespaces[locale] = [];
+                if(!translations[locale]) translations[locale] = {}
+                if(!namespaces[locale]) namespaces[locale] = []
 
                 translations[locale] = { ...translations[locale], [plugin.name]: plugin.translations[locale] }
-                namespaces[locale].push(plugin.name);
+                namespaces[locale].push(plugin.name)
             }
         }
 
@@ -82,23 +86,23 @@ export class PluginsManager {
                 locale,
                 translations: translations[locale],
                 namespaces: namespaces[locale]
-            });
+            })
         }
 
-        const pluginsName = this._plugins.map(plugin => plugin.name);
-        for(const path of await resolve(process.env.PWD + "/src/i18n/*/*/index.ts")) {
-            const name = path.split("/").at(-2) || "";
+        const pluginsName = this._plugins.map(plugin => plugin.name)
+        for(const path of await resolve(process.cwd() + "/src/i18n/*/*/index.ts")) {
+            const name = path.split("/").at(-2) || ""
             if(!pluginsName.includes(name)) {
-                await fs.rmSync(path.slice(0, -8), { recursive: true, force: true });
+                await fs.rmSync(path.slice(0, -8), { recursive: true, force: true })
             }
         }
 
-        await storeTranslationsToDisk(localeMapping, true);
+        await storeTranslationsToDisk(localeMapping, true)
     }
 
     public isPluginLoad(pluginName: string): boolean {
         return this._plugins.findIndex(plugin => plugin.name === pluginName) !== -1
     }
 
-    get plugins() { return this._plugins; }
+    get plugins() { return this._plugins }
 }
