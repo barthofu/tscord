@@ -1,6 +1,6 @@
 export const generalConfig: GeneralConfigType = {
 
-    __templateVersion: '1.1.0',
+    __templateVersion: '2.0.0',
 
 	name: 'tscord',
 	description: '',

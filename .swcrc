@@ -48,7 +48,7 @@
 			"decoratorMetadata": true
 		}
     },
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules", ".git"],
     "module": {
         "type": "commonjs"
     }
