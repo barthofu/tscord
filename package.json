@@ -19,8 +19,7 @@
     "migration:up": "npx mikro-orm migration:up",
     "migration:down": "npx mikro-orm migration:down",
     "plugins:install": "installoop --rootDir=./src/plugins --rootDir=./build/plugins",
-    "plop": "plop --plopfile ./cli/plopfile.js",
-    "postinstall": "npm run plugins:install"
+    "plop": "plop --plopfile ./cli/plopfile.js"
   },
   "dependencies": {
     "@discordx/importer": "~1.1.10",
