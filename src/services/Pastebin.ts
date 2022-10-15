@@ -18,7 +18,7 @@ export class Pastebin {
 
     private async waitForToken(): Promise<void> {
 
-        while(!this.client.getToken()) {
+        while (!this.client.getToken()) {
             await new Promise(resolve => setTimeout(resolve, 100))
         }
     }
@@ -56,7 +56,7 @@ export class Pastebin {
         
         const pastes = await this.db.get(PastebinEntity).find({ lifetime: { $gt: 0 } })
 
-        for(const paste of pastes) {
+        for (const paste of pastes) {
             const diff = dayjs().diff(dayjs(paste.createdAt), 'day')
 
             if (diff >= paste.lifetime) {

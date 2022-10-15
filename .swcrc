@@ -9,40 +9,41 @@
 		"target": "es2021",
 		"baseUrl": "./",
 		"paths": {
-			"@decorators": 			["src/utils/decorators"],
-			"@decorators/*": 		["src/plugins/*/utils/decorators"],
 
-			"@errors": 				["src/utils/errors"],
-			"@errors/*": 			["src/plugins/*/utils/errors"],
+			"@decorators": ["src/utils/decorators"],
+			"@decorators/*": ["src/plugins/*/utils/decorators"],
 
-			"@entities": 			["src/entities"],
-			"@entities/*": 			["src/plugins/*/entities"],
+			"@errors": ["src/utils/errors"],
+			"@errors/*": ["src/plugins/*/utils/errors"],
 
-			"@guards": 				["src/guards"],
-			"@guards/*": 			["src/plugins/*/guards"],
+			"@entities": ["src/entities"],
+			"@entities/*": ["src/plugins/*/entities"],
+
+			"@guards": ["src/guards"],
+			"@guards/*": ["src/plugins/*/guards"],
 			
-			"@services": 			["src/services"],
-			"@services/*": 			["src/plugins/*/services"],
+			"@services": ["src/services"],
+			"@services/*": ["src/plugins/*/services"],
 
-			"@i18n": 				["src/i18n"],
-			"@i18n/*": 				["src/plugins/*/i18n"],
+			"@i18n": ["src/i18n"],
+			"@i18n/*": ["src/plugins/*/i18n"],
 
-			"@config": 				["src/config"],
-			"@config/*": 			["src/plugins/*/config"],
+			"@config": ["src/config"],
+			"@config/*": ["src/plugins/*/config"],
 
-			"@utils/classes": 		["src/utils/classes"],
-			"@utils/classes/*": 	["src/plugins/*/utils/classes"],
+			"@utils/classes": ["src/utils/classes"],
+			"@utils/classes/*": ["src/plugins/*/utils/classes"],
 
-			"@utils/functions":		["src/utils/functions"],
-			"@utils/functions/*":	["src/plugins/*/utils/functions"],
+			"@utils/functions": ["src/utils/functions"],
+			"@utils/functions/*": ["src/plugins/*/utils/functions"],
 
-			"@api/controllers": 	["src/api/controllers"],
-			"@api/controllers/*": 	["src/plugins/*/api/controllers"],
+			"@api/controllers": ["src/api/controllers"],
+			"@api/controllers/*": ["src/plugins/*/api/controllers"],
 
-			"@api/middlewares": 	["src/api/middlewares"],
-			"@api/middlewares/*": 	["src/plugins/*/api/middlewares"],
+			"@api/middlewares": ["src/api/middlewares"],
+			"@api/middlewares/*": ["src/plugins/*/api/middlewares"],
 
-			"@api/server": 			["src/api/server.ts"]
+			"@api/server": ["src/api/server.ts"]
 		},
 		"transform": {
 			"decoratorMetadata": true

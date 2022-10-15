@@ -3,7 +3,7 @@ import { F } from 'ts-toolbelt'
 
 export const resolveDependency = async <T>(token: InjectionToken<T>, interval: number = 500): Promise<T> => {
 
-    while(!container.isRegistered(token, true)) {
+    while (!container.isRegistered(token, true)) {
         await new Promise(resolve => setTimeout(resolve, interval))
     }
 

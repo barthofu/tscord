@@ -80,7 +80,7 @@ export class ImagesUpload {
             })
 
             if (!imageInDb) await this.addNewImageToImgur(imagePath, imageHash)
-            else if(
+            else if (
                 imageInDb && (
                 imageInDb.basePath != imagePath.split('/').slice(0, -1).join('/') ||
                 imageInDb.fileName != imagePath.split('/').slice(-1)[0] )
