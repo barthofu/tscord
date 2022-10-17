@@ -21,8 +21,6 @@ export class PluginsManager {
 
         const pluginPaths = resolve(`${getSourceCodeLocation()}/plugins/*`)
 
-        console.log(pluginPaths)
-
         for (const path of pluginPaths) {
 
             const plugin = new Plugin(path)

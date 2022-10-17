@@ -11,7 +11,7 @@ COPY src ./src
 
 # Install dependencies from package-lock.json
 # and install dependencies for plugins (because postinstall script doesn't work in docker)
-RUN npm ci && find src/plugins ! -path "*/node_modules/*" -name "package.json" -execdir npm install \;
+RUN npm ci
 
 COPY .swcrc .
 COPY tsconfig.json .
@@ -38,7 +38,7 @@ COPY --from=build-runner /tmp/app/build /app/build
 
 # Install dependencies from package-lock.json
 # and install dependencies for plugins (because plugins:install script doesn't work in docker)
-RUN npm ci --omit=dev && mkdir -p build/plugins && find build/plugins ! -path "*/node_modules/*" -name "package.json" -execdir npm install --omit=dev \; && npm cache clean --force 
+RUN npm ci --omit=dev && npm cache clean --force 
 
 # Finaly start the bot
 CMD ["node", "build/main.js"]
