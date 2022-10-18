@@ -17,7 +17,7 @@ export const generalConfig: GeneralConfigType = {
 		gitRemoteRepo: 'https://github.com/barthofu/tscord',
 	},
 	
-	automaticUploadImagesToImgur: true, // enable or not the automatic assets upload
+	automaticUploadImagesToImgur: false, // enable or not the automatic assets upload
 
 	devs: [], // discord IDs of the devs that are working on the bot (you don't have to put the owner's id here)
 
