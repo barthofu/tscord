@@ -4,6 +4,13 @@
 
 <div align="center">
 
+![Current version](https://img.shields.io/github/package-json/v/barthofu/tscord)
+
+[![Build state](https://img.shields.io/github/workflow/status/barthofu/tscord/Build)](https://github.com/barthofu/tscord/actions/workflows/build.yml)
+[![Deploy state](https://img.shields.io/github/workflow/status/barthofu/tscord/Deploy%20(SSH)?label=deploy)](https://github.com/barthofu/tscord/actions/workflows/deploy.yml)
+![Repo size](https://img.shields.io/github/repo-size/barthofu/tscord)
+![Stars count](https://img.shields.io/github/stars/barthofu/tscord)
+
 <table>
   <tr>
     <td align="center">
