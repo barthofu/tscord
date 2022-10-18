@@ -24,7 +24,7 @@ This template was created to give developers a starting point for new Discord bo
 <td align="center">
 ㅤ
 
-ㅤ **[To know how to use TSCord and all its components, check the documentation here]()** ㅤ
+ㅤ **[To know how to use TSCord and all its components, check the documentation here](https://barthofu.github.io/tscord-docs/)** ㅤ
 
 </td>
 </tr>
@@ -53,8 +53,36 @@ https://user-images.githubusercontent.com/66025667/184621486-7340157f-b7fc-44ea-
 
 </td>
 </tr>
-</table>
+<tr></tr>
+<tr>
+<td align="center">
 
+### [CLI](https://github.com/barthofu/tscord-cli)
+
+**A really useful CLI meant to initialize a new TSCord project, generate files by type or even manage plugins!**
+
+https://user-images.githubusercontent.com/66025667/196367258-94c77e23-779c-4d9b-8583-a29226435b07.mp4
+
+</td>
+<td align="center">
+
+### [Plugins](https://github.com/barthofu/tscord-plugins)
+
+**TSCord template is fully extensible thanks to the plugin eco-system!**
+
+<img width="50%" src="https://user-images.githubusercontent.com/66025667/196372599-022c6254-01a6-4f7c-bd52-06246527a8b9.png" >
+
+</td>
+</tr>
+</table>
+</div>
+
+<br>
+
+<div align="center">
+    <a href="https://discord.gg/8P7jFpbKkb" target="_blank">
+        <img width="17.5%" src="https://user-images.githubusercontent.com/66025667/196373934-2fad8760-a58d-4b4d-ad64-b069baa71823.png">
+    </a>
 </div>
 
 
@@ -99,120 +127,22 @@ This template is also developer friendly and follow strict design patterns to ea
 
 ## 📚 Documentation
 
-### Check the [**official documentation (WIP)**](https://barthofu.github.io/tscord-docs) to get started and understand how to use this template.
+### Check the [**official documentation**](https://barthofu.github.io/tscord-docs) to get started and understand how to use this template.
 
 You can also find useful documentations at:
 - [discord.ts documentation](https://discord-ts.js.org/)
 - [Discord.js Guide](https://discordjs.guide/)
 - [Discord's developer portal](https://discord.com/developers/docs/intro)
 
+## 📢 Support
+
+If you need support on the template or just want to exchange with us, don't hesitate to join the **[official Discord support server](https://discord.gg/8P7jFpbKkb)**!
+
+After joining it, select the **TSCord** role to access the category within the server.
+
 ## 🌐 Roadmap
 
 #### [Click here](https://github.com/barthofu/tscord-template/milestones?direction=asc&sort=title&state=open) to access the milestone roadmap
-
-<details>
-<summary>Or expand here to see the old roadmap</summary>
-
-#### Discord
-- [ ] Custom events
-    - [ ] `guildAdminRemove`
-    - [x] `guildAdminAdd`
-    - [x] `simpleCommandCreate`
-- [x] Events
-    - [x] `ready`
-    - [x] `interactionCreate`
-    - [x] `guildCreate`
-    - [x] `guildDelete`
-    - [x] `messageCreate`
-- [x] Guards implementations
-    - [x] user is bot
-    - [x] nsfw
-    - [x] cooldown
-    - [x] maintenance
-    - [x] dm
-    - [x] enabled
-    - [x] match
-    - [x] permissions
-- [X] Activities
-- [x] Guards fallback message
-- [x] [discord.js](https://github.com/discordjs/discord.js/) implementation
-- [x] [discord.ts](https://github.com/oceanroleplay/discord.ts) implementation
-
-#### Data
-- [x] Other databases support
-    - [x] MySQL
-    - [x] MariaDB
-    - [x] PostgreSQL
-- [x] Automatic backup
-- [x] Automatic assets upload and association
-- [x] Users/Guilds sync with database
-    - [x] Register last interaction of a user with the bot
-- [x] SQLite database
-- [x] ORM (w/ [mikro-orm](https://github.com/mikro-orm/mikro-orm))
-- [x] EAV pattern implementation for single data types
-- [x] State store system (no database)
-- [x] Built-in entities
-    - [x] User
-    - [x] Guild
-    - [x] Stats
-
-#### Utilities
-- [x] Errors handling
-- [x] Stats
-- [x] Localization
-- [x] Logger
-    - [x] log to discord channel
-- [x] Cron tasks
-
-#### Built-in commands
-- [x] General
-    - [x] `invite`
-    - [x] `help`
-    - [x] `stats`
-    - [x] `ping` (with latency)
-- [x] Admin
-    - [x] `prefix`
-- [x] Owner
-    - [x] `eval`
-    - [x] `maintenance`
-
-#### DevOps
-- [x] CI/CD
-- [x] PM2
-- [x] Docker
-- [x] .env.example
-- [x] Debugging config for VSCode
-- ~~.devcontainer (Codespaces config)~~
-- ~~Unit tests (not relevant atm)~~
-
-#### Other
-- [ ] Documentation using [docusaurus](https://docusaurus.io)
-- [x] Comment code
-- [x] Readme ([example](https://github.com/cristianireyes/ds-bot-core)) 
-- [x] Issues templates ([example](https://github.com/oceanroleplay/discord.ts/issues/new/choose))
-- [x] Code of conduct
-- [x] JSDoc
-- ~~ESlint / Prettier~~
-
-#### Bonus
-- [ ] Beautify discord channels logs
-- [ ] `info` command
-- [ ] Online dashboard for stats visualization, monitoring, etc (using [Next.js](https://nextjs.org/) and [@discordx/koa](https://www.npmjs.com/package/@discordx/koa))
-- [ ] Extensions
-- [ ] Convert the template as an `npx` auto generated boilerplate (using [plop](https://github.com/plopjs/plop))
-- [ ] Multiple database server instances connections
-- [ ] Database backups automatic upload to [MEGA](https://mega.io/)
-- [ ] Add support for NoSQL databases (mongo)
-- [ ] Clustering + Sharding ([example](https://github.com/KevinNovak/Discord-Bot-TypeScript-Template#commands))
-- [ ] Integrations with bot lists (e.g: top.gg)
-- [x] Pimp console logs ([chalk](https://github.com/chalk/chalk))
-- [x] CLI to generates (also using *plop*) :
-    - [x] Entities (maybe a simple wrapper of *mikro-orm* CLI)
-    - [x] Commands
-    - [x] Guards
-    - [x] Events
-
-</details>
 
 ## 📑 License
 
