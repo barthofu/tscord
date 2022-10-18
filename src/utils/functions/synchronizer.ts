@@ -1,7 +1,7 @@
+import { User as DUser } from "discord.js"
 import { Client } from "discordx"
-import { User as DUser} from "discord.js"
 
-import { User, Guild } from "@entities"
+import { Guild, User } from "@entities"
 import { Database, Logger, Stats } from "@services"
 import { resolveDependencies, resolveDependency } from "@utils/functions"
 

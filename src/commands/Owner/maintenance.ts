@@ -1,9 +1,9 @@
-import { Client } from "discordx"
 import { ApplicationCommandOptionType, CommandInteraction } from "discord.js"
+import { Client } from "discordx"
 
-import { Slash, Discord, SlashOption, Guard } from "@decorators"
-import { setMaintenance, simpleSuccessEmbed } from "@utils/functions"
+import { Discord, Guard, Slash, SlashOption } from "@decorators"
 import { Disabled } from "@guards"
+import { setMaintenance, simpleSuccessEmbed } from "@utils/functions"
 
 @Discord()
 export default class MaintenanceCommand {

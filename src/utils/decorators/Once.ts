@@ -1,4 +1,4 @@
-import { EventOptions, MethodDecoratorEx, DOn, MetadataStorage } from 'discordx'
+import { DOn, EventOptions, MetadataStorage, MethodDecoratorEx } from "discordx"
 
 /**
  * Handle both discord and custom events only **once** with a defined handler

@@ -1,13 +1,14 @@
-import { databaseConfig, mikroORMConfig } from '@config'
-import { Schedule } from '@decorators'
-import { EntityName, MikroORM, Options } from '@mikro-orm/core'
-import { Logger, PluginsManager } from '@services'
-import fastFolderSizeSync from 'fast-folder-size/sync'
-import fs from 'fs'
-import { backup, restore } from 'saveqlite'
-import { delay, inject, singleton } from 'tsyringe'
-import * as entities from '@entities'
-import { resolveDependency } from '@utils/functions'
+import { databaseConfig, mikroORMConfig } from "@config"
+import { EntityName, MikroORM, Options } from "@mikro-orm/core"
+import fastFolderSizeSync from "fast-folder-size/sync"
+import fs from "fs"
+import { delay, inject, singleton } from "tsyringe"
+
+import { Schedule } from "@decorators"
+import * as entities from "@entities"
+import { Logger, PluginsManager } from "@services"
+import { resolveDependency } from "@utils/functions"
+import { backup, restore } from "saveqlite"
 
 @singleton()
 export class Database {

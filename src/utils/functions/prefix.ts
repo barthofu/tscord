@@ -1,9 +1,9 @@
-import { Message } from 'discord.js'
+import { Message } from "discord.js"
 
+import { generalConfig } from "@config"
+import { Guild } from "@entities"
+import { Database } from "@services"
 import { resolveDependency } from "@utils/functions"
-import { generalConfig } from '@config'
-import { Database } from '@services'
-import { Guild } from '@entities'
 
 /**
  * Get prefix from the database or from the config file.

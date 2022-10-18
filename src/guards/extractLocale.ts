@@ -1,10 +1,7 @@
-import { GuardFunction, SimpleCommandMessage } from 'discordx'
-import { ContextMenuCommandInteraction, CommandInteraction as DCommandInteraction, Interaction, MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction, CommandInteraction, SelectMenuInteraction, ButtonInteraction } from 'discord.js'
+import { ButtonInteraction, CommandInteraction, ContextMenuCommandInteraction, Interaction, SelectMenuInteraction } from "discord.js"
+import { GuardFunction, SimpleCommandMessage } from "discordx"
 
-import { getLocaleFromInteraction, L } from '@i18n'
-import { resolveUser, replyToInteraction } from '@utils/functions'
-
-import { generalConfig } from '@config'
+import { getLocaleFromInteraction, L } from "@i18n"
 
 /**
  * Extract locale from any interaction and pass it as guard data

@@ -1,7 +1,6 @@
 import { Logger } from "@services"
 import { resolveDependency } from "@utils/functions"
 
-
 export abstract class BaseError extends Error {
 
     protected logger: Logger

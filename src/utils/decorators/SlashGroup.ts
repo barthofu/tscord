@@ -1,7 +1,7 @@
-import { ClassDecoratorEx, ClassMethodDecorator, SlashGroup as SlashGroupX, VerifyName } from 'discordx'
-import type { SlashGroupOptions as SlashGroupOptionsX } from 'discordx'
+import type { SlashGroupOptions as SlashGroupOptionsX } from "discordx"
+import { ClassDecoratorEx, ClassMethodDecorator, SlashGroup as SlashGroupX, VerifyName } from "discordx"
 
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
 
 /**
  * Create slash group

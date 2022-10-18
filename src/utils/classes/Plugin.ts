@@ -1,13 +1,13 @@
-import { AnyEntity, EntityClass } from "@mikro-orm/core"
 import { importx, resolve } from "@discordx/importer"
-import { BaseTranslation } from "typesafe-i18n"
-import semver from "semver"
+import { AnyEntity, EntityClass } from "@mikro-orm/core"
 import fs from "fs"
+import semver from "semver"
+import { BaseTranslation } from "typesafe-i18n"
 
 import { generalConfig } from "@config"
+import { locales } from "@i18n"
 import { BaseController } from "@utils/classes"
 import { getSourceCodeLocation } from "@utils/functions"
-import { locales } from "@i18n"
 
 export class Plugin {
 

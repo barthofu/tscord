@@ -1,5 +1,5 @@
-import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX, VerifyName } from "discordx"
 import { of } from "case"
+import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX, VerifyName } from "discordx"
 
 import { InvalidOptionName } from "@errors"
 import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"

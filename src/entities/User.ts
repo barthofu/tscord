@@ -1,7 +1,7 @@
-import { Entity, EntityRepositoryType, PrimaryKey, Property } from '@mikro-orm/core'
-import { EntityRepository } from '@mikro-orm/sqlite'
+import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/core"
+import { EntityRepository } from "@mikro-orm/sqlite"
 
-import { CustomBaseEntity } from './BaseEntity'
+import { CustomBaseEntity } from "./BaseEntity"
 
 // ===========================================
 // ================= Entity ==================

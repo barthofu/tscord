@@ -1,16 +1,15 @@
-import { Client, SimpleCommandMessage } from 'discordx'
-import { delay, inject, singleton } from 'tsyringe'
-import { EntityRepository } from '@mikro-orm/core'
-import { constant } from 'case'
-import osu from 'node-os-utils'
-import pidusage from 'pidusage'
+import { EntityRepository } from "@mikro-orm/core"
+import { constant } from "case"
+import { Client, SimpleCommandMessage } from "discordx"
+import osu from "node-os-utils"
+import pidusage from "pidusage"
+import { delay, inject, singleton } from "tsyringe"
 
-import { Database, WebSocket } from '@services'
-import { Guild, Stat, User } from '@entities'
-import { formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser, datejs, isInMaintenance, resolveDependency } from '@utils/functions'
-import { Schedule, WSOn } from '@decorators'
-
-import { statsConfig, websocketConfig } from '@config'
+import { statsConfig, websocketConfig } from "@config"
+import { Schedule, WSOn } from "@decorators"
+import { Guild, Stat, User } from "@entities"
+import { Database, WebSocket } from "@services"
+import { datejs, formatDate, getTypeOfInteraction, isInMaintenance, resolveAction, resolveChannel, resolveGuild, resolveUser } from "@utils/functions"
 
 const allInteractions = { 
     $or: [ 

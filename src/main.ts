@@ -1,18 +1,17 @@
-import 'reflect-metadata'
 import 'dotenv/config'
+import 'reflect-metadata'
 
-import { container } from 'tsyringe'
-import discordLogs from 'discord-logs'
-import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
-import { importx } from '@discordx/importer'
+import { importx } from "@discordx/importer"
+import discordLogs from "discord-logs"
+import { Client, DIService, tsyringeDependencyRegistryEngine } from "discordx"
+import { container } from "tsyringe"
 
-import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket, PluginsManager } from '@services'
-import { initDataTable, resolveDependency } from '@utils/functions'
-import { Server } from '@api/server'
-
-import { clientConfig } from './client'
-import { apiConfig, generalConfig, websocketConfig } from '@config'
-import { NoBotTokenError } from '@errors'
+import { Server } from "@api/server"
+import { apiConfig, generalConfig, websocketConfig } from "@config"
+import { NoBotTokenError } from "@errors"
+import { Database, ErrorHandler, ImagesUpload, Logger, PluginsManager, WebSocket } from "@services"
+import { initDataTable, resolveDependency } from "@utils/functions"
+import { clientConfig } from "./client"
 
 async function run() {
 
@@ -49,7 +48,6 @@ async function run() {
     await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
     await pluginManager.importCommands()
     await pluginManager.importEvents()
-
         
     // init the data table if it doesn't exist
     await initDataTable()

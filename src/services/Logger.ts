@@ -1,17 +1,17 @@
-import * as controllers from '@api/controllers'
-import { apiConfig, logsConfig } from '@config'
-import { Pastebin, Scheduler, WebSocket } from '@services'
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@utils/functions'
-import boxen from 'boxen'
-import { constant } from 'case'
-import chalk from 'chalk'
-import { BaseMessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
-import { Client, MetadataStorage } from 'discordx'
-import fs from 'fs'
-import ora from 'ora'
-import { parse, StackFrame } from 'stacktrace-parser'
-import { delay, inject, singleton } from 'tsyringe'
-import { PluginsManager } from './PluginsManager'
+import boxen from "boxen"
+import { constant } from "case"
+import chalk from "chalk"
+import { BaseMessageOptions, TextChannel, ThreadChannel, User } from "discord.js"
+import { Client, MetadataStorage } from "discordx"
+import fs from "fs"
+import ora from "ora"
+import { parse, StackFrame } from "stacktrace-parser"
+import { delay, inject, singleton } from "tsyringe"
+
+import * as controllers from "@api/controllers"
+import { apiConfig, logsConfig } from "@config"
+import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services"
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 
 @singleton()
 export class Logger {

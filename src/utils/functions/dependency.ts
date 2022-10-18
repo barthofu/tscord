@@ -1,5 +1,5 @@
-import { container, InjectionToken } from 'tsyringe'
-import { F } from 'ts-toolbelt'
+import { F } from "ts-toolbelt"
+import { container, InjectionToken } from "tsyringe"
 
 export const resolveDependency = async <T>(token: InjectionToken<T>, interval: number = 500): Promise<T> => {
 

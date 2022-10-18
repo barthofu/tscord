@@ -1,6 +1,6 @@
-import { resolveDependency } from "@utils/functions"
-import { Database } from "@services"
 import { Data } from "@entities"
+import { Database } from "@services"
+import { resolveDependency } from "@utils/functions"
 
 /**
  * Get the maintenance state of the bot.

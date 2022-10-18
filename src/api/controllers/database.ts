@@ -1,12 +1,13 @@
-import { Authenticated } from "@api/middlewares"
-import { databaseConfig } from "@config"
-import { Database } from "@services"
 import { BodyParams, Controller, Get, Post, UseBefore } from "@tsed/common"
 import { InternalServerError } from "@tsed/exceptions"
 import { Required } from "@tsed/schema"
+import { injectable } from "tsyringe"
+
+import { Authenticated } from "@api/middlewares"
+import { databaseConfig } from "@config"
+import { Database } from "@services"
 import { BaseController } from "@utils/classes"
 import { formatDate, resolveDependencies } from "@utils/functions"
-import { injectable } from "tsyringe"
 
 @Controller('/database')
 @UseBefore(

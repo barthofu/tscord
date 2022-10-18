@@ -1,11 +1,11 @@
-import { ArgsOf, Client, Guard, SimpleCommandMessage } from 'discordx'
-import { injectable } from 'tsyringe'
+import { ArgsOf, Client, Guard, SimpleCommandMessage } from "discordx"
+import { injectable } from "tsyringe"
 
-import { On, Discord } from '@decorators'
-import { Stats, Logger, Database } from '@services'
-import { Guild, User } from '@entities'
-import { Maintenance } from '@guards'
-import { getPrefixFromMessage, syncUser } from '@utils/functions'
+import { Discord, On } from "@decorators"
+import { Guild, User } from "@entities"
+import { Maintenance } from "@guards"
+import { Database, Logger, Stats } from "@services"
+import { getPrefixFromMessage, syncUser } from "@utils/functions"
 
 @Discord()
 @injectable()

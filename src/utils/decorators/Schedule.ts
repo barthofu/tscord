@@ -1,8 +1,8 @@
-import { container, InjectionToken } from "tsyringe"
+import { CronJob } from "cron"
 import { isValidCron } from "cron-validator"
-import { CronJob } from 'cron'
+import { container, InjectionToken } from "tsyringe"
 
-import { generalConfig } from '@config'
+import { generalConfig } from "@config"
 import { resolveDependency } from "@utils/functions"
 
 /**

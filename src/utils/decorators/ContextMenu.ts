@@ -1,7 +1,7 @@
-import { ContextMenu as ContextMenuX } from 'discordx'
+import { ApplicationCommandType } from "discord.js"
+import { ContextMenu as ContextMenuX } from "discordx"
 
-import { constantPreserveDots, getCallerFile, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
-import { ApplicationCommandType } from 'discord.js'
+import { constantPreserveDots, getCallerFile, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
 
 /**
  * Interact with context menu with a defined identifier

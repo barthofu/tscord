@@ -1,5 +1,5 @@
-import { singleton } from 'tsyringe'
-import { Store as RxStore } from 'rxeta'
+import { Store as RxStore } from "rxeta"
+import { singleton } from "tsyringe"
 
 interface State {
 

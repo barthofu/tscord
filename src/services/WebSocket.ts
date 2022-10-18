@@ -1,8 +1,8 @@
-import { io, Socket } from 'socket.io-client'
-import { singleton } from 'tsyringe'
+import { io, Socket } from "socket.io-client"
+import { singleton } from "tsyringe"
 
-import { generalConfig } from '@config'
-import { getDevs, validString } from '@utils/functions'
+import { generalConfig } from "@config"
+import { getDevs, validString } from "@utils/functions"
 
 @singleton()
 export class WebSocket {

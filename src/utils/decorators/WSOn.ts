@@ -1,4 +1,4 @@
-import { resolveDependency } from '@utils/functions'
+import { resolveDependency } from "@utils/functions"
 
 /**
  * Handle websocket events

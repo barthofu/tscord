@@ -1,5 +1,5 @@
-import { Options } from '@mikro-orm/core'
-import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
+import { Options } from "@mikro-orm/core"
+import { SqlHighlighter } from "@mikro-orm/sql-highlighter"
 
 export const databaseConfig: DatabaseConfigType = {
     

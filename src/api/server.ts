@@ -1,10 +1,11 @@
-import * as controllers from '@api/controllers'
-import { Log } from '@api/middlewares'
-import { PluginsManager } from "@services"
-import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from '@tsed/common'
-import { PlatformExpress } from '@tsed/platform-express'
+import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from "@tsed/common"
+import { PlatformExpress } from "@tsed/platform-express"
 import '@tsed/swagger'
-import { singleton } from 'tsyringe'
+import { singleton } from "tsyringe"
+
+import * as controllers from "@api/controllers"
+import { Log } from "@api/middlewares"
+import { PluginsManager } from "@services"
 
 @singleton()
 export class Server {

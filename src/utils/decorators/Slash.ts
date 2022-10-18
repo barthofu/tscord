@@ -1,6 +1,6 @@
-import { Slash as SlashX, ApplicationCommandOptions as ApplicationCommandOptionsX, VerifyName } from 'discordx'
+import { ApplicationCommandOptions as ApplicationCommandOptionsX, Slash as SlashX, VerifyName } from "discordx"
 
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from '@utils/functions'
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
 
 /**
  * Handle a slash command

@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from "fs"
 
 /**
  * recursively get files paths from a directory

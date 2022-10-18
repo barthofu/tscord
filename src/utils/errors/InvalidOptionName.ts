@@ -1,5 +1,6 @@
-import { BaseError } from "@utils/classes"
 import { snake } from "case"
+
+import { BaseError } from "@utils/classes"
 
 export class InvalidOptionName extends BaseError {
 

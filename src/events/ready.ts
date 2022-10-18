@@ -1,13 +1,12 @@
-import { Client } from 'discordx'
-import { injectable } from 'tsyringe'
-import { ActivityType } from 'discord.js'
+import { ActivityType } from "discord.js"
+import { Client } from "discordx"
+import { injectable } from "tsyringe"
 
-import { Data } from '@entities'
-import { generalConfig, logsConfig } from '@config'
-import { Once, Discord, Schedule } from '@decorators'
-import { Database, Logger, Scheduler } from '@services'
-import { syncAllGuilds, resolveDependency } from '@utils/functions'
-
+import { generalConfig, logsConfig } from "@config"
+import { Discord, Once, Schedule } from "@decorators"
+import { Data } from "@entities"
+import { Database, Logger, Scheduler } from "@services"
+import { resolveDependency, syncAllGuilds } from "@utils/functions"
 
 @Discord()
 @injectable()

@@ -1,13 +1,12 @@
-import { ImportLocaleMapping, storeTranslationsToDisk  } from "typesafe-i18n/importer"
 import { resolve } from "@discordx/importer"
-import { singleton } from "tsyringe"
-import fs from "fs"
-
-import { BaseController, Plugin } from "@utils/classes"
-import { BaseTranslation } from "typesafe-i18n"
-import { locales } from "@i18n"
 import { AnyEntity, EntityClass } from "@mikro-orm/core"
-import { cwd } from "process"
+import fs from "fs"
+import { singleton } from "tsyringe"
+import { BaseTranslation } from "typesafe-i18n"
+import { ImportLocaleMapping, storeTranslationsToDisk } from "typesafe-i18n/importer"
+
+import { locales } from "@i18n"
+import { BaseController, Plugin } from "@utils/classes"
 import { getSourceCodeLocation } from "@utils/functions"
 
 @singleton()
@@ -47,10 +46,13 @@ export class PluginsManager {
     }
 
     public async initServices(): Promise<{ [key: string]: any }> {
+
         let services: { [key: string]: any } = {}
 
         for (const plugin of this._plugins) {
+
             for (const service in plugin.services) {
+                
                 services[service] = new plugin.services[service]()
             }
         }
@@ -59,10 +61,14 @@ export class PluginsManager {
     }
 
     public async execMains(): Promise<void> {
-        for (const plugin of this._plugins) await plugin.execMain()
+
+        for (const plugin of this._plugins) {
+            await plugin.execMain()
+        }
     }
 
     public async syncTranslations(): Promise<void> {
+
         let localeMapping: ImportLocaleMapping[] =  []
         let namespaces: { [key: string]: string[] } = {}
         let translations: { [key: string]: BaseTranslation } = {}
@@ -83,7 +89,9 @@ export class PluginsManager {
         }
 
         for (const locale in translations) {
+
             if (!locales.includes(locale as any)) continue
+
             localeMapping.push({
                 locale,
                 translations: translations[locale],
@@ -92,9 +100,11 @@ export class PluginsManager {
         }
 
         const pluginsName = this._plugins.map(plugin => plugin.name)
+
         for (const path of await resolve(getSourceCodeLocation() + '/i18n/*/*/index.ts')) {
 
             const name = path.split("/").at(-2) || ""
+            
             if (!pluginsName.includes(name)) {
                 await fs.rmSync(path.slice(0, -8), { recursive: true, force: true })
             }

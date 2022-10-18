@@ -1,10 +1,10 @@
+import dayjs from "dayjs"
 import { Paste, RentryClient } from "rentry-pastebin"
 import { singleton } from "tsyringe"
-import dayjs from "dayjs"
 
+import { Schedule } from "@decorators"
 import { Pastebin as PastebinEntity } from "@entities"
 import { Database } from "@services"
-import { Schedule } from '@decorators'
 
 @singleton()
 export class Pastebin {
@@ -57,6 +57,7 @@ export class Pastebin {
         const pastes = await this.db.get(PastebinEntity).find({ lifetime: { $gt: 0 } })
 
         for (const paste of pastes) {
+            
             const diff = dayjs().diff(dayjs(paste.createdAt), 'day')
 
             if (diff >= paste.lifetime) {

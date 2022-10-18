@@ -1,5 +1,6 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js"
-import { replyToInteraction } from '@utils/functions'
+
+import { replyToInteraction } from "@utils/functions"
 /**
  * Send a simple success embed
  * @param interaction - discord interaction

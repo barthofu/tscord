@@ -1,8 +1,8 @@
-import { Database } from '@services'
-import { Data } from '@entities'
-import { resolveDependency } from '@utils/functions'
+import { Data } from "@entities"
+import { Database } from "@services"
+import { resolveDependency } from "@utils/functions"
 
-import { defaultData } from '../../entities/Data'
+import { defaultData } from "../../entities/Data"
 
 type DataType = keyof typeof defaultData
 

@@ -1,12 +1,12 @@
-import { CommandInteraction} from 'discord.js'
-import { Client, ArgsOf } from 'discordx'
-import { injectable } from 'tsyringe'
+import { CommandInteraction } from "discord.js"
+import { ArgsOf, Client } from "discordx"
+import { injectable } from "tsyringe"
 
-import { Database, Logger, Stats } from '@services'
-import { Maintenance } from '@guards'
-import { Guild, User } from '@entities'
-import { On, Guard, Discord } from '@decorators'
-import { syncUser } from '@utils/functions'
+import { Discord, Guard, On } from "@decorators"
+import { Guild, User } from "@entities"
+import { Maintenance } from "@guards"
+import { Database, Logger, Stats } from "@services"
+import { syncUser } from "@utils/functions"
 
 @Discord()
 @injectable()
