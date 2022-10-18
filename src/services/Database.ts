@@ -1,11 +1,14 @@
-import { databaseConfig, mikroORMConfig } from '@config'
-import { Schedule } from '@decorators'
-import { EntityName, MikroORM, Options } from '@mikro-orm/core'
-import { Logger } from '@services'
-import fastFolderSizeSync from 'fast-folder-size/sync'
-import fs from 'fs'
-import { backup, restore } from 'saveqlite'
-import { delay, inject, singleton } from 'tsyringe'
+import { databaseConfig, mikroORMConfig } from "@config"
+import { EntityName, MikroORM, Options } from "@mikro-orm/core"
+import fastFolderSizeSync from "fast-folder-size/sync"
+import fs from "fs"
+import { delay, inject, singleton } from "tsyringe"
+
+import { Schedule } from "@decorators"
+import * as entities from "@entities"
+import { Logger, PluginsManager } from "@services"
+import { resolveDependency } from "@utils/functions"
+import { backup, restore } from "saveqlite"
 
 @singleton()
 export class Database {
@@ -17,9 +20,16 @@ export class Database {
     ) { }
 
     async initialize() {
+        const pluginsManager = await resolveDependency(PluginsManager)
+
+        // get config
+        let config = mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>
+
+        // defines entities into the config
+        config.entities = [...Object.values(entities), ...pluginsManager.getEntities()]
 
         // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
-        this._orm = await MikroORM.init(mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>)
+        this._orm = await MikroORM.init(config)
 
         const migrator = this._orm.getMigrator()
 

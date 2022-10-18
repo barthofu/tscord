@@ -1,8 +1,8 @@
-import { CommandInteraction } from 'discord.js'
-import { GuardFunction, SimpleCommandMessage } from 'discordx'
+import { CommandInteraction } from "discord.js"
+import { GuardFunction, SimpleCommandMessage } from "discordx"
 
-import { L, getLocaleFromInteraction } from '@i18n'
-import { replyToInteraction } from '@utils/functions'
+import { getLocaleFromInteraction, L } from "@i18n"
+import { replyToInteraction } from "@utils/functions"
 
 /**
  * Prevent the command from running on DM

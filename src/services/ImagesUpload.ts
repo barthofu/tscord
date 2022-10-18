@@ -1,13 +1,13 @@
-import { singleton } from "tsyringe"
-import { ImgurClient } from "imgur"
-import { imageHash as callbackImageHash } from "image-hash"
-import { promisify } from "util"
 import axios from "axios"
-
-import { Database, Logger } from "@services"
-import { Image, ImageRepository } from "@entities"
-import { base64Encode, getFiles, fileOrDirectoryExists } from "@utils/functions"
 import chalk from "chalk"
+import { imageHash as callbackImageHash } from "image-hash"
+import { ImgurClient } from "imgur"
+import { singleton } from "tsyringe"
+import { promisify } from "util"
+
+import { Image, ImageRepository } from "@entities"
+import { Database, Logger } from "@services"
+import { base64Encode, fileOrDirectoryExists, getFiles } from "@utils/functions"
 
 const imageHasher = promisify(callbackImageHash)
 
@@ -80,7 +80,7 @@ export class ImagesUpload {
             })
 
             if (!imageInDb) await this.addNewImageToImgur(imagePath, imageHash)
-            else if(
+            else if (
                 imageInDb && (
                 imageInDb.basePath != imagePath.split('/').slice(0, -1).join('/') ||
                 imageInDb.fileName != imagePath.split('/').slice(-1)[0] )

@@ -1,7 +1,7 @@
-import { ArgsOf, Client } from 'discordx'
+import { ArgsOf, Client } from "discordx"
 
-import { On, Discord } from '@decorators'
-import { syncGuild } from '@utils/functions'
+import { Discord, On } from "@decorators"
+import { syncGuild } from "@utils/functions"
 
 @Discord()
 export default class GuildDeleteEvent {

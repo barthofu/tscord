@@ -1,19 +1,17 @@
-import { BaseMessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
-import { Client, MetadataStorage } from 'discordx'
-import { delay, inject, singleton } from 'tsyringe'
-import { parse, StackFrame } from 'stacktrace-parser'
-import { constant } from 'case'
-import fs from 'fs'
-import chalk from 'chalk'
-import boxen from 'boxen'
-import ora from 'ora'
-import * as controllers from '@api/controllers'
+import boxen from "boxen"
+import { constant } from "case"
+import chalk from "chalk"
+import { BaseMessageOptions, TextChannel, ThreadChannel, User } from "discord.js"
+import { Client, MetadataStorage } from "discordx"
+import fs from "fs"
+import ora from "ora"
+import { parse, StackFrame } from "stacktrace-parser"
+import { delay, inject, singleton } from "tsyringe"
 
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveGuild, resolveUser, validString, resolveDependency } from '@utils/functions'
-import { Scheduler, WebSocket, Pastebin } from '@services'
-import { apiConfig, logsConfig } from '@config'
-import { Server } from '@api/server'
-import { Metadata, Store } from '@tsed/core'
+import * as controllers from "@api/controllers"
+import { apiConfig, logsConfig } from "@config"
+import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services"
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 
 @singleton()
 export class Logger {
@@ -22,7 +20,8 @@ export class Logger {
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => WebSocket)) private ws: WebSocket,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
+        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
         this.defaultConsole = { ...console }
         console.info    = (...args) => this.log(args.join(", "), 'info')
@@ -98,20 +97,21 @@ export class Logger {
      * @param channelId the ID of the discord channel to log to
      * @param message the message to log or a [MessageOptions](https://discord.js.org/#/docs/discord.js/main/typedef/BaseMessageOptions) compliant object (like embeds, components, etc)
      * @param level info (default) | warn | error
-     * @returns 
      */
     async discordChannel(channelId: string, message: string | BaseMessageOptions, level?: typeof this.levels[number]) {
         
         if (!this.client.token) return
         
-        const channel = await this.client.channels.fetch(channelId)
+        const channel = await this.client.channels.fetch(channelId).catch(() => null)
         
         if (
-            channel instanceof TextChannel 
-            || channel instanceof ThreadChannel
+            channel && 
+            ( channel instanceof TextChannel 
+            || channel instanceof ThreadChannel )
         ) {
-            if(typeof message !== 'string') return channel.send(message).catch(console.error)
-            
+
+            if (typeof message !== 'string') return channel.send(message).catch(console.error)
+
             channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
         }
     }
@@ -288,7 +288,8 @@ export class Logger {
             type === 'RECOVER_GUILD' ? 'has been recovered' : ''
         
         resolveDependency(Client).then(async client => {
-            const guild = await client.guilds.fetch(guildId)
+
+            const guild = await client.guilds.fetch(guildId).catch(() => null)
 
             const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`
             const chalkedMessage = oneLine`
@@ -308,11 +309,11 @@ export class Logger {
                     title: (type === 'NEW_GUILD' ? 'New guild' : type === 'DELETE_GUILD' ? 'Deleted guild' : 'Recovered guild'),
                     //description: `**${guild.name} (\`${guild.id}\`)**\n${guild.memberCount} members`,
                     fields: [{
-                        name: guild.name,
-                        value: `${guild.memberCount} members`
+                        name: guild?.name ?? 'Unknown',
+                        value: `${guild?.memberCount ?? 'N/A'} members`
                     }],
                     footer: {
-                        text: guild.id
+                        text: guild?.id ?? 'Unknown'
                     },
                     thumbnail: {
                         url: guild?.iconURL() ?? ''
@@ -412,16 +413,18 @@ export class Logger {
                 !entity.startsWith('index')
                 && !entity.startsWith('BaseEntity')
             )
-            .map(entity => entity.split('.')[0])
 
-        this.console(chalk.red(`${symbol} ${numberAlign(entities.length)} ${chalk.bold('entities')} loaded`), 'info', true)
+        const pluginsEntitesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.entities).length, 0)
+
+        this.console(chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntitesCount)} ${chalk.bold('entities')} loaded`), 'info', true)
 
         // services
         const services = fs.readdirSync(`${__dirname}/../services`)
             .filter(service => !service.startsWith('index'))
-            .map(service => service.split('.')[0])
+
+        const pluginsServicesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.services).length, 0)
         
-        this.console(chalk.yellow(`${symbol} ${numberAlign(services.length)} ${chalk.bold('services')} loaded`), 'info', true)
+        this.console(chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true)
 
         // api
         if (apiConfig.enabled) {
@@ -442,6 +445,11 @@ export class Logger {
         const scheduledJobs = this.scheduler.jobs.size
 
         this.console(chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), 'info', true)
+
+        // plugins
+        const pluginsCount = this.pluginsManager.plugins.length
+
+        this.console(chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), 'info', true)
     
         // connected
         if (apiConfig.enabled) {

@@ -1,18 +1,18 @@
-import { injectable } from "tsyringe"
-import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder, EmbedField } from "discord.js"
-import relativeTime from 'dayjs/plugin/relativeTime'
-import dayjs from 'dayjs'
+import { Client } from "discordx"
+import { injectable } from "tsyringe"
 dayjs.extend(relativeTime)
 
+import { generalConfig } from "@config"
 import { Discord, Slash } from "@decorators"
 import { Guard } from "@guards"
-import { formatDate, getColor, isValidUrl, timeAgo } from "@utils/functions"
-import { generalConfig } from "@config"
 import { Stats } from "@services"
+import { getColor, isValidUrl, timeAgo } from "@utils/functions"
 
-import packageJSON from '../../../package.json'
+import packageJSON from "../../../package.json"
 
 const links = [
 	{ label: 'Invite me!', url: generalConfig.links.invite },
@@ -54,7 +54,7 @@ export default class InfoCommand {
 		/**
 		 * Owner field
 		 */
-		const owner = await client.users.fetch(generalConfig.ownerId)
+		const owner = await client.users.fetch(generalConfig.ownerId).catch(() => null)
 		if (owner) {
 			fields.push({
 				name: 'Owner',

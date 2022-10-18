@@ -1,6 +1,6 @@
-import { Client, MetadataStorage, SelectMenuComponent } from "discordx"
 import { Category } from "@discordx/utilities"
-import { Formatters, ActionRowBuilder, EmbedBuilder, SelectMenuBuilder, APISelectMenuOption, CommandInteraction, SelectMenuInteraction } from "discord.js"
+import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder, Formatters, SelectMenuBuilder, SelectMenuInteraction } from "discord.js"
+import { Client, MetadataStorage, SelectMenuComponent } from "discordx"
 
 import { Discord, Slash } from "@decorators"
 import { chunkArray, getColor, validString } from "@utils/functions"

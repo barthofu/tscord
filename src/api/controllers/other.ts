@@ -1,4 +1,5 @@
 import { Controller, Get } from "@tsed/common"
+
 import { BaseController } from "@utils/classes"
 
 @Controller('/')

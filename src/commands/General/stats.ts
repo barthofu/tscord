@@ -1,11 +1,11 @@
-import { Client } from "discordx"
-import { Category } from "@discordx/utilities"
-import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, User } from "discord.js"
-import { injectable } from "tsyringe"
 import {
 	Pagination,
 	PaginationType
 } from "@discordx/pagination"
+import { Category } from "@discordx/utilities"
+import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, User } from "discord.js"
+import { Client } from "discordx"
+import { injectable } from "tsyringe"
 
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Stats } from "@services"

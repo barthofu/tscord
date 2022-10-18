@@ -1,6 +1,6 @@
-import { loadedLocales, locales } from "@i18n"
-import type { Locales } from "@i18n"
 import { generalConfig } from "@config"
+import type { Locales } from "@i18n"
+import { loadedLocales, locales } from "@i18n"
 
 export const getLocalizedInfo = (target: 'NAME' | 'DESCRIPTION', localizationSource: TranslationsNestedPaths) => {
 
@@ -52,7 +52,7 @@ export const sanitizeLocales = <K extends SanitizedOptions>(option: K) => {
 
 export const getLocalizationFromPathString = (path: TranslationsNestedPaths, locale?: Locales) => {
 
-    const pathArray = path.split('.')
+    const pathArray = path?.split('.') || []
     let currentLocalization: any = loadedLocales[locale ?? generalConfig.defaultLocale]
 
     for (const pathNode of pathArray) {

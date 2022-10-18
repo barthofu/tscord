@@ -1,8 +1,8 @@
-import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import type { CommandInteraction, Message } from "discord.js"
+import { Client } from "discordx"
 
-import { Slash, Discord } from "@decorators"
+import { Discord, Slash } from "@decorators"
 
 @Discord()
 @Category('General')

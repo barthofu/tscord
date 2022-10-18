@@ -1,15 +1,13 @@
-import { Client } from 'discordx'
-import { singleton } from 'tsyringe'
+import { singleton } from "tsyringe"
 
-import { Logger } from '@services'
-import { BaseError } from '@utils/classes'
+import { Logger } from "@services"
+import { BaseError } from "@utils/classes"
 
 @singleton()
 export class ErrorHandler {
 
     constructor(
-        private logger: Logger,
-        private client: Client
+        private logger: Logger
     ) {
 
         // Catch all exceptions

@@ -1,8 +1,8 @@
-import { detectLocale } from './i18n-util'
+import { detectLocale } from "./i18n-util"
 
-import { resolveLocale } from '@utils/functions'
+import { resolveLocale } from "@utils/functions"
 
-import { generalConfig } from '@config'
+import { generalConfig } from "@config"
 
 const allInteractionsLocaleDetector = (interaction: AllInteractions) => {
 

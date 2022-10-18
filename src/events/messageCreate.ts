@@ -1,10 +1,10 @@
-import { Client, ArgsOf } from 'discordx'
+import { ArgsOf, Client } from "discordx"
 
-import { Maintenance } from '@guards'
-import { On, Guard, Discord } from '@decorators'
-import { executeEvalFromMessage, isDev } from '@utils/functions'
+import { Discord, Guard, On } from "@decorators"
+import { Maintenance } from "@guards"
+import { executeEvalFromMessage, isDev } from "@utils/functions"
 
-import { generalConfig } from '@config'
+import { generalConfig } from "@config"
 
 @Discord()
 export default class MessageCreateEvent {

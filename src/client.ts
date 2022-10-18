@@ -1,8 +1,7 @@
-import { GatewayIntentBits, Partials } from 'discord.js'
+import { GatewayIntentBits, Partials } from "discord.js"
 
-import { ExtractLocale, Maintenance, NotBot } from '@guards'
-
-import { generalConfig, logsConfig } from '@config'
+import { generalConfig, logsConfig } from "@config"
+import { ExtractLocale, Maintenance, NotBot } from "@guards"
 
 export const clientConfig = {
 	

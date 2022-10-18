@@ -1,7 +1,7 @@
-import { Client } from 'discordx'
-import { Message } from 'discord.js'
+import { Message } from "discord.js"
+import { Client } from "discordx"
 
-import { On, Discord } from '@decorators'
+import { Discord, On } from "@decorators"
 
 @Discord()
 export default class messagePinnedEvent {

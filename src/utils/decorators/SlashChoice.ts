@@ -1,5 +1,6 @@
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
 import { SlashChoice as SlashChoiceX } from "discordx"
+
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
 
 /**
  * The slash command option can implement autocompletion for string and number types

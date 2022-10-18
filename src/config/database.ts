@@ -1,15 +1,14 @@
-import { Options } from '@mikro-orm/core'
-import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
-
-import * as entities from '@entities'
+import { Options } from "@mikro-orm/core"
+import { SqlHighlighter } from "@mikro-orm/sql-highlighter"
 
 export const databaseConfig: DatabaseConfigType = {
     
-    path: './database/',
+    path: './database/', // path to the folder containing the migrations and SQLite database (if used)
     
+    // config for setting up an automated backup of the database (ONLY FOR SQLITE)
     backup: {
-        enabled: true,
-        path: './database/backups/'
+        enabled: false,
+        path: './database/backups/' // path to the backups folder (should be in the database/ folder)
     }
 }
 
@@ -61,7 +60,6 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         // user: process.env['DATABASE_USER'],
         // password: process.env['DATABASE_PASSWORD'],
 
-        entities: Object.values(entities),
         highlighter: new SqlHighlighter(),
         allowGlobalContext: true,
         debug: false,

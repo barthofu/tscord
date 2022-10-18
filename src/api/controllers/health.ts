@@ -1,9 +1,10 @@
+import { Controller, Get } from "@tsed/common"
+import { Client } from "discordx"
+
 import { Data } from "@entities"
 import { Database, Stats } from "@services"
-import { Controller, Get } from "@tsed/common"
 import { BaseController } from "@utils/classes"
 import { resolveDependencies } from "@utils/functions"
-import { Client } from "discordx"
 
 @Controller('/health')
 export class HealthController extends BaseController {

@@ -1,6 +1,7 @@
+import { Controller, Get, QueryParams, UseBefore } from "@tsed/common"
+
 import { Authenticated } from "@api/middlewares"
 import { Stats } from "@services"
-import { Controller, Get, QueryParams, UseBefore } from "@tsed/common"
 import { BaseController } from "@utils/classes"
 import { resolveDependencies } from "@utils/functions"
 

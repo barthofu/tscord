@@ -1,15 +1,15 @@
-import { Client } from "discordx"
 import { Category } from "@discordx/utilities"
 import { ApplicationCommandOptionType, CommandInteraction } from "discord.js"
+import { Client } from "discordx"
 import { injectable } from "tsyringe"
 
-import { Slash, Discord, SlashOption } from "@decorators"
-import { Guard, UserPermissions } from "@guards"
+import { generalConfig } from "@config"
+import { Discord, Slash, SlashOption } from "@decorators"
 import { Guild } from "@entities"
-import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
-import { Database } from "@services"
-import { generalConfig } from '@config'
 import { UnknownReplyError } from "@errors"
+import { Guard, UserPermissions } from "@guards"
+import { Database } from "@services"
+import { resolveGuild, simpleSuccessEmbed } from "@utils/functions"
 
 @Discord()
 @injectable()

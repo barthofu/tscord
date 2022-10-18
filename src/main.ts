@@ -1,23 +1,34 @@
-import 'reflect-metadata'
 import 'dotenv/config'
+import 'reflect-metadata'
 
-import { container } from 'tsyringe'
-import discordLogs from 'discord-logs'
-import { DIService, Client, tsyringeDependencyRegistryEngine } from 'discordx'
-import { importx } from '@discordx/importer'
+import { importx } from "@discordx/importer"
+import discordLogs from "discord-logs"
+import { Client, DIService, tsyringeDependencyRegistryEngine } from "discordx"
+import { container } from "tsyringe"
 
-import { Database, ImagesUpload, ErrorHandler, Logger, WebSocket } from '@services'
-import { initDataTable, resolveDependency } from '@utils/functions'
-import { Server } from '@api/server'
-
-import { clientConfig } from './client'
-import { apiConfig, generalConfig, websocketConfig } from '@config'
-import { NoBotTokenError } from '@errors'
+import { Server } from "@api/server"
+import { apiConfig, generalConfig, websocketConfig } from "@config"
+import { NoBotTokenError } from "@errors"
+import { Database, ErrorHandler, ImagesUpload, Logger, PluginsManager, WebSocket } from "@services"
+import { initDataTable, resolveDependency } from "@utils/functions"
+import { clientConfig } from "./client"
 
 async function run() {
 
-    // start loading
+    // init logger, pluginsmanager and error handler
     const logger = await resolveDependency(Logger)
+
+    // init error handler
+    await resolveDependency(ErrorHandler)
+    
+    // init plugins 
+    const pluginManager = await resolveDependency(PluginsManager)
+
+    // load plugins and import translations
+    await pluginManager.loadPlugins()
+    await pluginManager.syncTranslations()
+
+    // strart spinner
     console.log('\n')
     logger.startSpinner('Starting...')
 
@@ -33,14 +44,19 @@ async function run() {
     discordLogs(client, { debug: false })
     container.registerInstance(Client, client)
 
-    // init the error handler
-    await resolveDependency(ErrorHandler)
-
     // import all the commands and events
     await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
+    await pluginManager.importCommands()
+    await pluginManager.importEvents()
         
     // init the data table if it doesn't exist
     await initDataTable()
+
+    // init plugins services
+    await pluginManager.initServices()
+
+    // init the plugin main file
+    await pluginManager.execMains()
 
     // log in with the bot token
     if (!process.env.BOT_TOKEN) throw new NoBotTokenError()

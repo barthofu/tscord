@@ -1,7 +1,8 @@
-import { apiConfig } from "@config"
 import { Middleware } from "@tsed/common"
 import { InternalServerError } from "@tsed/exceptions"
 import axios from "axios"
+
+import { apiConfig } from "@config"
 
 const baseUrl = `http://localhost:${apiConfig.port}`
 

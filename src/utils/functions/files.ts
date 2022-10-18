@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from "fs"
 
 /**
  * recursively get files paths from a directory
@@ -28,4 +28,8 @@ export const getFiles = (path: string): string[] => {
 
 export const fileOrDirectoryExists = (path: string): boolean => {
     return fs.existsSync(path)
+}
+
+export const getSourceCodeLocation = (): string => {
+    return process.cwd() + '/' + (process.env['NODE_ENV'] === 'production' ? 'build' : 'src')
 }
