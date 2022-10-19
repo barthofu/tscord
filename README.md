@@ -4,11 +4,12 @@
 
 <div align="center">
 
-![Current version](https://img.shields.io/github/package-json/v/barthofu/tscord)
+[![Latest version](https://img.shields.io/github/v/release/barthofu/tscord?color=4b38ff&label=latest%20version&logo=github&logoColor=white&colorA=4b38ff)](https://github.com/barthofu/tscord/releases/latest)
 
-[![Build state](https://img.shields.io/github/workflow/status/barthofu/tscord/Build)](https://github.com/barthofu/tscord/actions/workflows/build.yml)(https://github.com/barthofu/tscord/actions/workflows/deploy.yml)
-![Repo size](https://img.shields.io/github/repo-size/barthofu/tscord)
-![Stars count](https://img.shields.io/github/stars/barthofu/tscord)
+[![Build state](https://img.shields.io/github/workflow/status/barthofu/tscord/Build?colorB=4b38ff&colorA=4b38ff)](https://github.com/barthofu/tscord/actions/workflows/build.yml)
+![Repo size](https://img.shields.io/github/repo-size/barthofu/tscord?colorB=4b38ff&colorA=4b38ff)
+![Stars count](https://img.shields.io/github/stars/barthofu/tscord?colorB=4b38ff&colorA=4b38ff)
+![Sponsors](https://img.shields.io/badge/sponsors-2-4b38ff?colorA=4b38ff)
 
 <table>
   <tr>
