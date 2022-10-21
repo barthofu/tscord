@@ -26,7 +26,7 @@ export default class InteractionCreateEvent {
         [interaction]: ArgsOf<'interactionCreate'>, 
         client: Client
     ) {
-        
+
         // defer the reply
         if (interaction instanceof CommandInteraction) await interaction.deferReply()
 

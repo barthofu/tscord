@@ -17,6 +17,3 @@ snapshot*.txt
 # logs
 logs/
 *.log
-
-# other
-tests/

@@ -15,7 +15,7 @@ export default class ReadyEvent {
     constructor(
         private db: Database,
         private logger: Logger,
-        private scheduler: Scheduler
+        private scheduler: Scheduler,
     ) {}
 
     private activityIndex = 0
@@ -62,6 +62,7 @@ export default class ReadyEvent {
 
         // synchronize guilds between discord and the database
         await syncAllGuilds(client)
+
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds
