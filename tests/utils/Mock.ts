@@ -1,7 +1,10 @@
 import { jest } from "@jest/globals"
-import { Client, CommandInteraction, Guild, User, TextChannel, GuildChannel, BaseChannel, GuildMember, Message } from "discord.js"
+import { Client as ClientX } from "discordx"
+import { BaseChannel, Client, CommandInteraction, Guild, GuildChannel, GuildMember, Message, TextChannel, User } from "discord.js"
 import { RawCommandInteractionData } from "discord.js/typings/rawDataTypes"
+import { singleton } from "tsyringe"
 
+@singleton()
 export class Mock {
 
     private client: Client
@@ -13,6 +16,8 @@ export class Mock {
     private user: User
     private message: Message
 
+    getClient() { return this.client }
+
     constructor() {
         this.mockClient()
         this.mockGuild()
@@ -22,11 +27,24 @@ export class Mock {
         this.mockGuildChannel()
         this.mockTextChannel()
         this.mockMessage('mocked message')
+
+        // mock cache
+        this.client.guilds.cache.set(this.guild.id, this.guild)
+        this.client.guilds.fetch = jest.fn(() => Promise.resolve(this.guild)) as any
+
+        this.client.channels.cache.set(this.channel.id, this.channel)
+        this.client.channels.fetch = jest.fn(() => Promise.resolve(this.channel)) as any
+
+        this.guild.channels.cache.set(this.textChannel.id, this.textChannel)
+        this.guild.channels.fetch = jest.fn(() => Promise.resolve(this.textChannel)) as any
+
+        this.guild.members.cache.set(this.guildMember.id, this.guildMember)
+        this.guild.members.fetch = jest.fn(() => Promise.resolve(this.guildMember)) as any
     }
 
     private mockClient() {
-        this.client = new Client({ intents: [] })
-        this.client.login = jest.fn(() => Promise.resolve(process.env['BOT_TOKEN'])) as any
+        this.client = new ClientX({ intents: [], guards: [] })
+        this.client.login = jest.fn(() => Promise.resolve('LOGIN_TOKEN')) as any
     }
 
     private mockGuild(): void {

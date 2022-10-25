@@ -55,12 +55,14 @@
 			"@api/middlewares": ["src/api/middlewares"],
 			"@api/middlewares/*": ["src/plugins/*/api/middlewares"],
 
-			"@api/server": ["src/api/server.ts"]
+			"@api/server": ["src/api/server.ts"],
+
+			"@tests/*": ["tests/*"]
 		}
 	},
 
-	"include": ["src", "**/*.ts"],
-	"exclude": ["build", "node_modules", "tests"],
+	"include": ["src", "tests", "**/*.ts"],
+	"exclude": ["build", "node_modules"],
 	"paths": ["node_modules/*", "src/utils/types/*", "src/plugins/*/utils/types/*"],
 
 	"ts-node": {

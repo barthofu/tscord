@@ -14,7 +14,7 @@
     "dev": "cross-env NODE_ENV=development nodemon --exec node -r @swc-node/register src/main.ts",
     "dev:start": "cross-env NODE_ENV=production node -r @swc-node/register src/main.ts",
     "dev:compile": "swc src -w -d build",
-    "test": "jest tests/ --runInBand",
+    "test": "cross-env NODE_ENV=development jest tests/ --runInBand",
     "i18n": "typesafe-i18n",
     "type:check": "tsc --pretty --skipLibCheck --noEmit",
     "migration:create": "npx mikro-orm migration:create",
