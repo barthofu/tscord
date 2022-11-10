@@ -22,7 +22,7 @@ export class Authenticated {
         })
     }
 
-    use(@Context() { request }: PlatformContext) {
+    async use(@Context() { request }: PlatformContext) {
 
         // if we are in development mode, we don't need to check the token
         // if (process.env['NODE_ENV'] === 'development') return next()
@@ -47,8 +47,9 @@ export class Authenticated {
         if (authorizedAPITokens.includes(token)) return
         
         // we get the user's profile from the token using the `discord-oauth2` package
-        discordOauth2.getUser(token)
-        .then(async (user) => {
+        try {
+
+            const user = await discordOauth2.getUser(token)
 
             // check if logged user is a dev (= admin) of the bot
             if (isDev(user.id)) {
@@ -62,9 +63,9 @@ export class Authenticated {
             } else {
                 throw new Unauthorized('Unauthorized')
             }
-        })
-        .catch(async (err) => {
-            throw new BadRequest('Invalid token')
-        })
+
+        } catch (err) {
+            throw new BadRequest('Invalid discord token')
+        }
     }
 }
