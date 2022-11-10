@@ -4,7 +4,7 @@ import axios from "axios"
 
 import { apiConfig } from "@config"
 
-const baseUrl = `http://localhost:${apiConfig.port}`
+const baseUrl = `http://127.0.0.1:${apiConfig.port}`
 
 @Middleware()
 export class BotOnline {
