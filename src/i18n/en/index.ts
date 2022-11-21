@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { BaseTranslation } from "../i18n-types"
+import type { BaseTranslation } from '../i18n-types'
 
 const en: BaseTranslation = {
 	GUARDS: {
