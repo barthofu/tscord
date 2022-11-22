@@ -1,6 +1,8 @@
 import { Options } from "@mikro-orm/core"
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter"
 
+type Config = { production: Options, development?: Options } 
+
 export const databaseConfig: DatabaseConfigType = {
     
     path: './database/', // path to the folder containing the migrations and SQLite database (if used)
@@ -72,8 +74,8 @@ const envMikroORMConfig = {
     development: {
 
     }
-} satisfies { production: Options, development?: Options } 
+} satisfies Config
 
 if (!envMikroORMConfig['development'] || Object.keys(envMikroORMConfig['development']).length === 0) envMikroORMConfig['development'] = envMikroORMConfig['production']
 
-export const mikroORMConfig = envMikroORMConfig
+export const mikroORMConfig = envMikroORMConfig as Required<Config>
