@@ -12,6 +12,7 @@ import { NoBotTokenError } from "@errors"
 import { Database, ErrorHandler, ImagesUpload, Logger, PluginsManager, WebSocket } from "@services"
 import { initDataTable, resolveDependency } from "@utils/functions"
 import { clientConfig } from "./client"
+import { RequestContext } from '@mikro-orm/core'
 
 async function run() {
 
@@ -35,56 +36,60 @@ async function run() {
     // init the sqlite database
     const db = await resolveDependency(Database)
     await db.initialize()
-
+    
     // init the client
     DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
     const client = new Client(clientConfig)
-
+    
     // Load all new events
     discordLogs(client, { debug: false })
     container.registerInstance(Client, client)
-
+    
     // import all the commands and events
     await importx(__dirname + "/{events,commands}/**/*.{ts,js}")
     await pluginManager.importCommands()
     await pluginManager.importEvents()
-        
-    // init the data table if it doesn't exist
-    await initDataTable()
+    
+    RequestContext.create(db.orm.em, async () => {
 
-    // init plugins services
-    await pluginManager.initServices()
+        // init the data table if it doesn't exist
+        await initDataTable()
 
-    // init the plugin main file
-    await pluginManager.execMains()
+        // init plugins services
+        await pluginManager.initServices()
 
-    // log in with the bot token
-    if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
-    client.login(process.env.BOT_TOKEN)
-    .then(async () => {
+        // init the plugin main file
+        await pluginManager.execMains()
 
-        // start the api server
-        if (apiConfig.enabled) {
-            const server = await resolveDependency(Server)
-            await server.start()
-        }
+        // log in with the bot token
+        if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
+        client.login(process.env.BOT_TOKEN)
+        .then(async () => {
 
-        // connect to the dashboard websocket
-        if (websocketConfig.enabled) {
-            const webSocket = await resolveDependency(WebSocket)
-            await webSocket.init(client.user?.id || null)
-        }
+            // start the api server
+            if (apiConfig.enabled) {
+                const server = await resolveDependency(Server)
+                await server.start()
+            }
 
-        // upload images to imgur if configured
-        if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-            const imagesUpload = await resolveDependency(ImagesUpload)
-            await imagesUpload.syncWithDatabase()
-        }
+            // connect to the dashboard websocket
+            if (websocketConfig.enabled) {
+                const webSocket = await resolveDependency(WebSocket)
+                await webSocket.init(client.user?.id || null)
+            }
+
+            // upload images to imgur if configured
+            if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
+                const imagesUpload = await resolveDependency(ImagesUpload)
+                await imagesUpload.syncWithDatabase()
+            }
+        })
+        .catch((err) => {
+            console.error(err)
+            process.exit(1)
+        })
     })
-    .catch((err) => {
-        console.error(err)
-        process.exit(1)
-    })
+    
 }
 
 run()

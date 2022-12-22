@@ -20,6 +20,7 @@ export class Database {
     ) { }
 
     async initialize() {
+        
         const pluginsManager = await resolveDependency(PluginsManager)
 
         // get config

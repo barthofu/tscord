@@ -19,6 +19,7 @@ export const Schedule = (cronExpression: string, jobName?: string) => {
 		propertyKey: string,
 		descriptor: PropertyDescriptor
 	) => {
+        
         // associate the context to the function, with the injected dependencies defined
         const oldDescriptor = descriptor.value
         descriptor.value = function(...args: any[]) {
