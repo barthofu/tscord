@@ -5,16 +5,22 @@ import { singleton } from "tsyringe"
 
 import * as controllers from "@api/controllers"
 import { Log } from "@api/middlewares"
-import { PluginsManager } from "@services"
+import { MikroORM, UseRequestContext } from "@mikro-orm/core"
+import { Database, PluginsManager } from "@services"
 
 @singleton()
 export class Server {
 
     @Inject() app: PlatformApplication
+    
+    orm: MikroORM
 
     constructor(
-        private readonly pluginsManager: PluginsManager
-    ) {}
+        private readonly pluginsManager: PluginsManager,
+        db: Database
+    ) {
+        this.orm = db.orm
+    }
 
     $beforeRoutesInit() {
         this.app
@@ -24,7 +30,9 @@ export class Server {
         return null
     }
 
-    async start() {
+    @UseRequestContext()
+    async start(): Promise<void> {
+
         const platform = await PlatformExpress.bootstrap(Server, {
             rootDir: __dirname,
             httpPort: parseInt(process.env['API_PORT']) || 4000,
@@ -46,6 +54,7 @@ export class Server {
             }
         })
 
-        await platform.listen()
+        platform.listen()
+
     }
 }

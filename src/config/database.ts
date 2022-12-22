@@ -61,7 +61,6 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
         // password: process.env['DATABASE_PASSWORD'],
 
         highlighter: new SqlHighlighter(),
-        allowGlobalContext: true,
         debug: false,
         
         migrations: {

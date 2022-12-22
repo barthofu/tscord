@@ -62,10 +62,12 @@ export default class ReadyEvent {
 
         // synchronize guilds between discord and the database
         await syncAllGuilds(client)
+
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds
     async changeActivity() {
+
         const ActivityTypeEnumString = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM", "COMPETING"] // DO NOT CHANGE THE ORDER
 
         const client = await resolveDependency(Client)
@@ -73,16 +75,15 @@ export default class ReadyEvent {
         
         activity.text = eval(`new String(\`${activity.text}\`).toString()`)
             
-        if (activity.type === 'STREAMING') {
-            //streaming activity
+        if (activity.type === 'STREAMING') { //streaming activity
             
             client.user?.setStatus('online')
             client.user?.setActivity(activity.text, {
                 'url': 'https://www.twitch.tv/discord',
                 'type': ActivityType.Streaming
             })
-        } else {
-            //other activities
+
+        } else { //other activities
             
             client.user?.setActivity(activity.text, {
                 type: ActivityTypeEnumString.indexOf(activity.type)
@@ -91,6 +92,5 @@ export default class ReadyEvent {
 
         this.activityIndex++
         if (this.activityIndex === generalConfig.activities.length) this.activityIndex = 0
-
     }
 }

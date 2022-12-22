@@ -1,7 +1,7 @@
 import { GatewayIntentBits, Partials } from "discord.js"
 
 import { generalConfig, logsConfig } from "@config"
-import { ExtractLocale, Maintenance, NotBot } from "@guards"
+import { ExtractLocale, Maintenance, NotBot, RequestContextIsolator } from "@guards"
 
 export const clientConfig = {
 	
@@ -28,6 +28,7 @@ export const clientConfig = {
 	silent: !logsConfig.debug,
 
 	guards: [
+		RequestContextIsolator,
 		NotBot,
 		Maintenance,
 		ExtractLocale
