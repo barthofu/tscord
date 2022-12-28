@@ -21,7 +21,7 @@
 
 It uses [`discord.ts`](https://github.com/oceanroleplay/discord.ts) and [`discord.js v14`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
-This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply follow the [installation](https://tscord.discbot.app/docs/get-started/installation) and the [configuration](https://tscord.discbot.app/docs/get-started/configuration) instructions, and have a working bot with many boilerplate features already included!        
+This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply follow the [installation](https://tscord.discbot.app/docs/bot/get-started/installation) and the [configuration](https://tscord.discbot.app/docs/bot/get-started/configuration) instructions, and have a working bot with many boilerplate features already included!        
     </td>
   </tr>
 </table>
