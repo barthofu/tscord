@@ -55,8 +55,9 @@ export class Server {
             }
         })
 
-        platform.listen()
-
-        this.store.update('ready', (e) => ({ ...e, api: true }))
+        platform.listen().then(() => {
+            
+            this.store.update('ready', (e) => ({ ...e, api: true }))
+        })
     }
 }

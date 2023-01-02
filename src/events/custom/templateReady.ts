@@ -1,6 +1,6 @@
-import { ArgsOf, Client } from 'discordx'
+import { Client } from 'discordx'
 
-import { On, Discord } from '@decorators'
+import { Discord, OnCustom } from '@decorators'
 
 @Discord()
 export default class TemplateReadyEvent {
@@ -9,13 +9,10 @@ export default class TemplateReadyEvent {
     // ========= Handlers ==========
     // =============================
 
-    @On('templateReady')
-    async templateReadyHandler(
-        [arg]: any,
-        client: Client
-    ) {
+    @OnCustom('templateReady')
+    async templateReadyHandler() {
 
-       console.log('templateReady event triggered!')
+       // console.log('the template is fully ready!')
     }
 
 }
