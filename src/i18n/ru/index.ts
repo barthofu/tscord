@@ -11,6 +11,9 @@ const ru: Translation = {
 	ERRORS: {
 		UNKNOWN: 'Произошла непонятная ошибка.',
 	},
+	SHARED: {
+		NO_COMMAND_DESCRIPTION: 'Описание отсутствует.',
+	},
 	COMMANDS: {
 		INVITE: {
 			DESCRIPTION: 'Пригласить бота на свой сервер!',

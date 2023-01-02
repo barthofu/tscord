@@ -11,6 +11,9 @@ const uk: Translation = {
 	ERRORS: {
 		UNKNOWN: 'Сталася невідома помилка!',
 	},
+	SHARED: {
+		NO_COMMAND_DESCRIPTION: 'Опис відсутній.',
+	},
 	COMMANDS: {
 		INVITE: {
 			DESCRIPTION: 'Запросити бота до себе додому!',

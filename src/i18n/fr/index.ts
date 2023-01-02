@@ -11,6 +11,9 @@ const fr: Translation = {
 	ERRORS: {
 		UNKNOWN: 'Une erreur est survenue.',
 	},
+	SHARED: {
+		NO_COMMAND_DESCRIPTION: 'Aucune description fournie.',
+	},
 	COMMANDS: {
 		INVITE: {
 			DESCRIPTION: 'Invitez le bot sur votre serveur!',
