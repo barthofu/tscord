@@ -6,7 +6,7 @@ import { singleton } from "tsyringe"
 import * as controllers from "@api/controllers"
 import { Log } from "@api/middlewares"
 import { MikroORM, UseRequestContext } from "@mikro-orm/core"
-import { Database, PluginsManager } from "@services"
+import { Database, PluginsManager, Store } from "@services"
 
 @singleton()
 export class Server {
@@ -16,7 +16,8 @@ export class Server {
     orm: MikroORM
 
     constructor(
-        private readonly pluginsManager: PluginsManager,
+        private pluginsManager: PluginsManager,
+        private store: Store,
         db: Database
     ) {
         this.orm = db.orm
@@ -56,5 +57,6 @@ export class Server {
 
         platform.listen()
 
+        this.store.update('ready', (e) => ({ ...e, api: true }))
     }
 }

@@ -8,13 +8,16 @@ import { ImportLocaleMapping, storeTranslationsToDisk } from "typesafe-i18n/impo
 import { locales } from "@i18n"
 import { BaseController, Plugin } from "@utils/classes"
 import { getSourceCodeLocation } from "@utils/functions"
+import { Store } from "@services"
 
 @singleton()
 export class PluginsManager {
 
     private _plugins: Plugin[] = []
 
-    constructor() {}
+    constructor(
+        private store: Store
+    ) {}
 
     public async loadPlugins(): Promise<void> {
 

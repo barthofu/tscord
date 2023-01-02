@@ -5,7 +5,7 @@ import { injectable } from "tsyringe"
 import { generalConfig, logsConfig } from "@config"
 import { Discord, Once, Schedule } from "@decorators"
 import { Data } from "@entities"
-import { Database, Logger, Scheduler } from "@services"
+import { Database, Logger, Scheduler, Store } from "@services"
 import { resolveDependency, syncAllGuilds } from "@utils/functions"
 
 @Discord()
@@ -15,7 +15,8 @@ export default class ReadyEvent {
     constructor(
         private db: Database,
         private logger: Logger,
-        private scheduler: Scheduler
+        private scheduler: Scheduler,
+        private store: Store
     ) {}
 
     private activityIndex = 0
@@ -63,6 +64,8 @@ export default class ReadyEvent {
         // synchronize guilds between discord and the database
         await syncAllGuilds(client)
 
+        // the bot is fully ready
+        this.store.update('ready', (e) => ({ ...e, bot: true }))
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds
