@@ -40,6 +40,12 @@ type RootTranslation = {
 		 */
 		UNKNOWN: string
 	}
+	SHARED: {
+		/**
+		 * N​o​ ​d​e​s​c​r​i​p​t​i​o​n​ ​p​r​o​v​i​d​e​d​.
+		 */
+		NO_COMMAND_DESCRIPTION: string
+	}
 	COMMANDS: {
 		INVITE: {
 			/**
@@ -192,6 +198,12 @@ export type TranslationFunctions = {
 		 * An unknown error occurred.
 		 */
 		UNKNOWN: () => LocalizedString
+	}
+	SHARED: {
+		/**
+		 * No description provided.
+		 */
+		NO_COMMAND_DESCRIPTION: () => LocalizedString
 	}
 	COMMANDS: {
 		INVITE: {

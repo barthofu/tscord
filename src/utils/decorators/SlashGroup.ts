@@ -1,7 +1,7 @@
 import type { SlashGroupOptions as SlashGroupOptionsX } from "discordx"
 import { ClassDecoratorEx, ClassMethodDecorator, SlashGroup as SlashGroupX, VerifyName } from "discordx"
 
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
+import { constantPreserveDots, sanitizeLocales, setFallbackDescription, setOptionsLocalization } from "@utils/functions"
 
 /**
  * Create slash group
@@ -90,7 +90,7 @@ export function SlashGroup<TRoot extends string>(options: VerifyName<string> | S
 
         options = sanitizeLocales(options) 
 
-        if (!options.description) options.description = 'No description provided'
+        if (!options.description) options = setFallbackDescription(options)
         
         return SlashGroupX(options as SlashGroupOptionsX<VerifyName<string>, string, VerifyName<string>>)
     

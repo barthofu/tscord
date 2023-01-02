@@ -11,6 +11,9 @@ const en: BaseTranslation = {
 	ERRORS: {
 		UNKNOWN: 'An unknown error occurred.',
 	},
+	SHARED: {
+		NO_COMMAND_DESCRIPTION: 'No description provided.',
+	},
 	COMMANDS: {
 		INVITE: {
 			DESCRIPTION: 'Invite the bot to your server!',
