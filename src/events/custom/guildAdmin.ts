@@ -2,16 +2,17 @@ import { Collection, GuildMember, PermissionFlagsBits, Role } from "discord.js"
 import { ArgsOf, Client } from "discordx"
 import { injectable } from "tsyringe"
 
-import { Discord, Guard, On } from "@decorators"
+import { Discord, Guard, On, OnCustom } from "@decorators"
 import { Maintenance } from "@guards"
-import { Logger } from "@services"
+import { EventManager, Logger } from "@services"
 
 @Discord()
 @injectable()
 export default class GuildAdminAddEvent {
 
     constructor(
-        private logger: Logger
+        private logger: Logger,
+        private eventManager: EventManager
     ) {}
 
     // =============================
@@ -31,7 +32,7 @@ export default class GuildAdminAddEvent {
         this.logger.log(`${member.nickname} has been added as an admin`)
     }
 
-    @On('guildAdminDelete')
+    @OnCustom('guildAdminDelete')
     @Guard(
         Maintenance
     )
@@ -67,7 +68,7 @@ export default class GuildAdminAddEvent {
              * @param {GuildMember} member
              * @param {Collection<String, Role>} newAdminRoles 
              */
-            client.emit('guildAdminAdd', newMember, newAdminRoles)
+            this.eventManager.emit('guildAdminAdd', newMember, newAdminRoles)
         }
         else if (oldMember.roles.cache.size > newMember.roles.cache.size) {
 
@@ -82,7 +83,7 @@ export default class GuildAdminAddEvent {
              * @param {GuildMember} member
              * @param {Collection<String, Role>} oldAdminRoles
              */
-            client.emit('guildAdminRemove', newMember, oldAdminRoles)            
+            this.eventManager.emit('guildAdminRemove', newMember, oldAdminRoles)            
         }
     }
 }

@@ -4,7 +4,7 @@ import { injectable } from "tsyringe"
 import { Discord, On } from "@decorators"
 import { Guild, User } from "@entities"
 import { Maintenance } from "@guards"
-import { Database, Logger, Stats } from "@services"
+import { Database, EventManager, Logger, Stats } from "@services"
 import { getPrefixFromMessage, syncUser } from "@utils/functions"
 
 @Discord()
@@ -14,7 +14,8 @@ export default class SimpleCommandCreateEvent {
     constructor(
         private stats: Stats,
         private logger: Logger,
-        private db: Database
+        private db: Database,
+        private eventManager: EventManager
     ) {}
 
     // =============================
@@ -56,7 +57,7 @@ export default class SimpleCommandCreateEvent {
             /**
              * @param {SimpleCommandMessage} command
              */
-            client.emit('simpleCommandCreate', command)
+            this.eventManager.emit('simpleCommandCreate', command)
         }
     } 
 }
