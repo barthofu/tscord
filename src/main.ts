@@ -9,7 +9,7 @@ import { container } from "tsyringe"
 import { Server } from "@api/server"
 import { apiConfig, generalConfig, websocketConfig } from "@config"
 import { NoBotTokenError } from "@errors"
-import { Database, ErrorHandler, ImagesUpload, Logger, PluginsManager, Store, WebSocket } from "@services"
+import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store, WebSocket } from "@services"
 import { initDataTable, resolveDependency } from "@utils/functions"
 import { clientConfig } from "./client"
 import { RequestContext } from '@mikro-orm/core'
@@ -84,9 +84,8 @@ async function run() {
                     await imagesUpload.syncWithDatabase()
                 }
         
-                console.log(1)
                 const store = await container.resolve(Store)
-                store.select('ready').subscribe((ready) => {
+                store.select('ready').subscribe(async (ready) => {
 
                     // check that all properties that are not null are set to true
                     if (
@@ -95,10 +94,10 @@ async function run() {
                             .filter(value => value !== null)
                             .every(value => value === true)
                     ) {
-                        client.emit('templateReady') // the template is fully ready!
+                        const eventManager = await resolveDependency(EventManager)
+                        eventManager.emit('templateReady') // the template is fully ready!
                     }
                 })
-                console.log(2)
 
             })
             .catch((err) => {
