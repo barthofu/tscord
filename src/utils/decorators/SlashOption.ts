@@ -2,7 +2,7 @@ import { of } from "case"
 import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX, VerifyName } from "discordx"
 
 import { InvalidOptionName } from "@errors"
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
+import { constantPreserveDots, sanitizeLocales, setFallbackDescription, setOptionsLocalization } from "@utils/functions"
 
 /**
  * Add a slash command option
@@ -44,7 +44,7 @@ import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@
         }
     }
 
-    if (!options.description) options.description = 'No description provided'
+    if (!options.description) options = setFallbackDescription(options)
 
     return SlashOptionX(options as SlashOptionOptionsX<VerifyName<string>, string>)
 }
