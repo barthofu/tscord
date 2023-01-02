@@ -3,14 +3,18 @@ import { singleton } from "tsyringe"
 
 import { generalConfig } from "@config"
 import { getDevs, validString } from "@utils/functions"
-
+import { Store } from "@services"
 @singleton()
 export class WebSocket {
-
+    
     private _socket: Socket
     private _eventsQueueBeforeInit: Map<string, (...args: any[]) => void> = new Map()
     private _botName = validString(generalConfig.name) ? generalConfig.name : 'bot'
     private _isInit = false
+
+    constructor(
+        private store: Store
+    ) {}
 
     get socket() {
         return this._socket
@@ -37,6 +41,8 @@ export class WebSocket {
 
             // this.broadcast('botConnected', { botName: this._botName })
             this._isInit = true
+
+            this.store.update('ready', (e) => ({ ...e, websocket: true }))
         })
 
         // set the events in the pre-init queue
