@@ -1,11 +1,11 @@
 import { ArgsOf, Client, Guard, SimpleCommandMessage } from "discordx"
-import { injectable } from "tsyringe"
+import { inject, injectable, delay, container } from "tsyringe"
 
-import { Discord, On } from "@decorators"
+import { Discord, On, OnCustom } from "@decorators"
 import { Guild, User } from "@entities"
 import { Maintenance } from "@guards"
 import { Database, EventManager, Logger, Stats } from "@services"
-import { getPrefixFromMessage, syncUser } from "@utils/functions"
+import { getPrefixFromMessage, resolveDependency, syncUser } from "@utils/functions"
 
 @Discord()
 @injectable()
@@ -15,15 +15,15 @@ export default class SimpleCommandCreateEvent {
         private stats: Stats,
         private logger: Logger,
         private db: Database,
-        private eventManager: EventManager
+        private eventManager: EventManager    
     ) {}
 
     // =============================
-    // ========= Handlers ==========
+    // ========= Handler ===========
     // =============================
 
-    @On('simpleCommandCreate')
-    async simpleCommandCreateHandler([command]: [SimpleCommandMessage]) {
+    @OnCustom('simpleCommandCreate')
+    async simpleCommandCreateHandler(command: SimpleCommandMessage) {
 
         // insert user in db if not exists
         await syncUser(command.message.author)
