@@ -12,24 +12,25 @@ export class EventManager {
     ) {
     }
 
-    register(event: string, callback: Function): void {
+    register(eventName: string, callback: Function): void {
             
-        this._events.set(event, [...this._events.get(event) || [], callback])
+        this._events.set(eventName, [...(this._events.get(eventName) || []), callback])
     }
 
-    async emit(event: string, ...args: any[]): Promise<void> {
+    async emit(eventName: string, ...args: any[]): Promise<void> {
 
-        const callbacks = this._events.get(event)
+        const callbacks = this._events.get(eventName)
 
         if (!callbacks) return
-
+        
         for (const callback of callbacks) {
             
             try {
                 await callback(...args)
             } catch (error) {
+                console.error(error)
                 if (error instanceof Error) {
-                    this.logger.log(error.toString(), 'error', true)
+                    this.logger.log(`[EventError - ${eventName}] ${error.toString()}`, 'error', true)
                 }
             }
         }
