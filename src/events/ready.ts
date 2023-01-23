@@ -30,24 +30,11 @@ export default class ReadyEvent {
         // synchronize applications commands with Discord
         await client.initApplicationCommands({
             global: {
-                log: logsConfig.debug,
                 disable: {
                     delete: false
                 }
-            },
-            guild: {
-                log: logsConfig.debug
             }
         })
-
-        // synchronize applications command permissions with Discord
-        /**
-         * ************************************************************
-         * Discord has deprecated permissions v1 api in favour permissions v2, await future updates
-         * see https://github.com/discordjs/discord.js/pull/7857
-         * ************************************************************
-         */
-        //await client.initApplicationPermissions(false)
 
         // change activity
         await this.changeActivity()
