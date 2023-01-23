@@ -1,44 +1,49 @@
-## build runner
-FROM node:16.17-buster-slim as build-runner
+# ===========================
+#          Builder
+# ===========================
 
-# Set temp directory
-WORKDIR /tmp/app
+FROM node:16.17-buster-slim as builder
 
-# Move package.json and package-lock.json
-COPY package.json .
-COPY package-lock.json .
-COPY src ./src
+    # Set temp directory
+    WORKDIR /tmp/app
 
-# Install dependencies from package-lock.json
-# and install dependencies for plugins (because postinstall script doesn't work in docker)
-RUN npm ci
+    # Move package.json and package-lock.json
+    COPY package.json .
+    COPY src ./src
 
-COPY .swcrc .
-COPY tsconfig.json .
+    # Install dependencies from package.json
+    # and install dependencies for plugins (because postinstall script doesn't work in docker)
+    RUN npm i
 
-# Build project
-RUN npm run build
+    COPY .swcrc .
+    COPY tsconfig.json .
 
-## producation runner
-FROM node:16.17-buster-slim as prod-runner
+    # Build project
+    RUN npm run build
 
-# set production mode
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+# ===========================
+#      Production Runner
+# ===========================
 
-# Set work directory
-WORKDIR /app
+FROM node:16.17-buster-slim as runner
 
-# Copy package.json and package-lock.json from build-runner
-COPY --from=build-runner /tmp/app/package.json /app/package.json
-COPY --from=build-runner /tmp/app/package-lock.json /app/package-lock.json
+    # set production mode
+    ARG NODE_ENV=production
+    ENV NODE_ENV $NODE_ENV
 
-# Move build files
-COPY --from=build-runner /tmp/app/build /app/build
+    # Set work directory
+    WORKDIR /app
 
-# Install dependencies from package-lock.json
-# and install dependencies for plugins (because plugins:install script doesn't work in docker)
-RUN npm ci --omit=dev && npm cache clean --force 
+    # Copy package.json and package-lock.json from builder
+    COPY --from=builder /tmp/app/package.json /app/package.json
+    COPY --from=builder /tmp/app/package-lock.json /app/package-lock.json
 
-# Finaly start the bot
-CMD ["node", "build/main.js"]
+    # Move build files
+    COPY --from=builder /tmp/app/build /app/build
+
+    # Install dependencies from package-lock.json
+    # and install dependencies for plugins (because plugins:install script doesn't work in docker)
+    RUN npm ci --omit=dev && npm cache clean --force 
+
+    # Finaly start the bot
+    CMD ["node", "build/main.js"]
