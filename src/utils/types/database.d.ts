@@ -12,7 +12,7 @@ type DatabaseConfigs = {
         driver: import('@mikro-orm/better-sqlite').BetterSqliteDriver,
         entityManager: import('@mikro-orm/better-sqlite').SqlEntityManager,
     }
-    'postgres': {
+    'postgresql': {
         driver: import('@mikro-orm/postgresql').PostgreSqlDriver,
         entityManager: import('@mikro-orm/postgresql').SqlEntityManager,
     }
@@ -30,5 +30,5 @@ type DatabaseConfigs = {
     }
 }
 
-type DatabaseDriver = DatabaseConfigs[typeof import('@config').databaseType]['driver']
-type DatabaseEntityManager = DatabaseConfigs[typeof import('@config').databaseType]['entityManager']
+type DatabaseDriver = DatabaseConfigs[typeof import('@config').mikroORMConfig['production']['type']]['driver']
+type DatabaseEntityManager = DatabaseConfigs[typeof import('@config').mikroORMConfig['production']['type']]['entityManager']
