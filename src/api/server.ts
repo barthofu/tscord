@@ -2,6 +2,7 @@ import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from "@tse
 import { PlatformExpress } from "@tsed/platform-express"
 import '@tsed/swagger'
 import { singleton } from "tsyringe"
+import bodyParser from "body-parser"
 
 import * as controllers from "@api/controllers"
 import { Log } from "@api/middlewares"
@@ -24,7 +25,10 @@ export class Server {
     }
 
     $beforeRoutesInit() {
+        
         this.app
+            .use(bodyParser.json())
+            .use(bodyParser.urlencoded({extended: true}))
             .use(Log)
             .use(PlatformAcceptMimesMiddleware)
 
