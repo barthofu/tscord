@@ -30,5 +30,5 @@ jobs:
           envs: PROJECT_PATH
           script: |
             cd $PROJECT_PATH
-            git pull https://github.com/barthofu/tscord.git main
+            git pull https://github.com/barthofu/tscord-template.git main
             docker-compose up -d --build
