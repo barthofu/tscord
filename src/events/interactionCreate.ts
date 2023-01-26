@@ -7,6 +7,7 @@ import { Guild, User } from "@entities"
 import { Maintenance } from "@guards"
 import { Database, Logger, Stats } from "@services"
 import { syncUser } from "@utils/functions"
+import { generalConfig } from "@config"
 
 @Discord()
 @injectable()
@@ -28,7 +29,10 @@ export default class InteractionCreateEvent {
     ) {
         
         // defer the reply
-        if (interaction instanceof CommandInteraction) await interaction.deferReply()
+        if (
+            generalConfig.automaticDefering &&
+            interaction instanceof CommandInteraction
+        ) await interaction.deferReply()
 
         // insert user in db if not exists
         await syncUser(interaction.user)
