@@ -6,9 +6,11 @@ export const generalConfig: GeneralConfigType = {
 	name: 'tscord', // the name of your bot
 	description: '', // the description of your bot
 	defaultLocale: 'en', // default language of the bot, must be a valid locale
-	simpleCommandsPrefix: '!', // default prefix for simple command messages (old way to do commands on discord)
 	ownerId: process.env['BOT_OWNER_ID'] || '',
 	timezone: 'Europe/Paris', // default TimeZone to well format and localize dates (logs, stats, etc)
+
+	simpleCommandsPrefix: '!', // default prefix for simple command messages (old way to do commands on discord)
+	automaticDefering: true, // enable or not the automatic defering of the replies of the bot on the command interactions
 
 	// useful links
 	links: {
