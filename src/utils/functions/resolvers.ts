@@ -13,6 +13,8 @@ import {
 	Interaction,
 } from "discord.js"
 
+import packageJson from "../../../package.json"
+
 const resolvers = {
 
 	user: {
@@ -149,4 +151,9 @@ export const resolveLocale = (interaction: AllInteractions) => {
 
 export const getTypeOfInteraction = (interaction: any): string => {
 	return interaction.constructor.name
+}
+
+export const getTscordVersion = () => {
+
+	return packageJson.tscord.version
 }
