@@ -2,7 +2,7 @@ import { ActivityType } from "discord.js"
 import { Client } from "discordx"
 import { injectable } from "tsyringe"
 
-import { generalConfig, logsConfig } from "@config"
+import { generalConfig, logsConfig } from "@configs"
 import { Discord, Once, Schedule } from "@decorators"
 import { Data } from "@entities"
 import { Database, Logger, Scheduler, Store } from "@services"

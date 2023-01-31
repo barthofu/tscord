@@ -9,7 +9,7 @@ import { parse, StackFrame } from "stacktrace-parser"
 import { delay, inject, singleton } from "tsyringe"
 
 import * as controllers from "@api/controllers"
-import { apiConfig, logsConfig } from "@config"
+import { apiConfig, logsConfig } from "@configs"
 import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services"
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 

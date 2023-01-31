@@ -2,7 +2,7 @@ import { CronJob } from "cron"
 import { isValidCron } from "cron-validator"
 import { container, InjectionToken } from "tsyringe"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { resolveDependency } from "@utils/functions"
 
 /**

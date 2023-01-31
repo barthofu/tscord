@@ -1,4 +1,4 @@
-import { databaseConfig, mikroORMConfig } from "@config"
+import { databaseConfig, mikroORMConfig } from "@configs"
 import { EntityName, MikroORM, Options } from "@mikro-orm/core"
 import fastFolderSizeSync from "fast-folder-size/sync"
 import fs from "fs"

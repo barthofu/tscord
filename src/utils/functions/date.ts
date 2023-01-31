@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import dayjsTimeZone from "dayjs/plugin/timezone"
 import dayjsUTC from "dayjs/plugin/utc"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 
 dayjs.extend(dayjsUTC)
 dayjs.extend(dayjsTimeZone)

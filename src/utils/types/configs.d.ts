@@ -1,7 +1,5 @@
 type GeneralConfigType = {
 
-    __templateVersion: string
-
     name: string
     description: string
     defaultLocale: import('@i18n').Locales

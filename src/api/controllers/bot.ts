@@ -5,7 +5,7 @@ import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, 
 import { Client, MetadataStorage } from "discordx"
 
 import { Authenticated, BotOnline } from "@api/middlewares"
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { Guild, User } from "@entities"
 import { Database } from "@services"
 import { BaseController } from "@utils/classes"

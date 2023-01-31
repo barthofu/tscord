@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client"
 import { singleton } from "tsyringe"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { getDevs, validString } from "@utils/functions"
 import { Store } from "@services"
 @singleton()

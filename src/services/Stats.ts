@@ -5,7 +5,7 @@ import osu from "node-os-utils"
 import pidusage from "pidusage"
 import { delay, inject, singleton } from "tsyringe"
 
-import { statsConfig, websocketConfig } from "@config"
+import { statsConfig, websocketConfig } from "@configs"
 import { Schedule, WSOn } from "@decorators"
 import { Guild, Stat, User } from "@entities"
 import { Database, WebSocket } from "@services"

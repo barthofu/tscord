@@ -2,7 +2,7 @@ import { Middleware } from "@tsed/common"
 import { InternalServerError } from "@tsed/exceptions"
 import axios from "axios"
 
-import { apiConfig } from "@config"
+import { apiConfig } from "@configs"
 
 const baseUrl = `http://127.0.0.1:${apiConfig.port}`
 

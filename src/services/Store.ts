@@ -1,4 +1,4 @@
-import { apiConfig, websocketConfig } from "@config"
+import { apiConfig, websocketConfig } from "@configs"
 import { Store as RxStore } from "rxeta"
 import { singleton } from "tsyringe"
 

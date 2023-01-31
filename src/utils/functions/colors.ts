@@ -1,6 +1,6 @@
 import { ColorResolvable } from "discord.js"
 
-import { colorsConfig } from "@config"
+import { colorsConfig } from "@configs"
 
 /**
  * Get a color from the config

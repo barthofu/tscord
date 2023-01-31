@@ -1,4 +1,4 @@
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 
 /**
  * Get a curated list of devs including the owner id

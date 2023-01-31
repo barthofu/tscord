@@ -4,7 +4,7 @@ import { Discord, Guard, On } from "@decorators"
 import { Maintenance } from "@guards"
 import { executeEvalFromMessage, isDev } from "@utils/functions"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 
 @Discord()
 export default class MessageCreateEvent {

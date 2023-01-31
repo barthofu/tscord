@@ -6,7 +6,7 @@ import { CustomBaseEntity } from "./BaseEntity"
 /**
  * Default data for the Data table (dynamic EAV key/value pattern) 
  */
- export const defaultData = {
+export const defaultData = {
 
     maintenance: false,
     lastMaintenance: Date.now(),

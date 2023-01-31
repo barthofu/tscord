@@ -7,7 +7,7 @@ import { Guild, User } from "@entities"
 import { Maintenance } from "@guards"
 import { Database, Logger, Stats } from "@services"
 import { syncUser } from "@utils/functions"
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 
 @Discord()
 @injectable()
