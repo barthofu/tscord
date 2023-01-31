@@ -6,13 +6,13 @@ import { Client } from "discordx"
 import { injectable } from "tsyringe"
 dayjs.extend(relativeTime)
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { Discord, Slash } from "@decorators"
 import { Guard } from "@guards"
 import { Stats } from "@services"
-import { getColor, isValidUrl, timeAgo } from "@utils/functions"
+import { getColor, getTscordVersion, isValidUrl, timeAgo } from "@utils/functions"
 
-import packageJSON from "../../../package.json"
+import packageJson from "../../../package.json"
 
 const links = [
 	{ label: 'Invite me!', url: generalConfig.links.invite },
@@ -47,7 +47,7 @@ export default class InfoCommand {
 			.setTitle(client.user!.tag)
 			.setThumbnail(client.user!.displayAvatarURL())
 			.setColor(getColor('primary'))
-			.setDescription(packageJSON.description)
+			.setDescription(packageJson.description)
 
 		const fields: EmbedField[] = []
 
@@ -88,7 +88,7 @@ export default class InfoCommand {
 		 */
 		fields.push({
 			name: 'Bot version',
-			value: `v${packageJSON.version}`,
+			value: `v${packageJson.version}`,
 			inline: true,
 		})
 
@@ -97,7 +97,7 @@ export default class InfoCommand {
 		 */
 		fields.push({
 			name: 'Framework/template',
-			value: `[TSCord](https://github.com/barthofu/tscord) (*v${generalConfig.__templateVersion}*)`,
+			value: `[TSCord](https://github.com/barthofu/tscord) (*v${getTscordVersion()}*)`,
 			inline: true,
 		})
 
@@ -106,7 +106,7 @@ export default class InfoCommand {
 		 */
 		fields.push({
 			name: 'Libraries',
-			value: `[discord.js](https://discord.js.org/) (*v${packageJSON.dependencies['discord.js'].replace('^', '')}*)\n[discordx](https://discordx.js.org/) (*v${packageJSON.dependencies['discordx'].replace('^', '')}*)`,
+			value: `[discord.js](https://discord.js.org/) (*v${packageJson.dependencies['discord.js'].replace('^', '')}*)\n[discordx](https://discordx.js.org/) (*v${packageJson.dependencies['discordx'].replace('^', '')}*)`,
 			inline: true,
 		})
 

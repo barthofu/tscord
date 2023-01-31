@@ -127,5 +127,7 @@
       "src/i18n/**/!(i18n-types.ts)"
     ]
   },
-  "tscordTemplate": true
+  "tscord": {
+    "version": "2.1"
+  }
 }

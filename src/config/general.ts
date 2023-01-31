@@ -1,8 +1,5 @@
 export const generalConfig: GeneralConfigType = {
 
-	// do not touch that
-    __templateVersion: '2.0.0',
-
 	name: 'tscord', // the name of your bot
 	description: '', // the description of your bot
 	defaultLocale: 'en', // default language of the bot, must be a valid locale

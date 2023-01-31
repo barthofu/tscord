@@ -4,10 +4,10 @@ import fs from "fs"
 import semver from "semver"
 import { BaseTranslation } from "typesafe-i18n"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { locales } from "@i18n"
 import { BaseController } from "@utils/classes"
-import { getSourceCodeLocation } from "@utils/functions"
+import { getSourceCodeLocation, getTscordVersion } from "@utils/functions"
 
 export class Plugin {
 
@@ -45,7 +45,7 @@ export class Plugin {
         if (!semver.valid(pluginConfig.version)) return this.stopLoad("Invalid version in plugin.json")
 
         // check if the plugin is compatible with the current version of Tscord
-        if (!semver.satisfies(generalConfig.__templateVersion, pluginConfig.tscordRequiredVersion)) return this.stopLoad(`Incompatible with the current version of Tscord (v${generalConfig.__templateVersion})`)
+        if (!semver.satisfies(getTscordVersion(), pluginConfig.tscordRequiredVersion)) return this.stopLoad(`Incompatible with the current version of Tscord (v${getTscordVersion()})`)
 
         // assign common values
         this._name = pluginConfig.name
