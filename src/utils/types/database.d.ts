@@ -30,5 +30,5 @@ type DatabaseConfigs = {
     }
 }
 
-type DatabaseDriver = DatabaseConfigs[typeof import('@config').mikroORMConfig['production']['type']]['driver']
-type DatabaseEntityManager = DatabaseConfigs[typeof import('@config').mikroORMConfig['production']['type']]['entityManager']
+type DatabaseDriver = DatabaseConfigs[typeof import('@configs').mikroORMConfig['production']['type']]['driver']
+type DatabaseEntityManager = DatabaseConfigs[typeof import('@configs').mikroORMConfig['production']['type']]['entityManager']

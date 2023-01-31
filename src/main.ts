@@ -7,7 +7,7 @@ import { Client, DIService, tsyringeDependencyRegistryEngine } from "discordx"
 import { container } from "tsyringe"
 
 import { Server } from "@api/server"
-import { apiConfig, generalConfig, websocketConfig } from "@config"
+import { apiConfig, generalConfig, websocketConfig } from "@configs"
 import { NoBotTokenError } from "@errors"
 import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store, WebSocket } from "@services"
 import { initDataTable, resolveDependency } from "@utils/functions"
@@ -33,7 +33,7 @@ async function run() {
     console.log('\n')
     logger.startSpinner('Starting...')
 
-    // init the sqlite database
+    // init the database
     const db = await resolveDependency(Database)
     await db.initialize()
     

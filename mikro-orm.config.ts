@@ -1,4 +1,4 @@
-import { mikroORMConfig } from "./src/config/database"
+import { mikroORMConfig } from "./src/configs/database"
 import * as entities from "@entities"
 import { PluginsManager } from "@services"
 import { Options } from "@mikro-orm/core"

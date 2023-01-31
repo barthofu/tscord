@@ -18,7 +18,6 @@ type ApplicationCommandOptions = Sanitization<
     WithOptional<import('discordx').ApplicationCommandOptions<string, string>, 'description'>
 >
 
-
 type SlashGroupOptions = Sanitization<
     WithOptional<import('discordx').SlashGroupOptions<string, string, string>, 'description'>
 >

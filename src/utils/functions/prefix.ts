@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { Guild } from "@entities"
 import { Database } from "@services"
 import { resolveDependency } from "@utils/functions"

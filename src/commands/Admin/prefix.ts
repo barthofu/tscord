@@ -3,7 +3,7 @@ import { ApplicationCommandOptionType, CommandInteraction } from "discord.js"
 import { Client } from "discordx"
 import { injectable } from "tsyringe"
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@configs"
 import { Discord, Slash, SlashOption } from "@decorators"
 import { Guild } from "@entities"
 import { UnknownReplyError } from "@errors"
