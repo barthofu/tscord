@@ -12,7 +12,7 @@ export const databaseConfig: DatabaseConfigType = {
     }
 }
 
-export const databaseType = 'better-sqlite' as const // 'better-sqlite' | 'sqlite' | 'postgres' | 'mysql' | 'mariadb' | 'mongo'
+export const databaseType = 'better-sqlite' as const // 'better-sqlite' | 'sqlite' | 'postgresql' | 'mysql' | 'mariadb' | 'mongo'
 
 const envMikroORMConfig: { production: Options, development?: Options } = {
 
