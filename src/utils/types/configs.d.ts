@@ -8,7 +8,7 @@ type GeneralConfigType = {
     automaticUploadImagesToImgur: boolean
     
     simpleCommandsPrefix: string
-    automaticDefering: boolean
+    automaticDeferring: boolean
 
     links: {
 		invite: string
