@@ -30,7 +30,7 @@ export default class InteractionCreateEvent {
         
         // defer the reply
         if (
-            generalConfig.automaticDefering &&
+            generalConfig.automaticDeferring &&
             interaction instanceof CommandInteraction
         ) await interaction.deferReply()
 
