@@ -9,7 +9,6 @@
 [![Build state](https://img.shields.io/github/actions/workflow/status/barthofu/tscord/build.yml?branch=main&colorB=4b38ff&colorA=4b38ff)](https://github.com/barthofu/tscord/actions/workflows/build.yml)
 ![Repo size](https://img.shields.io/github/repo-size/barthofu/tscord?colorB=4b38ff&colorA=4b38ff)
 ![Stars count](https://img.shields.io/github/stars/barthofu/tscord?colorB=4b38ff&colorA=4b38ff)
-![Sponsors](https://img.shields.io/badge/sponsors-2-4b38ff?colorA=4b38ff)
 
 <table>
   <tr>
@@ -19,7 +18,7 @@
 
 #### **TSCord** is a fully-featured **[discord bot](https://discord.com/developers/docs/intro#bots-and-apps)** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
 
-It uses [`discord.ts`](https://github.com/oceanroleplay/discord.ts) and [`discord.js v14`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
+It uses [`discordx`](https://github.com/discordx-ts/discordx) and [`discord.js v14`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
 This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply follow the [installation](https://tscord.discbot.app/docs/bot/get-started/installation) and the [configuration](https://tscord.discbot.app/docs/bot/get-started/configuration) instructions, and have a working bot with many boilerplate features already included!        
     </td>
@@ -124,7 +123,7 @@ Talking about features, here are some of the core features of the template:
 This template is also developer friendly and follow strict design patterns to ease its maintenance:
 - Written in **Typescript**
 - Built around the **Dependency Injection** and **Singleton** patterns
-- Use of battle-tested **libraries** under the hood (*discord.ts* and *discord.js*)
+- Use of battle-tested **libraries** under the hood (*discordx* and *discord.js*)
 - Built-in **debugging** setup for VSCode
 - Support for running with the **[PM2](https://pm2.keymetrics.io/)** process manger
 - Support for running with **[Docker](https://www.docker.com/)**
@@ -137,7 +136,7 @@ This template is also developer friendly and follow strict design patterns to ea
 ### Check the [**official documentation**](https://tscord.discbot.app/) to get started and understand how to use this template.
 
 You can also find useful documentations at:
-- [discord.ts documentation](https://discord-ts.js.org/)
+- [discordx documentation](https://discordx.js.org/)
 - [Discord.js Guide](https://discordjs.guide/)
 - [Discord's developer portal](https://discord.com/developers/docs/intro)
 
