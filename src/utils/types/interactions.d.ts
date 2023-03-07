@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/39040108/import-class-in-definition-file-d-ts
 
 type EmittedInteractions = import('discord.js').CommandInteraction | import('discordx').SimpleCommandMessage | import('discord.js').ContextMenuCommandInteraction
-type OnTheFlyInteractions = import('discord.js').ButtonInteraction | import('discord.js').SelectMenuInteraction | import('discord.js').ModalSubmitInteraction
+type OnTheFlyInteractions = import('discord.js').ButtonInteraction | import('discord.js').StringSelectMenuInteraction | import('discord.js').ModalSubmitInteraction
 
 type AllInteractions = EmittedInteractions | OnTheFlyInteractions
 
