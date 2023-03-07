@@ -3,7 +3,7 @@ import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder
 import { Client, MetadataStorage, SelectMenuComponent } from "discordx"
 
 import { Discord, Slash } from "@decorators"
-import { chunkArray, getColor, validString } from "@utils/functions"
+import { chunkArray, getColor, resolveGuild, validString } from "@utils/functions"
 import { TranslationFunctions } from "src/i18n/i18n-types"
 
 @Discord()
@@ -25,7 +25,7 @@ export default class HelpCommand {
 		{ localize }: InteractionData
 	) {
 		
-		const embed = this.getEmbed({ client, interaction, locale: localize })
+		const embed = await this.getEmbed({ client, interaction, locale: localize })
 
 		let components: any[] = []
 		components.push(this.getSelectDropdown("categories", localize).toJSON())
@@ -54,13 +54,13 @@ export default class HelpCommand {
     }
 
 
-	private getEmbed({ client, interaction, category = '', pageNumber = 0, locale }: {
+	private async getEmbed({ client, interaction, category = '', pageNumber = 0, locale }: {
 		client: Client, 
 		interaction: CommandInteraction | SelectMenuInteraction,  
 		category?: string,
 		pageNumber?: number
 		locale: TranslationFunctions
-	}): EmbedBuilder {
+	}): Promise<EmbedBuilder> {
 
 		const commands = this._categories.get(category)
 		
@@ -76,10 +76,27 @@ export default class HelpCommand {
 				.setThumbnail('https://upload.wikimedia.org/wikipedia/commons/a/a4/Cute-Ball-Help-icon.png')
 				.setColor(getColor('primary'))
 
+			let currentGuild = resolveGuild(interaction)
+			let applicationCommands = [
+				...(currentGuild ? (await currentGuild.commands.fetch()).values() : []),
+				...(await client.application!.commands.fetch()).values()
+			]
+			
 			for (const category of this._categories) {
+				let commands = category[1]
+					.map(cmd => {
+						return "</" +
+								(cmd.group ? cmd.group + ' ' : '') +
+								(cmd.subgroup ? cmd.subgroup + ' ' : '') +
+								cmd.name +
+								":" +
+								applicationCommands.find(acmd => acmd.name == (cmd.group ? cmd.group : cmd.name))!.id +
+								">"	
+					});
+					
 				embed.addFields([{
 					name: category[0],
-					value: category[1].map(command => command.name).join(', ')
+					value: commands.join(', ')
 				}])
 			}
 
