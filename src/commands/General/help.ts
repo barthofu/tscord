@@ -122,13 +122,24 @@ export default class HelpCommand {
 
 		for (const item of resultsOfPage) {
 
+			let currentGuild = resolveGuild(interaction)
+			let applicationCommands = [
+				...(currentGuild ? (await currentGuild.commands.fetch()).values() : []),
+				...(await client.application!.commands.fetch()).values()
+			]
+
 			const { description } = item
 			const fieldValue = validString(description) ? description : "No description"
-			const name = `/${item.group ? item.group + ' ' : ''}${item.subgroup ? item.subgroup + ' ' : ''}${item.name}`
-			const nameToDisplay = inlineCode(name)
+			const name = 	"</" +
+							(item.group ? item.group + ' ' : '') +
+							(item.subgroup ? item.subgroup + ' ' : '') +
+							item.name +
+							":" +
+							applicationCommands.find(acmd => acmd.name == (item.group ? item.group : item.name))!.id +
+							">"	
 
 			embed.addFields([{
-				name: 	nameToDisplay,
+				name: 	name,
 				value: 	fieldValue,
 				inline:	resultsOfPage.length > 5
 			}])
