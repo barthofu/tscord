@@ -45,7 +45,7 @@ export default class HelpCommand {
 
         const embed = await this.getEmbed({ client, interaction, category, locale: localize })
 		let components: any[] = []
-		components.push(this.getSelectDropdown("categories", localize).toJSON())
+		components.push(this.getSelectDropdown(category, localize).toJSON())
 
         interaction.update({
             embeds: [embed],
@@ -61,7 +61,6 @@ export default class HelpCommand {
 		pageNumber?: number
 		locale: TranslationFunctions
 	}): Promise<EmbedBuilder> {
-		console.debug(locale)
 
 		const commands = this._categories.get(category)
 		
