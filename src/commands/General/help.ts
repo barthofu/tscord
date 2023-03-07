@@ -1,5 +1,5 @@
 import { Category } from "@discordx/utilities"
-import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder, Formatters, SelectMenuBuilder, SelectMenuInteraction } from "discord.js"
+import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder, inlineCode, StringSelectMenuBuilder, StringSelectMenuInteraction  } from "discord.js"
 import { Client, MetadataStorage, SelectMenuComponent } from "discordx"
 
 import { Discord, Slash } from "@decorators"
@@ -39,7 +39,7 @@ export default class HelpCommand {
 	@SelectMenuComponent({
 		id: 'help-category-selector'
 	})
-	async selectCategory(interaction: SelectMenuInteraction, client: Client, { localize }: InteractionData) {
+	async selectCategory(interaction: StringSelectMenuInteraction, client: Client, { localize }: InteractionData) {
 
         const category = interaction.values[0]
 
@@ -56,11 +56,12 @@ export default class HelpCommand {
 
 	private async getEmbed({ client, interaction, category = '', pageNumber = 0, locale }: {
 		client: Client, 
-		interaction: CommandInteraction | SelectMenuInteraction,  
+		interaction: CommandInteraction | StringSelectMenuInteraction ,  
 		category?: string,
 		pageNumber?: number
 		locale: TranslationFunctions
 	}): Promise<EmbedBuilder> {
+		console.debug(locale)
 
 		const commands = this._categories.get(category)
 		
@@ -125,7 +126,7 @@ export default class HelpCommand {
 			const { description } = item
 			const fieldValue = validString(description) ? description : "No description"
 			const name = `/${item.group ? item.group + ' ' : ''}${item.subgroup ? item.subgroup + ' ' : ''}${item.name}`
-			const nameToDisplay = Formatters.inlineCode(name)
+			const nameToDisplay = inlineCode(name)
 
 			embed.addFields([{
 				name: 	nameToDisplay,
@@ -159,7 +160,7 @@ export default class HelpCommand {
             })
         }
 
-        const selectMenu = new SelectMenuBuilder().addOptions(optionsForEmbed).setCustomId("help-category-selector")
+        const selectMenu = new StringSelectMenuBuilder().addOptions(optionsForEmbed).setCustomId("help-category-selector")
         
 		return new ActionRowBuilder().addComponents(selectMenu)
     }

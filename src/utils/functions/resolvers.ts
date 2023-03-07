@@ -5,7 +5,7 @@ import {
 	ButtonInteraction,
 	ContextMenuCommandInteraction,
     ModalSubmitInteraction,
-	SelectMenuInteraction,
+	StringSelectMenuInteraction,
 	Message,
 	VoiceState,
 	MessageReaction,
@@ -24,7 +24,7 @@ const resolvers = {
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member?.user,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member?.user,
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member?.user,
+		StringSelectMenuInteraction: (interaction: StringSelectMenuInteraction) => interaction.member?.user,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.member?.user,
 
 		Message: (interaction: Message) => interaction.author,
@@ -42,7 +42,7 @@ const resolvers = {
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.member,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.member,
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.member,
+		StringSelectMenuInteraction: (interaction: StringSelectMenuInteraction) => interaction.member,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.member,
 
 		Message: (interaction: Message) => interaction.member,
@@ -60,7 +60,7 @@ const resolvers = {
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.guild,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.guild,
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.guild,
+		StringSelectMenuInteraction: (interaction: StringSelectMenuInteraction) => interaction.guild,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.guild,
 
 		fallback: (interaction: any) => null
@@ -73,7 +73,7 @@ const resolvers = {
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.channel,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.channel,
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.channel,
+		StringSelectMenuInteraction: (interaction: StringSelectMenuInteraction) => interaction.channel,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.channel,
 
 		fallback: (interaction: any) => null
@@ -99,7 +99,7 @@ const resolvers = {
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.commandName,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.customId,
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.customId,
+		StringSelectMenuInteraction: (interaction: StringSelectMenuInteraction) => interaction.customId,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.customId,	
 	
 		fallback: (_: any) => ''
@@ -112,7 +112,7 @@ const resolvers = {
 		MessageContextMenuCommandInteraction: (interaction: ContextMenuCommandInteraction) => interaction.locale,
 		
 		ButtonInteraction: (interaction: ButtonInteraction) => interaction.locale,
-		SelectMenuInteraction: (interaction: SelectMenuInteraction) => interaction.locale,
+		StringSelectMenuInteraction: (interaction: StringSelectMenuInteraction) => interaction.locale,
         ModalSubmitInteraction: (interaction: ModalSubmitInteraction) => interaction.locale,	
 	
 		fallback: (_: any) => 'en'
