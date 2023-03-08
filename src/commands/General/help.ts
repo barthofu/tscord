@@ -83,6 +83,7 @@ export default class HelpCommand {
 			]
 			
 			for (const category of this._categories) {
+				
 				let commands = category[1]
 					.map(cmd => {
 						return "</" +
@@ -92,7 +93,7 @@ export default class HelpCommand {
 								":" +
 								applicationCommands.find(acmd => acmd.name == (cmd.group ? cmd.group : cmd.name))!.id +
 								">"	
-					});
+					})
 					
 				embed.addFields([{
 					name: category[0],

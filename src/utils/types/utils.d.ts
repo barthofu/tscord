@@ -1,10 +1,10 @@
 type Modify<T, R> = Omit<T, keyof R> & R
 
-type OmitPick<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-type WithOptional<T, K extends keyof T> = OmitPick<T, K> & Partial<Pick<T, K>>;
+type OmitPick<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type WithOptional<T, K extends keyof T> = OmitPick<T, K> & Partial<Pick<T, K>>
 type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
-  [Property in Key]-?: Type[Property];
-};
+  [Property in Key]-?: Type[Property]
+}
 
 type Primitive = string | number | symbol
 
