@@ -1,4 +1,4 @@
-import { Message } from "discord.js"
+import { Message, StageChannel } from "discord.js"
 
 import { generalConfig } from "@configs"
 
@@ -22,7 +22,8 @@ export const executeEvalFromMessage = (message: Message) => {
         if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
 
     } catch (err) {
-        message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
+        if (!(message.channel instanceof StageChannel)) {
+            message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)
+        }
     }
-
 }

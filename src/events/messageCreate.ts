@@ -29,7 +29,7 @@ export default class MessageCreateEvent {
             executeEvalFromMessage(message)
         }
 
-        await client.executeCommand(message, { caseSensitive: false })
+        await client.executeCommand(message, false)
     }
 
 }

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import type { BaseTranslation } from '../i18n-types'
 
-const en: BaseTranslation = {
+const en = {
 	GUARDS: {
 		DISABLED_COMMAND: 'This command is currently disabled.',
 		MAINTENANCE: 'This bot is currently in maintenance mode.',
@@ -66,6 +66,6 @@ const en: BaseTranslation = {
 			MESSAGE: '{member:string} Pong! The message round-trip took {time:number}ms.{heartbeat:string}',
 		},
 	},
-}
+} satisfies BaseTranslation
 
 export default en

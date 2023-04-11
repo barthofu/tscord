@@ -21,7 +21,7 @@ export class PluginsManager {
 
     public async loadPlugins(): Promise<void> {
 
-        const pluginPaths = resolve(`${getSourceCodeLocation()}/plugins/*`)
+        const pluginPaths = await resolve(`${getSourceCodeLocation()}/plugins/*`)
 
         for (const path of pluginPaths) {
 
