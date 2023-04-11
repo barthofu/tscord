@@ -78,4 +78,7 @@ const envMikroORMConfig = {
 
 if (!envMikroORMConfig['development'] || Object.keys(envMikroORMConfig['development']).length === 0) envMikroORMConfig['development'] = envMikroORMConfig['production']
 
-export const mikroORMConfig = envMikroORMConfig as Required<Config>
+export const mikroORMConfig = envMikroORMConfig as {
+    production: typeof envMikroORMConfig['production'],
+    development: typeof envMikroORMConfig['production']
+}
