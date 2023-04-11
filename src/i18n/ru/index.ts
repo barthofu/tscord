@@ -1,7 +1,7 @@
 /* eslint-disable */
 import type { Translation } from '../i18n-types'
 
-const ru: Translation = {
+const ru = {
 	GUARDS: {
 		DISABLED_COMMAND: 'Эта команда на данный момент не доступна.',
 		MAINTENANCE: 'Бот закрыт на техническое обслуживание.',
@@ -66,6 +66,6 @@ const ru: Translation = {
 			MESSAGE: '{member} Что нужно? Было потрачено {time} милисекунд на генерацию ответа. {heartbeat}',
 		},
 	},
-}
+} satisfies Translation
 
 export default ru

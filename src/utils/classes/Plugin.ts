@@ -81,7 +81,7 @@ export class Plugin {
     private async getTranslations(): Promise<{ [key: string]: BaseTranslation }> {
         const translations: { [key: string]: BaseTranslation } = {}
 
-        const localesPath = resolve(this._path + "/i18n/*.{ts,js}")
+        const localesPath = await resolve(this._path + "/i18n/*.{ts,js}")
         for (const localeFile of localesPath) {
             const locale = localeFile.split("/").at(-1)?.split(".")[0] || "unknown"
 

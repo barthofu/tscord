@@ -1,7 +1,7 @@
 /* eslint-disable */
 import type { Translation } from '../i18n-types'
 
-const uk: Translation = {
+const uk = {
 	GUARDS: {
 		DISABLED_COMMAND: 'Ця команда на разі відключена',
 		MAINTENANCE: 'На разі ведуться технічні роботи!',
@@ -66,6 +66,6 @@ const uk: Translation = {
 			MESSAGE: '{member} Чути добре! Генерація повідомлення зайняла {time} мілісекунд. {heartbeat}',
 		},
 	},
-}
+} satisfies Translation
 
 export default uk
