@@ -1,6 +1,7 @@
 import { resolve } from "@discordx/importer"
 import { AnyEntity, EntityClass } from "@mikro-orm/core"
 import fs from "fs"
+import { sep } from "node:path" 
 import { singleton } from "tsyringe"
 import { BaseTranslation } from "typesafe-i18n"
 import { ImportLocaleMapping, storeTranslationsToDisk } from "typesafe-i18n/importer"
@@ -108,7 +109,7 @@ export class PluginsManager {
 
         for (const path of await resolve(getSourceCodeLocation() + '/i18n/*/*/index.ts')) {
 
-            const name = path.split("/").at(-2) || ""
+            const name = path.split(sep).at(-2) || ""
             
             if (!pluginsName.includes(name)) {
                 await fs.rmSync(path.slice(0, -8), { recursive: true, force: true })
