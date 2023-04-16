@@ -2,6 +2,7 @@ import { importx, resolve } from "@discordx/importer"
 import { AnyEntity, EntityClass } from "@mikro-orm/core"
 import fs from "fs"
 import semver from "semver"
+import { sep } from "node:path" 
 import { BaseTranslation } from "typesafe-i18n"
 
 import { generalConfig } from "@configs"
@@ -83,7 +84,7 @@ export class Plugin {
 
         const localesPath = await resolve(this._path + "/i18n/*.{ts,js}")
         for (const localeFile of localesPath) {
-            const locale = localeFile.split("/").at(-1)?.split(".")[0] || "unknown"
+            const locale = localeFile.split(sep).at(-1)?.split(".")[0] || "unknown"
 
             translations[locale] = (await import(localeFile)).default
         }
