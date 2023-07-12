@@ -1,10 +1,10 @@
 import { Category } from "@discordx/utilities"
-import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder, inlineCode, StringSelectMenuBuilder, StringSelectMenuInteraction  } from "discord.js"
+import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js"
 import { Client, MetadataStorage, SelectMenuComponent } from "discordx"
 
 import { Discord, Slash } from "@decorators"
 import { chunkArray, getColor, resolveGuild, validString } from "@utils/functions"
-import { TranslationFunctions } from "src/i18n/i18n-types"
+import { TranslationFunctions } from "src/core/i18n/i18n-types"
 
 @Discord()
 @Category('General')
