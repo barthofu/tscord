@@ -54,7 +54,6 @@ export class Server {
             ],
             logger: {
                 level: 'warn',
-                logRequest: false,
                 disableRoutesSummary: true
             }
         })
