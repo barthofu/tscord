@@ -13,7 +13,7 @@ import {
 	Interaction,
 } from "discord.js"
 
-import packageJson from "../../../../package.json"
+import packageJson from "../../../package.json"
 
 const resolvers = {
 
