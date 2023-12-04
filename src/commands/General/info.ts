@@ -12,6 +12,7 @@ import { Guard } from "@guards"
 import { Stats } from "@services"
 import { getColor, getTscordVersion, isValidUrl, timeAgo } from "@utils/functions"
 
+// @ts-ignore - because it is outside the `rootDir` of tsconfig 
 import packageJson from "../../../package.json"
 
 const links = [
