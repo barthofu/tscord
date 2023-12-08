@@ -13,8 +13,7 @@
     "install:plugins": "installoop --rootDir=./build/plugins",
     "type:check": "tsc --pretty --skipLibCheck --noEmit",
     "start": "cross-env NODE_ENV=production node build/main.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec node -r ts-node/register/transpile-only src/main.ts",
-    "dev:start": "cross-env NODE_ENV=production node -r ts-node/register/transpile-only src/main.ts",
+    "dev": "cross-env NODE_ENV=development nodemon --exec ts-node --transpile-only src/main.ts",
     "i18n": "typesafe-i18n",
     "migration:create": "npx mikro-orm migration:create",
     "migration:up": "npx mikro-orm migration:up",
@@ -121,7 +120,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/i18n/**/!(i18n-types.ts)"
+      "src/i18n/**/!(i18n-types.ts)",
+      "src/{events,commands}/**/*.{ts,js}"
     ]
   },
   "tscord": {
