@@ -10,24 +10,12 @@ import { delay, inject, singleton } from "tsyringe"
 
 import * as controllers from "@api/controllers"
 import { apiConfig, logsConfig } from "@configs"
-import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services"
+import { Pastebin, PluginsManager, Scheduler, Store, WebSocket } from "@services"
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 
+const defaultConsole = { ...console }
 @singleton()
 export class Logger {
-
-    constructor(
-        @inject(delay(() => Client)) private client: Client,
-        @inject(delay(() => Scheduler)) private scheduler: Scheduler,
-        @inject(delay(() => WebSocket)) private ws: WebSocket,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
-        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
-    ) {
-        this.defaultConsole = { ...console }
-        console.info    = (...args) => this.log(args.join(", "), 'info')
-        console.warn    = (...args) => this.log(args.join(", "), 'warn')
-        console.error   = (...args) => this.log(args.join(", "), 'error')
-    }
 
     private readonly logPath: string = `${__dirname}/../../logs`
     private readonly levels = ['info', 'warn', 'error'] as const
@@ -45,7 +33,21 @@ export class Logger {
         "MODAL_SUBMIT_INTERACTION": "Modal submit",
     }
     private spinner = ora()
-    private defaultConsole: typeof console
+
+    constructor(
+        @inject(delay(() => Client)) private client: Client,
+        @inject(delay(() => Scheduler)) private scheduler: Scheduler,
+        @inject(delay(() => Store)) private store: Store,
+        @inject(delay(() => WebSocket)) private ws: WebSocket,
+        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
+        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
+    ) {
+        if (!this.store.get('botHasBeenReloaded')) {
+            console.info    = (...args) => this.log(args.join(", "), 'info')
+            console.warn    = (...args) => this.log(args.join(", "), 'warn')
+            console.error   = (...args) => this.log(args.join(", "), 'error')
+        }
+    }
 
     // =================================
     // ======== Output Providers =======
@@ -66,7 +68,7 @@ export class Logger {
         let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
         if (level === 'error') templatedMessage = chalk.red(templatedMessage)
         
-        this.defaultConsole[level](templatedMessage)
+        defaultConsole[level](templatedMessage)
 
         this.websocket(level, message)
     }

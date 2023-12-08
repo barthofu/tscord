@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { mikroORMConfig } from "./src/configs/database"
 import * as entities from "@entities"
 import { PluginsManager } from "@services"
