@@ -99,7 +99,7 @@ async function init() {
     
     // init the client
     DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
-    const client = new Client(clientConfig)
+    const client = new Client(clientConfig())
     
     // Load all new events
     discordLogs(client, { debug: false })
