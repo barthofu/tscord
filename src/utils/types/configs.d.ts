@@ -1,3 +1,6 @@
+import { BufferConfig, SpanExporter } from '@opentelemetry/sdk-trace-node'
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
+
 type GeneralConfigType = {
 
     name: string
@@ -94,4 +97,28 @@ type APIConfigType = {
 type WebsocketConfigType = {
 
     enabled: boolean
+}
+
+type TelemetryConfigType = {
+
+    debug: boolean
+
+    resource: {
+        [key in keyof typeof SemanticResourceAttributes]?: string
+    } & {
+        SERVICE_NAME: string
+        SERVICE_VERSION: string
+    }
+
+    tracing: {
+        enabled: {
+            api: boolean
+        },
+
+        exporters: {
+            instance: SpanExporter;
+            batched: boolean;
+            batchConfig?: BufferConfig
+        }[]
+    }
 }

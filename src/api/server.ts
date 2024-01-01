@@ -1,13 +1,17 @@
-import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from "@tsed/common"
-import { PlatformExpress } from "@tsed/platform-express"
-import '@tsed/swagger'
-import { singleton } from "tsyringe"
-import bodyParser from "body-parser"
+import '@tsed/swagger';
+import bodyParser from "body-parser";
+import { singleton } from "tsyringe";
+import { PlatformExpress } from "@tsed/platform-express";
+import { MikroORM, UseRequestContext } from "@mikro-orm/core";
+import { Span, context, propagation, trace } from "@opentelemetry/api";
+import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication, PlatformContext } from "@tsed/common";
 
-import * as controllers from "@api/controllers"
-import { Log } from "@api/middlewares"
-import { MikroORM, UseRequestContext } from "@mikro-orm/core"
-import { Database, PluginsManager, Store } from "@services"
+import { getContextFromHeaders } from "@utils/functions"; // Must be imported before the Log middleware to avoid middleware bypass (yeah idk why)
+import { Log } from "@api/middlewares";
+import { telemetryConfig } from "@configs";
+import * as controllers from "@api/controllers";
+import { version as botVersion } from "../../package.json";
+import { Database, PluginsManager, Store } from "@services";
 
 @singleton()
 export class Server {
@@ -33,6 +37,38 @@ export class Server {
             .use(PlatformAcceptMimesMiddleware)
 
         return null
+    }
+
+    $onRequest($ctx: PlatformContext) {
+        // Check if tracing is enabled
+        if (telemetryConfig.tracing.enabled.api) {
+            // Extract the context from the headers
+            return getContextFromHeaders($ctx, async () => {
+                // Start a new span for the current request
+                trace.getTracer("api", botVersion).startActiveSpan(`Request - ${$ctx.request.raw.path}`, {
+                    attributes: {
+                        "resourceType": "api.request"
+                    }
+                }, (span) => {
+                    // Store the span in the tsed context
+                    $ctx.set("opentelemetry-root-span", span);
+        
+                    // Inject the span context into the headers
+                    propagation.inject(context.active(), $ctx.request.headers);
+                });
+            });
+        };
+    }
+
+    $onResponse($ctx: PlatformContext) {
+        // Check if tracing is enabled and if the span exists
+        if(telemetryConfig.tracing.enabled.api && $ctx.has("opentelemetry-root-span")) {
+            // Get span from the tsed context
+            const span: Span = $ctx.get("opentelemetry-root-span");
+
+            // End the span
+            span.end();
+        }
     }
 
     @UseRequestContext()

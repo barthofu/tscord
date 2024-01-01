@@ -6,8 +6,7 @@ import { BaseController } from "@utils/classes"
 export class OtherController extends BaseController {
 
     @Get()
-    async status() {
-
+    status() {
         return 'API server is running'
     }
 }
