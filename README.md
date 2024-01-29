@@ -86,7 +86,7 @@ https://user-images.githubusercontent.com/66025667/196367258-94c77e23-779c-4d9b-
 <br>
 
 <div align="center">
-    <a href="https://discord.gg/8P7jFpbKkb" target="_blank">
+    <a href="https://discord.gg/Q4w4UEWaDY" target="_blank">
         <img width="17.5%" src="https://user-images.githubusercontent.com/66025667/196373934-2fad8760-a58d-4b4d-ad64-b069baa71823.png"></img>
     </a>
 </div>
@@ -142,9 +142,7 @@ You can also find useful documentations at:
 
 ## 📢 Support
 
-If you need support on the template or just want to exchange with us, don't hesitate to join the **[official Discord support server](https://discord.gg/8P7jFpbKkb)**!
-
-After joining it, select the **TSCord** role to access the category within the server.
+If you need support on the template or just want to exchange with us, don't hesitate to join the **[official Discord support server](https://discord.gg/Q4w4UEWaDY)**!
 
 ## 🌐 Roadmap
 
