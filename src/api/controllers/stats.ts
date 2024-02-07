@@ -1,13 +1,13 @@
 import { Controller, Get, QueryParams, UseBefore } from "@tsed/common"
 
-import { Authenticated } from "@api/middlewares"
+import { DevAuthenticated } from "@api/middlewares"
 import { Stats } from "@services"
 import { BaseController } from "@utils/classes"
 import { resolveDependencies } from "@utils/functions"
 
 @Controller('/stats')
 @UseBefore(
-    Authenticated
+    DevAuthenticated
 )
 export class StatsController extends BaseController {
 
