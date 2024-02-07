@@ -12,7 +12,7 @@ const fmaTokenRegex = /mfa\.[\w-]{84}/
 const nonFmaTokenRegex = /[\w-]{24}\.[\w-]{6}\.[\w-]{27}/
 
 @Middleware()
-export class Authenticated {
+export class DevAuthenticated {
 
     private store: Store
 

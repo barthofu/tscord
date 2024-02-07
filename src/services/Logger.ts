@@ -10,7 +10,7 @@ import { delay, inject, singleton } from "tsyringe"
 
 import * as controllers from "@api/controllers"
 import { apiConfig, logsConfig } from "@configs"
-import { Pastebin, PluginsManager, Scheduler, Store, WebSocket } from "@services"
+import { Pastebin, PluginsManager, Scheduler, Store } from "@services"
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 
 const defaultConsole = { ...console }
@@ -33,12 +33,12 @@ export class Logger {
         "MODAL_SUBMIT_INTERACTION": "Modal submit",
     }
     private spinner = ora()
+    private lastLogsTail: string[] = []
 
     constructor(
         @inject(delay(() => Client)) private client: Client,
         @inject(delay(() => Scheduler)) private scheduler: Scheduler,
         @inject(delay(() => Store)) private store: Store,
-        @inject(delay(() => WebSocket)) private ws: WebSocket,
         @inject(delay(() => Pastebin)) private pastebin: Pastebin,
         @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
@@ -70,7 +70,9 @@ export class Logger {
         
         defaultConsole[level](templatedMessage)
 
-        this.websocket(level, message)
+        // save the last logs tail queue
+        if (this.lastLogsTail.length >= logsConfig.logTailMaxSize) this.lastLogsTail.shift()
+        this.lastLogsTail.push(message)
     }
 
     /**
@@ -116,15 +118,6 @@ export class Logger {
 
             channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
         }
-    }
-
-    websocket(level: typeof this.levels[number] = 'info', message: string) {
-
-        // send the log to all connected websocket clients        
-        this.ws.broadcast('log', { 
-            level, 
-            message: message 
-        })
     }
 
     // =================================
@@ -377,6 +370,10 @@ export class Logger {
     // =================================
     // ============= Other =============
     // =================================
+    
+    getLastLogs() {
+        return this.lastLogsTail
+    }
 
     startSpinner(text: string) {
 

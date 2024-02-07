@@ -3,7 +3,7 @@ import { InternalServerError } from "@tsed/exceptions"
 import { Required } from "@tsed/schema"
 import { injectable } from "tsyringe"
 
-import { Authenticated } from "@api/middlewares"
+import { DevAuthenticated } from "@api/middlewares"
 import { databaseConfig } from "@configs"
 import { Database } from "@services"
 import { BaseController } from "@utils/classes"
@@ -11,7 +11,7 @@ import { formatDate, resolveDependencies } from "@utils/functions"
 
 @Controller('/database')
 @UseBefore(
-    Authenticated
+    DevAuthenticated
 )
 @injectable()
 export class DatabaseController extends BaseController {

@@ -118,7 +118,6 @@ Talking about features, here are some of the core features of the template:
 - **Scheduler** for cron jobs
 - Built-in rich **statistics** system
 - Automatic **static assets upload** to [imgur](https://imgur.com/)
-- **WebSocket** server with decorators driven events system
 
 This template is also developer friendly and follow strict design patterns to ease its maintenance:
 - Written in **Typescript**
