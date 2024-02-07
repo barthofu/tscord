@@ -45,6 +45,11 @@ type LogsConfigType = {
     debug: boolean
     logTailMaxSize: number
 
+    archive: {
+        enabled: boolean
+        retention: number
+    }
+
     interaction: {
         file: boolean
         console: boolean

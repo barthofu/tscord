@@ -43,6 +43,7 @@
     "@tsed/platform-express": "^7.61.0",
     "@tsed/schema": "^7.61.0",
     "@tsed/swagger": "^7.61.0",
+    "archiver": "^6.0.1",
     "axios": "~1.6.7",
     "body-parser": "^1.20.2",
     "boxen": "~5.1.2",
@@ -82,6 +83,7 @@
     "uuid": "~9.0.1"
   },
   "devDependencies": {
+    "@types/archiver": "^6.0.2",
     "@types/better-sqlite3": "~7.6.9",
     "@types/body-parser": "^1.19.5",
     "@types/cron": "~2.4.0",
