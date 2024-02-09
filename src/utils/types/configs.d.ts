@@ -18,11 +18,6 @@ interface GeneralConfigType {
 
 	devs: string[]
 
-	eval: {
-		name: string
-		onlyOwner: boolean
-	}
-
 	activities: {
 		text: string
 		type: 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' | 'CUSTOM' | 'COMPETING'
