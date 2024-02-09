@@ -1,68 +1,65 @@
-import dayjs from "dayjs"
-import { Paste, RentryClient } from "rentry-pastebin"
-import { singleton } from "tsyringe"
+import dayjs from 'dayjs'
+import { Paste, RentryClient } from 'rentry-pastebin'
+import { singleton } from 'tsyringe'
 
-import { Schedule } from "@decorators"
-import { Pastebin as PastebinEntity } from "@entities"
-import { Database } from "@services"
+import { Schedule } from '@/decorators'
+import { Pastebin as PastebinEntity } from '@/entities'
+import { Database } from '@/services'
 
 @singleton()
 export class Pastebin {
-    private client: RentryClient = new RentryClient()
 
-    constructor(
-        private db: Database,
-    ) {
-       this.client.createToken()
-    }
+	private client: RentryClient = new RentryClient()
 
-    private async waitForToken(): Promise<void> {
+	constructor(
+		private db: Database
+	) {
+		this.client.createToken()
+	}
 
-        while (!this.client.getToken()) {
-            await new Promise(resolve => setTimeout(resolve, 100))
-        }
-    }
+	private async waitForToken(): Promise<void> {
+		while (!this.client.getToken())
+			await new Promise(resolve => setTimeout(resolve, 100))
+	}
 
-    async createPaste(content: string, lifetime?: number): Promise<Paste | undefined> {
+	async createPaste(content: string, lifetime?: number): Promise<Paste | undefined> {
+		await this.waitForToken()
 
-        await this.waitForToken()
+		const paste = await this.client.createPaste({ content })
 
-        const paste = await this.client.createPaste({ content })
+		const pasteEntity = new PastebinEntity()
+		pasteEntity.id = paste.url
+		pasteEntity.editCode = paste.editCode
+		if (lifetime)
+			pasteEntity.lifetime = Math.floor(lifetime)
 
-        let pasteEntity = new PastebinEntity()
-        pasteEntity.id = paste.url
-        pasteEntity.editCode = paste.editCode
-        if (lifetime) pasteEntity.lifetime = Math.floor(lifetime)
-    
-        await this.db.get(PastebinEntity).persistAndFlush(pasteEntity)
-    
-        return paste.paste
-    }
+		await this.db.get(PastebinEntity).persistAndFlush(pasteEntity)
 
-    async deletePaste(id: string): Promise<void> {
+		return paste.paste
+	}
 
-        await this.waitForToken()
-        
-        const paste = await this.db.get(PastebinEntity).findOne({ id })
+	async deletePaste(id: string): Promise<void> {
+		await this.waitForToken()
 
-        if (!paste) return
+		const paste = await this.db.get(PastebinEntity).findOne({ id })
 
-        await this.client.deletePaste(id, paste.editCode)
-        await this.db.get(PastebinEntity).remove(paste)
-    }
+		if (!paste)
+			return
 
-    @Schedule('*/30 * * * *')
-    private async autoDelete(): Promise<void> {
-        
-        const pastes = await this.db.get(PastebinEntity).find({ lifetime: { $gt: 0 } })
+		await this.client.deletePaste(id, paste.editCode)
+		await this.db.get(PastebinEntity).remove(paste)
+	}
 
-        for (const paste of pastes) {
-            
-            const diff = dayjs().diff(dayjs(paste.createdAt), 'day')
+	@Schedule('*/30 * * * *')
+	private async autoDelete(): Promise<void> {
+		const pastes = await this.db.get(PastebinEntity).find({ lifetime: { $gt: 0 } })
 
-            if (diff >= paste.lifetime) {
-                await this.client.deletePaste(paste.id, paste.editCode)
-            }
-        }
-    }
+		for (const paste of pastes) {
+			const diff = dayjs().diff(dayjs(paste.createdAt), 'day')
+
+			if (diff >= paste.lifetime)
+				await this.client.deletePaste(paste.id, paste.editCode)
+		}
+	}
+
 }

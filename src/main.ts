@@ -1,179 +1,179 @@
-import 'dotenv/config'
 import 'reflect-metadata'
+import 'dotenv/config'
 
-import { resolve } from "@discordx/importer"
-import chokidar from 'chokidar'
-import discordLogs from "discord-logs"
-import { Client, DIService, MetadataStorage, tsyringeDependencyRegistryEngine } from "discordx"
-import { container } from "tsyringe"
+import process from 'node:process'
 
-import { Server } from "@api/server"
-import { apiConfig, generalConfig } from "@configs"
-import { NoBotTokenError } from "@errors"
+import { resolve } from '@discordx/importer'
 import { RequestContext } from '@mikro-orm/core'
-import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store } from "@services"
-import { initDataTable, resolveDependency } from "@utils/functions"
-import chalk from 'chalk'
-import { clientConfig } from "./client"
 
-const importPattern = __dirname + "/{events,commands}/**/*.{ts,js}"
+import chalk from 'chalk'
+import chokidar from 'chokidar'
+import discordLogs from 'discord-logs'
+import { Client, DIService, MetadataStorage, tsyringeDependencyRegistryEngine } from 'discordx'
+import { container } from 'tsyringe'
+
+import { Server } from '@/api/server'
+import { apiConfig, generalConfig } from '@/configs'
+import { NoBotTokenError } from '@/errors'
+import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store } from '@/services'
+import { initDataTable, resolveDependency } from '@/utils/functions'
+
+import { clientConfig } from './client'
+
+// eslint-disable-next-line node/no-path-concat
+const importPattern = `${__dirname}/{events,commands}/**/*.{ts,js}`
 
 /**
  * Import files
  * @param path glob pattern
  */
 async function loadFiles(path: string): Promise<void> {
-    const files = await resolve(path)
-    await Promise.all(
-        files.map((file) => {
-            const newFileName = file.replace('file://', '')
-            delete require.cache[newFileName]
-            import(newFileName)
-        })
-    )
+	const files = await resolve(path)
+	await Promise.all(
+		// eslint-disable-next-line array-callback-return
+		files.map((file) => {
+			const newFileName = file.replace('file://', '')
+			delete require.cache[newFileName]
+			import(newFileName)
+		})
+	)
 }
 
 /**
  * Hot reload
  */
 async function reload(client: Client) {
+	const store = await resolveDependency(Store)
+	store.set('botHasBeenReloaded', true)
 
-    const store = await resolveDependency(Store)
-    store.set('botHasBeenReloaded', true)
+	const logger = await resolveDependency(Logger)
+	console.log('\n')
+	logger.startSpinner('Hot reloading...')
 
-    const logger = await resolveDependency(Logger)
-    console.log('\n')
-    logger.startSpinner('Hot reloading...')
-  
-    // Remove events
-    client.removeEvents()
-    
-    // cleanup
-    MetadataStorage.clear()
-    DIService.engine.clearAllServices()
+	// Remove events
+	client.removeEvents()
 
-    // transfer store instance to the new container in order to keep the same states
-    container.registerInstance(Store, store)
-  
-    // reload files
-    await loadFiles(importPattern)
-    
-    // rebuild
-    await MetadataStorage.instance.build()
-    await client.initApplicationCommands()
-    client.initEvents()
+	// cleanup
+	MetadataStorage.clear()
+	DIService.engine.clearAllServices()
 
-    // re-init services
+	// transfer store instance to the new container in order to keep the same states
+	container.registerInstance(Store, store)
 
-        // plugins
-    const pluginManager = await resolveDependency(PluginsManager)
-    await pluginManager.loadPlugins()
-    // await pluginManager.execMains() # TODO: need this?
+	// reload files
+	await loadFiles(importPattern)
 
-        // database    
-    const db = await resolveDependency(Database)
-    await db.initialize(false)  
+	// rebuild
+	await MetadataStorage.instance.build()
+	await client.initApplicationCommands()
+	client.initEvents()
 
-    logger.log(chalk.whiteBright('Hot reloaded'))
+	// re-init services
+
+	// plugins
+	const pluginManager = await resolveDependency(PluginsManager)
+	await pluginManager.loadPlugins()
+
+	// await pluginManager.execMains() # TODO: need this?
+
+	// database
+	const db = await resolveDependency(Database)
+	await db.initialize(false)
+
+	logger.log(chalk.whiteBright('Hot reloaded'))
 }
 
 async function init() {
+	const logger = await resolveDependency(Logger)
 
-    const logger = await resolveDependency(Logger)
+	// init error handler
+	await resolveDependency(ErrorHandler)
 
-    // init error handler
-    await resolveDependency(ErrorHandler)
-    
-    // init plugins 
-    const pluginManager = await resolveDependency(PluginsManager)
-    await pluginManager.loadPlugins()
-    await pluginManager.syncTranslations()
+	// init plugins
+	const pluginManager = await resolveDependency(PluginsManager)
+	await pluginManager.loadPlugins()
+	await pluginManager.syncTranslations()
 
-    // strart spinner
-    console.log('\n')
-    logger.startSpinner('Starting...')
+	// strart spinner
+	console.log('\n')
+	logger.startSpinner('Starting...')
 
-    // init the database
-    const db = await resolveDependency(Database)
-    await db.initialize()
-    
-    // init the client
-    DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
-    const client = new Client(clientConfig())
-    
-    // Load all new events
-    discordLogs(client, { debug: false })
-    container.registerInstance(Client, client)
-    
-    // import all the commands and events
-    await loadFiles(importPattern)
-    await pluginManager.importCommands()
-    await pluginManager.importEvents()
-    
-    RequestContext.create(db.orm.em, async () => {
+	// init the database
+	const db = await resolveDependency(Database)
+	await db.initialize()
 
-        const watcher = chokidar.watch(importPattern)
+	// init the client
+	DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container)
+	const client = new Client(clientConfig())
 
-        // init the data table if it doesn't exist
-        await initDataTable()
+	// Load all new events
+	discordLogs(client, { debug: false })
+	container.registerInstance(Client, client)
 
-        // init plugins services
-        await pluginManager.initServices()
+	// import all the commands and events
+	await loadFiles(importPattern)
+	await pluginManager.importCommands()
+	await pluginManager.importEvents()
 
-        // init the plugin main file
-        await pluginManager.execMains()
+	RequestContext.create(db.orm.em, async () => {
+		const watcher = chokidar.watch(importPattern)
 
-        // log in with the bot token
-        if (!process.env.BOT_TOKEN) throw new NoBotTokenError()
-        client.login(process.env.BOT_TOKEN)
-            .then(async () => {
+		// init the data table if it doesn't exist
+		await initDataTable()
 
-                if (process.env.NODE_ENV === 'development') {
+		// init plugins services
+		await pluginManager.initServices()
 
-                    // reload commands and events when a file changes
-                    watcher.on('change', () => reload(client))
+		// init the plugin main file
+		await pluginManager.execMains()
 
-                    // reload commands and events when a file is added
-                    watcher.on('add', () => reload(client))
+		// log in with the bot token
+		if (!process.env.BOT_TOKEN)
+			throw new NoBotTokenError()
+		client.login(process.env.BOT_TOKEN)
+			.then(async () => {
+				if (process.env.NODE_ENV === 'development') {
+					// reload commands and events when a file changes
+					watcher.on('change', () => reload(client))
 
-                    // reload commands and events when a file is deleted
-                    watcher.on('unlink', () => reload(client))
-                }
+					// reload commands and events when a file is added
+					watcher.on('add', () => reload(client))
 
-                // start the api server
-                if (apiConfig.enabled) {
-                    const server = await resolveDependency(Server)
-                    await server.start()
-                }
+					// reload commands and events when a file is deleted
+					watcher.on('unlink', () => reload(client))
+				}
 
-                // upload images to imgur if configured
-                if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
-                    const imagesUpload = await resolveDependency(ImagesUpload)
-                    await imagesUpload.syncWithDatabase()
-                }
-        
-                const store = await container.resolve(Store)
-                store.select('ready').subscribe(async (ready) => {
+				// start the api server
+				if (apiConfig.enabled) {
+					const server = await resolveDependency(Server)
+					await server.start()
+				}
 
-                    // check that all properties that are not null are set to true
-                    if (
-                        Object
-                            .values(ready)
-                            .filter(value => value !== null)
-                            .every(value => value === true)
-                    ) {
-                        const eventManager = await resolveDependency(EventManager)
-                        eventManager.emit('templateReady') // the template is fully ready!
-                    }
-                })
+				// upload images to imgur if configured
+				if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
+					const imagesUpload = await resolveDependency(ImagesUpload)
+					await imagesUpload.syncWithDatabase()
+				}
 
-            })
-            .catch((err) => {
-                console.error(err)
-                process.exit(1)
-            })
-    })
-    
+				const store = await container.resolve(Store)
+				store.select('ready').subscribe(async (ready) => {
+					// check that all properties that are not null are set to true
+					if (
+						Object
+							.values(ready)
+							.filter(value => value !== null)
+							.every(value => value === true)
+					) {
+						const eventManager = await resolveDependency(EventManager)
+						eventManager.emit('templateReady') // the template is fully ready!
+					}
+				})
+			})
+			.catch((err) => {
+				console.error(err)
+				process.exit(1)
+			})
+	})
 }
 
 init()

@@ -1,13 +1,13 @@
 export {
-    Bot,
-    ButtonComponent,
-    Discord,
-    Guard,
-    Guild,
-    ModalComponent,
-    SelectMenuComponent,
-    SimpleCommand,
-    SimpleCommandOption,
+	Bot,
+	ButtonComponent,
+	Discord,
+	Guard,
+	Guild,
+	ModalComponent,
+	SelectMenuComponent,
+	SimpleCommand,
+	SimpleCommandOption,
 } from 'discordx'
 
 export * from './On'
