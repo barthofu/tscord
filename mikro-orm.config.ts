@@ -1,18 +1,21 @@
 // @ts-nocheck
 
-import { mikroORMConfig } from "./src/configs/database"
-import * as entities from "@entities"
-import { PluginsManager } from "@services"
-import { Options } from "@mikro-orm/core"
-import { resolveDependency } from "@utils/functions"
+import process from 'node:process'
+
+import { Options } from '@mikro-orm/core'
+
+import * as entities from '@/entities'
+import { PluginsManager } from '@/services'
+import { resolveDependency } from '@/utils/functions'
+
+import { mikroORMConfig } from './src/configs/database'
 
 export default async () => {
-    const pluginsManager = await resolveDependency(PluginsManager)
-    await pluginsManager.loadPlugins()
+	const pluginsManager = await resolveDependency(PluginsManager)
+	await pluginsManager.loadPlugins()
 
-    return {
-        ...mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>,
-        entities: [...Object.values(entities), ...pluginsManager.getEntities()]
-    }
+	return {
+		...mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>,
+		entities: [...Object.values(entities), ...pluginsManager.getEntities()],
+	}
 }
-

@@ -1,25 +1,24 @@
-import { ButtonInteraction, CommandInteraction, ContextMenuCommandInteraction, Interaction, StringSelectMenuInteraction } from "discord.js"
-import { GuardFunction, SimpleCommandMessage } from "discordx"
+import { ButtonInteraction, CommandInteraction, ContextMenuCommandInteraction, Interaction, StringSelectMenuInteraction } from 'discord.js'
+import { GuardFunction, SimpleCommandMessage } from 'discordx'
 
-import { getLocaleFromInteraction, L } from "@i18n"
+import { getLocaleFromInteraction, L } from '@/i18n'
 
 /**
  * Extract locale from any interaction and pass it as guard data
  */
 export const ExtractLocale: GuardFunction<Interaction> = async (interaction, client, next, guardData) => {
-    if (
-        interaction instanceof SimpleCommandMessage
-        || interaction instanceof CommandInteraction
-        || interaction instanceof ContextMenuCommandInteraction
-        || interaction instanceof StringSelectMenuInteraction
-        || interaction instanceof ButtonInteraction
-    ) {
+	if (
+		interaction instanceof SimpleCommandMessage
+		|| interaction instanceof CommandInteraction
+		|| interaction instanceof ContextMenuCommandInteraction
+		|| interaction instanceof StringSelectMenuInteraction
+		|| interaction instanceof ButtonInteraction
+	) {
+		const sanitizedLocale = getLocaleFromInteraction(interaction as AllInteractions)
 
-        const sanitizedLocale = getLocaleFromInteraction(interaction as AllInteractions)
+		guardData.sanitizedLocale = sanitizedLocale
+		guardData.localize = L[sanitizedLocale]
+	}
 
-        guardData.sanitizedLocale = sanitizedLocale
-        guardData.localize = L[sanitizedLocale]
-    }
-
-    await next(guardData)
+	await next(guardData)
 }

@@ -1,16 +1,16 @@
-import { snake } from "case"
+import { snake } from 'case'
 
-import { BaseError } from "@utils/classes"
+import { BaseError } from '@/utils/classes'
 
 export class InvalidOptionName extends BaseError {
 
-    constructor(nameOption: string) {
-        super(`Name option must be all lowercase with no spaces. '${nameOption}' should be '${snake(nameOption)}'`)
-    }
+	constructor(nameOption: string) {
+		super(`Name option must be all lowercase with no spaces. '${nameOption}' should be '${snake(nameOption)}'`)
+	}
 
-    handle() {
+	handle() {
+		this.logger.console(this.message, 'error')
+		this.kill()
+	}
 
-        this.logger.console(this.message, 'error')
-        this.kill()
-    }
 }
