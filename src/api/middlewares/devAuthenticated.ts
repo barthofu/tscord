@@ -2,7 +2,6 @@ import process from 'node:process'
 
 import { Context, Middleware, PlatformContext } from '@tsed/common'
 import { BadRequest, Unauthorized } from '@tsed/exceptions'
-
 import DiscordOauth2 from 'discord-oauth2'
 
 import { Store } from '@/services'

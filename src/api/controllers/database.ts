@@ -1,7 +1,6 @@
 import { BodyParams, Controller, Get, Post, UseBefore } from '@tsed/common'
 import { InternalServerError } from '@tsed/exceptions'
 import { Required } from '@tsed/schema'
-
 import { injectable } from 'tsyringe'
 
 import { DevAuthenticated } from '@/api/middlewares'
