@@ -49,7 +49,7 @@ async function reload(client: Client) {
 	console.log('\n')
 	logger.startSpinner('Hot reloading...')
 
-	// Remove events
+	// remove events
 	client.removeEvents()
 
 	// cleanup
@@ -72,8 +72,6 @@ async function reload(client: Client) {
 	// plugins
 	const pluginManager = await resolveDependency(PluginsManager)
 	await pluginManager.loadPlugins()
-
-	// await pluginManager.execMains() # TODO: need this?
 
 	// database
 	const db = await resolveDependency(Database)
@@ -127,8 +125,10 @@ async function init() {
 		await pluginManager.execMains()
 
 		// log in with the bot token
-		if (!process.env.BOT_TOKEN)
+		if (!process.env.BOT_TOKEN) {
 			throw new NoBotTokenError()
+		}
+
 		client.login(process.env.BOT_TOKEN)
 			.then(async () => {
 				if (process.env.NODE_ENV === 'development') {
