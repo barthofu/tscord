@@ -1,9 +1,8 @@
-import process from 'node:process'
-
 import { Context, Middleware, PlatformContext } from '@tsed/common'
 import { BadRequest, Unauthorized } from '@tsed/exceptions'
 import DiscordOauth2 from 'discord-oauth2'
 
+import { env } from '@/env'
 import { Store } from '@/services'
 import { isDev, resolveDependency } from '@/utils/functions'
 
@@ -27,7 +26,7 @@ export class DevAuthenticated {
 
 	async use(@Context() { request }: PlatformContext) {
 		// if we are in development mode, we don't need to check the token
-		// if (process.env['NODE_ENV'] === 'development') return next()
+		// if (env.NODE_ENV === 'development') return next()
 
 		// check if the request includes valid authorization header
 		const authHeader = request.headers.authorization
@@ -40,7 +39,7 @@ export class DevAuthenticated {
 			throw new BadRequest('Invalid token')
 
 		// pass if the token is the admin token of the app
-		if (token === process.env.API_ADMIN_TOKEN)
+		if (token === env.API_ADMIN_TOKEN)
 			return
 
 		// verify that the token is a valid FMA protected (or not) OAuth2 token -> https://stackoverflow.com/questions/71166596/is-there-a-way-to-check-if-a-discord-account-token-is-valid-or-not

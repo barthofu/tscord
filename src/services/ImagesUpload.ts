@@ -1,5 +1,4 @@
 import path from 'node:path'
-import process from 'node:process'
 import { promisify } from 'node:util'
 
 import axios from 'axios'
@@ -9,6 +8,7 @@ import { ImgurClient } from 'imgur'
 import { singleton } from 'tsyringe'
 
 import { Image, ImageRepository } from '@/entities'
+import { env } from '@/env'
 import { Database, Logger } from '@/services'
 import { base64Encode, fileOrDirectoryExists, getFiles } from '@/utils/functions'
 
@@ -20,9 +20,9 @@ export class ImagesUpload {
 	private validImageExtensions = ['.png', '.jpg', '.jpeg']
 	private imageFolderPath = path.join(__dirname, '..', '..', 'assets', 'images')
 
-	private imgurClient: ImgurClient | null = process.env.IMGUR_CLIENT_ID
+	private imgurClient: ImgurClient | null = env.IMGUR_CLIENT_ID
 		? new ImgurClient({
-			clientId: process.env.IMGUR_CLIENT_ID,
+			clientId: env.IMGUR_CLIENT_ID,
 		})
 		: null
 
