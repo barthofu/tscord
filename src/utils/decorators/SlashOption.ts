@@ -1,4 +1,4 @@
-import { of } from 'case'
+import { noCase, snakeCase } from 'change-case'
 import { SlashOption as SlashOptionX, SlashOptionOptions as SlashOptionOptionsX, VerifyName } from 'discordx'
 
 import { InvalidOptionName } from '@/errors'
@@ -52,5 +52,5 @@ export function SlashOption(options: SlashOptionOptions) {
 }
 
 function isValidOptionName(name: string) {
-	return ['lower', 'snake'].includes(of(name)) && !name.includes(' ')
+	return (noCase(name) === name || snakeCase(name) === name) && !name.includes(' ')
 }

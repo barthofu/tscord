@@ -1,4 +1,4 @@
-import { constant } from 'case'
+import { constantCase } from 'change-case'
 
 /**
  * Ensures value(s) strings and has a size after trim
@@ -39,7 +39,7 @@ export function numberAlign(number: number, align: number = 2) {
 export function constantPreserveDots(string: string) {
 	return string
 		.split('.')
-		.map(word => constant(word))
+		.map(word => constantCase(word))
 		.join('.')
 }
 

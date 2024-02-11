@@ -1,7 +1,9 @@
 import 'reflect-metadata'
 import 'dotenv/config'
 
+import path from 'node:path'
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 
 import { resolve } from '@discordx/importer'
 import { RequestContext } from '@mikro-orm/core'
@@ -19,6 +21,9 @@ import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsMana
 import { initDataTable, resolveDependency } from '@/utils/functions'
 
 import { clientConfig } from './client'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // eslint-disable-next-line node/no-path-concat
 const importPattern = `${__dirname}/{events,commands}/**/*.{ts,js}`

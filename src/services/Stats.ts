@@ -1,7 +1,7 @@
 import process from 'node:process'
 
 import { EntityRepository } from '@mikro-orm/core'
-import { constant } from 'case'
+import { constantCase } from 'change-case'
 import { Client, SimpleCommandMessage } from 'discordx'
 import osu from 'node-os-utils'
 import pidusage from 'pidusage'
@@ -56,7 +56,7 @@ export class Stats {
 	 */
 	async registerInteraction(interaction: AllInteractions) {
 		// we extract data from the interaction
-		const type = constant(getTypeOfInteraction(interaction)) as InteractionsConstants
+		const type = constantCase(getTypeOfInteraction(interaction)) as InteractionsConstants
 		if (statsConfig.interaction.exclude.includes(type))
 			return
 

@@ -3,23 +3,27 @@ import fs from 'node:fs'
 import { EntityName, MikroORM, Options } from '@mikro-orm/core'
 import fastFolderSizeSync from 'fast-folder-size/sync'
 import { backup, restore } from 'saveqlite'
-import { delay, inject, singleton } from 'tsyringe'
+import { singleton } from 'tsyringe'
 
 import { databaseConfig, mikroORMConfig } from '@/configs'
 import { Schedule } from '@/decorators'
 import * as entities from '@/entities'
 import { env } from '@/env'
 import { Logger, PluginsManager } from '@/services'
-import { resolveDependency } from '@/utils/functions'
+import { resolveDependencies, resolveDependency } from '@/utils/functions'
 
 @singleton()
 export class Database {
 
+	private logger: Logger
+
 	private _orm: MikroORM<DatabaseDriver>
 
-	constructor(
-        @inject(delay(() => Logger)) private logger: Logger
-	) {}
+	constructor() {
+		resolveDependencies([Logger]).then(([logger]) => {
+			this.logger = logger
+		})
+	}
 
 	async initialize(migrate = true) {
 		const pluginsManager = await resolveDependency(PluginsManager)
