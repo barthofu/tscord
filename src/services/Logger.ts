@@ -1,17 +1,18 @@
 import fs from 'node:fs'
 import { unlink } from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import archiver from 'archiver'
 import boxen from 'boxen'
-import { constant } from 'case'
 import chalk from 'chalk'
+import { constantCase } from 'change-case'
 import dayjs from 'dayjs'
 import { BaseMessageOptions, TextChannel, ThreadChannel, User } from 'discord.js'
 import { Client, MetadataStorage } from 'discordx'
 import ora from 'ora'
 import { parse, StackFrame } from 'stacktrace-parser'
-import { delay, inject, singleton } from 'tsyringe'
+import { singleton } from 'tsyringe'
 
 import * as controllers from '@/api/controllers'
 import { apiConfig, logsConfig } from '@/configs'
@@ -19,7 +20,10 @@ import { Schedule } from '@/decorators'
 import { env } from '@/env'
 import { locales } from '@/i18n'
 import { Pastebin, PluginsManager, Scheduler, Store } from '@/services'
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@/utils/functions'
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependencies, resolveDependency, resolveGuild, resolveUser, validString } from '@/utils/functions'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const defaultConsole = { ...console }
 @singleton()
@@ -48,13 +52,27 @@ export class Logger {
 
 	private lastLogsTail: string[] = []
 
-	constructor(
-        @inject(delay(() => Client)) private client: Client,
-        @inject(delay(() => Scheduler)) private scheduler: Scheduler,
-        @inject(delay(() => Store)) private store: Store,
-        @inject(delay(() => Pastebin)) private pastebin: Pastebin,
-        @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
-	) {
+	private client: Client
+	private scheduler: Scheduler
+	private store: Store
+	private pastebin: Pastebin
+	private pluginsManager: PluginsManager
+
+	constructor() {
+		resolveDependencies([
+			Client,
+			Scheduler,
+			Store,
+			Pastebin,
+			PluginsManager,
+		]).then(([Client, Scheduler, Store, Pastebin, PluginsManager]) => {
+			this.client = Client
+			this.scheduler = Scheduler
+			this.store = Store
+			this.pastebin = Pastebin
+			this.pluginsManager = PluginsManager
+		})
+
 		if (!this.store.get('botHasBeenReloaded')) {
 			console.info = (...args) => this.baseLog('info', ...args)
 			console.warn = (...args) => this.baseLog('warn', ...args)
@@ -259,7 +277,7 @@ export class Logger {
 	 * @param interaction
 	 */
 	logInteraction(interaction: AllInteractions) {
-		const type = constant(getTypeOfInteraction(interaction)) as InteractionsConstants
+		const type = constantCase(getTypeOfInteraction(interaction)) as InteractionsConstants
 		if (logsConfig.interaction.exclude.includes(type))
 			return
 

@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 
-		"target": "es2021",
-		"module": "commonjs",
+		"target": "esnext",
+		"module": "esnext",
 		"esModuleInterop": true,
 		"moduleResolution": "node",
 
@@ -65,6 +65,9 @@
 	"paths": ["node_modules/*", "src/utils/types/*", "src/plugins/*/utils/types/*"],
 
 	"ts-node": {
-		"require": ["tsconfig-paths/register"]
+		"require": ["tsconfig-paths/register"],
+		"esm": true,
+		"transpileOnly": true,
+		"experimentalSpecifierResolution": "node"
 	}
 }

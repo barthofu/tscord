@@ -11,7 +11,7 @@ import { Guard } from '@/guards'
 import { Stats } from '@/services'
 import { getColor, getTscordVersion, isValidUrl, timeAgo } from '@/utils/functions'
 
-import packageJson from '../../../package.json'
+import packageJson from '../../../package.json' assert { type: 'json' }
 
 dayjs.extend(relativeTime)
 

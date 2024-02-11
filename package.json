@@ -4,6 +4,7 @@
   "description": "A fully-featured discord bot template written in Typescript, intended to provide a framework that's easy to use, extend and modify",
   "license": "MIT",
   "main": "build/main.js",
+  "type": "module",
   "tscord": {
     "version": "2.2"
   },
@@ -16,6 +17,7 @@
     "install:plugins": "installoop --rootDir=./build/plugins",
     "type:check": "tsc --pretty --skipLibCheck --noEmit",
     "start": "cross-env NODE_ENV=production node build/main.js",
+    "esm": "cross-env NODE_ENV=development node --loader ./loader.js src/main.ts",
     "dev": "cross-env NODE_ENV=development nodemon --exec ts-node --transpile-only src/main.ts",
     "i18n": "typesafe-i18n",
     "migration:create": "npx mikro-orm migration:create",
@@ -52,8 +54,8 @@
     "axios": "~1.6.7",
     "body-parser": "^1.20.2",
     "boxen": "~5.1.2",
-    "case": "~1.6.3",
     "chalk": "~4.1.2",
+    "change-case": "^5.4.2",
     "cron": "~2.4.4",
     "cron-validator": "~1.3.1",
     "cross-env": "~7.0.3",
