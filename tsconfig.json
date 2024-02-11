@@ -54,7 +54,9 @@
 			"@/api/middlewares": ["src/api/middlewares"],
 			"@/api/middlewares/*": ["src/plugins/*/api/middlewares"],
 
-			"@/api/server": ["src/api/server.ts"]
+			"@/api/server": ["src/api/server.ts"],
+
+			"@/env": ["src/utils/types/environment.ts"]
 		}
 	},
 

@@ -1,6 +1,9 @@
 import { Options } from '@mikro-orm/core'
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
 
+// eslint-disable-next-line unused-imports/no-unused-imports
+import { env } from '@/env'
+
 interface Config {
 	production: Options
 	development?: Options
@@ -31,37 +34,37 @@ const envMikroORMConfig = {
 		 * MongoDB
 		 */
 		// type: 'mongo',
-		// clientUrl: process.env['DATABASE_HOST'],
+		// clientUrl: env['DATABASE_HOST'],
 
 		/**
 		 * PostgreSQL
 		 */
 		// type: 'postgresql',
-		// dbName: process.env['DATABASE_NAME'],
-		// host: process.env['DATABASE_HOST'],
-		// port: Number(process.env['DATABASE_PORT']),,
-		// user: process.env['DATABASE_USER'],
-		// password: process.env['DATABASE_PASSWORD'],
+		// dbName: env['DATABASE_NAME'],
+		// host: env['DATABASE_HOST'],
+		// port: Number(env['DATABASE_PORT']),,
+		// user: env['DATABASE_USER'],
+		// password: env['DATABASE_PASSWORD'],
 
 		/**
 		 * MySQL
 		 */
 		// type: 'mysql',
-		// dbName: process.env['DATABASE_NAME'],
-		// host: process.env['DATABASE_HOST'],
-		// port: Number(process.env['DATABASE_PORT']),
-		// user: process.env['DATABASE_USER'],
-		// password: process.env['DATABASE_PASSWORD'],
+		// dbName: env['DATABASE_NAME'],
+		// host: env['DATABASE_HOST'],
+		// port: Number(env['DATABASE_PORT']),
+		// user: env['DATABASE_USER'],
+		// password: env['DATABASE_PASSWORD'],
 
 		/**
 		 * MariaDB
 		 */
 		// type: 'mariadb',
-		// dbName: process.env['DATABASE_NAME'],
-		// host: process.env['DATABASE_HOST'],
-		// port: Number(process.env['DATABASE_PORT']),
-		// user: process.env['DATABASE_USER'],
-		// password: process.env['DATABASE_PASSWORD'],
+		// dbName: env['DATABASE_NAME'],
+		// host: env['DATABASE_HOST'],
+		// port: Number(env['DATABASE_PORT']),
+		// user: env['DATABASE_USER'],
+		// password: env['DATABASE_PASSWORD'],
 
 		highlighter: new SqlHighlighter(),
 		debug: false,

@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import process from 'node:process'
 
 import { EntityName, MikroORM, Options } from '@mikro-orm/core'
 import fastFolderSizeSync from 'fast-folder-size/sync'
@@ -9,6 +8,7 @@ import { delay, inject, singleton } from 'tsyringe'
 import { databaseConfig, mikroORMConfig } from '@/configs'
 import { Schedule } from '@/decorators'
 import * as entities from '@/entities'
+import { env } from '@/env'
 import { Logger, PluginsManager } from '@/services'
 import { resolveDependency } from '@/utils/functions'
 
@@ -25,7 +25,7 @@ export class Database {
 		const pluginsManager = await resolveDependency(PluginsManager)
 
 		// get config
-		const config = mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>
+		const config = mikroORMConfig[env.NODE_ENV || 'development'] as Options<DatabaseDriver>
 
 		// defines entities into the config
 		config.entities = [...Object.values(entities), ...pluginsManager.getEntities()]
@@ -96,7 +96,7 @@ export class Database {
 
 		try {
 			await backup(
-				mikroORMConfig[process.env.NODE_ENV]!.dbName!,
+				mikroORMConfig[env.NODE_ENV]!.dbName!,
 				`${snapshotName}.txt`,
 				objectsPath
 			)
@@ -128,10 +128,10 @@ export class Database {
 			this.logger.log('Backup path not set, couldn\'t restore', 'error', true)
 
 		try {
-			console.debug(mikroORMConfig[process.env.NODE_ENV]!.dbName!)
+			console.debug(mikroORMConfig[env.NODE_ENV]!.dbName!)
 			console.debug(`${backupPath}${snapshotName}`)
 			await restore(
-				mikroORMConfig[process.env.NODE_ENV]!.dbName!,
+				mikroORMConfig[env.NODE_ENV]!.dbName!,
                 `${backupPath}${snapshotName}`
 			)
 
@@ -167,7 +167,7 @@ export class Database {
 		}
 
 		if (this.isSQLiteDatabase()) {
-			const dbPath = mikroORMConfig[process.env.NODE_ENV]!.dbName!
+			const dbPath = mikroORMConfig[env.NODE_ENV]!.dbName!
 			const dbSize = fs.statSync(dbPath).size
 
 			size.db = dbSize
@@ -184,7 +184,7 @@ export class Database {
 	}
 
 	isSQLiteDatabase(): boolean {
-		const type = mikroORMConfig[process.env.NODE_ENV]!.type
+		const type = mikroORMConfig[env.NODE_ENV]!.type
 
 		if (type)
 			return ['sqlite', 'better-sqlite'].includes(type)

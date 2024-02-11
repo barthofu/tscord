@@ -1,16 +1,15 @@
-import process from 'node:process'
-
 import { GatewayIntentBits, Partials } from 'discord.js'
 import { ClientOptions } from 'discordx'
 
 import { generalConfig, logsConfig } from '@/configs'
+import { env } from '@/env'
 import { ExtractLocale, Maintenance, NotBot, RequestContextIsolator } from '@/guards'
 
 export function clientConfig(): ClientOptions {
 	return {
 
 		// to only use global commands (use @Guild for specific guild command), comment this line
-		botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
+		botGuilds: env.NODE_ENV === 'development' ? [env.TEST_GUILD_ID] : undefined,
 
 		// discord intents
 		intents: [
