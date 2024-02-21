@@ -17,6 +17,7 @@ import { delay, inject, singleton } from 'tsyringe'
 import * as controllers from '@/api/controllers'
 import { apiConfig, logsConfig } from '@/configs'
 import { Schedule } from '@/decorators'
+import { locales } from '@/i18n'
 import { Pastebin, PluginsManager, Scheduler, Store } from '@/services'
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@/utils/functions'
 
@@ -55,9 +56,25 @@ export class Logger {
         @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
 	) {
 		if (!this.store.get('botHasBeenReloaded')) {
-			console.info = (...args) => this.log(args.join(', '), 'info')
-			console.warn = (...args) => this.log(args.join(', '), 'warn')
-			console.error = (...args) => this.log(args.join(', '), 'error')
+			console.info = (...args) => this.baseLog('info', ...args)
+			console.warn = (...args) => this.baseLog('warn', ...args)
+			console.error = (...args) => this.baseLog('error', ...args)
+		}
+	}
+
+	// =================================
+	// ======= Base log function =======
+	// =================================
+
+	private baseLog(level: typeof this.levels[number], ...args: string[]) {
+		const excludedPatterns = [
+			'[typesafe-i18n]',
+		]
+
+		const message = args.join(', ')
+
+		if (!excludedPatterns.some(pattern => message.includes(pattern))) {
+			this.log(message, level)
 		}
 	}
 
@@ -500,7 +517,7 @@ export class Logger {
 		// events
 		const events = MetadataStorage.instance.events
 
-		this.console(chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), 'info', true)
+		this.console(chalk.yellowBright(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), 'info', true)
 
 		// entities
 		const entities = fs.readdirSync(path.join(__dirname, '..', 'entities'))
@@ -519,7 +536,7 @@ export class Logger {
 
 		const pluginsServicesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.services).length, 0)
 
-		this.console(chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true)
+		this.console(chalk.hex('ffc107')(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true)
 
 		// api
 		if (apiConfig.enabled) {
@@ -536,8 +553,10 @@ export class Logger {
 
 		// scheduled jobs
 		const scheduledJobs = this.scheduler.jobs.size
-
 		this.console(chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), 'info', true)
+
+		// translations
+		this.console(chalk.hex('ab47bc')(`${symbol} ${numberAlign(locales.length)} ${chalk.bold('translations')} loaded`), 'info', true)
 
 		// plugins
 		const pluginsCount = this.pluginsManager.plugins.length
