@@ -1,29 +1,35 @@
+import * as controllers from "@api/controllers"
+import { apiConfig, logsConfig } from "@configs"
+import { Schedule } from "@decorators"
+import { Pastebin, PluginsManager, Scheduler, Store } from "@services"
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
+import archiver from "archiver"
 import boxen from "boxen"
 import { constant } from "case"
 import chalk from "chalk"
+import dayjs from "dayjs"
 import { BaseMessageOptions, TextChannel, ThreadChannel, User } from "discord.js"
 import { Client, MetadataStorage } from "discordx"
 import fs from "fs"
+import { unlink } from "fs/promises"
 import ora from "ora"
-import { parse, StackFrame } from "stacktrace-parser"
+import { StackFrame, parse } from "stacktrace-parser"
 import { delay, inject, singleton } from "tsyringe"
-
-import * as controllers from "@api/controllers"
-import { apiConfig, logsConfig } from "@configs"
-import { Pastebin, PluginsManager, Scheduler, Store } from "@services"
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
 
 const defaultConsole = { ...console }
 @singleton()
 export class Logger {
 
     private readonly logPath: string = `${__dirname}/../../logs`
+    private readonly logArchivePath: string = `${this.logPath}/archives`
+
     private readonly levels = ['info', 'warn', 'error'] as const
     private embedLevelBuilder = {
         info:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
         warn:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
         error: (message: string): BaseMessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
     }
+    
     private interactionTypeReadable: { [key in InteractionsConstants]: string } = {
         "CHAT_INPUT_COMMAND_INTERACTION": "Slash command",
         "SIMPLE_COMMAND_MESSAGE": "Simple command",
@@ -32,7 +38,9 @@ export class Logger {
         "SELECT_MENU_INTERACTION": "Select menu",
         "MODAL_SUBMIT_INTERACTION": "Modal submit",
     }
+
     private spinner = ora()
+    
     private lastLogsTail: string[] = []
 
     constructor(
@@ -117,6 +125,72 @@ export class Logger {
             if (typeof message !== 'string') return channel.send(message).catch(console.error)
 
             channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
+        }
+    }
+
+    // =================================
+    // =========== Archive =============
+    // =================================
+
+    /**
+     * Archive the logs in a zip file each day.
+     */
+    @Schedule('0 0 * * *')
+    async archiveLogs() {
+
+        if (!logsConfig.archive.enabled) return
+
+        const date = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+        const currentLogsPaths = fs.readdirSync(this.logPath).filter(file => file.endsWith('.log'))
+        const output = fs.createWriteStream(`${this.logArchivePath}/logs-${date}.tar.gz`)
+
+        if (!fileOrDirectoryExists(this.logArchivePath)) fs.mkdirSync(this.logArchivePath)
+
+        const archive = archiver('tar', {
+            gzip: true,
+            gzipOptions: {
+                level: 9 // maximum compression
+            }
+        })
+
+        archive.pipe(output)
+
+        // add files to the archive
+        for (const logPath of currentLogsPaths) {
+            archive.file(`${this.logPath}/${logPath}`, { name: logPath })
+        }
+
+        // create archive
+        await archive.finalize()
+
+        // delete old logs
+        await this.deleteCurrentLogs()
+
+        // retention policy
+        await this.deleteOldLogArchives()
+
+    }
+
+    private async deleteCurrentLogs() {
+            
+        const currentLogsPaths = fs.readdirSync(this.logPath).filter(file => file.endsWith('.log'))
+
+        for (const logPath of currentLogsPaths) {
+            // empty the file
+            fs.writeFileSync(`${this.logPath}/${logPath}`, '')
+        }
+    }
+
+    private async deleteOldLogArchives() {
+        
+        const archives = fs.readdirSync(this.logArchivePath).filter(file => file.endsWith('.tar.gz'))
+
+        for (const archive of archives) {
+            const date = dayjs(archive.split('logs-')[1].split('.tar.gz')[0])
+            console.log(date.format('YYYY-MM-DD'))
+            if (date.isBefore(dayjs().subtract(logsConfig.archive.retention, 'day'))) {
+                await unlink(`${this.logArchivePath}/${archive}`)
+            }
         }
     }
 
