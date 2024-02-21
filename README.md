@@ -121,7 +121,6 @@ Talking about features, here are some of the core features of the template:
 This template is also developer friendly and follow strict design patterns to ease its maintenance:
 - Written in **Typescript**
 - Built around the **Dependency Injection** and **Singleton** patterns
-- **HMR** on events and commands for a faster development
 - Use of battle-tested **libraries** under the hood (*discordx* and *discord.js*)
 - **Linting** and **formatting** thanks to a top-notch ESLint config
 - Typesafe and validated **environment variables**
