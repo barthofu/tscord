@@ -1,43 +1,48 @@
-## build runner
-FROM node:20.11-buster-slim as build-runner
+# ======================
+# ===== Build stage ====
+# ======================
 
-# Set temp directory
-WORKDIR /tmp/app
+FROM node:20.11-alpine as builder
 
-# Move package.json and package-lock.json
-COPY package.json .
-COPY package-lock.json .
-COPY src ./src
+    WORKDIR /app
 
-# Install dependencies from package-lock.json
-# and install dependencies for plugins (because postinstall script doesn't work in docker)
-RUN npm ci
+    COPY src ./src
+    COPY tsconfig.json .
+    COPY package.json .
+    COPY package-lock.json .
 
-COPY tsconfig.json .
+    # install deps
+    RUN apk add --no-cache --virtual .build-deps alpine-sdk python3 && \
+        npm ci --silent && \
+        npm run install:plugins && \
+        apk del .build-deps
 
-# Build project
-RUN npm run build
+    # build project
+    RUN npm run build
 
-## producation runner
-FROM node:20.11-buster-slim as prod-runner
+# ==================
+# ===== Run stage =====
+# ==================
 
-# set production mode
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+FROM node:20.11-alpine as runner
 
-# Set work directory
-WORKDIR /app
+    WORKDIR /app
 
-# Copy package.json and package-lock.json from build-runner
-COPY --from=build-runner /tmp/app/package.json /app/package.json
-COPY --from=build-runner /tmp/app/package-lock.json /app/package-lock.json
+    # set production mode
+    ARG NODE_ENV=production
+    ENV NODE_ENV $NODE_ENV
 
-# Move build files
-COPY --from=build-runner /tmp/app/build /app/build
+    # copy build files from builder
+    COPY --from=builder /app/build /app/build
+    COPY --from=builder /app/package.json /app/package.json
+    COPY --from=builder /app/package-lock.json /app/package-lock.json
 
-# Install dependencies from package-lock.json
-# and install dependencies for plugins (because plugins:install script doesn't work in docker)
-RUN npm ci --omit=dev && npm cache clean --force 
+    # purge dev dependencies
+    # RUN npm prune --omit=dev && \
+    RUN apk add --no-cache --virtual .build-deps alpine-sdk python3 && \
+        npm ci --silent --only=production && \
+        npm cache clean --force && \
+        apk del .build-deps
 
-# Finaly start the bot
-CMD ["node", "build/main.js"]
+    # finaly start the bot
+    CMD ["npm", "run", "start"]
