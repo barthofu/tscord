@@ -21,7 +21,6 @@ import { locales } from '@/i18n'
 import { Pastebin, PluginsManager, Scheduler, Store } from '@/services'
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@/utils/functions'
 
-const defaultConsole = { ...console }
 @singleton()
 export class Logger {
 
@@ -45,7 +44,7 @@ export class Logger {
 	}
 
 	private spinner = ora()
-
+	private defaultConsole: typeof console
 	private lastLogsTail: string[] = []
 
 	constructor(
@@ -55,11 +54,10 @@ export class Logger {
         @inject(delay(() => Pastebin)) private pastebin: Pastebin,
         @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
 	) {
-		if (!this.store.get('botHasBeenReloaded')) {
-			console.info = (...args) => this.baseLog('info', ...args)
-			console.warn = (...args) => this.baseLog('warn', ...args)
-			console.error = (...args) => this.baseLog('error', ...args)
-		}
+		this.defaultConsole = { ...console }
+		console.info = (...args) => this.baseLog('info', ...args)
+		console.warn = (...args) => this.baseLog('warn', ...args)
+		console.error = (...args) => this.baseLog('error', ...args)
 	}
 
 	// =================================
@@ -99,7 +97,7 @@ export class Logger {
 		if (level === 'error')
 			templatedMessage = chalk.red(templatedMessage)
 
-		defaultConsole[level](templatedMessage)
+		this.defaultConsole[level](templatedMessage)
 
 		// save the last logs tail queue
 		if (this.lastLogsTail.length >= logsConfig.logTailMaxSize)

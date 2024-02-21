@@ -6,7 +6,6 @@ import { apiConfig } from '@/configs'
 interface State {
 
 	authorizedAPITokens: string[]
-	botHasBeenReloaded: boolean
 	ready: {
 		bot: boolean | null
 		api: boolean | null
@@ -16,7 +15,6 @@ interface State {
 const initialState: State = {
 
 	authorizedAPITokens: [],
-	botHasBeenReloaded: false,
 	ready: {
 		bot: false,
 		api: apiConfig.enabled ? false : null,
