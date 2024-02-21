@@ -1,18 +1,18 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js"
+import { CommandInteraction, EmbedBuilder } from 'discord.js'
 
-import { replyToInteraction } from "@utils/functions"
+import { replyToInteraction } from '@/utils/functions'
+
 /**
  * Send a simple success embed
  * @param interaction - discord interaction
  * @param message - message to log
  */
-export const simpleSuccessEmbed = (interaction: CommandInteraction, message: string) => {
+export function simpleSuccessEmbed(interaction: CommandInteraction, message: string) {
+	const embed = new EmbedBuilder()
+		.setColor(0x57F287) // GREEN // see: https://github.com/discordjs/discord.js/blob/main/packages/discord.js/src/util/Colors.js
+		.setTitle(`✅ ${message}`)
 
-    const embed = new EmbedBuilder()
-        .setColor(0x57f287) // GREEN // see: https://github.com/discordjs/discord.js/blob/main/packages/discord.js/src/util/Colors.js
-        .setTitle(`✅ ${message}`)
-
-    replyToInteraction(interaction, { embeds: [embed] })
+	replyToInteraction(interaction, { embeds: [embed] })
 }
 
 /**
@@ -20,11 +20,10 @@ export const simpleSuccessEmbed = (interaction: CommandInteraction, message: str
  * @param interaction - discord interaction
  * @param message - message to log
  */
-export const simpleErrorEmbed = (interaction: CommandInteraction, message: string) => {
+export function simpleErrorEmbed(interaction: CommandInteraction, message: string) {
+	const embed = new EmbedBuilder()
+		.setColor(0xED4245) // RED // see: https://github.com/discordjs/discord.js/blob/main/packages/discord.js/src/util/Colors.js
+		.setTitle(`❌ ${message}`)
 
-    const embed = new EmbedBuilder()
-        .setColor(0xed4245) // RED // see: https://github.com/discordjs/discord.js/blob/main/packages/discord.js/src/util/Colors.js
-        .setTitle(`❌ ${message}`)
-
-    replyToInteraction(interaction, { embeds: [embed] })
+	replyToInteraction(interaction, { embeds: [embed] })
 }

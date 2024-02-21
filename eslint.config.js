@@ -45,7 +45,11 @@ module.exports = antfu(
 					},
 				}],
 				'style/object-curly-spacing': ['error', 'always'],
-				'style/padded-blocks': ['error', 'always'],
+				'style/padded-blocks': ['error', {
+					blocks: 'never',
+					classes: 'always',
+					switches: 'never',
+				}],
 				'style/padding-line-between-statements': [
 					'error',
 					{ blankLine: 'always', prev: '*', next: 'class' },
@@ -112,6 +116,8 @@ module.exports = antfu(
 						// Packages.
 						// Things that start with a letter (or digit or underscore), or `@` followed by a letter.
 						['^@\\w'],
+						// Internal packages.
+						// Things that start with `@/`.
 						['^\\w'],
 						// Absolute imports and other imports such as Vue-style `@/foo`.
 						// Anything not matched in another group.

@@ -13,14 +13,14 @@
 <table>
   <tr>
     <td align="center">
-   
+
 # What is TSCord
 
 #### **TSCord** is a fully-featured **[discord bot](https://discord.com/developers/docs/intro#bots-and-apps)** *template* written in [Typescript](https://www.typescriptlang.org/), intended to provide a framework that's easy to use, extend and modify.
 
 It uses [`discordx`](https://github.com/discordx-ts/discordx) and [`discord.js v14`](https://github.com/discordjs/discord.js) under the hood to simplify the development of discord bots.
 
-This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply follow the [installation](https://tscord.discbot.app/docs/bot/get-started/installation) and the [configuration](https://tscord.discbot.app/docs/bot/get-started/configuration) instructions, and have a working bot with many boilerplate features already included!        
+This template was created to give developers a starting point for new Discord bots, so that much of the initial setup can be avoided and developers can instead focus on meaningful bot features. Developers can simply follow the [installation](https://tscord.discbot.app/docs/bot/get-started/installation) and the [configuration](https://tscord.discbot.app/docs/bot/get-started/configuration) instructions, and have a working bot with many boilerplate features already included!
     </td>
   </tr>
 </table>
@@ -90,7 +90,6 @@ https://user-images.githubusercontent.com/66025667/196367258-94c77e23-779c-4d9b-
         <img width="17.5%" src="https://user-images.githubusercontent.com/66025667/196373934-2fad8760-a58d-4b4d-ad64-b069baa71823.png"></img>
     </a>
 </div>
-
 
 ## 📜 Features
 

@@ -1,200 +1,195 @@
-import { databaseConfig, mikroORMConfig } from "@configs"
-import { EntityName, MikroORM, Options } from "@mikro-orm/core"
-import fastFolderSizeSync from "fast-folder-size/sync"
-import fs from "fs"
-import { delay, inject, singleton } from "tsyringe"
+import fs from 'node:fs'
+import process from 'node:process'
 
-import { Schedule } from "@decorators"
-import * as entities from "@entities"
-import { Logger, PluginsManager } from "@services"
-import { resolveDependency } from "@utils/functions"
-import { backup, restore } from "saveqlite"
+import { EntityName, MikroORM, Options } from '@mikro-orm/core'
+
+import fastFolderSizeSync from 'fast-folder-size/sync'
+import { backup, restore } from 'saveqlite'
+import { delay, inject, singleton } from 'tsyringe'
+
+import { databaseConfig, mikroORMConfig } from '@/configs'
+import { Schedule } from '@/decorators'
+import * as entities from '@/entities'
+import { Logger, PluginsManager } from '@/services'
+import { resolveDependency } from '@/utils/functions'
 
 @singleton()
 export class Database {
 
-    private _orm: MikroORM<DatabaseDriver>
+	private _orm: MikroORM<DatabaseDriver>
 
-    constructor(
+	constructor(
         @inject(delay(() => Logger)) private logger: Logger
-    ) {}
+	) {}
 
-    async initialize(migrate = true) {
-        
-        const pluginsManager = await resolveDependency(PluginsManager)
+	async initialize(migrate = true) {
+		const pluginsManager = await resolveDependency(PluginsManager)
 
-        // get config
-        let config = mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>
+		// get config
+		const config = mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>
 
-        // defines entities into the config
-        config.entities = [...Object.values(entities), ...pluginsManager.getEntities()]
+		// defines entities into the config
+		config.entities = [...Object.values(entities), ...pluginsManager.getEntities()]
 
-        // initialize the ORM using the configuration exported in `mikro-orm.config.ts`
-        this._orm = await MikroORM.init(config)
+		// initialize the ORM using the configuration exported in `mikro-orm.config.ts`
+		this._orm = await MikroORM.init(config)
 
-        if (migrate) {
-            const migrator = this._orm.getMigrator()
-    
-            // create migration if no one is present in the migrations folder
-            const pendingMigrations = await migrator.getPendingMigrations()
-            const executedMigrations = await migrator.getExecutedMigrations()
-            if (pendingMigrations.length === 0 && executedMigrations.length === 0) {
-                await migrator.createInitialMigration()
-            }
-    
-            // migrate to the latest migration
-            await this._orm.getMigrator().up()
-        }
-    }
+		if (migrate) {
+			const migrator = this._orm.getMigrator()
 
-    async refreshConnection() {
-        await this._orm.close()
-        this._orm = await MikroORM.init()
-    }
+			// create migration if no one is present in the migrations folder
+			const pendingMigrations = await migrator.getPendingMigrations()
+			const executedMigrations = await migrator.getExecutedMigrations()
+			if (pendingMigrations.length === 0 && executedMigrations.length === 0)
+				await migrator.createInitialMigration()
 
-    get orm(): MikroORM<DatabaseDriver> {
-        return this._orm
-    }
+			// migrate to the latest migration
+			await this._orm.getMigrator().up()
+		}
+	}
 
-    get em(): DatabaseEntityManager {
-        return this._orm.em
-    }
+	async refreshConnection() {
+		await this._orm.close()
+		this._orm = await MikroORM.init()
+	}
 
-    /**
-     * Shorthand to get custom and natives repositories
-     * @param entity Entity of the custom repository to get
-     */
-    get<T extends object>(entity: EntityName<T>) {
-        return this._orm.em.getRepository(entity)
-    }
-    
-    /**
-     * Create a snapshot of the database each day at 00:00
-     */
-    @Schedule('0 0 * * *')
-    async backup(snapshotName?: string): Promise<boolean> { 
+	get orm(): MikroORM<DatabaseDriver> {
+		return this._orm
+	}
 
-        const { formatDate } = await import('@utils/functions') 
-        
-        if (!databaseConfig.backup.enabled && !snapshotName) return false
-        if (!this.isSQLiteDatabase()) {
-            this.logger.log('Database is not SQLite, couldn\'t backup')
-            return false
-        }
+	get em(): DatabaseEntityManager {
+		return this._orm.em
+	}
 
-        const backupPath = databaseConfig.backup.path
-        if (!backupPath) {
-            this.logger.log('Backup path not set, couldn\'t backup', 'error', true)
-            return false
-        }
+	/**
+	 * Shorthand to get custom and natives repositories
+	 * @param entity Entity of the custom repository to get
+	 */
+	get<T extends object>(entity: EntityName<T>) {
+		return this._orm.em.getRepository(entity)
+	}
 
-        if (!snapshotName) snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}`
-        const objectsPath = `${backupPath}objects/` as `${string}/`
+	/**
+	 * Create a snapshot of the database each day at 00:00
+	 */
+	@Schedule('0 0 * * *')
+	async backup(snapshotName?: string): Promise<boolean> {
+		const { formatDate } = await import('@/utils/functions')
 
-        try {
+		if (!databaseConfig.backup.enabled && !snapshotName)
+			return false
+		if (!this.isSQLiteDatabase()) {
+			this.logger.log('Database is not SQLite, couldn\'t backup')
 
-            await backup(
-                mikroORMConfig[process.env.NODE_ENV]!.dbName!, 
-                snapshotName + '.txt', 
-                objectsPath
-            )
+			return false
+		}
 
-            return true
+		const backupPath = databaseConfig.backup.path
+		if (!backupPath) {
+			this.logger.log('Backup path not set, couldn\'t backup', 'error', true)
 
-        } catch(e) {
+			return false
+		}
 
-            const errorMessage = typeof e === 'string' ? e : e instanceof Error ? e.message : 'Unknown error'
+		if (!snapshotName)
+			snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}`
+		const objectsPath = `${backupPath}objects/` as `${string}/`
 
-            this.logger.log('Couldn\'t backup : ' + errorMessage, 'error', true)
-            return false
-        }
+		try {
+			await backup(
+				mikroORMConfig[process.env.NODE_ENV]!.dbName!,
+				`${snapshotName}.txt`,
+				objectsPath
+			)
 
-    }
+			return true
+		} catch (e) {
+			const errorMessage = typeof e === 'string' ? e : e instanceof Error ? e.message : 'Unknown error'
 
-    /**
-     * Restore the SQLite database from a snapshot file.
-     * @param snapshotDate Date of the snapshot to restore
-     * @returns 
-     */
-    async restore(snapshotName: string): Promise<boolean> {
+			this.logger.log(`Couldn't backup : ${errorMessage}`, 'error', true)
 
-        if (!this.isSQLiteDatabase()) {
-            this.logger.log('Database is not SQLite, couldn\'t restore', 'error')
-            return false
-        }
+			return false
+		}
+	}
 
-        const backupPath = databaseConfig.backup.path
-        if (!backupPath) {
-            this.logger.log('Backup path not set, couldn\'t restore', 'error', true)
-        }
-        
-        try {
+	/**
+	 * Restore the SQLite database from a snapshot file.
+	 * @param snapshotName name of the snapshot to restore
+	 * @returns true if the snapshot has been restored, false otherwise
+	 */
+	async restore(snapshotName: string): Promise<boolean> {
+		if (!this.isSQLiteDatabase()) {
+			this.logger.log('Database is not SQLite, couldn\'t restore', 'error')
 
-            console.debug(mikroORMConfig[process.env.NODE_ENV]!.dbName!)
-            console.debug(`${backupPath}${snapshotName}`)
-            await restore(
-                mikroORMConfig[process.env.NODE_ENV]!.dbName!,
-                `${backupPath}${snapshotName}`,
-            )
+			return false
+		}
 
-            await this.refreshConnection()
+		const backupPath = databaseConfig.backup.path
+		if (!backupPath)
+			this.logger.log('Backup path not set, couldn\'t restore', 'error', true)
 
-            return true
+		try {
+			console.debug(mikroORMConfig[process.env.NODE_ENV]!.dbName!)
+			console.debug(`${backupPath}${snapshotName}`)
+			await restore(
+				mikroORMConfig[process.env.NODE_ENV]!.dbName!,
+                `${backupPath}${snapshotName}`
+			)
 
-        } catch (error) {
-            
-            console.debug(error)
-            this.logger.log('Snapshot file not found, couldn\'t restore', 'error', true)
-            return false
-        }
-    }
+			await this.refreshConnection()
 
-    getBackupList(): string[] | null {
+			return true
+		} catch (error) {
+			console.debug(error)
+			this.logger.log('Snapshot file not found, couldn\'t restore', 'error', true)
 
-        const backupPath = databaseConfig.backup.path
-        if (!backupPath) {
-            this.logger.log('Backup path not set, couldn\'t get list of backups', 'error')
-            return null
-        }
+			return false
+		}
+	}
 
-        const files = fs.readdirSync(backupPath)
-        const backupList = files.filter(file => file.startsWith('snapshot'))
+	getBackupList(): string[] | null {
+		const backupPath = databaseConfig.backup.path
+		if (!backupPath) {
+			this.logger.log('Backup path not set, couldn\'t get list of backups', 'error')
 
-        return backupList
-    }
+			return null
+		}
 
-    getSize(): DatabaseSize {
+		const files = fs.readdirSync(backupPath)
+		const backupList = files.filter(file => file.startsWith('snapshot'))
 
-        const size: DatabaseSize = {
-            db: null,
-            backups: null
-        }
+		return backupList
+	}
 
-        if (this.isSQLiteDatabase()) {
+	getSize(): DatabaseSize {
+		const size: DatabaseSize = {
+			db: null,
+			backups: null,
+		}
 
-            const dbPath = mikroORMConfig[process.env.NODE_ENV]!.dbName!
-            const dbSize = fs.statSync(dbPath).size
+		if (this.isSQLiteDatabase()) {
+			const dbPath = mikroORMConfig[process.env.NODE_ENV]!.dbName!
+			const dbSize = fs.statSync(dbPath).size
 
-            size.db = dbSize
-        }
+			size.db = dbSize
+		}
 
-        const backupPath = databaseConfig.backup.path
-        if (backupPath) {
+		const backupPath = databaseConfig.backup.path
+		if (backupPath) {
+			const backupSize = fastFolderSizeSync(backupPath)
 
-            const backupSize = fastFolderSizeSync(backupPath)
+			size.backups = backupSize || null
+		}
 
-            size.backups = backupSize || null
-        }
+		return size
+	}
 
-        return size
-    }
+	isSQLiteDatabase(): boolean {
+		const type = mikroORMConfig[process.env.NODE_ENV]!.type
 
-    isSQLiteDatabase(): boolean {
-
-        const type = mikroORMConfig[process.env.NODE_ENV]!.type
-
-        if (type) return ['sqlite', 'better-sqlite'].includes(type)
-        else return false
-    }
+		if (type)
+			return ['sqlite', 'better-sqlite'].includes(type)
+		else return false
+	}
 
 }
