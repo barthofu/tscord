@@ -5,7 +5,6 @@ import process from 'node:process'
 
 import { resolve } from '@discordx/importer'
 import { RequestContext } from '@mikro-orm/core'
-
 import chalk from 'chalk'
 import chokidar from 'chokidar'
 import discordLogs from 'discord-logs'

@@ -5,7 +5,6 @@ import process from 'node:process'
 import { MikroORM, UseRequestContext } from '@mikro-orm/core'
 import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from '@tsed/common'
 import { PlatformExpress } from '@tsed/platform-express'
-
 import bodyParser from 'body-parser'
 import { singleton } from 'tsyringe'
 

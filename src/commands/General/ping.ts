@@ -1,5 +1,4 @@
 import { Category } from '@discordx/utilities'
-
 import { CommandInteraction, Message } from 'discord.js'
 import { Client } from 'discordx'
 

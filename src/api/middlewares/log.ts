@@ -1,5 +1,4 @@
 import { Context, Middleware, PlatformContext } from '@tsed/common'
-
 import chalk from 'chalk'
 
 import { Logger } from '@/services'
