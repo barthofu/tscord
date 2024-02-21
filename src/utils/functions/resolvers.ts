@@ -13,6 +13,7 @@ import {
 	Interaction,
 } from "discord.js"
 
+// @ts-ignore - because it is outside the `rootDir` of tsconfig 
 import packageJson from "../../../package.json"
 
 const resolvers = {

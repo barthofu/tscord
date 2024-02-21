@@ -4,8 +4,8 @@
 		"target": "es2021",
 		"module": "commonjs",
 
-		"outDir": "./build",
-		"rootDir": ".",
+		"outDir": "build",
+		"rootDir": "src",
 		"strict": true,
 		"strictPropertyInitialization": false,
 		"moduleResolution": "node",
@@ -59,8 +59,8 @@
 		}
 	},
 
-	"include": ["src", "**/*.ts"],
-	"exclude": ["build", "node_modules", "tests"],
+	"include": ["src", "**/*.ts", "src/**/*.json"],
+	"exclude": ["build", "node_modules", "tests", "mikro-orm.config.ts", "package.json"],
 	"paths": ["node_modules/*", "src/utils/types/*", "src/plugins/*/utils/types/*"],
 
 	"ts-node": {
