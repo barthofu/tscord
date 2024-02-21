@@ -5,11 +5,11 @@ import osu from "node-os-utils"
 import pidusage from "pidusage"
 import { delay, inject, singleton } from "tsyringe"
 
-import { statsConfig, websocketConfig } from "@configs"
-import { Schedule, WSOn } from "@decorators"
+import { statsConfig } from "@configs"
+import { Schedule } from "@decorators"
 import { Guild, Stat, User } from "@entities"
-import { Database, WebSocket } from "@services"
-import { datejs, formatDate, getTypeOfInteraction, isInMaintenance, resolveAction, resolveChannel, resolveGuild, resolveUser } from "@utils/functions"
+import { Database } from "@services"
+import { datejs, formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from "@utils/functions"
 
 const allInteractions = { 
     $or: [ 
@@ -28,7 +28,6 @@ export class Stats {
     constructor(
         private db: Database,
         @inject(delay(() => Client)) private client: Client,
-        @inject(delay(() => WebSocket)) private ws: WebSocket
     ) {
         this.statsRepo = this.db.get(Stat)
     }
@@ -379,7 +378,7 @@ export class Stats {
             ping: this.client.ws.ping
         }
     }
-
+    
     /**
      * Run each day at 23:59 to update daily stats.
      */
@@ -392,30 +391,6 @@ export class Stats {
             const value = JSON.stringify(totalStats[type as keyof typeof totalStats])
             await this.register(type, value)
         }
-    }
-
-    // ORDER OF DECORATORS IS IMPORTANT! 
-    @WSOn('getHealth')
-    @Schedule('*/5 * * * * *')
-    async sendWebSocketHealth(response?: WSResponseFunction) {
-
-        if (websocketConfig.enabled) {
-
-            const data = {
-                botStatus: {
-                    online: true,
-                    uptime: this.client.uptime,
-                    maintenance: await isInMaintenance()
-                },
-                host: await this.getHostUsage(),
-                pid: await this.getPidUsage(),
-                latency: this.getLatency()
-            }
-    
-            if (response) response('monitoring', data)
-            else this.ws.broadcast('monitoring', data)
-        }
-
     }
 
 }

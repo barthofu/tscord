@@ -8,10 +8,10 @@ import { Client, DIService, MetadataStorage, tsyringeDependencyRegistryEngine } 
 import { container } from "tsyringe"
 
 import { Server } from "@api/server"
-import { apiConfig, generalConfig, websocketConfig } from "@configs"
+import { apiConfig, generalConfig } from "@configs"
 import { NoBotTokenError } from "@errors"
 import { RequestContext } from '@mikro-orm/core'
-import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store, WebSocket } from "@services"
+import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store } from "@services"
 import { initDataTable, resolveDependency } from "@utils/functions"
 import chalk from 'chalk'
 import { clientConfig } from "./client"
@@ -144,12 +144,6 @@ async function init() {
                 if (apiConfig.enabled) {
                     const server = await resolveDependency(Server)
                     await server.start()
-                }
-
-                // connect to the dashboard websocket
-                if (websocketConfig.enabled) {
-                    const webSocket = await resolveDependency(WebSocket)
-                    await webSocket.init(client.user?.id || null)
                 }
 
                 // upload images to imgur if configured

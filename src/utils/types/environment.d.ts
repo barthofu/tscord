@@ -17,8 +17,6 @@ declare global {
         API_PORT: string
         API_ADMIN_TOKEN: string
         
-        WEBSOCKET_URL: string
-
         IMGUR_CLIENT_ID: string
       }
     }

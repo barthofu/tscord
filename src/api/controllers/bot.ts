@@ -4,7 +4,7 @@ import { Required } from "@tsed/schema"
 import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField } from "discord.js"
 import { Client, MetadataStorage } from "discordx"
 
-import { Authenticated, BotOnline } from "@api/middlewares"
+import { DevAuthenticated, BotOnline } from "@api/middlewares"
 import { generalConfig } from "@configs"
 import { Guild, User } from "@entities"
 import { Database } from "@services"
@@ -14,7 +14,7 @@ import { getDevs, isDev, isInMaintenance, resolveDependencies, setMaintenance } 
 @Controller('/bot')
 @UseBefore(
     BotOnline,
-    Authenticated
+    DevAuthenticated
 )
 export class BotController extends BaseController {
 
