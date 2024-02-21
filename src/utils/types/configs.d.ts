@@ -43,6 +43,7 @@ type DatabaseConfigType = {
 type LogsConfigType = {
 
     debug: boolean
+    logTailMaxSize: number
 
     interaction: {
         file: boolean
@@ -89,9 +90,4 @@ type APIConfigType = {
 
     enabled: boolean
     port: number
-}
-
-type WebsocketConfigType = {
-
-    enabled: boolean
 }
