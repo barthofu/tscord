@@ -1,5 +1,4 @@
 import { Controller, Get, UseBefore } from '@tsed/common'
-
 import { Client } from 'discordx'
 
 import { Data } from '@/entities'

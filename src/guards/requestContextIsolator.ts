@@ -1,5 +1,4 @@
 import { RequestContext } from '@mikro-orm/core'
-
 import { GuardFunction } from 'discordx'
 
 import { Database } from '@/services'

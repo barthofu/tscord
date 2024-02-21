@@ -3,7 +3,6 @@ import { sep } from 'node:path'
 
 import { resolve } from '@discordx/importer'
 import { AnyEntity, EntityClass } from '@mikro-orm/core'
-
 import { singleton } from 'tsyringe'
 import { BaseTranslation } from 'typesafe-i18n'
 import { ImportLocaleMapping, storeTranslationsToDisk } from 'typesafe-i18n/importer'

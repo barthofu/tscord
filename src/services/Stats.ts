@@ -1,7 +1,6 @@
 import process from 'node:process'
 
 import { EntityRepository } from '@mikro-orm/core'
-
 import { constant } from 'case'
 import { Client, SimpleCommandMessage } from 'discordx'
 import osu from 'node-os-utils'

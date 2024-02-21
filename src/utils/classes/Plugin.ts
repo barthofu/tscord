@@ -3,7 +3,6 @@ import { sep } from 'node:path'
 
 import { importx, resolve } from '@discordx/importer'
 import { AnyEntity, EntityClass } from '@mikro-orm/core'
-
 import semver from 'semver'
 import { BaseTranslation } from 'typesafe-i18n'
 

@@ -1,5 +1,4 @@
 import { Category } from '@discordx/utilities'
-
 import { ActionRowBuilder, APISelectMenuOption, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuInteraction } from 'discord.js'
 import { Client, MetadataStorage, SelectMenuComponent } from 'discordx'
 import { TranslationFunctions } from 'src/i18n/i18n-types'

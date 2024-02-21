@@ -115,16 +115,12 @@ module.exports = antfu(
 						['^node:'],
 						// Packages.
 						// Things that start with a letter (or digit or underscore), or `@` followed by a letter.
-						['^@\\w'],
+						['^@?\\w'],
 						// Internal packages.
 						// Things that start with `@/`.
+						['^@/\\w'],
+						// Other imports
 						['^\\w'],
-						// Absolute imports and other imports such as Vue-style `@/foo`.
-						// Anything not matched in another group.
-						['^'],
-						// Relative imports.
-						// Anything that starts with a dot.
-						['^\\.'],
 						// TypeScript import assignments.
 						['^\\u0001', '^\\u0002'],
 					],
