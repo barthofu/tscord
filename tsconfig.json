@@ -3,19 +3,18 @@
 
 		"target": "es2021",
 		"module": "commonjs",
+		"esModuleInterop": true,
+		"moduleResolution": "node",
 
 		"outDir": "build",
 		"rootDir": "src",
+		"resolveJsonModule": true,
+		
 		"strict": true,
 		"strictPropertyInitialization": false,
-		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
-		"resolveJsonModule": true,
-
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"esModuleInterop": true,
-
 		"skipLibCheck": false,
 		"forceConsistentCasingInFileNames": true,
 

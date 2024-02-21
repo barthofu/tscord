@@ -13,8 +13,8 @@
     "install:plugins": "installoop --rootDir=./build/plugins",
     "type:check": "tsc --pretty --skipLibCheck --noEmit",
     "start": "cross-env NODE_ENV=production node build/main.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts",
-    "dev:start": "cross-env NODE_ENV=production node --loader ts-node/esm/transpile-only src/main.ts",
+    "dev": "cross-env NODE_ENV=development nodemon --exec node -r ts-node/register/transpile-only src/main.ts",
+    "dev:start": "cross-env NODE_ENV=production node -r ts-node/register/transpile-only src/main.ts",
     "i18n": "typesafe-i18n",
     "migration:create": "npx mikro-orm migration:create",
     "migration:up": "npx mikro-orm migration:up",
@@ -104,13 +104,16 @@
     "plop": "^2.7.6",
     "rimraf": "~3.0.2",
     "ts-node": "~10.9.1",
-    "tsc-alias": "~1.8.5",
+    "tsc-alias": "~1.8.8",
     "tsconfig-paths": "~4.2.0",
     "typescript": "~4.9.5"
   },
   "engines": {
-    "node": ">=16.9.0",
-    "npm": ">=8.0.0"
+    "node": ">=20.10.0",
+    "npm": ">=10.2.3"
+  },
+  "volta": {
+    "node": "20.10.0"
   },
   "mikro-orm": {
     "useTsNode": true,
@@ -118,9 +121,6 @@
       "./mikro-orm.config.ts",
       "./build/mikro-orm.config.js"
     ]
-  },
-  "volta": {
-    "node": "16.17.0"
   },
   "nodemonConfig": {
     "ignore": [
