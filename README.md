@@ -86,7 +86,7 @@ Fully extensible thanks to the plugin eco-system
 <br>
 
 <div align="center">
-    <a href="https://discord.gg/Q4w4UEWaDY" target="_blank">
+    <a href="https://discord.gg/GsYF4xceZZ" target="_blank">
         <img width="17.5%" src="https://user-images.githubusercontent.com/66025667/196373934-2fad8760-a58d-4b4d-ad64-b069baa71823.png"></img>
     </a>
 </div>
@@ -142,10 +142,11 @@ You can also find useful documentations at:
 
 ## 📢 Support
 
-If you need support on the template or just want to exchange with us, don't hesitate to join the **[official Discord support server](https://discord.gg/Q4w4UEWaDY)**!
+If you need support on the template or just want to exchange with us, don't hesitate to join the **[official Discord support server](https://discord.gg/GsYF4xceZZ)**!
 
-## 🌐 Roadmap
+## Roadmap
 
+We use Github milestones for
 #### [Click here](https://github.com/barthofu/tscord-template/milestones?direction=asc&sort=title&state=open) to access the milestone roadmap
 
 ## 📑 License
