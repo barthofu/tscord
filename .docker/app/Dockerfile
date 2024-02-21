@@ -13,7 +13,6 @@ COPY src ./src
 # and install dependencies for plugins (because postinstall script doesn't work in docker)
 RUN npm ci
 
-COPY .swcrc .
 COPY tsconfig.json .
 
 # Build project
