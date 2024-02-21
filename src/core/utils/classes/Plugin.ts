@@ -90,7 +90,7 @@ export class Plugin {
         }
 
         for (const defaultLocale of locales) {
-            const path = `${getSourceCodeLocation()}/i18n/${defaultLocale}/${this._name}/_custom.`
+            const path = `${getSourceCodeLocation()}/core/i18n/${defaultLocale}/${this._name}/_custom.`
             if (fs.existsSync(path + "js")) translations[defaultLocale] = (await import(path + "js")).default
             else if (fs.existsSync(path + "ts")) translations[defaultLocale] = (await import(path + "ts")).default
         }
