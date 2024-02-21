@@ -1,24 +1,25 @@
-import { Category } from "@discordx/utilities"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder, EmbedField } from "discord.js"
-import { Client } from "discordx"
-import { injectable } from "tsyringe"
+import { Category } from '@discordx/utilities'
+
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder, EmbedField } from 'discord.js'
+import { Client } from 'discordx'
+import { injectable } from 'tsyringe'
+
+import { generalConfig } from '@/configs'
+import { Discord, Slash } from '@/decorators'
+import { Guard } from '@/guards'
+import { Stats } from '@/services'
+import { getColor, getTscordVersion, isValidUrl, timeAgo } from '@/utils/functions'
+
+import packageJson from '../../../package.json'
+
 dayjs.extend(relativeTime)
-
-import { generalConfig } from "@configs"
-import { Discord, Slash } from "@decorators"
-import { Guard } from "@guards"
-import { Stats } from "@services"
-import { getColor, getTscordVersion, isValidUrl, timeAgo } from "@utils/functions"
-
-// @ts-ignore - because it is outside the `rootDir` of tsconfig 
-import packageJson from "../../../package.json"
 
 const links = [
 	{ label: 'Invite me!', url: generalConfig.links.invite },
 	{ label: 'Support server', url: generalConfig.links.supportServer },
-	{ label: 'Github', url: generalConfig.links.gitRemoteRepo }
+	{ label: 'Github', url: generalConfig.links.gitRemoteRepo },
 ]
 
 @Discord()
@@ -36,10 +37,8 @@ export default class InfoCommand {
 	@Guard()
 	async info(
 		interaction: CommandInteraction,
-		client: Client,
-		{ localize }: InteractionData
+		client: Client
 	) {
-		
 		const embed = new EmbedBuilder()
 			.setAuthor({
 				name: interaction.user.username,
@@ -107,7 +106,7 @@ export default class InfoCommand {
 		 */
 		fields.push({
 			name: 'Libraries',
-			value: `[discord.js](https://discord.js.org/) (*v${packageJson.dependencies['discord.js'].replace('^', '')}*)\n[discordx](https://discordx.js.org/) (*v${packageJson.dependencies['discordx'].replace('^', '')}*)`,
+			value: `[discord.js](https://discord.js.org/) (*v${packageJson.dependencies['discord.js'].replace('^', '')}*)\n[discordx](https://discordx.js.org/) (*v${packageJson.dependencies.discordx.replace('^', '')}*)`,
 			inline: true,
 		})
 
@@ -118,24 +117,26 @@ export default class InfoCommand {
 		 * Define links buttons
 		 */
 		const buttons = links
-			.map(link => {
+			.map((link) => {
 				const url = link.url.split('_').join('')
 				if (isValidUrl(url)) {
 					return new ButtonBuilder()
 						.setLabel(link.label)
 						.setURL(url)
 						.setStyle(ButtonStyle.Link)
-				} else return null
+				} else {
+					return null
+				}
 			})
 			.filter(link => link) as ButtonBuilder[]
 		const row = new ActionRowBuilder<ButtonBuilder>()
 			.addComponents(...buttons)
-		
+
 		// finally send the embed
 		interaction.followUp({
 			embeds: [embed],
 			components: [row],
 		})
-
 	}
+
 }

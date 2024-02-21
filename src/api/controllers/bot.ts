@@ -1,226 +1,216 @@
-import { BodyParams, Controller, Delete, Get, PathParams, Post, UseBefore } from "@tsed/common"
-import { NotFound, Unauthorized } from "@tsed/exceptions"
-import { Required } from "@tsed/schema"
-import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField } from "discord.js"
-import { Client, MetadataStorage } from "discordx"
+import { BodyParams, Controller, Delete, Get, PathParams, Post, UseBefore } from '@tsed/common'
+import { NotFound, Unauthorized } from '@tsed/exceptions'
+import { Required } from '@tsed/schema'
 
-import { DevAuthenticated, BotOnline } from "@api/middlewares"
-import { generalConfig } from "@configs"
-import { Guild, User } from "@entities"
-import { Database } from "@services"
-import { BaseController } from "@utils/classes"
-import { getDevs, isDev, isInMaintenance, resolveDependencies, setMaintenance } from "@utils/functions"
+import { BaseGuildTextChannel, BaseGuildVoiceChannel, ChannelType, NewsChannel, PermissionsBitField } from 'discord.js'
+import { Client, MetadataStorage } from 'discordx'
+
+import { BotOnline, DevAuthenticated } from '@/api/middlewares'
+import { generalConfig } from '@/configs'
+import { Guild, User } from '@/entities'
+import { Database } from '@/services'
+import { BaseController } from '@/utils/classes'
+import { getDevs, isDev, isInMaintenance, resolveDependencies, setMaintenance } from '@/utils/functions'
 
 @Controller('/bot')
 @UseBefore(
-    BotOnline,
-    DevAuthenticated
+	BotOnline,
+	DevAuthenticated
 )
 export class BotController extends BaseController {
 
-    
-    private client: Client
-    private db: Database
+	private client: Client
 
-    constructor() {
-        super()
+	// test
+	private db: Database
 
-        resolveDependencies([Client, Database]).then(([client, db]) => {
-            this.client = client
-            this.db = db
-        })
-    }
+	constructor() {
+		super()
 
-    @Get('/info')
-    async info() {
+		resolveDependencies([Client, Database]).then(([client, db]) => {
+			this.client = client
+			this.db = db
+		})
+	}
 
-        const user: any = this.client.user?.toJSON()
-        if (user) {
-            user.iconURL = this.client.user?.displayAvatarURL()
-            user.bannerURL = this.client.user?.bannerURL()
-        }
+	@Get('/info')
+	async info() {
+		const user: any = this.client.user?.toJSON()
+		if (user) {
+			user.iconURL = this.client.user?.displayAvatarURL()
+			user.bannerURL = this.client.user?.bannerURL()
+		}
 
-        return {
-            user,
-            owner: (await this.client.users.fetch(generalConfig.ownerId).catch(() => null))?.toJSON(),
-        }
-    }
+		return {
+			user,
+			owner: (await this.client.users.fetch(generalConfig.ownerId).catch(() => null))?.toJSON(),
+		}
+	}
 
+	@Get('/commands')
+	async commands() {
+		const commands = MetadataStorage.instance.applicationCommands
 
-    @Get('/commands')
-    async commands() {
+		return commands.map(command => command.toJSON())
+	}
 
-        const commands = MetadataStorage.instance.applicationCommands
+	@Get('/guilds')
+	async guilds() {
+		const body: any[] = []
 
-        return commands.map(command => command.toJSON())
-    }
+		for (const discordRawGuild of this.client.guilds.cache.values()) {
+			const discordGuild: any = discordRawGuild.toJSON()
+			discordGuild.iconURL = discordRawGuild.iconURL()
+			discordGuild.bannerURL = discordRawGuild.bannerURL()
 
-    @Get('/guilds')
-    async guilds() {
+			const databaseGuild = await this.db.get(Guild).findOne({ id: discordGuild.id })
 
-        const body: any[] = []
+			body.push({
+				discord: discordGuild,
+				database: databaseGuild,
+			})
+		}
 
-        for (const discordRawGuild of this.client.guilds.cache.values()) {
+		return body
+	}
 
-            const discordGuild: any = discordRawGuild.toJSON()
-            discordGuild.iconURL = discordRawGuild.iconURL()
-            discordGuild.bannerURL = discordRawGuild.bannerURL()
+	@Get('/guilds/:id')
+	async guild(@PathParams('id') id: string) {
+		// get discord guild
+		const discordRawGuild = await this.client.guilds.fetch(id).catch(() => null)
+		if (!discordRawGuild)
+			throw new NotFound('Guild not found')
 
-            const databaseGuild = await this.db.get(Guild).findOne({ id: discordGuild.id })
+		const discordGuild: any = discordRawGuild.toJSON()
+		discordGuild.iconURL = discordRawGuild.iconURL()
+		discordGuild.bannerURL = discordRawGuild.bannerURL()
 
-            body.push({
-                discord: discordGuild,
-                database: databaseGuild
-            })
-        }
+		// get database guild
+		const databaseGuild = await this.db.get(Guild).findOne({ id })
 
-        return body
-    }
+		return {
+			discord: discordGuild,
+			database: databaseGuild,
+		}
+	}
 
-    @Get('/guilds/:id')
-    async guild(@PathParams('id') id: string) {
+	@Delete('/guilds/:id')
+	async deleteGuild(@PathParams('id') id: string) {
+		const guild = await this.client.guilds.fetch(id).catch(() => null)
+		if (!guild)
+			throw new NotFound('Guild not found')
 
-        // get discord guild
-        const discordRawGuild = await this.client.guilds.fetch(id).catch(() => null)
-        if (!discordRawGuild) throw new NotFound('Guild not found')
+		await guild.leave()
 
-        const discordGuild: any = discordRawGuild.toJSON()
-        discordGuild.iconURL = discordRawGuild.iconURL()
-        discordGuild.bannerURL = discordRawGuild.bannerURL()
+		return {
+			success: true,
+			message: 'Guild deleted',
+		}
+	}
 
-        // get database guild
-        const databaseGuild = await this.db.get(Guild).findOne({ id })
+	@Get('/guilds/:id/invite')
+	async invite(@PathParams('id') id: string) {
+		const guild = await this.client.guilds.fetch(id).catch(() => null)
+		if (!guild)
+			throw new NotFound('Guild not found')
 
-        return {
-            discord: discordGuild,
-            database: databaseGuild
-        }
-    }
+		const guildChannels = await guild.channels.fetch()
 
-    @Delete('/guilds/:id')
-    async deleteGuild(@PathParams('id') id: string) {
+		let invite: any
+		for (const channel of guildChannels.values()) {
+			if (
+				channel
+				&& (guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false)
+				&& [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildAnnouncement].includes(channel.type)
+			) {
+				invite = await (channel as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined)?.createInvite()
+				if (invite)
+					break
+			}
+		}
 
-        const guild = await this.client.guilds.fetch(id).catch(() => null)
-        if (!guild) throw new NotFound('Guild not found')
+		if (invite)
+			return invite.toJSON()
+		else
+			throw new Unauthorized('Missing permission to create an invite in this guild')
+	}
 
-        await guild.leave()
+	@Get('/users')
+	async users() {
+		const users: any[] = []
+		const guilds = this.client.guilds.cache.values()
 
-        return {
-            success: true,
-            message: 'Guild deleted'
-        }
-    }
+		for (const guild of guilds) {
+			const members = await guild.members.fetch()
 
-    @Get('/guilds/:id/invite')
-    async invite(@PathParams('id') id: string) {
+			for (const member of members.values()) {
+				if (!users.find(user => user.id === member.id)) {
+					const discordUser: any = member.user.toJSON()
+					discordUser.iconURL = member.user.displayAvatarURL()
+					discordUser.bannerURL = member.user.bannerURL()
 
-        const guild = await this.client.guilds.fetch(id).catch(() => null)
-        if (!guild) throw new NotFound('Guild not found')
+					const databaseUser = await this.db.get(User).findOne({ id: discordUser.id })
 
-        const guildChannels = await guild.channels.fetch()
+					users.push({
+						discord: discordUser,
+						database: databaseUser,
+					})
+				}
+			}
+		}
 
-        let invite: any
-        for (const channel of guildChannels.values()) {
+		return users
+	}
 
-            if (
-                channel &&
-                (guild.members.me?.permissionsIn(channel).has(PermissionsBitField.Flags.CreateInstantInvite) || false) &&
-                [ChannelType.GuildText, ChannelType.GuildVoice, ChannelType.GuildAnnouncement].includes(channel.type)
-            ) {
-                invite = await (channel as BaseGuildTextChannel | BaseGuildVoiceChannel | NewsChannel | undefined)?.createInvite()
-                if (invite) break
-            }
-        }
+	@Get('/users/:id')
+	async user(@PathParams('id') id: string) {
+		// get discord user
+		const discordRawUser = await this.client.users.fetch(id).catch(() => null)
+		if (!discordRawUser)
+			throw new NotFound('User not found')
 
-        if (invite) return invite.toJSON()
-        else {
-            throw new Unauthorized('Missing permission to create an invite in this guild')           
-        }
-    }
+		const discordUser: any = discordRawUser.toJSON()
+		discordUser.iconURL = discordRawUser.displayAvatarURL()
+		discordUser.bannerURL = discordRawUser.bannerURL()
 
-    @Get('/users')
-    async users() {
+		// get database user
+		const databaseUser = await this.db.get(User).findOne({ id })
 
-        const users: any[] = [],
-              guilds = this.client.guilds.cache.values()
+		return {
+			discord: discordUser,
+			database: databaseUser,
+		}
+	}
 
-        for (const guild of guilds) {
+	@Get('/users/cached')
+	async cachedUsers() {
+		return this.client.users.cache.map(user => user.toJSON())
+	}
 
-            const members = await guild.members.fetch()
+	@Get('/maintenance')
+	async maintenance() {
+		return {
+			maintenance: await isInMaintenance(),
+		}
+	}
 
-            for (const member of members.values()) {
-                if (!users.find(user => user.id === member.id)) {
-                    
-                    const discordUser: any = member.user.toJSON()
-                    discordUser.iconURL = member.user.displayAvatarURL()
-                    discordUser.bannerURL = member.user.bannerURL()
+	@Post('/maintenance')
+	async setMaintenance(@Required() @BodyParams('maintenance') maintenance: boolean) {
+		await setMaintenance(maintenance)
 
-                    const databaseUser = await this.db.get(User).findOne({ id: discordUser.id })
+		return {
+			maintenance,
+		}
+	}
 
-                    users.push({
-                        discord: discordUser,
-                        database: databaseUser
-                    })
-                }
-            }
-        }
+	@Get('/devs')
+	async devs() {
+		return getDevs()
+	}
 
-        return users
-    }
+	@Get('/devs/:id')
+	async dev(@PathParams('id') id: string) {
+		return isDev(id)
+	}
 
-    @Get('/users/:id')
-    async user(@PathParams('id') id: string) {
-
-        // get discord user
-        const discordRawUser = await this.client.users.fetch(id).catch(() => null)
-        if (!discordRawUser) throw new NotFound('User not found')
-
-        const discordUser: any = discordRawUser.toJSON()
-        discordUser.iconURL = discordRawUser.displayAvatarURL()
-        discordUser.bannerURL = discordRawUser.bannerURL()
-        
-        // get database user
-        const databaseUser = await this.db.get(User).findOne({ id })
-
-        return {
-            discord: discordUser,
-            database: databaseUser
-        }
-    }
-
-    @Get('/users/cached')
-    async cachedUsers() {
-
-        return this.client.users.cache.map(user => user.toJSON())
-    }
-
-    @Get('/maintenance')
-    async maintenance() {
-
-        return {
-            maintenance: await isInMaintenance(),
-        }
-    }
-
-    @Post('/maintenance')
-    async setMaintenance(@Required() @BodyParams('maintenance') maintenance: boolean) {
-
-        await setMaintenance(maintenance)
-
-        return {
-            maintenance
-        }
-    }
-
-    @Get('/devs')
-    async devs() {
-
-        return getDevs()
-    }
-
-    @Get('/devs/:id')
-    async dev(@PathParams('id') id: string) {
-
-        return isDev(id)
-    }
 }

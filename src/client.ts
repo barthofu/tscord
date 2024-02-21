@@ -1,45 +1,49 @@
-import { GatewayIntentBits, Partials } from "discord.js"
+import process from 'node:process'
 
-import { generalConfig, logsConfig } from "@configs"
-import { ExtractLocale, Maintenance, NotBot, RequestContextIsolator } from "@guards"
-import { ClientOptions } from "discordx"
+import { GatewayIntentBits, Partials } from 'discord.js'
+import { ClientOptions } from 'discordx'
 
-export const clientConfig = (): ClientOptions => ({
-	
-	// to only use global commands (use @Guild for specific guild command), comment this line
-	botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
+import { generalConfig, logsConfig } from '@/configs'
+import { ExtractLocale, Maintenance, NotBot, RequestContextIsolator } from '@/guards'
 
-	// discord intents
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildMessageReactions,
-		GatewayIntentBits.GuildVoiceStates,
-		GatewayIntentBits.GuildPresences,
-		GatewayIntentBits.DirectMessages,
-		GatewayIntentBits.MessageContent
-	],
+export function clientConfig(): ClientOptions {
+	return {
 
-	partials: [
-		Partials.Channel,
-		Partials.Message,
-		Partials.Reaction
-	],
+		// to only use global commands (use @Guild for specific guild command), comment this line
+		botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
 
-	// debug logs are disabled in silent mode
-	silent: !logsConfig.debug,
+		// discord intents
+		intents: [
+			GatewayIntentBits.Guilds,
+			GatewayIntentBits.GuildMembers,
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.GuildMessageReactions,
+			GatewayIntentBits.GuildVoiceStates,
+			GatewayIntentBits.GuildPresences,
+			GatewayIntentBits.DirectMessages,
+			GatewayIntentBits.MessageContent,
+		],
 
-	guards: [
-		RequestContextIsolator,
-		NotBot,
-		Maintenance,
-		ExtractLocale
-	],
+		partials: [
+			Partials.Channel,
+			Partials.Message,
+			Partials.Reaction,
+		],
 
-	// configuration for @SimpleCommand
-	simpleCommand: {
-		prefix: generalConfig.simpleCommandsPrefix,
+		// debug logs are disabled in silent mode
+		silent: !logsConfig.debug,
+
+		guards: [
+			RequestContextIsolator,
+			NotBot,
+			Maintenance,
+			ExtractLocale,
+		],
+
+		// configuration for @SimpleCommand
+		simpleCommand: {
+			prefix: generalConfig.simpleCommandsPrefix,
+		},
+
 	}
-	
-})
+}

@@ -1,7 +1,7 @@
-import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/core"
-import { EntityRepository } from "@mikro-orm/sqlite"
+import { Entity, EntityRepositoryType, PrimaryKey, Property } from '@mikro-orm/core'
+import { EntityRepository } from '@mikro-orm/sqlite'
 
-import { CustomBaseEntity } from "./BaseEntity"
+import { CustomBaseEntity } from './BaseEntity'
 
 // ===========================================
 // ================= Entity ==================
@@ -10,30 +10,30 @@ import { CustomBaseEntity } from "./BaseEntity"
 @Entity({ customRepository: () => ImageRepository })
 export class Image extends CustomBaseEntity {
 
-    [EntityRepositoryType]?: ImageRepository
+	[EntityRepositoryType]?: ImageRepository
 
-    @PrimaryKey()
+	@PrimaryKey()
     id: number
 
-    @Property()
+	@Property()
     fileName: string
 
-    @Property({ default: '' })
+	@Property({ default: '' })
     basePath?: string
 
-    @Property()
+	@Property()
     url: string
 
-    @Property()
+	@Property()
     size: number
 
-    @Property()
+	@Property()
     tags: string[]
 
-    @Property()
+	@Property()
     hash: string
 
-    @Property()
+	@Property()
     deleteHash: string
 
 }
@@ -42,14 +42,14 @@ export class Image extends CustomBaseEntity {
 // =========== Custom Repository =============
 // ===========================================
 
-export class ImageRepository extends EntityRepository<Image> { 
+export class ImageRepository extends EntityRepository<Image> {
 
-    async findByTags(tags: string[], explicit: boolean = true): Promise<Image[]> {
-        
-        const rows =  await this.find({
-            $and: tags.map(tag => ({ tags: new RegExp(tag) }))
-        })
+	async findByTags(tags: string[], explicit: boolean = true): Promise<Image[]> {
+		const rows = await this.find({
+			$and: tags.map(tag => ({ tags: new RegExp(tag) })),
+		})
 
-        return explicit ? rows.filter(row => row.tags.length === tags.length) : rows
-    }
+		return explicit ? rows.filter(row => row.tags.length === tags.length) : rows
+	}
+
 }
