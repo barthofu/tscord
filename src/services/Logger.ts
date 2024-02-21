@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 import { unlink } from 'node:fs/promises'
 import path from 'node:path'
-import process from 'node:process'
 
 import archiver from 'archiver'
 import boxen from 'boxen'
@@ -17,6 +16,7 @@ import { delay, inject, singleton } from 'tsyringe'
 import * as controllers from '@/api/controllers'
 import { apiConfig, logsConfig } from '@/configs'
 import { Schedule } from '@/decorators'
+import { env } from '@/env'
 import { locales } from '@/i18n'
 import { Pastebin, PluginsManager, Scheduler, Store } from '@/services'
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@/utils/functions'
@@ -469,7 +469,7 @@ export class Logger {
 			this.console(chalkedMessage, 'error')
 		if (logsConfig.error.file)
 			this.file(message, 'error')
-		if (logsConfig.error.channel && process.env.NODE_ENV === 'production') {
+		if (logsConfig.error.channel && env.NODE_ENV === 'production') {
 			this.discordChannel(logsConfig.error.channel, {
 				embeds: [{
 					title: (embedTitle.length >= 256 ? (`${embedTitle.substring(0, 252)}...`) : embedTitle),

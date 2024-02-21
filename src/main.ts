@@ -13,6 +13,7 @@ import { container } from 'tsyringe'
 
 import { Server } from '@/api/server'
 import { apiConfig, generalConfig } from '@/configs'
+import { checkEnvironmentVariables, env } from '@/env'
 import { NoBotTokenError } from '@/errors'
 import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store } from '@/services'
 import { initDataTable, resolveDependency } from '@/utils/functions'
@@ -83,6 +84,9 @@ async function reload(client: Client) {
 async function init() {
 	const logger = await resolveDependency(Logger)
 
+	// check environment variables
+	checkEnvironmentVariables()
+
 	// init error handler
 	await resolveDependency(ErrorHandler)
 
@@ -125,13 +129,13 @@ async function init() {
 		await pluginManager.execMains()
 
 		// log in with the bot token
-		if (!process.env.BOT_TOKEN) {
+		if (!env.BOT_TOKEN) {
 			throw new NoBotTokenError()
 		}
 
-		client.login(process.env.BOT_TOKEN)
+		client.login(env.BOT_TOKEN)
 			.then(async () => {
-				if (process.env.NODE_ENV === 'development') {
+				if (env.NODE_ENV === 'development') {
 					// reload commands and events when a file changes
 					watcher.on('change', () => reload(client))
 
@@ -149,7 +153,7 @@ async function init() {
 				}
 
 				// upload images to imgur if configured
-				if (process.env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
+				if (env.IMGUR_CLIENT_ID && generalConfig.automaticUploadImagesToImgur) {
 					const imagesUpload = await resolveDependency(ImagesUpload)
 					await imagesUpload.syncWithDatabase()
 				}
