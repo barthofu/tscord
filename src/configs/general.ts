@@ -22,15 +22,10 @@ export const generalConfig: GeneralConfigType = {
 
 	devs: [], // discord IDs of the devs that are working on the bot (you don't have to put the owner's id here)
 
-	eval: {
-		name: 'bot', // name to trigger the eval command
-		onlyOwner: false, // restrict the eval command to the owner only (if not, all the devs can trigger it)
-	},
-
 	// define the bot activities (phrases under its name). Types can be: PLAYING, LISTENING, WATCHING, STREAMING
 	activities: [
 		{
-			text: 'discord.js v14',
+			text: 'discord.js v14 with tscord',
 			type: 'PLAYING',
 		},
 		{
