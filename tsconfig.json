@@ -22,32 +22,32 @@
 		"baseUrl": ".",
 		"paths": {
 
-			"@decorators": ["src/utils/decorators"],
-			"@decorators/*": ["src/plugins/*/utils/decorators"],
+			"@decorators": ["src/core/utils/decorators"],
+			"@decorators/*": ["src/plugins/*/core/utils/decorators"],
 
-			"@errors": ["src/utils/errors"],
-			"@errors/*": ["src/plugins/*/utils/errors"],
+			"@errors": ["src/core/utils/errors"],
+			"@errors/*": ["src/plugins/*/core/utils/errors"],
 
-			"@entities": ["src/entities"],
-			"@entities/*": ["src/plugins/*/entities"],
+			"@entities": ["src/core/entities"],
+			"@entities/*": ["src/plugins/*/core/entities"],
 
-			"@guards": ["src/guards"],
-			"@guards/*": ["src/plugins/*/guards"],
+			"@guards": ["src/core/guards"],
+			"@guards/*": ["src/plugins/*/core/guards"],
 			
-			"@services": ["src/services"],
-			"@services/*": ["src/plugins/*/services"],
+			"@services": ["src/core/services"],
+			"@services/*": ["src/plugins/*/core/services"],
 
-			"@i18n": ["src/i18n"],
-			"@i18n/*": ["src/plugins/*/i18n"],
+			"@i18n": ["src/core/i18n"],
+			"@i18n/*": ["src/plugins/*/core/i18n"],
 
 			"@configs": ["src/configs"],
 			"@configs/*": ["src/plugins/*/configs"],
 
-			"@utils/classes": ["src/utils/classes"],
-			"@utils/classes/*": ["src/plugins/*/utils/classes"],
+			"@utils/classes": ["src/core/utils/classes"],
+			"@utils/classes/*": ["src/plugins/*/core/utils/classes"],
 
-			"@utils/functions": ["src/utils/functions"],
-			"@utils/functions/*": ["src/plugins/*/utils/functions"],
+			"@utils/functions": ["src/core/utils/functions"],
+			"@utils/functions/*": ["src/plugins/*/core/utils/functions"],
 
 			"@api/controllers": ["src/api/controllers"],
 			"@api/controllers/*": ["src/plugins/*/api/controllers"],
@@ -61,7 +61,7 @@
 
 	"include": ["src", "**/*.ts"],
 	"exclude": ["build", "node_modules", "tests"],
-	"paths": ["node_modules/*", "src/utils/types/*", "src/plugins/*/utils/types/*"],
+	"paths": ["node_modules/*", "src/core/utils/types/*", "src/plugins/*/core/utils/types/*"],
 
 	"ts-node": {
 		"require": ["tsconfig-paths/register"]

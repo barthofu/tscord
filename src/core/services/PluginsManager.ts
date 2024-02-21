@@ -78,7 +78,7 @@ export class PluginsManager {
         let translations: { [key: string]: BaseTranslation } = {}
 
         for (const locale of locales) {
-            const path = getSourceCodeLocation() + '/i18n/' + locale
+            const path = getSourceCodeLocation() + '/core/i18n/' + locale
             if (fs.existsSync(path)) translations[locale] = (await import(path))?.default
         }
 
@@ -107,7 +107,7 @@ export class PluginsManager {
 
         const pluginsName = this._plugins.map(plugin => plugin.name)
 
-        for (const path of await resolve(getSourceCodeLocation() + '/i18n/*/*/index.ts')) {
+        for (const path of await resolve(getSourceCodeLocation() + '/core/i18n/*/*/index.ts')) {
 
             const name = path.split(sep).at(-2) || ""
             
