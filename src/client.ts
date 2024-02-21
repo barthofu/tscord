@@ -4,7 +4,7 @@ import { generalConfig, logsConfig } from "@configs"
 import { ExtractLocale, Maintenance, NotBot, RequestContextIsolator } from "@guards"
 import { ClientOptions } from "discordx"
 
-export const clientConfig = () => ({
+export const clientConfig = (): ClientOptions => ({
 	
 	// to only use global commands (use @Guild for specific guild command), comment this line
 	botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
@@ -42,4 +42,4 @@ export const clientConfig = () => ({
 		prefix: generalConfig.simpleCommandsPrefix,
 	}
 	
-});
+})
