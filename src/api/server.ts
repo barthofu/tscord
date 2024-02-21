@@ -1,7 +1,5 @@
 import '@tsed/swagger'
 
-import process from 'node:process'
-
 import { MikroORM, UseRequestContext } from '@mikro-orm/core'
 import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from '@tsed/common'
 import { PlatformExpress } from '@tsed/platform-express'
@@ -10,6 +8,7 @@ import { singleton } from 'tsyringe'
 
 import * as controllers from '@/api/controllers'
 import { Log } from '@/api/middlewares'
+import { env } from '@/env'
 import { Database, PluginsManager, Store } from '@/services'
 
 @singleton()
@@ -41,7 +40,7 @@ export class Server {
 	async start(): Promise<void> {
 		const platform = await PlatformExpress.bootstrap(Server, {
 			rootDir: __dirname,
-			httpPort: Number.parseInt(process.env.API_PORT) || 4000,
+			httpPort: env.API_PORT,
 			httpsPort: false,
 			acceptMimes: ['application/json'],
 			mount: {
