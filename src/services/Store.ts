@@ -1,9 +1,9 @@
 import { Store as RxStore } from 'rxeta'
-import { singleton } from 'tsyringe'
 
 import { apiConfig } from '@/configs'
+import { Service } from '@/decorators'
 
-interface State {
+type State = {
 
 	authorizedAPITokens: string[]
 	botHasBeenReloaded: boolean
@@ -23,7 +23,9 @@ const initialState: State = {
 	},
 }
 
-@singleton()
+@Service({
+	keepInstanceAfterHmr: true,
+})
 export class Store extends RxStore<State> {
 
 	constructor() {

@@ -1,4 +1,4 @@
-interface GeneralConfigType {
+type GeneralConfigType = {
 
 	name: string
 	description: string
@@ -25,7 +25,7 @@ interface GeneralConfigType {
 
 }
 
-interface DatabaseConfigType {
+type DatabaseConfigType = {
 
 	path: `${string}/`
 
@@ -35,7 +35,7 @@ interface DatabaseConfigType {
 	}
 }
 
-interface LogsConfigType {
+type LogsConfigType = {
 
 	debug: boolean
 	logTailMaxSize: number
@@ -78,7 +78,7 @@ interface LogsConfigType {
 	}
 }
 
-interface StatsConfigType {
+type StatsConfigType = {
 
 	interaction: {
 
@@ -86,7 +86,7 @@ interface StatsConfigType {
 	}
 }
 
-interface APIConfigType {
+type APIConfigType = {
 
 	enabled: boolean
 	port: number

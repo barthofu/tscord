@@ -5,8 +5,8 @@ import axios from 'axios'
 import chalk from 'chalk'
 import { imageHash as callbackImageHash } from 'image-hash'
 import { ImgurClient } from 'imgur'
-import { singleton } from 'tsyringe'
 
+import { Service } from '@/decorators'
 import { Image, ImageRepository } from '@/entities'
 import { env } from '@/env'
 import { Database, Logger } from '@/services'
@@ -14,7 +14,7 @@ import { base64Encode, fileOrDirectoryExists, getFiles } from '@/utils/functions
 
 const imageHasher = promisify(callbackImageHash)
 
-@singleton()
+@Service()
 export class ImagesUpload {
 
 	private validImageExtensions = ['.png', '.jpg', '.jpeg']

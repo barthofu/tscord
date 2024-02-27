@@ -10,7 +10,7 @@ type InteractionsConstants = 'CHAT_INPUT_COMMAND_INTERACTION' | 'SIMPLE_COMMAND_
 
 type CommandCategory = import('discordx').DApplicationCommand & import('@discordx/utilities').ICategory
 
-interface InteractionData {
+type InteractionData = {
 	sanitizedLocale: import('src/i18n').Locales
 	localize: import('src/i18n/i18n-types').TranslationFunctions
 }

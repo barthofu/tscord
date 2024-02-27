@@ -4,14 +4,14 @@ import { MikroORM, UseRequestContext } from '@mikro-orm/core'
 import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from '@tsed/common'
 import { PlatformExpress } from '@tsed/platform-express'
 import bodyParser from 'body-parser'
-import { singleton } from 'tsyringe'
 
 import * as controllers from '@/api/controllers'
 import { Log } from '@/api/middlewares'
+import { Service } from '@/decorators'
 import { env } from '@/env'
 import { Database, PluginsManager, Store } from '@/services'
 
-@singleton()
+@Service()
 export class Server {
 
 	@Inject() app: PlatformApplication

@@ -6,7 +6,7 @@ type TranslationsNestedPaths = NestedPaths<import('@/i18n').Translations>
 
 type LocalizationMap = Partial<Record<`${import('discord-api-types/v9').Locale | AdditionalLocaleString}`, string>>
 
-interface SanitizedOptions {
+type SanitizedOptions = {
 	descriptionLocalizations?: LocalizationMap
 	nameLocalizations?: LocalizationMap
 	localizationSource?: TranslationsNestedPaths

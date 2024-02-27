@@ -3,10 +3,9 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder, EmbedField } from 'discord.js'
 import { Client } from 'discordx'
-import { injectable } from 'tsyringe'
 
 import { generalConfig } from '@/configs'
-import { Discord, Slash } from '@/decorators'
+import { Discord, Injectable, Slash } from '@/decorators'
 import { Guard } from '@/guards'
 import { Stats } from '@/services'
 import { getColor, getTscordVersion, isValidUrl, timeAgo } from '@/utils/functions'
@@ -22,7 +21,7 @@ const links = [
 ]
 
 @Discord()
-@injectable()
+@Injectable()
 @Category('General')
 export default class InfoCommand {
 

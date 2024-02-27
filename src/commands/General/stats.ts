@@ -5,9 +5,8 @@ import {
 import { Category } from '@discordx/utilities'
 import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, User } from 'discord.js'
 import { Client } from 'discordx'
-import { injectable } from 'tsyringe'
 
-import { Discord, Slash, SlashOption } from '@/decorators'
+import { Discord, Injectable, Slash, SlashOption } from '@/decorators'
 import { Stats } from '@/services'
 import { getColor } from '@/utils/functions'
 
@@ -41,7 +40,7 @@ const statsResolver: StatsResolverType = [
 ]
 
 @Discord()
-@injectable()
+@Injectable()
 @Category('General')
 export default class StatsCommand {
 
