@@ -1,9 +1,9 @@
-interface DatabaseSize {
+type DatabaseSize = {
 	db: number | null
 	backups: number | null
 }
 
-interface DatabaseConfigs {
+type DatabaseConfigs = {
 	'sqlite': {
 		driver: import('@mikro-orm/sqlite').SqliteDriver
 		entityManager: import('@mikro-orm/sqlite').SqlEntityManager

@@ -1,12 +1,11 @@
 import dayjs from 'dayjs'
 import { Paste, RentryClient } from 'rentry-pastebin'
-import { singleton } from 'tsyringe'
 
-import { Schedule } from '@/decorators'
+import { Schedule, Service } from '@/decorators'
 import { Pastebin as PastebinEntity } from '@/entities'
 import { Database } from '@/services'
 
-@singleton()
+@Service()
 export class Pastebin {
 
 	private client: RentryClient = new RentryClient()

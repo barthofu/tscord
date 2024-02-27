@@ -3,25 +3,26 @@ import fs from 'node:fs'
 import { EntityName, MikroORM, Options } from '@mikro-orm/core'
 import fastFolderSizeSync from 'fast-folder-size/sync'
 import { backup, restore } from 'saveqlite'
-import { delay, inject, singleton } from 'tsyringe'
+import { delay, inject } from 'tsyringe'
 
 import { databaseConfig, mikroORMConfig } from '@/configs'
-import { Schedule } from '@/decorators'
+import { Schedule, Service } from '@/decorators'
 import * as entities from '@/entities'
 import { env } from '@/env'
-import { Logger, PluginsManager } from '@/services'
+import { Logger, PluginsManager, Store } from '@/services'
 import { resolveDependency } from '@/utils/functions'
 
-@singleton()
+@Service()
 export class Database {
 
 	private _orm: MikroORM<DatabaseDriver>
 
 	constructor(
+		@inject(delay(() => Store)) private store: Store,
         @inject(delay(() => Logger)) private logger: Logger
 	) {}
 
-	async initialize(migrate = true) {
+	async initialize() {
 		const pluginsManager = await resolveDependency(PluginsManager)
 
 		// get config
@@ -33,7 +34,8 @@ export class Database {
 		// initialize the ORM using the configuration exported in `mikro-orm.config.ts`
 		this._orm = await MikroORM.init(config)
 
-		if (migrate) {
+		const shouldMigrate = !this.store.get('botHasBeenReloaded')
+		if (shouldMigrate) {
 			const migrator = this._orm.getMigrator()
 
 			// create migration if no one is present in the migrations folder

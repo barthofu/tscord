@@ -1,14 +1,13 @@
 import { ArgsOf, Client, Guard, SimpleCommandMessage } from 'discordx'
-import { injectable } from 'tsyringe'
 
-import { Discord, On, OnCustom } from '@/decorators'
+import { Discord, Injectable, On, OnCustom } from '@/decorators'
 import { Guild, User } from '@/entities'
 import { Maintenance } from '@/guards'
 import { Database, EventManager, Logger, Stats } from '@/services'
 import { getPrefixFromMessage, syncUser } from '@/utils/functions'
 
 @Discord()
-@injectable()
+@Injectable()
 export default class SimpleCommandCreateEvent {
 
 	constructor(

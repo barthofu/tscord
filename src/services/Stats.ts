@@ -5,10 +5,10 @@ import { constant } from 'case'
 import { Client, SimpleCommandMessage } from 'discordx'
 import osu from 'node-os-utils'
 import pidusage from 'pidusage'
-import { delay, inject, singleton } from 'tsyringe'
+import { delay, inject } from 'tsyringe'
 
 import { statsConfig } from '@/configs'
-import { Schedule } from '@/decorators'
+import { Schedule, Service } from '@/decorators'
 import { Guild, Stat, User } from '@/entities'
 import { Database } from '@/services'
 import { datejs, formatDate, getTypeOfInteraction, resolveAction, resolveChannel, resolveGuild, resolveUser } from '@/utils/functions'
@@ -22,7 +22,7 @@ const allInteractions = {
 	],
 }
 
-@singleton()
+@Service()
 export class Stats {
 
 	private statsRepo: EntityRepository<Stat>

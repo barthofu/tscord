@@ -3,16 +3,16 @@ import { sep } from 'node:path'
 
 import { resolve } from '@discordx/importer'
 import { AnyEntity, EntityClass } from '@mikro-orm/core'
-import { singleton } from 'tsyringe'
 import { BaseTranslation } from 'typesafe-i18n'
 import { ImportLocaleMapping, storeTranslationsToDisk } from 'typesafe-i18n/importer'
 
+import { Service } from '@/decorators'
 import { locales } from '@/i18n'
 import { Store } from '@/services'
 import { BaseController, Plugin } from '@/utils/classes'
 import { getSourceCodeLocation } from '@/utils/functions'
 
-@singleton()
+@Service()
 export class PluginsManager {
 
 	private _plugins: Plugin[] = []

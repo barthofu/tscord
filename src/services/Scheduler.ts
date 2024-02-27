@@ -1,7 +1,8 @@
 import { CronJob } from 'cron'
-import { singleton } from 'tsyringe'
 
-@singleton()
+import { Service } from '@/decorators'
+
+@Service()
 export class Scheduler {
 
 	private _jobs: Map<string, CronJob> = new Map()
