@@ -19,9 +19,9 @@ export class Database {
 
 	constructor(
         @inject(delay(() => Logger)) private logger: Logger
-	) { }
+	) {}
 
-	async initialize() {
+	async initialize(migrate = true) {
 		const pluginsManager = await resolveDependency(PluginsManager)
 
 		// get config
@@ -33,17 +33,18 @@ export class Database {
 		// initialize the ORM using the configuration exported in `mikro-orm.config.ts`
 		this._orm = await MikroORM.init(config)
 
-		const migrator = this._orm.getMigrator()
+		if (migrate) {
+			const migrator = this._orm.getMigrator()
 
-		// create migration if no one is present in the migrations folder
-		const pendingMigrations = await migrator.getPendingMigrations()
-		const executedMigrations = await migrator.getExecutedMigrations()
-		if (pendingMigrations.length === 0 && executedMigrations.length === 0) {
-			await migrator.createInitialMigration()
+			// create migration if no one is present in the migrations folder
+			const pendingMigrations = await migrator.getPendingMigrations()
+			const executedMigrations = await migrator.getExecutedMigrations()
+			if (pendingMigrations.length === 0 && executedMigrations.length === 0)
+				await migrator.createInitialMigration()
+
+			// migrate to the latest migration
+			await this._orm.getMigrator().up()
 		}
-
-		// migrate to the latest migration
-		await this._orm.getMigrator().up()
 	}
 
 	async refreshConnection() {
