@@ -4,7 +4,7 @@ import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
 // eslint-disable-next-line unused-imports/no-unused-imports
 import { env } from '@/env'
 
-interface Config {
+type Config = {
 	production: Options
 	development?: Options
 }

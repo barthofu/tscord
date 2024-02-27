@@ -11,18 +11,19 @@ import { BaseMessageOptions, TextChannel, ThreadChannel, User } from 'discord.js
 import { Client, MetadataStorage } from 'discordx'
 import ora from 'ora'
 import { parse, StackFrame } from 'stacktrace-parser'
-import { delay, inject, singleton } from 'tsyringe'
+import { delay, inject } from 'tsyringe'
 
 import * as controllers from '@/api/controllers'
 import { apiConfig, logsConfig } from '@/configs'
-import { Schedule } from '@/decorators'
+import { Schedule, Service } from '@/decorators'
 import { env } from '@/env'
 import { locales } from '@/i18n'
 import { Pastebin, PluginsManager, Scheduler, Store } from '@/services'
 import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from '@/utils/functions'
 
 const defaultConsole = { ...console }
-@singleton()
+
+@Service()
 export class Logger {
 
 	private readonly logPath: string = path.join(__dirname, '..', '..', 'logs')

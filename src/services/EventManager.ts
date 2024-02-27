@@ -1,8 +1,7 @@
-import { singleton } from 'tsyringe'
-
+import { Service } from '@/decorators'
 import { Logger } from '@/services'
 
-@singleton()
+@Service()
 export class EventManager {
 
 	private _events: Map<string, Function[]> = new Map()

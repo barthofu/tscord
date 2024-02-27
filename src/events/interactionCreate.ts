@@ -1,16 +1,15 @@
 import { CommandInteraction } from 'discord.js'
 import { ArgsOf, Client } from 'discordx'
-import { injectable } from 'tsyringe'
 
 import { generalConfig } from '@/configs'
-import { Discord, Guard, On } from '@/decorators'
+import { Discord, Guard, Injectable, On } from '@/decorators'
 import { Guild, User } from '@/entities'
 import { Maintenance } from '@/guards'
 import { Database, Logger, Stats } from '@/services'
 import { syncUser } from '@/utils/functions'
 
 @Discord()
-@injectable()
+@Injectable()
 export default class InteractionCreateEvent {
 
 	constructor(

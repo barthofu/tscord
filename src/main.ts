@@ -10,9 +10,11 @@ import chokidar from 'chokidar'
 import discordLogs from 'discord-logs'
 import { Client, DIService, MetadataStorage, tsyringeDependencyRegistryEngine } from 'discordx'
 import { container } from 'tsyringe'
+import { constructor } from 'tsyringe/dist/typings/types'
 
 import { Server } from '@/api/server'
 import { apiConfig, generalConfig } from '@/configs'
+import { keptInstances } from '@/decorators'
 import { checkEnvironmentVariables, env } from '@/env'
 import { NoBotTokenError } from '@/errors'
 import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store } from '@/services'
@@ -53,12 +55,24 @@ async function reload(client: Client) {
 	// remove events
 	client.removeEvents()
 
+	// get all instances to keep
+	const instancesToKeep: Map<constructor<any>, any> = new Map()
+	for (const target of keptInstances) {
+		const instance = await resolveDependency(target)
+		instancesToKeep.set(target, instance)
+	}
+
 	// cleanup
 	MetadataStorage.clear()
 	DIService.engine.clearAllServices()
 
 	// transfer store instance to the new container in order to keep the same states
-	container.registerInstance(Store, store)
+	for (const [target, instance] of instancesToKeep) {
+		container.registerInstance(target, instance)
+	}
+
+	// re-register the client instance
+	container.registerInstance(Client, client)
 
 	// reload files
 	await loadFiles(importPattern)
@@ -70,15 +84,13 @@ async function reload(client: Client) {
 
 	// re-init services
 
-	// plugins
 	const pluginManager = await resolveDependency(PluginsManager)
 	await pluginManager.loadPlugins()
 
-	// database
 	const db = await resolveDependency(Database)
-	await db.initialize(false)
+	await db.initialize()
 
-	logger.log(chalk.whiteBright('Hot reloaded'))
+	logger.log(chalk.whiteBright('Hot reloaded\n'))
 }
 
 async function init() {
@@ -117,7 +129,7 @@ async function init() {
 	await pluginManager.importEvents()
 
 	RequestContext.create(db.orm.em, async () => {
-		const watcher = chokidar.watch(importPattern)
+		const watcher = env.NODE_ENV === 'development' ? chokidar.watch(importPattern) : null
 
 		// init the data table if it doesn't exist
 		await initDataTable()
@@ -129,21 +141,18 @@ async function init() {
 		await pluginManager.execMains()
 
 		// log in with the bot token
-		if (!env.BOT_TOKEN) {
-			throw new NoBotTokenError()
-		}
-
+		if (!env.BOT_TOKEN) throw new NoBotTokenError()
 		client.login(env.BOT_TOKEN)
 			.then(async () => {
 				if (env.NODE_ENV === 'development') {
 					// reload commands and events when a file changes
-					watcher.on('change', () => reload(client))
+					watcher?.on('change', () => reload(client))
 
 					// reload commands and events when a file is added
-					watcher.on('add', () => reload(client))
+					watcher?.on('add', () => reload(client))
 
 					// reload commands and events when a file is deleted
-					watcher.on('unlink', () => reload(client))
+					watcher?.on('unlink', () => reload(client))
 				}
 
 				// start the api server

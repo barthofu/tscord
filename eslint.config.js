@@ -11,6 +11,7 @@ module.exports = antfu(
 			// https://eslint.style/packages/ts
 			overrides: {
 				'curly': 'off',
+				'style/eol-last': 'off',
 				'style/block-spacing': ['error', 'always'],
 				'style/brace-style': ['error', '1tbs'],
 				'style/comma-dangle': ['error', {
@@ -68,7 +69,6 @@ module.exports = antfu(
 						arrow: { before: true, after: true },
 					},
 				}],
-
 			},
 		},
 
@@ -93,8 +93,12 @@ module.exports = antfu(
 		rules: {
 			'ts/ban-ts-comment': 'off',
 			'ts/consistent-type-imports': 'off',
+			'ts/consistent-type-definitions': ['error', 'type'],
+
 			'eslint-comments/no-unlimited-disable': 'off',
 			'eslint-comments/no-unused-disable': 'off',
+
+			'antfu/if-newline': 'off',
 
 			'no-unused-vars': 'off', // prefer unused-imports/no-unused-vars
 			'unused-imports/no-unused-vars': 'warn',

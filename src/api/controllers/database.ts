@@ -1,10 +1,10 @@
 import { BodyParams, Controller, Get, Post, UseBefore } from '@tsed/common'
 import { InternalServerError } from '@tsed/exceptions'
 import { Required } from '@tsed/schema'
-import { injectable } from 'tsyringe'
 
 import { DevAuthenticated } from '@/api/middlewares'
 import { databaseConfig } from '@/configs'
+import { Injectable } from '@/decorators'
 import { Database } from '@/services'
 import { BaseController } from '@/utils/classes'
 import { formatDate, resolveDependencies } from '@/utils/functions'
@@ -13,7 +13,7 @@ import { formatDate, resolveDependencies } from '@/utils/functions'
 @UseBefore(
 	DevAuthenticated
 )
-@injectable()
+@Injectable()
 export class DatabaseController extends BaseController {
 
 	private db: Database

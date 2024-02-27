@@ -1,11 +1,10 @@
 import process from 'node:process'
 
-import { singleton } from 'tsyringe'
-
+import { Service } from '@/decorators'
 import { Logger } from '@/services'
 import { BaseError } from '@/utils/classes'
 
-@singleton()
+@Service()
 export class ErrorHandler {
 
 	constructor(

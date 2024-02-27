@@ -1,10 +1,9 @@
 import { Category } from '@discordx/utilities'
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js'
 import { Client } from 'discordx'
-import { injectable } from 'tsyringe'
 
 import { generalConfig } from '@/configs'
-import { Discord, Slash, SlashOption } from '@/decorators'
+import { Discord, Injectable, Slash, SlashOption } from '@/decorators'
 import { Guild } from '@/entities'
 import { UnknownReplyError } from '@/errors'
 import { Guard, UserPermissions } from '@/guards'
@@ -12,7 +11,7 @@ import { Database } from '@/services'
 import { resolveGuild, simpleSuccessEmbed } from '@/utils/functions'
 
 @Discord()
-@injectable()
+@Injectable()
 @Category('Admin')
 export default class PrefixCommand {
 
