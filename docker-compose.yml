@@ -1,8 +1,5 @@
 version: '3'
 
-networks:
-  dev:
-
 services:
 
   # ==== Application ====
@@ -20,11 +17,25 @@ services:
         - ./database:/app/database
         - ./logs/:/app/logs
         - ./assets:/app/assets
-    restart: always
-    networks:
-      - dev
+    restart: unless-stopped
     # depends_on:
     #   - database
+
+  
+  # ==== PostgreSQL database ====
+
+  # database:
+  #   image: postgres
+  #   container_name: database
+  #   restart: always
+  #   volumes:
+  #     - ./data:/var/lib/postgresql:rw
+  #   environment:
+  #     - POSTGRES_DB=${DATABASE_NAME}
+  #     - POSTGRES_USER=${DATABASE_USER}
+  #     - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+  #   ports:
+  #     - 5432:5432
 
   # ==== MySQL database ====
 
@@ -41,37 +52,3 @@ services:
   #     - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
   #   ports:
   #     - 3306:3306
-  #   networks:
-  #     - dev
-
-  # ==== PostgreSQL database ====
-
-  # database:
-  #   image: postgres
-  #   container_name: database
-  #   restart: always
-  #   volumes:
-  #     - ./data:/var/lib/postgresql:rw
-  #   environment:
-  #     - POSTGRES_DB=${DATABASE_NAME}
-  #     - POSTGRES_USER=${DATABASE_USER}
-  #     - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-  #   ports:
-  #     - 5432:5432
-  #   networks:
-  #     - dev
-
-  # ==== phpMyAdmin ====
-
-  # phpmyadmin:
-  #   image: phpmyadmin
-  #   container_name: phpmyadmin
-  #   restart: always
-  #   depends_on:
-  #       - database
-  #   ports:
-  #       - 8080:80
-  #   environment:
-  #       PMA_HOST: database
-  #   networks:
-  #       - dev
