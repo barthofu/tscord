@@ -26,6 +26,8 @@ jobs:
           host: ${{ secrets.IP }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+          # key: ${{ secrets.KEY }}
+          # passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           envs: PROJECT_PATH
           script: |
