@@ -28,9 +28,14 @@ This template was created to give developers a starting point for new Discord bo
 <table>
 <tr>
 <td align="center">
-ㅤ
 
-ㅤ **[To know how to use TSCord and all its components, check the documentation here](https://tscord.discbot.app/)** ㅤ
+Getting started is as easy as one command
+
+```bash
+npx tscord init bot my-bot
+```
+
+**[To know how to use TSCord and all its components, check the documentation here](https://tscord.discbot.app/)** ㅤ
 
 </td>
 </tr>
