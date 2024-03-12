@@ -1,14 +1,14 @@
 <p align="center">
-    <img width="500" height="500" src="https://i.imgur.com/19Nas88.png"></img>
+    <img height="450" src="https://github.com/barthofu/tscord/assets/66025667/7cf87e0f-37e9-46ce-b244-dda6c45941c9"></img>
 </p>
 
 <div align="center">
 
-[![Latest version](https://img.shields.io/github/v/release/barthofu/tscord?color=4b38ff&label=latest%20version&logo=github&logoColor=white&colorA=4b38ff)](https://github.com/barthofu/tscord/releases/latest)
+[![Latest version](https://img.shields.io/github/v/release/barthofu/tscord?color=4b38ff&label=latest%20version&logo=github&logoColor=white&colorA=4b38ff&style=flat)](https://github.com/barthofu/tscord/releases/latest)
 
-[![Build state](https://img.shields.io/github/actions/workflow/status/barthofu/tscord/build.yml?branch=main&colorB=4b38ff&colorA=4b38ff)](https://github.com/barthofu/tscord/actions/workflows/build.yml)
-![Repo size](https://img.shields.io/github/repo-size/barthofu/tscord?colorB=4b38ff&colorA=4b38ff)
-![Stars count](https://img.shields.io/github/stars/barthofu/tscord?colorB=4b38ff&colorA=4b38ff)
+[![Build state](https://img.shields.io/github/actions/workflow/status/barthofu/tscord/build.yml?branch=main&colorB=4b38ff&colorA=4b38ff&style=flat)](https://github.com/barthofu/tscord/actions/workflows/build.yml)
+![Repo size](https://img.shields.io/github/repo-size/barthofu/tscord?colorB=4b38ff&colorA=4b38ff&style=flat)
+![Stars count](https://img.shields.io/github/stars/barthofu/tscord?colorB=4b38ff&colorA=4b38ff&style=flat)
 
 <table>
   <tr>
