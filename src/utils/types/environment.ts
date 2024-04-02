@@ -5,7 +5,7 @@ import { cleanEnv, num, str } from 'envalid'
 import { apiConfig, generalConfig, mikroORMConfig } from '@/configs'
 
 export const env = cleanEnv(process.env, {
-	NODE_ENV: str({ choices: ['development', 'production'] }),
+	NODE_ENV: str({ choices: ['development', 'production'], default: 'development' }),
 
 	BOT_TOKEN: str(),
 	TEST_GUILD_ID: str(),
