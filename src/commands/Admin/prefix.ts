@@ -34,7 +34,7 @@ export default class PrefixCommand {
 			{ localize }: InteractionData
 	) {
 		const guild = resolveGuild(interaction)
-		const guildData = await this.db.get(Guild).findOne({ id: guild?.id || '' })
+		const guildData = await this.db.get(Guild).findOne({ guildId: guild?.id || '' })
 
 		if (guildData) {
 			guildData.prefix = prefix || null

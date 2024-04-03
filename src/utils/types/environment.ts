@@ -24,7 +24,7 @@ export const env = cleanEnv(process.env, {
 })
 
 export function checkEnvironmentVariables() {
-	if (!['sqlite', 'better-sqlite'].includes(mikroORMConfig[env.NODE_ENV].type)) {
+	if (!['sqlite', 'better-sqlite', 'mongo'].includes(mikroORMConfig[env.NODE_ENV].type)) {
 		cleanEnv(process.env, {
 			DATABASE_HOST: str(),
 			DATABASE_PORT: num(),
