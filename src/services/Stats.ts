@@ -129,44 +129,29 @@ export class Stats {
 	 * Get commands sorted by total amount of uses in DESC order.
 	 */
 	async getTopCommands() {
-		if ('createQueryBuilder' in this.db.em) {
-			const qb = this.db.em.createQueryBuilder(Stat)
-			const query = qb
-				.select(['type', 'value as name', 'count(*) as count'])
-				.where(allInteractions)
-				.groupBy(['type', 'value'])
-
-			const slashCommands = await query.execute()
-
-			return slashCommands.sort((a: any, b: any) => b.count - a.count)
-		} else if ('aggregate' in this.db.em) {
-			// @ts-expect-error - aggregate is not in the types
-			const slashCommands = await this.db.em.aggregate(Stat, [
-				{
-					$match: allInteractions,
+		const slashCommands = await this.db.em.aggregate(Stat, [
+			{
+				$match: allInteractions,
+			},
+			{
+				$group: {
+					_id: { type: '$type', value: '$value' },
+					count: { $sum: 1 },
 				},
-				{
-					$group: {
-						_id: { type: '$type', value: '$value' },
-						count: { $sum: 1 },
+			},
+			{
+				$replaceRoot: {
+					newRoot: {
+						$mergeObjects: [
+							'$_id',
+							{ count: '$count' },
+						],
 					},
 				},
-				{
-					$replaceRoot: {
-						newRoot: {
-							$mergeObjects: [
-								'$_id',
-								{ count: '$count' },
-							],
-						},
-					},
-				},
-			])
+			},
+		])
 
-			return slashCommands.sort((a: any, b: any) => b.count - a.count)
-		} else {
-			return []
-		}
+		return slashCommands.sort((a: any, b: any) => b.count - a.count)
 	}
 
 	/**

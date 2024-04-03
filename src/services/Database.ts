@@ -73,80 +73,86 @@ export class Database {
 	/**
 	 * Create a snapshot of the database each day at 00:00
 	 */
-	@Schedule('0 0 * * *')
-	async backup(snapshotName?: string): Promise<boolean> {
-		const { formatDate } = await import('@/utils/functions')
 
-		if (!databaseConfig.backup.enabled && !snapshotName)
-			return false
-		if (!this.isSQLiteDatabase()) {
-			this.logger.log('Database is not SQLite, couldn\'t backup')
+	// Commented due to Type Issues from MicroORM
 
-			return false
-		}
+	// @Schedule('0 0 * * *')
+	// async backup(snapshotName?: string): Promise<boolean> {
+	// 	const { formatDate } = await import('@/utils/functions')
 
-		const backupPath = databaseConfig.backup.path
-		if (!backupPath) {
-			this.logger.log('Backup path not set, couldn\'t backup', 'error', true)
+	// 	if (!databaseConfig.backup.enabled && !snapshotName)
+	// 		return false
+	// 	if (!this.isSQLiteDatabase()) {
+	// 		this.logger.log('Database is not SQLite, couldn\'t backup')
 
-			return false
-		}
+	// 		return false
+	// 	}
 
-		if (!snapshotName)
-			snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}`
-		const objectsPath = `${backupPath}objects/` as `${string}/`
+	// 	const backupPath = databaseConfig.backup.path
+	// 	if (!backupPath) {
+	// 		this.logger.log('Backup path not set, couldn\'t backup', 'error', true)
 
-		try {
-			await backup(
-				mikroORMConfig[env.NODE_ENV]!.dbName!,
-				`${snapshotName}.txt`,
-				objectsPath
-			)
+	// 		return false
+	// 	}
 
-			return true
-		} catch (e) {
-			const errorMessage = typeof e === 'string' ? e : e instanceof Error ? e.message : 'Unknown error'
+	// 	if (!snapshotName)
+	// 		snapshotName = `snapshot-${formatDate(new Date(), 'onlyDateFileName')}`
+	// 	const objectsPath = `${backupPath}objects/` as `${string}/`
 
-			this.logger.log(`Couldn't backup : ${errorMessage}`, 'error', true)
+	// 	try {
+	// 		await backup(
+	// 			mikroORMConfig[env.NODE_ENV]!.dbName!,
+	// 			`${snapshotName}.txt`,
+	// 			objectsPath
+	// 		)
 
-			return false
-		}
-	}
+	// 		return true
+	// 	} catch (e) {
+	// 		const errorMessage = typeof e === 'string' ? e : e instanceof Error ? e.message : 'Unknown error'
+
+	// 		this.logger.log(`Couldn't backup : ${errorMessage}`, 'error', true)
+
+	// 		return false
+	// 	}
+	// }
 
 	/**
 	 * Restore the SQLite database from a snapshot file.
 	 * @param snapshotName name of the snapshot to restore
 	 * @returns true if the snapshot has been restored, false otherwise
 	 */
-	async restore(snapshotName: string): Promise<boolean> {
-		if (!this.isSQLiteDatabase()) {
-			this.logger.log('Database is not SQLite, couldn\'t restore', 'error')
 
-			return false
-		}
+	// Commented due to Type Issues from MicroORM
 
-		const backupPath = databaseConfig.backup.path
-		if (!backupPath)
-			this.logger.log('Backup path not set, couldn\'t restore', 'error', true)
+	// async restore(snapshotName: string): Promise<boolean> {
+	// 	if (!this.isSQLiteDatabase()) {
+	// 		this.logger.log('Database is not SQLite, couldn\'t restore', 'error')
 
-		try {
-			console.debug(mikroORMConfig[env.NODE_ENV]!.dbName!)
-			console.debug(`${backupPath}${snapshotName}`)
-			await restore(
-				mikroORMConfig[env.NODE_ENV]!.dbName!,
-                `${backupPath}${snapshotName}`
-			)
+	// 		return false
+	// 	}
 
-			await this.refreshConnection()
+	// 	const backupPath = databaseConfig.backup.path
+	// 	if (!backupPath)
+	// 		this.logger.log('Backup path not set, couldn\'t restore', 'error', true)
 
-			return true
-		} catch (error) {
-			console.debug(error)
-			this.logger.log('Snapshot file not found, couldn\'t restore', 'error', true)
+	// 	try {
+	// 		console.debug(mikroORMConfig[env.NODE_ENV]!.dbName!)
+	// 		console.debug(`${backupPath}${snapshotName}`)
+	// 		await restore(
+	// 			mikroORMConfig[env.NODE_ENV]!.dbName!,
+    //             `${backupPath}${snapshotName}`
+	// 		)
 
-			return false
-		}
-	}
+	// 		await this.refreshConnection()
+
+	// 		return true
+	// 	} catch (error) {
+	// 		console.debug(error)
+	// 		this.logger.log('Snapshot file not found, couldn\'t restore', 'error', true)
+
+	// 		return false
+	// 	}
+	// }
 
 	getBackupList(): string[] | null {
 		const backupPath = databaseConfig.backup.path
@@ -162,28 +168,30 @@ export class Database {
 		return backupList
 	}
 
-	getSize(): DatabaseSize {
-		const size: DatabaseSize = {
-			db: null,
-			backups: null,
-		}
+	// Commented due to Type Issues from MicroORM
 
-		if (this.isSQLiteDatabase()) {
-			const dbPath = mikroORMConfig[env.NODE_ENV]!.dbName!
-			const dbSize = fs.statSync(dbPath).size
+	// getSize(): DatabaseSize {
+	// 	const size: DatabaseSize = {
+	// 		db: null,
+	// 		backups: null,
+	// 	}
 
-			size.db = dbSize
-		}
+	// 	if (this.isSQLiteDatabase()) {
+	// 		const dbPath = mikroORMConfig[env.NODE_ENV]!.dbName!
+	// 		const dbSize = fs.statSync(dbPath).size
 
-		const backupPath = databaseConfig.backup.path
-		if (backupPath) {
-			const backupSize = fastFolderSizeSync(backupPath)
+	// 		size.db = dbSize
+	// 	}
 
-			size.backups = backupSize || null
-		}
+	// 	const backupPath = databaseConfig.backup.path
+	// 	if (backupPath) {
+	// 		const backupSize = fastFolderSizeSync(backupPath)
 
-		return size
-	}
+	// 		size.backups = backupSize || null
+	// 	}
+
+	// 	return size
+	// }
 
 	isSQLiteDatabase(): boolean {
 		const type = mikroORMConfig[env.NODE_ENV]!.type

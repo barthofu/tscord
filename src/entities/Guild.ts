@@ -1,4 +1,4 @@
-import { Entity, EntityRepositoryType, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, EntityRepositoryType, Property } from '@mikro-orm/core'
 import { EntityRepository } from '@mikro-orm/sqlite'
 
 import { CustomBaseEntity } from './BaseEntity'
@@ -12,8 +12,8 @@ export class Guild extends CustomBaseEntity {
 
 	[EntityRepositoryType]?: GuildRepository
 
-	@PrimaryKey({ autoincrement: false })
-    id!: string
+	@Property()
+    guildId!: string
 
 	@Property({ nullable: true, type: 'string' })
     prefix: string | null
@@ -33,7 +33,7 @@ export class Guild extends CustomBaseEntity {
 export class GuildRepository extends EntityRepository<Guild> {
 
 	async updateLastInteract(guildId?: string): Promise<void> {
-		const guild = await this.findOne({ id: guildId })
+		const guild = await this.findOne({ guildId })
 
 		if (guild) {
 			guild.lastInteract = new Date()

@@ -15,13 +15,13 @@ export async function syncUser(user: DUser) {
 	const userRepo = db.get(User)
 
 	const userData = await userRepo.findOne({
-		id: user.id,
+		userId: user.id,
 	})
 
 	if (!userData) {
 		// add user to the db
 		const newUser = new User()
-		newUser.id = user.id
+		newUser.userId = user.id
 		await userRepo.persistAndFlush(newUser)
 
 		// record new user both in logs and stats
@@ -39,13 +39,13 @@ export async function syncGuild(guildId: string, client: Client) {
 	const [db, stats, logger] = await resolveDependencies([Database, Stats, Logger])
 
 	const guildRepo = db.get(Guild)
-	const guildData = await guildRepo.findOne({ id: guildId, deleted: false })
+	const guildData = await guildRepo.findOne({ guildId, deleted: false })
 
 	const fetchedGuild = await client.guilds.fetch(guildId).catch(() => null)
 
 	// check if this guild exists in the database, if not it creates it (or recovers it from the deleted ones)
 	if (!guildData) {
-		const deletedGuildData = await guildRepo.findOne({ id: guildId, deleted: true })
+		const deletedGuildData = await guildRepo.findOne({ guildId, deleted: true })
 
 		if (deletedGuildData) {
 			// recover deleted guild
@@ -59,7 +59,7 @@ export async function syncGuild(guildId: string, client: Client) {
 			// create new guild
 
 			const newGuild = new Guild()
-			newGuild.id = guildId
+			newGuild.guildId = guildId
 			await guildRepo.persistAndFlush(newGuild)
 
 			stats.register('NEW_GUILD', guildId)
@@ -92,5 +92,5 @@ export async function syncAllGuilds(client: Client) {
 	const guildRepo = db.get(Guild)
 	const guildsData = await guildRepo.getActiveGuilds()
 	for (const guildData of guildsData)
-		await syncGuild(guildData.id, client)
+		await syncGuild(guildData.guildId, client)
 }
