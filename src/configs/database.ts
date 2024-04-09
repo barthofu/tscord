@@ -27,7 +27,7 @@ const envMikroORMConfig = {
 		/**
 		 * SQLite
 		 */
-		type: 'better-sqlite', // or 'sqlite'
+		type: 'sqlite',
 		dbName: `${databaseConfig.path}db.sqlite`,
 
 		/**
