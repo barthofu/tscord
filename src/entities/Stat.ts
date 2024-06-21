@@ -5,7 +5,7 @@ import { EntityRepository } from '@mikro-orm/sqlite'
 // ================= Entity ==================
 // ===========================================
 
-@Entity({ customRepository: () => StatRepository })
+@Entity({ repository: () => StatRepository })
 export class Stat {
 
 	[EntityRepositoryType]?: StatRepository
