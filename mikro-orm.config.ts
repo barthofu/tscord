@@ -3,7 +3,7 @@ import 'reflect-metadata'
 
 import process from 'node:process'
 
-import { Options } from '@mikro-orm/core'
+import { defineConfig, Options } from '@mikro-orm/core'
 
 import * as entities from '@/entities'
 import { PluginsManager } from '@/services'
@@ -15,8 +15,8 @@ export default async () => {
 	const pluginsManager = await resolveDependency(PluginsManager)
 	await pluginsManager.loadPlugins()
 
-	return {
+	return defineConfig({
 		...mikroORMConfig[process.env.NODE_ENV || 'development'] as Options<DatabaseDriver>,
 		entities: [...Object.values(entities), ...pluginsManager.getEntities()],
-	}
+	})
 }

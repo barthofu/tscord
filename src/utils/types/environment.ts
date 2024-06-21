@@ -24,7 +24,10 @@ export const env = cleanEnv(process.env, {
 })
 
 export function checkEnvironmentVariables() {
-	if (!['sqlite', 'better-sqlite'].includes(mikroORMConfig[env.NODE_ENV].type)) {
+	const config = mikroORMConfig[env.NODE_ENV]
+	// @ts-expect-error
+	const isSqliteDatabase = !!config.dbName && !config.port
+	if (isSqliteDatabase) {
 		cleanEnv(process.env, {
 			DATABASE_HOST: str(),
 			DATABASE_PORT: num(),
