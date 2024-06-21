@@ -1,6 +1,6 @@
 import '@tsed/swagger'
 
-import { MikroORM, UseRequestContext } from '@mikro-orm/core'
+import { CreateRequestContext, MikroORM } from '@mikro-orm/core'
 import { Inject, PlatformAcceptMimesMiddleware, PlatformApplication } from '@tsed/common'
 import { PlatformExpress } from '@tsed/platform-express'
 import bodyParser from 'body-parser'
@@ -36,7 +36,7 @@ export class Server {
 		return null
 	}
 
-	@UseRequestContext()
+	@CreateRequestContext()
 	async start(): Promise<void> {
 		const platform = await PlatformExpress.bootstrap(Server, {
 			rootDir: __dirname,
