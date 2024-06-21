@@ -22,7 +22,7 @@ export async function syncUser(user: DUser) {
 		// add user to the db
 		const newUser = new User()
 		newUser.id = user.id
-		await userRepo.persistAndFlush(newUser)
+		await db.em.persistAndFlush(newUser)
 
 		// record new user both in logs and stats
 		stats.register('NEW_USER', user.id)
@@ -51,7 +51,7 @@ export async function syncGuild(guildId: string, client: Client) {
 			// recover deleted guild
 
 			deletedGuildData.deleted = false
-			await guildRepo.persistAndFlush(deletedGuildData)
+			await db.em.persistAndFlush(deletedGuildData)
 
 			stats.register('RECOVER_GUILD', guildId)
 			logger.logGuild('RECOVER_GUILD', guildId)
@@ -60,7 +60,7 @@ export async function syncGuild(guildId: string, client: Client) {
 
 			const newGuild = new Guild()
 			newGuild.id = guildId
-			await guildRepo.persistAndFlush(newGuild)
+			await db.em.persistAndFlush(newGuild)
 
 			stats.register('NEW_GUILD', guildId)
 			logger.logGuild('NEW_GUILD', guildId)
@@ -69,7 +69,7 @@ export async function syncGuild(guildId: string, client: Client) {
 		// guild is deleted but still exists in the database
 
 		guildData.deleted = true
-		await guildRepo.persistAndFlush(guildData)
+		await db.em.persistAndFlush(guildData)
 
 		stats.register('DELETE_GUILD', guildId)
 		logger.logGuild('DELETE_GUILD', guildId)

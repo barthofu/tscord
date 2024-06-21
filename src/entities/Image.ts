@@ -7,7 +7,7 @@ import { CustomBaseEntity } from './BaseEntity'
 // ================= Entity ==================
 // ===========================================
 
-@Entity({ customRepository: () => ImageRepository })
+@Entity({ repository: () => ImageRepository })
 export class Image extends CustomBaseEntity {
 
 	[EntityRepositoryType]?: ImageRepository
