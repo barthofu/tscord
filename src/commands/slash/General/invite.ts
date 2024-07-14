@@ -22,7 +22,7 @@ export default class InviteCommand {
 	) {
 		const embed = new EmbedBuilder()
 			.setTitle(localize.COMMANDS.INVITE.EMBED.TITLE())
-			.setDescription(localize.COMMANDS.INVITE.EMBED.DESCRIPTION({ link: generalConfig.links.invite }))
+			.setDescription(localize.COMMANDS.INVITE.EMBED.DESCRIPTION({ link: generalConfig.links.botInvite }))
 			.setColor(getColor('primary'))
 			.setFooter({ text: 'Powered by DiscBot Team ❤' })
 

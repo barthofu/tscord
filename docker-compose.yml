@@ -5,7 +5,7 @@ services:
   # ==== Application ====
 
   app:
-    container_name: my_bot
+    container_name: tscord
     build:
       context: ./
       dockerfile: ./.docker/app/Dockerfile
