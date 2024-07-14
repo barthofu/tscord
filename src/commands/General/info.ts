@@ -15,9 +15,9 @@ import packageJson from '../../../package.json'
 dayjs.extend(relativeTime)
 
 const links = [
-	{ label: 'Invite me!', url: generalConfig.links.invite },
+	{ label: 'Invite me!', url: generalConfig.links.botInvite },
 	{ label: 'Support server', url: generalConfig.links.supportServer },
-	{ label: 'Github', url: generalConfig.links.gitRemoteRepo },
+	{ label: 'GitHub', url: generalConfig.links.gitRemoteRepo },
 ]
 
 @Discord()
@@ -45,7 +45,7 @@ export default class InfoCommand {
 			.setTitle(client.user!.tag)
 			.setThumbnail(client.user!.displayAvatarURL())
 			.setColor(getColor('primary'))
-			.setDescription(packageJson.description)
+			.setDescription(generalConfig.description)
 
 		const fields: EmbedField[] = []
 
@@ -86,7 +86,7 @@ export default class InfoCommand {
 		 */
 		fields.push({
 			name: 'Bot version',
-			value: `v${packageJson.version}`,
+			value: `v${generalConfig.version}`,
 			inline: true,
 		})
 

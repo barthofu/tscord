@@ -2,25 +2,29 @@ type GeneralConfigType = {
 
 	name: string
 	description: string
+	version: string
+
 	defaultLocale: import('@/i18n').Locales
-	ownerId: string
 	timezone: string
-	automaticUploadImagesToImgur: boolean
 
 	simpleCommandsPrefix: string
 	automaticDeferring: boolean
 
 	links: {
-		invite: string
+		botInvite: string
 		supportServer: string
 		gitRemoteRepo: string
 	}
 
+	automaticUploadImagesToImgur: boolean
+
+	ownerId: string
 	devs: string[]
+	testGuildId: string
 
 	activities: {
+		type: 'PLAYING' | 'LISTENING' | 'WATCHING' | 'STREAMING' | 'COMPETING' | 'CUSTOM'
 		text: string
-		type: 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' | 'CUSTOM' | 'COMPETING'
 	}[]
 
 }
