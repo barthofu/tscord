@@ -470,7 +470,7 @@ export class Logger {
 			this.console(chalkedMessage, 'error')
 		if (logsConfig.error.file)
 			this.file(message, 'error')
-		if (logsConfig.error.channel && env.NODE_ENV === 'production') {
+		if (logsConfig.error.channel && env.isProduction === true) {
 			this.discordChannel(logsConfig.error.channel, {
 				embeds: [{
 					title: (embedTitle.length >= 256 ? (`${embedTitle.substring(0, 252)}...`) : embedTitle),

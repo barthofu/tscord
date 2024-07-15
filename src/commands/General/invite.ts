@@ -1,6 +1,5 @@
 import { Category } from '@discordx/utilities'
 import { CommandInteraction, EmbedBuilder } from 'discord.js'
-import { Client } from 'discordx'
 
 import { generalConfig } from '@/configs'
 import { Discord, Slash } from '@/decorators'
@@ -17,12 +16,11 @@ export default class InviteCommand {
 	@Guard()
 	async invite(
 		interaction: CommandInteraction,
-		client: Client,
 		{ localize }: InteractionData
 	) {
 		const embed = new EmbedBuilder()
 			.setTitle(localize.COMMANDS.INVITE.EMBED.TITLE())
-			.setDescription(localize.COMMANDS.INVITE.EMBED.DESCRIPTION({ link: generalConfig.links.invite }))
+			.setDescription(localize.COMMANDS.INVITE.EMBED.DESCRIPTION({ link: generalConfig.links.botInvite }))
 			.setColor(getColor('primary'))
 			.setFooter({ text: 'Powered by DiscBot Team ❤' })
 

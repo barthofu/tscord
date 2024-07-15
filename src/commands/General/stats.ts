@@ -4,7 +4,6 @@ import {
 } from '@discordx/pagination'
 import { Category } from '@discordx/utilities'
 import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, User } from 'discord.js'
-import { Client } from 'discordx'
 
 import { Discord, Injectable, Slash, SlashOption } from '@/decorators'
 import { Stats } from '@/services'
@@ -54,7 +53,6 @@ export default class StatsCommand {
 	async statsHandler(
 		@SlashOption({ name: 'days', type: ApplicationCommandOptionType.Number, required: true }) days: number,
 			interaction: CommandInteraction,
-			client: Client,
 			{ localize }: InteractionData
 	) {
 		const embeds: EmbedBuilder[] = []

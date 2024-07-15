@@ -152,5 +152,5 @@ export function getTypeOfInteraction(interaction: any): string {
 }
 
 export function getTscordVersion() {
-	return packageJson.tscord.version
+	return packageJson.tscordVersion
 }

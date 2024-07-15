@@ -52,7 +52,7 @@ export class Plugin {
 
 		// check if the plugin is compatible with the current version of Tscord
 		if (!semver.satisfies(semver.coerce(getTscordVersion())!, pluginConfig.tscordRequiredVersion))
-			return this.stopLoad(`Incompatible with the current version of Tscord (v${getTscordVersion()})`)
+			return this.stopLoad(`Incompatible with the current version of TSCord (v${getTscordVersion()})`)
 
 		// assign common values
 		this._name = pluginConfig.name

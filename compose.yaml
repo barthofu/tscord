@@ -4,20 +4,20 @@ services:
 
   # ==== Application ====
 
-  app:
-    container_name: my_bot
+  bot:
+    container_name: bot
+    restart: unless-stopped
     build:
       context: ./
       dockerfile: ./.docker/app/Dockerfile
-    env_file:
-      - .env
-    ports:
-      - 4000:4000
     volumes:
         - ./database:/app/database
         - ./logs/:/app/logs
         - ./assets:/app/assets
-    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - 4000:4000
     # depends_on:
     #   - database
 

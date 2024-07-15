@@ -26,7 +26,7 @@ export class DevAuthenticated {
 
 	async use(@Context() { request }: PlatformContext) {
 		// if we are in development mode, we don't need to check the token
-		// if (env.NODE_ENV === 'development') return next()
+		// if (env.isDev === true) return next()
 
 		// check if the request includes valid authorization header
 		const authHeader = request.headers.authorization

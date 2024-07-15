@@ -129,7 +129,7 @@ async function init() {
 	await pluginManager.importEvents()
 
 	RequestContext.create(db.orm.em, async () => {
-		const watcher = env.NODE_ENV === 'development' ? chokidar.watch(importPattern) : null
+		const watcher = env.isDev === true ? chokidar.watch(importPattern) : null
 
 		// init the data table if it doesn't exist
 		await initDataTable()
@@ -144,7 +144,7 @@ async function init() {
 		if (!env.BOT_TOKEN) throw new NoBotTokenError()
 		client.login(env.BOT_TOKEN)
 			.then(async () => {
-				if (env.NODE_ENV === 'development') {
+				if (env.isDev === true) {
 					// reload commands and events when a file changes
 					watcher?.on('change', () => reload(client))
 

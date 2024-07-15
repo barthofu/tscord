@@ -1,7 +1,7 @@
-const antfu = require('@antfu/eslint-config').default
-const pluginSimpleImportSort = require('eslint-plugin-simple-import-sort')
+import antfu from '@antfu/eslint-config'
+import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
 
-module.exports = antfu(
+export default antfu(
 	{
 		stylistic: {
 			indent: 'tab',

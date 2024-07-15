@@ -1,6 +1,5 @@
 import { Category } from '@discordx/utilities'
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js'
-import { Client } from 'discordx'
 
 import { generalConfig } from '@/configs'
 import { Discord, Injectable, Slash, SlashOption } from '@/decorators'
@@ -17,7 +16,7 @@ export default class PrefixCommand {
 
 	constructor(
 		private db: Database
-	) {}
+	) { }
 
 	@Slash({ name: 'prefix' })
 	@Guard(
@@ -26,11 +25,9 @@ export default class PrefixCommand {
 	async prefix(
 		@SlashOption({
 			name: 'prefix',
-			localizationSource: 'COMMANDS.PREFIX.OPTIONS.PREFIX',
 			type: ApplicationCommandOptionType.String,
 		}) prefix: string | undefined,
 			interaction: CommandInteraction,
-			client: Client,
 			{ localize }: InteractionData
 	) {
 		const guild = resolveGuild(interaction)

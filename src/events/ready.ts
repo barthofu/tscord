@@ -1,4 +1,3 @@
-import { ActivityType } from 'discord.js'
 import { Client } from 'discordx'
 
 import { generalConfig } from '@/configs'
@@ -16,7 +15,7 @@ export default class ReadyEvent {
 		private logger: Logger,
 		private scheduler: Scheduler,
 		private store: Store
-	) {}
+	) { }
 
 	private activityIndex = 0
 
@@ -47,28 +46,24 @@ export default class ReadyEvent {
 		this.store.update('ready', e => ({ ...e, bot: true }))
 	}
 
-	@Schedule('*/15 * * * * *') // each 15 seconds
+	@Schedule('*/15 * * * * *') // cycle every 15 seconds
 	async changeActivity() {
-		const ActivityTypeEnumString = ['PLAYING', 'STREAMING', 'LISTENING', 'WATCHING', 'CUSTOM', 'COMPETING'] // DO NOT CHANGE THE ORDER
-
 		const client = await resolveDependency(Client)
 		const activity = generalConfig.activities[this.activityIndex]
+		const activityType = ['PLAYING', 'STREAMING', 'LISTENING', 'WATCHING', 'CUSTOM', 'COMPETING'].indexOf(activity.type)
 
-		if (activity.type === 'STREAMING') { // streaming activity
-			client.user?.setStatus('online')
-			client.user?.setActivity(activity.text, {
-				url: 'https://www.twitch.tv/discord',
-				type: ActivityType.Streaming,
-			})
-		} else { // other activities
-			client.user?.setActivity(activity.text, {
-				type: ActivityTypeEnumString.indexOf(activity.type),
-			})
-		}
+		client.user?.setPresence({
+			status: activity.status,
+			activities: [{
+				name: activity.name,
+				type: activityType,
+				url: activity.url || undefined,
+			}],
+		})
 
-		this.activityIndex++
-		if (this.activityIndex === generalConfig.activities.length)
+		if (++this.activityIndex === generalConfig.activities.length) {
 			this.activityIndex = 0
+		}
 	}
 
 }

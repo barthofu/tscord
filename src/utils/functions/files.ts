@@ -32,5 +32,5 @@ export function fileOrDirectoryExists(path: string): boolean {
 }
 
 export function getSourceCodeLocation(): string {
-	return `${process.cwd()}/${env.NODE_ENV === 'production' ? 'build' : 'src'}`
+	return `${process.cwd()}/${env.isProduction === true ? 'build' : 'src'}`
 }
