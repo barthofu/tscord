@@ -1,12 +1,10 @@
 {
   "name": "tscord",
-  "version": "1.0.0",
+  "version": "2.3",
   "description": "A fully-featured discord bot template written in Typescript, intended to provide a framework that's easy to use, extend and modify",
   "license": "MIT",
   "main": "build/main.js",
-  "tscord": {
-    "version": "2.3"
-  },
+  "tscord": { "version": "2.3" },
   "scripts": {
     "build": "npm run build:clean && npm run build:compile && npm run install:plugins",
     "build:clean": "rimraf build/",

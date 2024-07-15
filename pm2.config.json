@@ -1,9 +1,9 @@
 {
     "apps": [
         {
-            "name": "My Discord Bot",
+            "name": "TSCord",
             "script": "npm",
-            "args" : "run build:start"
+            "args": "run build:start"
         }
     ]
 }
