@@ -42,6 +42,7 @@ export class Logger {
 		CONTEXT_MENU_INTERACTION: 'Context menu',
 		BUTTON_INTERACTION: 'Button',
 		SELECT_MENU_INTERACTION: 'Select menu',
+		STRING_SELECT_MENU_INTERACTION: 'Select menu',
 		MODAL_SUBMIT_INTERACTION: 'Modal submit',
 	}
 
