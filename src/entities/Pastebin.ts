@@ -5,7 +5,7 @@ import { EntityRepository } from '@mikro-orm/sqlite'
 // ================= Entity ==================
 // ===========================================
 
-@Entity({ customRepository: () => PastebinRepository })
+@Entity({ repository: () => PastebinRepository })
 export class Pastebin {
 
 	[EntityRepositoryType]?: PastebinRepository

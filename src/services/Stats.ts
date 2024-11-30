@@ -47,7 +47,7 @@ export class Stats {
 		if (additionalData)
 			stat.additionalData = additionalData
 
-		await this.statsRepo.persistAndFlush(stat)
+		await this.db.em.persistAndFlush(stat)
 	}
 
 	/**
@@ -140,7 +140,7 @@ export class Stats {
 
 			return slashCommands.sort((a: any, b: any) => b.count - a.count)
 		} else if ('aggregate' in this.db.em) {
-			// @ts-expect-error - aggregate is not in the types
+			// @ts-expect-error
 			const slashCommands = await this.db.em.aggregate(Stat, [
 				{
 					$match: allInteractions,

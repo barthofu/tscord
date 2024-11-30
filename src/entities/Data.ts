@@ -19,7 +19,7 @@ type DataType = keyof typeof defaultData
 // ================= Entity ==================
 // ===========================================
 
-@Entity({ customRepository: () => DataRepository })
+@Entity({ repository: () => DataRepository })
 export class Data extends CustomBaseEntity {
 
 	[EntityRepositoryType]?: DataRepository
@@ -52,10 +52,10 @@ export class DataRepository extends EntityRepository<Data> {
 			newData.key = key
 			newData.value = JSON.stringify(value)
 
-			await this.persistAndFlush(newData)
+			await this.em.persistAndFlush(newData)
 		} else {
 			data.value = JSON.stringify(value)
-			await this.flush()
+			await this.em.flush()
 		}
 	}
 
@@ -67,7 +67,7 @@ export class DataRepository extends EntityRepository<Data> {
 			newData.key = key
 			newData.value = JSON.stringify(value)
 
-			await this.persistAndFlush(newData)
+			await this.em.persistAndFlush(newData)
 		}
 	}
 

@@ -7,7 +7,7 @@ import { CustomBaseEntity } from './BaseEntity'
 // ================= Entity ==================
 // ===========================================
 
-@Entity({ customRepository: () => UserRepository })
+@Entity({ repository: () => UserRepository })
 export class User extends CustomBaseEntity {
 
 	[EntityRepositoryType]?: UserRepository
@@ -31,7 +31,7 @@ export class UserRepository extends EntityRepository<User> {
 
 		if (user) {
 			user.lastInteract = new Date()
-			await this.flush()
+			await this.em.flush()
 		}
 	}
 

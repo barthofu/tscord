@@ -26,13 +26,7 @@ export default class ReadyEvent {
 		await client.guilds.fetch()
 
 		// synchronize applications commands with Discord
-		await client.initApplicationCommands({
-			global: {
-				disable: {
-					delete: false,
-				},
-			},
-		})
+		await client.initApplicationCommands()
 
 		// change activity
 		await this.changeActivity()

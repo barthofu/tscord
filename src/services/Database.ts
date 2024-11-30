@@ -186,11 +186,10 @@ export class Database {
 	}
 
 	isSQLiteDatabase(): boolean {
-		const type = mikroORMConfig[env.NODE_ENV]!.type
+		const config = mikroORMConfig[env.NODE_ENV]
 
-		if (type)
-			return ['sqlite', 'better-sqlite'].includes(type)
-		else return false
+		// @ts-expect-error
+		return !!config.dbName && !config.port
 	}
 
 }

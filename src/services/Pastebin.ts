@@ -32,7 +32,7 @@ export class Pastebin {
 		if (lifetime)
 			pasteEntity.lifetime = Math.floor(lifetime)
 
-		await this.db.get(PastebinEntity).persistAndFlush(pasteEntity)
+		await this.db.em.persistAndFlush(pasteEntity)
 
 		return paste.paste
 	}
@@ -46,7 +46,7 @@ export class Pastebin {
 			return
 
 		await this.client.deletePaste(id, paste.editCode)
-		await this.db.get(PastebinEntity).remove(paste)
+		await this.db.get(PastebinEntity).nativeDelete(paste)
 	}
 
 	@Schedule('*/30 * * * *')
