@@ -31,9 +31,9 @@ export class Logger {
 
 	private readonly levels = ['info', 'warn', 'error'] as const
 	private embedLevelBuilder = {
-		info: (message: string): BaseMessageOptions => ({ embeds: [{ title: 'INFO', description: message, color: 0x007FE7, timestamp: new Date().toISOString() }] }),
-		warn: (message: string): BaseMessageOptions => ({ embeds: [{ title: 'WARN', description: message, color: 0xF37100, timestamp: new Date().toISOString() }] }),
-		error: (message: string): BaseMessageOptions => ({ embeds: [{ title: 'ERROR', description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
+		info: (message: string): BaseMessageOptions => ({ embeds: [{ title: `[${this.getServiceName()}] INFO`, description: message, color: 0x007FE7, timestamp: new Date().toISOString() }] }),
+		warn: (message: string): BaseMessageOptions => ({ embeds: [{ title: `[${this.getServiceName()}] WARN`, description: message, color: 0xF37100, timestamp: new Date().toISOString() }] }),
+		error: (message: string): BaseMessageOptions => ({ embeds: [{ title: `[${this.getServiceName()}] ERROR`, description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
 	}
 
 	private interactionTypeReadable: { [key in InteractionsConstants]: string } = {
@@ -97,7 +97,7 @@ export class Logger {
 		if (!validString(message))
 			return
 
-		let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
+		let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.cyan(this.getServiceName())}][${chalk.dim.gray(formatDate(new Date()))}] ${message}`
 		if (level === 'error')
 			templatedMessage = chalk.red(templatedMessage)
 
@@ -121,11 +121,11 @@ export class Logger {
 
 		const templatedMessage = `[${formatDate(new Date())}] ${message}`
 
-		const fileName = `${this.logPath}/${level}.log`
+		const fileFolder = path.join(this.logPath, this.getServiceName())
+		const fileName = path.join(fileFolder, `${level}.log`)
 
 		// create the folder if it doesn't exist
-		if (!fileOrDirectoryExists(this.logPath))
-			fs.mkdirSync(this.logPath)
+		fs.mkdirSync(fileFolder, { recursive: true })
 
 		// create file if it doesn't exist
 		if (!fileOrDirectoryExists(fileName))
@@ -487,6 +487,24 @@ export class Logger {
 	// =================================
 	// ============= Other =============
 	// =================================
+
+	private getServiceName(): string {
+		if (env?.SHARD_ID) {
+			return `SHARD-${env.SHARD_ID ?? 'UNKNOWN'}`
+		} else {
+			return 'ROOT'
+		}
+	}
+
+	default(message: string) {
+		// save the last logs tail queue
+		if (this.lastLogsTail.length >= logsConfig.logTailMaxSize)
+			this.lastLogsTail.shift()
+
+		this.lastLogsTail.push(message)
+
+		defaultConsole.log(message)
+	}
 
 	getLastLogs() {
 		return this.lastLogsTail

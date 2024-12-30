@@ -21,6 +21,8 @@ export const env = cleanEnv(process.env, {
 	API_ADMIN_TOKEN: str({ default: undefined }),
 
 	IMGUR_CLIENT_ID: str({ default: undefined }),
+
+	SHARD_ID: str({ default: undefined }),
 })
 
 export function checkEnvironmentVariables() {
