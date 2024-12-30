@@ -21,13 +21,15 @@ export const env = cleanEnv(process.env, {
 	API_ADMIN_TOKEN: str({ default: undefined }),
 
 	IMGUR_CLIENT_ID: str({ default: undefined }),
+
+	SHARD_ID: str({ default: undefined }),
 })
 
 export function checkEnvironmentVariables() {
 	const config = mikroORMConfig[env.NODE_ENV]
 	// @ts-expect-error
 	const isSqliteDatabase = !!config.dbName && !config.port
-	if (isSqliteDatabase) {
+	if (!isSqliteDatabase) {
 		cleanEnv(process.env, {
 			DATABASE_HOST: str(),
 			DATABASE_PORT: num(),
