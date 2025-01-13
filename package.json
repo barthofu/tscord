@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "build/main.js",
   "tscord": {
-    "version": "2.3"
+    "version": "2.4"
   },
   "scripts": {
     "build": "npm run build:clean && npm run build:compile && npm run install:plugins",
