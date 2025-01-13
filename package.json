@@ -108,10 +108,10 @@
     "typescript": "^5.7.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "volta": {
-    "node": "20.18.11"
+    "node": "22.13.0"
   },
   "mikro-orm": {
     "useTsNode": true,
