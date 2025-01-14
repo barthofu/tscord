@@ -25,12 +25,12 @@ export class Plugin {
 	private _translations: { [key: string]: BaseTranslation }
 
 	constructor(path: string) {
-		this._path = path
+		this._path = path.replace('file://', '')
 	}
 
 	public async load(): Promise<void> {
 		// check if the plugin.json is present
-		if (!await fs.existsSync(`${this._path}/plugin.json`))
+		if (!fs.existsSync(`${this._path}/plugin.json`))
 			return this.stopLoad('plugin.json not found')
 
 		// read plugin.json
