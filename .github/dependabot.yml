@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directories:
+      - '/'
+      - '/src/plugins/*'
+    schedule:
+      interval: 'weekly'
+    commit-message:
+      prefix: 'dependabot[bot]'
