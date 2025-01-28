@@ -15,10 +15,10 @@ import { constructor } from 'tsyringe/dist/typings/types'
 import { Server } from '@/api/server'
 import { apiConfig, generalConfig } from '@/configs'
 import { keptInstances } from '@/decorators'
-import { checkEnvironmentVariables, env } from '@/env'
+import { env } from '@/env'
 import { NoBotTokenError } from '@/errors'
 import { Database, ErrorHandler, EventManager, ImagesUpload, Logger, PluginsManager, Store } from '@/services'
-import { initDataTable, resolveDependency } from '@/utils/functions'
+import { initDataTable, resolveDependency, checkEnvironmentVariables } from '@/utils/functions'
 
 import { clientConfig } from './client'
 
